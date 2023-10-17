@@ -1,0 +1,52 @@
+#sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  gap: 33px;
+}
+
+.nav-btn {
+    border: 2px solid transparent;
+    width: 193px;
+    height: 61px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: rgba(255, 246, 237, 0.80);
+    color: #A30000;
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+.nav-btn.scrolled {
+  border-color: rgba(255, 246, 237, 0.80);  /* Change to your desired border color */
+}
+
+#centerpiece {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 744px;
+  height: 297px;
+  flex-shrink: 0;
+  margin: 240px auto 0;
+}
+
+#centerpiece h1 {
+  color: #A30000;
+  text-align: center;
+  font-family: 'Galgine', serif;
+  font-size: 96px;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Galgine';
+  src: url('./fonts/galgine.otf') format('opentype');
+}
