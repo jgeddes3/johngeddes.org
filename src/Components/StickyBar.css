@@ -1,0 +1,30 @@
+#sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    gap: 33px;
+  }
+  
+  .nav-btn {
+     border: 2px solid transparent;
+      width: 193px;
+      height: 61px;
+      flex-shrink: 0;
+      border-radius: 10px;
+     background: transparent;
+      color: #A30000;
+      font-family: 'EB Garamond', serif;
+      font-size: 20px;
+      text-align: center;
+  
+      flex-direction: column;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+  .nav-btn.scrolled {
+    background: rgba(255, 246, 237, 0.80);  
+    border-color: rgba(255, 246, 237, 0.80);  /* Change to your desired border color */
+  }
