@@ -1,0 +1,33 @@
+.small-btn2 {
+    width: 519px;
+    height: 548px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    background: #495166;
+    position: relative;
+    transition: all 0.3s ease; /* For smooth hover */
+    border: none;
+    outline: none;
+  }
+  
+  .small-btn2:hover {
+    height: 557px;
+    background: #3E4455;
+  }
+
+  .realstylecontainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 20%;
+}
+
+.realstyle {
+  color: #FFF;
+  text-align: center;
+  font-family: Galgine;
+  font-size: 37px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

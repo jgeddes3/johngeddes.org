@@ -2,7 +2,6 @@ body {
   background: #EAE0D5;
   margin: 0;
   overflow-x: hidden; /* In case orbs move out of view */
-  position: relative;
 }
 
 .orb-container {

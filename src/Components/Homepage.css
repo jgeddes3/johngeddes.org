@@ -1,159 +1,4 @@
 /* Main Button */
-#button1 {
-    width: 680px;
-    height: 548px;
-    flex-shrink: 0;
-    border-radius: 20px;
-    background: #BC4749;
-    position: absolute;
-    top: 828px;
-    left: 99px;
-    right: 660px;
-  }
-  
-  /* Hover effect */
-  #button1:hover {
-    height: 557px;
-    background: #933739;
-  }
-  
-  /* Inner Rectangle */
-  #innerRect {
-    width: 155px;
-    height: 68px;
-    flex-shrink: 0;
-    border-radius: 8px;
-    background: #C26466;
-    position: absolute;
-    top: 27px;
-    right: 28px;
-    left: 497px;
-  }
-  
-  /* Text inside Inner Rectangle */
-  #text1 {
-    width: 114px;
-    height: 19px;
-    flex-shrink: 0;
-    color: #FFF;
-    text-align: right;
-    font-family: 'EB Garamond', serif;
-    font-size: 12px;
-    position: absolute;
-    top: 12px;
-    left: 25px;
-    right: 16px;
-  }
-  
-  #text2 {
-    width: 136px;
-    height: 36px;
-    flex-shrink: 0;
-    color: #30343F;
-    text-align: center;
-    font-family: 'Galgine', serif;
-    font-size: 24px;
-    position: absolute;
-    top: 27px;
-    left: 9px;
-    right: 10px;
-    bottom: 5px;
-  }
-  
-  /* rGroup Base Rectangles */
-  #rectangle1, #rectangle2 {
-    width: 623px;
-    height: 425px;
-    flex-shrink: 0;
-    border-radius: 11px 0px 20px 0px;
-    background: #F4F2EE;
-    position: absolute;
-  }
-  
-  #rectangle2 {
-    width: 623px;
-    height: 425px;
-    border-radius: 11px 0px 20px 0px;
-    background: #F4F2EE;
-    position: absolute;
-    right: 0;
-    bottom: 345px;
-  }
-  /* Image Circles */
-  .img-circle {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    position: absolute;
-    top: 5px;
-    bottom: 5px;
-  }
-  
-  #img_1230 { left: 22px; }
-  #img_1231 { left: 103px; }
-  #img_1232 { left: 184px; }
-  
-  /* Rectangles 3-8 */
-  #rectangle3, #rectangle4, #rectangle5, #rectangle6, #rectangle7, #rectangle8 {
-    flex-shrink: 0;
-    position: absolute;
-  }
-  
-  #rectangle3 {
-    width: 114px;
-    height: 20px;
-    border-radius: 10px;
-    background: #8F8080;
-    top: 30px;
-    left: 214px;
-  }
-  
-  #rectangle4 {
-    width: 206px;
-    height: 20px;
-    border-radius: 10px 0px 0px 10px;
-    background: #C9B7B7;
-    top: 30px;
-    right: 0;
-  }
-  
-  #rectangle5 {
-    width: 555px;
-    height: 20px;
-    border-radius: 10px 0px 0px 10px;
-    background: #C9B7B7;
-    right: 0;
-    top: 395px;
-  }
-  
-  #rectangle6 {
-    width: 397px;
-    height: 20px;
-    border-radius: 10px;
-    background: #C9B7B7;
-    left: 158px;
-    top: 441px;
-  }
-  
-  #rectangle7 {
-    width: 369px;
-    height: 196px;
-    border-radius: 8px 8px 0px 0px;
-    background: #D9D9D9;
-    bottom: 0;
-    left: 186px;
-  }
-  
-  #rectangle8 {
-    width: 155px;
-    height: 196px;
-    border-radius: 8px 0px 20px 0px;
-    background: #D9D9D9;
-    bottom: 0;
-    right: 0;
-  }
- 
-  
 #centerpiece {
   display: flex;
   justify-content: center;
@@ -172,8 +17,45 @@
   font-weight: 400;
 }
 
+#centerpiece1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10000px;
+  height: 141px;
+  flex-shrink: 0;
+  margin: 70px;
+}
+#centerpiece1 h1 {
+  color: #A30000;
+  text-align: center;
+  font-family: 'Galgine', serif;
+  font-size: 96px;
+  font-weight: 400;
+}
+
+
 @font-face {
   font-family: 'Galgine';
   src: url('./fonts/Galgine.otf') format('opentype');
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 160px;
+  gap: 60px;  /* Space between buttons */
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 60px; /* Spacing between Large and Small Buttons */
+}
+
+/* Additional Styles if needed */
+.large-btn, .small-btn, .small-btn2, .large-btn2{
+  margin-bottom: 28px; /* Spacing between rows */
+}
