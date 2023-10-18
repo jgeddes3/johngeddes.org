@@ -8,6 +8,7 @@
     transition: all 0.3s ease; /* For smooth hover */
     border: none;
     outline: none;
+    
   }
   
   .small-btn2:hover {
@@ -30,4 +31,18 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
+
+.rec_container {
+  width: 519px;
+  height: 400px;
+  position: absolute;
+bottom: 0px;
+  right: 0px;
+  transition: top 0.3s ease;  
+}
+
+.rec-img {
+  width: 100%;
+  height: auto;
 }

@@ -4,6 +4,8 @@ import Largebutton1 from './hpButtons/Largebutton1';
 import Smallbutton1 from './hpButtons/Smallbutton1';
 import LargeButton2 from './hpButtons/Largebutton2';
 import SmallButton2 from './hpButtons/Smallbutton2';
+import Largebutton3 from './hpButtons/Largebutton3';
+import Smallbutton3 from './hpButtons/Smallbutton3';
 
 const HomePage = () => {
   return (
@@ -22,6 +24,10 @@ const HomePage = () => {
          <div id = "centerpiece1">
            <h1>In Progress</h1>
            </div>
+           <div className="button-row">
+         <Smallbutton3 />
+         <Largebutton3 />
+         </div>
       </div>
       
       </>
