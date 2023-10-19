@@ -1,0 +1,17 @@
+#centerpiece2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 744px;
+  height: 297px;
+  flex-shrink: 0;
+  margin: 160px auto 0;
+}
+
+#centerpiece2 h1 {
+  color: #A30000;
+  text-align: center;
+  font-family: 'Galgine', serif;
+  font-size: 96px;
+  font-weight: 400;
+}

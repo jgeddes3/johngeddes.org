@@ -37,7 +37,7 @@
 
 @font-face {
   font-family: 'Galgine';
-  src: url('./fonts/Galgine.otf') format('opentype');
+  src: url('../fonts/Galgine.otf') format('opentype');
 }
 
 .button-container {

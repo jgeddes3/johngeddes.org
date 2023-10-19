@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './StickyBar.css';
+import { Link } from 'react-router-dom';
 
 const StickyBar = () => {
   const navigateTo = (path) => {
@@ -21,12 +22,12 @@ const StickyBar = () => {
   }, []);
 
   return (
-  <header id="sticky-header">
-    <button onClick={() => navigateTo('/index.html')} className="nav-btn" id="home-btn">Home</button>
-    <button onClick={() => navigateTo('/about.html')} className="nav-btn" id="about-btn">About Me</button>
-    <button onClick={() => navigateTo('/projects.html')} className="nav-btn" id="projects-btn">Projects</button>
-    <button onClick={() => navigateTo('/contact.html')} className="nav-btn" id="contact-btn">Contact Me</button>
-    <button onClick={() => navigateTo('/misc.html')} className="nav-btn" id="misc-btn">Misc</button>
+    <header id="sticky-header">
+    <Link to="/" className="nav-btn" id="home-btn">Home</Link>
+    <Link to="/about" className="nav-btn" id="about-btn">About Me</Link>
+    <Link to="/projects" className="nav-btn" id="projects-btn">Projects</Link>
+    <Link to="/contact" className="nav-btn" id="contact-btn">Contact Me</Link>
+    <Link to="/misc" className="nav-btn" id="misc-btn">Misc</Link>
   </header>
 );
 
