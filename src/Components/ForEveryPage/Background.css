@@ -5,7 +5,7 @@ body {
 }
 
 .orb-container {
-  position: fixed; /* Fixed position */
+  position: relative; /* Fixed position */
   top: 0;
   left: 0;
   width: 100%;
@@ -27,14 +27,14 @@ body {
 }
 
 #orb2 {
-  width: 487px;
-  height: 473px;
+  width: 687px;
+  height: 673px;
   background: #A9D563;
 }
 
 #orb3 {
-  width: 681px;
-  height: 638px;
+  width: 881px;
+  height: 838px;
   background: rgba(213, 172, 78, 0.50);
 }
 
@@ -42,4 +42,34 @@ body {
   width: 698px;
   height: 654px;
   background: rgba(188, 71, 73, 0.50);
+}
+
+#orb5 {
+  width: 698px;
+  height: 654px;
+  background: rgba(200, 100, 150, 0.50);
+}
+
+#orb6 {
+  width: 487px;
+  height: 473px;
+  background: rgba(50, 50, 200, 0.50);
+}
+
+
+#orb8 {
+  width: 700px;
+  height: 700px;
+  background: rgba(0, 128, 128, 0.50);  
+}
+
+.blur-rectangle {
+  position: absolute;
+  width: 140%; 
+  height: 1000px; 
+  top: 600px; 
+  left: -20%; 
+  background: #EAE0D5;
+  filter: blur(150px); 
+  border-radius: 100px;
 }

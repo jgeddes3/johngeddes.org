@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+
+@font-face {
+  font-family: 'Galgine';
+  src: url('./Components/fonts/Galgine.otf') format('opentype');
+}

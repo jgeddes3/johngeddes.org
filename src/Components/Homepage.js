@@ -1,5 +1,7 @@
 import React from 'react';
 import './Homepage.css';
+import Background from './ForEveryPage/Background';
+import Bottombar from './ForEveryPage/Bottombar';
 import Largebutton1 from './hpButtons/Largebutton1';
 import Smallbutton1 from './hpButtons/Smallbutton1';
 import LargeButton2 from './hpButtons/Largebutton2';
@@ -9,7 +11,9 @@ import Smallbutton3 from './hpButtons/Smallbutton3';
 
 const HomePage = () => {
   return (
-    <><div id="centerpiece">
+    <>
+    <Background />
+    <div id="centerpiece">
           <h1>I'm John Joseph Geddes</h1>
       </div>
       <div className="button-container">
@@ -29,7 +33,7 @@ const HomePage = () => {
          <Largebutton3 />
          </div>
       </div>
-      
+      <Bottombar />
       </>
     
   );
