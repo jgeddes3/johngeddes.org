@@ -46,10 +46,18 @@ const Bottombar = () => {
         )}
         <div className="elsewhereB bottomtext1">Elsewhere</div>
         <div className="to-the-rightB bottomtext1">Contact</div>
-        <button className="bottom-button resume-button bottomtext1">Resume Download</button>
-        <button className="bottom-button linkedin-button bottomtext1">LinkedIn</button>
-        <button className="bottom-button cv-button bottomtext1">CV</button>
-        <button className="bottom-button github-button bottomtext1">Github</button>
+        <a href="/path/to/JohnGeddesResume.pdf" download className="bottom-button resume-button bottomtext1">
+      Resume Download
+        </a>
+        <a href="https://www.linkedin.com/in/therealjohngeddes" target="_blank" rel="noopener noreferrer" className="bottom-button linkedin-button bottomtext1">
+        LinkedIn
+        </a>
+        <a href="https://read.cv/johngeddes" target="_blank" rel="noopener noreferrer" className="bottom-button cv-button bottomtext1">
+        CV
+        </a>
+        <a href="https://github.com/jgeddes3" target="_blank" rel="noopener noreferrer" className="bottom-button github-button bottomtext1">
+        Github
+        </a>
         <div className="email bottomtext1" style={{top: '62px'}}>johngeddes@pm.me</div>
         <div className="phone bottomtext1" style={{top: '94px'}}>(612) 790-3691</div>
 

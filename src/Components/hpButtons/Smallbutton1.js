@@ -8,7 +8,7 @@ const Smallbutton1 = () => {
     <button className="small-btn" id="small-btn1">
       <div className="inner-rectangle2">
         <span className="text-top">Click here if you are</span>
-        <span className="text-bottom">Contracters</span>
+        <span className="text-bottom">Contractors</span>
       </div>
       <div className="rectangle11"></div>
       <div className="rectangle12"></div>
