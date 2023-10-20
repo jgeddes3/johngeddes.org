@@ -3,6 +3,7 @@ import './AboutPage.css';
 import Background from '../ForEveryPage/Background';
 import Bottombar from '../ForEveryPage/Bottombar';
 import img_5354 from './AboutPages/img_5354.jpg'; 
+import ImageRectangles from './AboutPages/ImageRectangles'; 
 
 const AboutPage = () => {
   return (
@@ -24,10 +25,26 @@ const AboutPage = () => {
         </div>
       </div>
       <div id= "AboutMeResume">
-        <div className="ResumeRect1"></div>
-        <div className="ResumeRect2"></div>
-        <div className="ResumeRect3"></div>
-        <div className="ResumeRect4"></div>
+        <div className="ResumeRect1">
+            <div className="ResumPara1 AboutMeWhiteLarge">Attending University of Loyola</div>
+            <div className="ResumPara2 AboutMeGreyLarge">Student</div>
+            <div className="ResumNum AboutMeWhiteNum">19-23</div>
+        </div>
+        <div className="ResumeRect2">
+            <div className="ResumPara1 AboutMeWhiteLarge">Loyola University of Chicago</div>
+            <div className="ResumPara2 AboutMeGreyLarge">Audio Visual (A.V.) Technician</div>
+            <div className="ResumNum AboutMeWhiteNum">20-23</div>
+        </div>
+        <div className="ResumeRect3">
+            <div className="ResumPara1 AboutMeWhiteLarge">TLC Precision Wafer</div>
+            <div className="ResumPara2 AboutMeGreyLarge">Software Intern</div>
+            <div className="ResumNum AboutMeWhiteNum">19-20</div>
+        </div>
+        <div className="ResumeRect4">
+                    <div className="ResumPara1 AboutMeWhiteLarge">The Brag House</div>
+            <div className="ResumPara2 AboutMeGreyLarge">Front-End Intern</div>
+            <div className="ResumNum AboutMeWhiteNum">21-22</div>
+        </div>
       </div>
       <div id = "AboutMeColab">
         <div className="AboutPara3">I’m willing to collaborate! Let me know if you need help with designing or implementing mockups!</div>
@@ -40,7 +57,7 @@ const AboutPage = () => {
         </div>
       </div>
       <div id = "AboutMePhotos">
-
+        <ImageRectangles />
       </div>
        <Bottombar />
     </>

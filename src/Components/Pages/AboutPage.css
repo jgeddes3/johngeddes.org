@@ -112,13 +112,12 @@
 
   #AboutMePhotos {
     display: flex;
-    flex-direction: row; /* Aligns child elements horizontally */
     justify-content: flex-start;
     align-items: flex-start;
     position: relative;
     margin-top: 5px;
     height: 588px; /* Changed from fixed height */
-    width: 100%;
+    width: 1444px;
   }
 
 .ResumeRect1, .ResumeRect2, .ResumeRect3, .ResumeRect4{
@@ -193,6 +192,25 @@
     height: 113px;
 }
 
+.ResumPara1{
+    position: absolute;
+    top: 12px;
+    height: 37px;
+    left: 39px;
+}
+.ResumPara2{
+    position: absolute;
+    top: 43px;
+    height: 37px;
+    left: 39px;
+}
+.ResumNum{
+    position: absolute;
+    top: 30px;
+    right: 36px;
+    height: 43px;
+    width: 88px;
+}
   .AboutMeTextLarge {
   color: #A30000;
   font-family: 'Galgine', serif;
@@ -250,9 +268,9 @@
 }
 
 .AboutMeWhiteNum {
-  color: #A67E7E;
-  font-family: 'EB Garamond', serif;
-  font-size: 14px;
+  color: #fff;
+  font-family: 'Galgine', serif;
+  font-size: 24px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
