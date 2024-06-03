@@ -1,34 +1,83 @@
 #sticky-header {
-    position: sticky;
-    top: 40px;
-    background-color: transparent;
-    display: flex;
-    justify-content: center;
-    gap: 28px;
-    z-index: 10;
-  }
-  
+  position: sticky;
+  top: 40px;
+  background-color: transparent; /* Start as transparent */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Adjust the gap as needed */
+  z-index: 10;
+  padding: 10px 20px; /* Add some padding for better spacing */
+  box-sizing: border-box;
+  width: calc(50% - 40px); /* Ensure it spans the full width with some margin */
+  margin: 0 auto; /* Center the header horizontally */
+  border-radius: 50px; /* Large border-radius for curved edges */
+  transition: all 0.3s ease; /* Smooth transition for resizing */
+}
+
+#sticky-header.scrolled {
+  background-color: #EAE0D5; /* Background color when scrolled */
+}
+
+.nav-btn {
+  border: 2px solid transparent;
+  width: 100px;
+  height: 50px;
+  flex-shrink: 1;
+  border-radius: 20px;
+  background: transparent;
+  color: #A30000;
+  font-family: 'EB Garamond', serif;
+  font-size: 20px;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s, border-color 0.3s, font-size 0.3s; /* Smooth transition for hover effects */
+  text-decoration: none; /* Remove underline */
+}
+
+.nav-btn.scrolled {
+  background: transparent; /* Keep button background transparent */
+  border-color: transparent;  /* Keep border transparent */
+}
+
+.nav-btn.active {
+  background: rgba(255, 255, 255, 0.8); /* Highlight active button with a semi-transparent white */
+  border-color: rgba(255, 255, 255, 0.8);  /* Border color to match the highlight */
+}
+
+@media (max-width: 1200px) {
   .nav-btn {
-     border: 2px solid transparent;
-      width: 193px;
-      height: 61px;
-      flex-shrink: 0;
-      border-radius: 10px;
-     background: transparent;
-      color: #A30000;
-      font-family: 'EB Garamond', serif;
-      font-size: 20px;
-      text-align: center;
-  
-      flex-direction: column;
-      justify-content: center;
-      cursor: pointer;
-      display: flex;
-    justify-content: center;
-    align-items: center;
-    }
-    
-  .nav-btn.scrolled {
-    background: rgba(255, 246, 237, 0.80);  
-    border-color: rgba(255, 246, 237, 0.80);  /* Change to your desired border color */
+    width: 150px; /* Adjust the width for smaller screens */
+    height: 50px; /* Adjust the height for smaller screens */
+    font-size: 24px; /* Adjust the font size for smaller screens */
   }
+}
+
+@media (max-width: 992px) {
+  .nav-btn {
+    width: 130px; /* Further adjust the width for smaller screens */
+    height: 45px; /* Further adjust the height for smaller screens */
+    font-size: 20px; /* Further adjust the font size for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-btn {
+    width: 120px; /* Further adjust the width for smaller screens */
+    height: 40px; /* Further adjust the height for smaller screens */
+    font-size: 14px; /* Further adjust the font size for smaller screens */
+  }
+}
+
+@media (max-width: 576px) {
+  .nav-btn {
+    width: 90px; /* Further adjust the width for smaller screens */
+    height: 35px; /* Further adjust the height for smaller screens */
+    font-size: 10px; /* Further adjust the font size for smaller screens */
+  }
+}
