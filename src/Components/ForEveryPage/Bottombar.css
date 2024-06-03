@@ -5,19 +5,78 @@
   height: 404px;
   background: #EAE0D5;
   color: #EAE0D5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 50px;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  gap: 20px; /* Space between the groups */
+}
+
+.group-left,
+.group-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 600px; /* Fixed width for the groups */
+  background: #EAE0D5; /* Background color for the groups */
+  border-radius: 10px; /* Border radius for the groups */
+  padding: 20px; /* Padding inside the groups */
+  box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+.group-left {
+  align-items: flex-start;
+}
+
+.group-right {
+  align-items: flex-start;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.column-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #A30000;
+  font-family: 'Galgine', sans-serif; /* Add font-family */
+  margin-bottom: -3px;
+}
+
+.inline-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.inline-container .name1 {
+  margin-top: -2px; /* Adjust as needed */
+}
+
+.inline-container .ellipse5,
+.inline-container .button11 {
+  margin-top: 2px; /* Adjust as needed */
 }
 
 .spotifyrect1 {
-  position: absolute;
-  left: 138px;
-  top: 30px;
   width: 533px;
   height: 95px;
   border-radius: 26px;
   background: #FFF6ED;
 }
 
-.bottomtext1{
+.bottomtext1 {
   color: #A30000;
   font-family: 'Galgine', sans-serif;
   font-size: 20px;
@@ -25,17 +84,11 @@
 }
 
 .name1 {
-  position: absolute;
-  left: 179px;
-  top: 139px;  /* Adjust as needed */
   width: 136px;
   height: 29px;
 }
 
 .ellipse5 {
-  position: absolute;
-  left: 319px;
-  top: 152px;
   width: 7px;
   height: 7px;
   background: #A30000;
@@ -43,12 +96,10 @@
 }
 
 .button11 {
-  position: absolute;
-  left: 334px;
-  top: 139px;
   border: none;
   background: none;
   cursor: pointer;
+  position: relative; /* Ensure the overlay is positioned relative to the button */
 }
 
 .button-text1 {
@@ -61,7 +112,6 @@
   font-size: 20px;
   font-weight: 400;
   color: #A30000;
-  /* ... */
 }
 
 .ellipse {
@@ -69,7 +119,6 @@
   height: 7px;
   background-color: #A30000;
   border-radius: 50%;
-  /* ... */
 }
 
 .overlay {
@@ -77,8 +126,16 @@
   height: 226px;
   border-radius: 34px;
   background: rgba(255, 246, 237, 0.7);
-  position: fixed;
-  /* ... */
+  position: absolute;
+  bottom: 100%; /* Position the overlay above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  display: none; /* Hide by default */
+  z-index: 1;
+}
+
+.button11:hover .overlay {
+  display: block; /* Show overlay on hover */
 }
 
 .overlay-text,
@@ -121,9 +178,6 @@
 }
 
 .elsewhereB {
-  position: absolute;
-  top: 30px;
-  right: 610px;
   display: flex;
   width: 123px;
   height: 32px;
@@ -133,9 +187,6 @@
 }
 
 .to-the-rightB {
-  position: absolute;
-  top: 30px;
-  right: 350px;
   display: flex;
   width: 123px;
   height: 32px;
@@ -149,31 +200,33 @@
   background: none;
   width: 201px;
   height: 32px;
-  position: absolute;
-  right: 490px;
   text-align: left;
-}
-
-.resume-button {
-  top: 62px;
-}
-
-.linkedin-button {
-  top: 94px;
-}
-
-.cv-button {
-  top: 126px;
-}
-
-.github-button {
-  top: 158px;
+  color: #A30000;
+  font-family: 'Galgine', sans-serif; /* Add font-family */
+  font-size: 20px;
+  font-weight: 400;
 }
 
 .email, .phone {
-  position: absolute;
-  right: 200px;
   width: 219px;
   height: 32px;
   text-align: left;
+  color: #A30000;
+  font-family: 'Galgine', sans-serif; /* Add font-family */
+  font-size: 20px;
+  font-weight: 400;
+}
+
+@media (max-width: 1280px) {
+  .bottom-bar {
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+
+  .group-left,
+  .group-right {
+    width: 100%;
+    align-items: center;
+  }
 }
