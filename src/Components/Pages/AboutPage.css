@@ -16,6 +16,15 @@
   font-weight: 400;
 }
 
+/* Add this below your existing CSS */
+.content-container {
+  background-color: rgba(255, 255, 255, 0.0); /* Transparent background */
+  box-sizing: border-box;
+  max-width: 1600px; /* Adjust as needed */
+  margin: 0 auto; /* Center the container */
+  width: 100%;
+}
+
 
 
 
@@ -169,7 +178,7 @@
   text-align: left;
     width: 955px; 
     height: 245px;
-    left: 466px;
+    left: 420px;
     top: 48px;
     font-size: 48px;
 }

@@ -12,6 +12,7 @@ const AboutPage = () => {
     <div id="centerpiece2">
           <h1>I'm John.</h1>
       </div>
+      <div className="content-container">
     <div id= "AboutMeStartcontainer">
         <div className="aboutoimage-container">
             <img src= {img_5354} alt="About Me" className="about-image"/>
@@ -60,6 +61,7 @@ const AboutPage = () => {
         <ImageRectangles />
       </div>
        <Bottombar />
+       </div>
     </>
   );
 };
