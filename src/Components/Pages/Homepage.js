@@ -12,30 +12,29 @@ import Smallbutton3 from '../hpButtons/Smallbutton3';
 const HomePage = () => {
   return (
     <>
-    <Background />
-    <div id="centerpiece">
-          <h1>I'm John Joseph Geddes</h1>
+      <Background />
+      <div id="centerpiece">
+        <h1>I'm John Joseph Geddes</h1>
       </div>
       <div className="button-container">
         <div className="button-row">
-         <Largebutton1 />
-         <Smallbutton1/>
-         </div>
-          <div className="button-row">
-         <SmallButton2 />
-         <LargeButton2 />
-         </div>
-         <div id = "centerpiece1">
-           <h1>In Progress</h1>
-           </div>
-           <div className="button-row">
-         <Smallbutton3 />
-         <Largebutton3 />
-         </div>
+          <Largebutton1 />
+          <Smallbutton1 />
+        </div>
+        <div className="button-row">
+          <SmallButton2 />
+          <LargeButton2 />
+        </div>
+        <div id="centerpiece1">
+          <h1>In Progress</h1>
+        </div>
+        <div className="button-row">
+          <Smallbutton3 />
+          <Largebutton3 />
+        </div>
       </div>
       <Bottombar />
-      </>
-    
+    </>
   );
 };
 

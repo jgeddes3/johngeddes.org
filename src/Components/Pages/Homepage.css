@@ -5,7 +5,6 @@
   align-items: center;
   width: 744px;
   height: 297px;
-  flex-shrink: 0;
   margin: 240px auto 0;
 }
 
@@ -26,6 +25,7 @@
   flex-shrink: 0;
   margin: 70px;
 }
+
 #centerpiece1 h1 {
   color: #A30000;
   text-align: center;
@@ -34,7 +34,6 @@
   font-weight: 400;
 }
 
-
 @font-face {
   font-family: 'Galgine';
   src: url('../fonts/Galgine.otf') format('opentype');
@@ -42,11 +41,10 @@
 
 .button-container {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
   margin: 160px;
-  gap: 60px;  /* Space between buttons */
+  gap: 60px;  /* Space between button rows */
 }
 
 .button-row {
@@ -55,8 +53,24 @@
   gap: 60px; /* Spacing between Large and Small Buttons */
 }
 
-/* Additional Styles if needed */
-.large-btn, .small-btn, .small-btn2, .large-btn2{
-  margin-bottom: 28px; /* Spacing between rows */
+/* Set default width for small buttons */
+.small-btn, .small-btn2, .small-btn3 {
+  width: 519px;
 }
 
+/* Stack buttons on top of each other when zoomed in (or on smaller screens) */
+@media (max-width: 1200px) {
+  .button-row {
+    flex-direction: column;
+    gap: 20px; /* Adjust gap for vertical spacing */
+  }
+
+  .small-btn, .small-btn2, .small-btn3 {
+    width: 680px; /* Match the width of large buttons */
+  }
+}
+
+/* Additional Styles if needed */
+.large-btn, .small-btn, .small-btn2, .large-btn2, .small-btn3, .large-btn3 {
+  margin-bottom: 28px; /* Spacing between rows */
+}
