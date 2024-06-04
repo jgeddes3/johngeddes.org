@@ -93,7 +93,7 @@
     align-items: flex-start;
     position: relative;
     margin-top: 5px;
-    height: 418px; /* Changed from fixed height */
+    height: 550px; /* Changed from fixed height */
     width: 100%;
   }
 
@@ -129,7 +129,7 @@
     width: 1444px;
   }
 
-.ResumeRect1, .ResumeRect2, .ResumeRect3, .ResumeRect4{
+.ResumeRect1, .ResumeRect2, .ResumeRect3, .ResumeRect4, .ResumeRect6 {
     border-radius: 61px;
     background-color: #710000;
     height: 93px;
@@ -137,29 +137,34 @@
 }
 
 .ResumeRect1{
-    width:1190px;
-    top: 51px;
-    left: 161px;
+    width:1000px;
+    top: 151px;
+    left: 91px;
 }
 
 .ResumeRect2{
-    width: 858px;
-    top: 152px;
-    left: 493px;
+    width: 668px;
+    top: 252px;
+    left: 423px;
 }
 
 .ResumeRect3{
     width: 360px;
-    top: 253px;
-    left: 161px;
+    top: 353px;
+    left: 91px;
 }
 
 .ResumeRect4{
     width: 321px;
-    top: 253px;
-    left: 793px;
+    top: 453px;
+    left: 603px;
 }
 
+.ResumeRect6{
+  width: 408px;
+  top: 51px;
+  left: 1010px;
+}
 .ResumeRect5{
     width: 1022px;
     height: 706px;
