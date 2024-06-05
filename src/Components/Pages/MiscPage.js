@@ -1,11 +1,19 @@
 import React from 'react';
+import Background from '../ForEveryPage/Background';
+import Bottombar from '../ForEveryPage/Bottombar';
+import './MiscPage.css';
 
 const MiscPage = () => {
   return (
-    <div>
-      <h1>Miscellaneous</h1>
-      <p>This is the Misc page.</p>
-    </div>
+    <>
+      <Background />
+      <div id="centerpiece2">
+        <h1>Miscellanous</h1>
+        </div>
+        <p className="MiscPages-description">This is for all of my thoughts, recipes, and reviews! </p>
+
+      <Bottombar />
+    </>
   );
 };
 
