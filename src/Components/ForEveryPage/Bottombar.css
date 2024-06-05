@@ -12,6 +12,7 @@
   box-sizing: border-box;
   flex-wrap: wrap;
   gap: 20px; /* Space between the groups */
+  z-index: 1; /* Ensure the bottom bar itself is at a lower z-index */
 }
 
 .group-left,
@@ -107,35 +108,30 @@
   height: 29px;
 }
 
-.title, .colophone {
-  font-family: Galgine;
-  font-size: 20px;
-  font-weight: 400;
-  color: #A30000;
-}
-
-.ellipse {
-  width: 7px;
-  height: 7px;
-  background-color: #A30000;
-  border-radius: 50%;
-}
-
 .overlay {
   width: 646px;
   height: 226px;
   border-radius: 34px;
-  background: rgba(255, 246, 237, 0.7);
+  background: rgba(255, 246, 237, 0.8);
   position: absolute;
   bottom: 100%; /* Position the overlay above the button */
-  left: 50%;
-  transform: translateX(-50%);
-  display: none; /* Hide by default */
-  z-index: 1;
+  left: 250%; /* Move the overlay slightly to the right */
+  transform: translateX(-50%) translateY(-10px); /* Center the overlay above the button */
+  display: flex; /* Flex display for columns */
+  z-index: 10; /* Ensure the overlay is above everything */
+  opacity: 0; /* Start with the overlay hidden */
+  transition: opacity 0.5s ease; /* Add fade-in transition */
 }
 
 .button11:hover .overlay {
-  display: block; /* Show overlay on hover */
+  opacity: 1; /* Show overlay on hover */
+}
+
+.overlay-left, .overlay-right {
+  display: flex;
+  flex-direction: column;
+  width: 50%; /* Each column takes half the width */
+  padding: 10px; /* Add some padding */
 }
 
 .overlay-text,
@@ -145,36 +141,20 @@
   font-family: "EB Garamond";
   font-size: 28px;
   line-height: normal;
-  position: relative;
   text-align: left;
 }
 
 .overlay-paragraph {
-  width: 258px;
+  width: auto; /* Adjust width as needed */
   height: 159px;
   text-align: left; 
-  bottom: 95px;
-  left: 380px;
 }
 
-.overtext3 {
-    bottom:-60px;
-    left: 30px;
-}
-
-.overtext2 {
-    bottom: -50px;
-    left: 30px;
-}
-
-.overtext1 {
-    bottom: -40px;
-    left: 30px;
-}
-
+.overtext3,
+.overtext2,
+.overtext1,
 .overlay-text-large {
-    bottom: -30px;
-    left: 30px;
+    margin: 5px; /* Remove margin to eliminate gap */
 }
 
 .elsewhereB {

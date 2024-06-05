@@ -1,23 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './Bottombar.css';
 
 const Bottombar = () => {
     const [showOverlay, setShowOverlay] = useState(false);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
+    const timeoutRef = useRef(null);
 
     const handleMouseEnter = () => {
+        clearTimeout(timeoutRef.current);
         setShowOverlay(true);
     };
 
     const handleMouseLeave = () => {
-        setShowOverlay(false);
-    };
-
-    const handleMouseMove = (e) => {
-        setPosition({
-            x: e.clientX,
-            y: e.clientY,
-        });
+        timeoutRef.current = setTimeout(() => {
+            setShowOverlay(false);
+        }, 1000); // Delay hiding the overlay by 1 second
     };
 
     return (
@@ -31,22 +27,25 @@ const Bottombar = () => {
                         className="button11" 
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
-                        onMouseMove={handleMouseMove}
                     >
-                        <span className="button-text1 bottomtext1">Colophone</span>
+                        <span className="button-text1 bottomtext1">Colophon</span>
+                        {showOverlay && (
+                            <div className="overlay fade-in">
+                                <div className="overlay-left">
+                                    <div className="overlay-text overlay-text-large">Figma for Design</div>
+                                    <div className="overlay-text overtext1">React for Code</div>
+                                    <div className="overlay-text overtext2">GitHub for other versions</div>
+                                    <div className="overlay-text overtext3">AWS for Launch</div>
+                                </div>
+                                <div className="overlay-right">
+                                    <div className="overlay-paragraph">
+                                        Galgine for Headline, EB Garamond for body. Plus heavily inspired by other online webpages.
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </button>
                 </div>
-                {showOverlay && (
-                    <div className="overlay" style={{ left: `${position.x}px`, top: `${position.y}px` }}>
-                        <div className="overlay-text overlay-text-large">Figma for Design</div>
-                        <div className="overlay-text overtext1">React for Code</div>
-                        <div className="overlay-text overtext2">GitHub for other versions</div>
-                        <div className="overlay-text overtext3">AWS for Launch</div>
-                        <div className="overlay-paragraph">
-                            Galgine for Headline, EB Garamond for body. Plus heavily inspired by other online webpages.
-                        </div>
-                    </div>
-                )}
             </div>
             <div className="group-left">
                 <div className="columns">
@@ -61,7 +60,7 @@ const Bottombar = () => {
                         <a href="https://read.cv/johngeddes" target="_blank" rel="noopener noreferrer" className="bottom-button cv-button bottomtext1">
                             CV
                         </a>
-                        <a href="https://github.com/jgeddes3" target="_blank" rel="noopener noreferrer" className="bottom-button github-button bottomtext1">
+                        <a href="https://github.com/jgeddes" target="_blank" rel="noopener noreferrer" className="bottom-button github-button bottomtext1">
                             Github
                         </a>
                     </div>
