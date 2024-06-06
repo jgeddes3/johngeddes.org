@@ -14,10 +14,10 @@ const HomePage = () => {
   return (
     <>
       <Background />
-      <div id="centerpiece">
+      <div id="centerpiece" className='main-content'>
         <h1>I'm John Joseph Geddes</h1>
       </div>
-      <div className="button-container">
+      <div className="button-container main-content">
         <div className="button-row">
           <Link to="/recruiters" className="large-btn">
             <Largebutton1 />

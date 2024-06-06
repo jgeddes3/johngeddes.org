@@ -7,10 +7,10 @@ const MiscPage = () => {
   return (
     <>
       <Background />
-      <div id="centerpiece2">
+      <div id="centerpiece2" className='main-content'>
         <h1>Miscellanous</h1>
         </div>
-        <p className="MiscPages-description">This is for all of my thoughts, recipes, and reviews! </p>
+        <p className="MiscPages-description main-content">This is for all of my thoughts, recipes, and reviews! </p>
 
       <Bottombar />
     </>

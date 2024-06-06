@@ -18,11 +18,11 @@ const ProjectsPage = () => {
   return (
     <>
       <Background />
-      <div id="centerpiece2">
+      <div id="centerpiece2" className='main-content'>
         <h1>Projects.</h1>
         <p className="projects-description">This is where you can find all my amazing projects. Stay tuned for more updates!</p>
       </div>
-      <div className="projects-container">
+      <div className="projects-container main-content">
         <Link to="/project1" className="project-button">
           <Project1 />
         </Link>

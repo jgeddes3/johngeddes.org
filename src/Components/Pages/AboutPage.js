@@ -9,23 +9,23 @@ const AboutPage = () => {
   return (
     <>
     <Background />
-    <div id="centerpiece2">
+    <div id="centerpiece2" className='main-content'>
           <h1>I'm John.</h1>
       </div>
-      <div className="content-container">
+      <div className="content-container main-content">
     <div id= "AboutMeStartcontainer">
-        <div className="aboutoimage-container">
+        <div className="aboutoimage-container main-content">
             <img src= {img_5354} alt="About Me" className="about-image"/>
         </div>
-        <div className="aboutrectspotify"></div>
-        <div className="AboutMeTextLarge AboutPara1">
+        <div className="aboutrectspotify main-content"></div>
+        <div className="AboutMeTextLarge AboutPara1 main-content">
             I’m a Recent Graduate, and aspiring Web Designer and Software Developer working from Chicago IL
         </div>
-        <div className="AboutMeTextSmall AboutPara2">
+        <div className="AboutMeTextSmall AboutPara2 main-content">
         In the most recent months, I have been working at Kirkland & Ellis. On the side, I’ve been working on projects and certificates in order to improve my chances to be a marketable employee. I am always willing to try new things and work with anyone and everyone.        </div>
       </div>
       <div id= "AboutMeResume">
-      <div className="ResumeRect6">
+      <div className="ResumeRect6 main-content">
                     <div className="ResumPara1 AboutMeWhiteLarge">Kirkland & Ellis</div>
             <div className="ResumPara2 AboutMeGreyLarge">A.V. Technology Specialist</div>
             <div className="ResumNum AboutMeWhiteNum">24~</div>

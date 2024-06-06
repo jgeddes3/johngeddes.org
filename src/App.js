@@ -11,10 +11,12 @@ import FriendsPage from './Components/Pages/HomePages/Friends';
 import PhilosophyPage from './Components/Pages/HomePages/Philosophy';
 import SocialPage from './Components/Pages/HomePages/Social';
 import RecruitersPage from './Components/Pages/HomePages/Recruiters';
+import ScrollToTop from './Components/ForEveryPage/ScrollToTop';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="App">
         <StickyBar />
         <Routes>
