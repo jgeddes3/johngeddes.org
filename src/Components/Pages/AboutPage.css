@@ -70,19 +70,19 @@
   }
 
   .aboutoimage-container, .aboutrectspotify {
-    left: 150px;
+    left: 0px;
   }
   
 
   .AboutPara1{
     width: 683px; 
     height: 177px;
-    left: 700px; 
+    left: 550px; 
   }
   .AboutPara2{
     width: 678px; 
     height: 166px;
-    left: 700px;
+    left: 550px;
     top: 200px;
   }
 
@@ -95,6 +95,7 @@
     margin-top: 5px;
     height: 550px; /* Changed from fixed height */
     width: 100%;
+    left: -100px;
   }
 
   #AboutMeColab {
@@ -106,6 +107,7 @@
     margin-top: 5px;
     height: 313px; /* Changed from fixed height */
     width: 100%;
+    left: -100px;
   }
 
   #AboutMePara {
@@ -117,6 +119,7 @@
     margin-top: 20px;
     height: 721px; /* Changed from fixed height */
     width: 100%;
+    left: -100px;
   }
 
   #AboutMePhotos {
