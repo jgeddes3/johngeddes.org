@@ -47,13 +47,21 @@ const StickyBar = () => {
     return () => window.removeEventListener('scroll', scrollFunc);
   }, []);
 
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <header id="sticky-header">
       <Link to="/" className={`nav-btn ${getActiveClass('/')}`} id="home-btn">Home</Link>
       <Link to="/about" className={`nav-btn ${getActiveClass('/about')}`} id="about-btn">About Me</Link>
       <Link to="/projects" className={`nav-btn ${getActiveClass('/projects')}`} id="projects-btn">Projects</Link>
-      <Link to="/contact" className={`nav-btn ${getActiveClass('/contact')}`} id="contact-btn">Contact Me</Link>
       <Link to="/misc" className={`nav-btn ${getActiveClass('/misc')}`} id="misc-btn">Misc</Link>
+      <Link to="#contact" className={`nav-btn ${getActiveClass('/contact')}`} id="contact-btn" onClick={handleContactClick}>Contact Me</Link>
     </header>
   );
 };

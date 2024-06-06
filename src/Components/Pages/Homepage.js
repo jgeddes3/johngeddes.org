@@ -8,6 +8,7 @@ import LargeButton2 from '../hpButtons/Largebutton2';
 import SmallButton2 from '../hpButtons/Smallbutton2';
 import Largebutton3 from '../hpButtons/Largebutton3';
 import Smallbutton3 from '../hpButtons/Smallbutton3';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   return (
@@ -18,19 +19,31 @@ const HomePage = () => {
       </div>
       <div className="button-container">
         <div className="button-row">
-          <Largebutton1 />
-          <Smallbutton1 />
+          <Link to="/recruiters" className="large-btn">
+            <Largebutton1 />
+          </Link>
+          <Link to="/contracts" className="small-btn">
+            <Smallbutton1 />
+          </Link>
         </div>
         <div className="button-row">
-          <SmallButton2 />
-          <LargeButton2 />
+          <Link to="/" className="small-btn">
+            <SmallButton2 />
+          </Link>
+          <Link to="/friends" className="large-btn">
+            <LargeButton2 />
+          </Link>
         </div>
         <div id="centerpiece1">
           <h1>In Progress</h1>
         </div>
         <div className="button-row">
-          <Smallbutton3 />
-          <Largebutton3 />
+          <Link to="/philosophy" className="small-btn">
+            <Smallbutton3 />
+          </Link>
+          <Link to="/social" className="large-btn">
+            <Largebutton3 />
+          </Link>
         </div>
       </div>
       <Bottombar />
