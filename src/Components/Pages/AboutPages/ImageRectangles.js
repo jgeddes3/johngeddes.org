@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import img1 from './img1.jpg';
 import img2 from './img2.jpg';
 import img3 from './img3.jpg';
@@ -22,7 +22,8 @@ import img20 from './img20.jpg';
 import './ImageRectangles.css';
 
 const ImageRectangles = () => {
-  const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12, img13, img14, img15, img16, img17, img18, img19, img20];
+  const images = useMemo(() => [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12, img13, img14, img15, img16, img17, img18, img19, img20], []);
+
   const [randomImages, setRandomImages] = useState([]);
 
   useEffect(() => {
@@ -35,21 +36,21 @@ const ImageRectangles = () => {
       return [images[randomIndexes[0]], images[randomIndexes[1]]];
     };
     setRandomImages(getRandomImages());
-  }, []);
+  }, [images]);
 
   return (
     <>
-    <div className="Aboutimgrects">
-      <div className="Aboutimgrect">
-        <img src={randomImages[0]} alt="Random 1"/>
+      <div className="Aboutimgrects">
+        <div className="Aboutimgrect">
+          <img src={randomImages[0]} alt="Random 1"/>
+        </div>
       </div>
-    </div>
-    <div className="Aboutimgrects2">
-    <div className="Aboutimgrect2 ">
-        <img src={randomImages[1]} alt="Random 2"/>
+      <div className="Aboutimgrects2">
+        <div className="Aboutimgrect2">
+          <img src={randomImages[1]} alt="Random 2"/>
+        </div>
       </div>
-      </div>
-      </>
+    </>
   );
 };
 
