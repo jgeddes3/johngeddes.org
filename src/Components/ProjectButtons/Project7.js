@@ -1,13 +1,13 @@
 import React from 'react';
-import './Project1.css';
+import './Project7.css';
 
-const Project1 = () => {
+const Project7 = () => {
   return (
     <div className="project-content">
-      <h1>Project 1</h1>
-      <p>A chess game</p>
+      <h1>Built a weather app</h1>
+      <p>App for the weather</p>
     </div>
   );
 };
 
-export default Project1;
+export default Project7;

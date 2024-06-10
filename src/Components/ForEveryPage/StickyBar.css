@@ -16,7 +16,7 @@
 }
 
 #sticky-header.scrolled {
-  background-color: #EAE0D5; /* Background color when scrolled */
+  background-color: rgba(234, 224, 213, 0.9); /* Background color when scrolled */
 }
 
 .nav-btn {

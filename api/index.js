@@ -1,8 +1,8 @@
-require('dotenv').config({ path: '.env' });
 const express = require('express');
 const request = require('request');
 const cors = require('cors');
 const querystring = require('querystring');
+
 const app = express();
 
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
@@ -12,10 +12,6 @@ const REDIRECT_URI = process.env.NODE_ENV === 'production'
   : process.env.SPOTIFY_REDIRECT_URI;
 
 let accessToken = '';
-
-console.log('CLIENT_ID:', CLIENT_ID);
-console.log('CLIENT_SECRET:', CLIENT_SECRET);
-console.log('REDIRECT_URI:', REDIRECT_URI);
 
 app.use(cors());
 
@@ -50,10 +46,8 @@ app.get('/callback', (req, res) => {
   request.post(authOptions, (error, response, body) => {
     if (!error && response.statusCode === 200) {
       accessToken = body.access_token;
-      console.log('Access Token:', accessToken); // Debug log
-      res.redirect('/recently-played');
+      res.redirect('/api/recently-played');
     } else {
-      console.error('Failed to obtain access token', error, body); // Debug log
       res.send(`Failed to obtain access token: ${body.error_description || 'Unknown error'}`);
     }
   });
@@ -69,19 +63,14 @@ app.get('/recently-played', (req, res) => {
 
     request.get(options, (error, response, body) => {
       if (!error && response.statusCode === 200) {
-        console.log('Recently Played:', body); // Debug log
         res.json(body);
       } else {
-        console.error('Failed to fetch recently played track', error, body); // Debug log
         res.json({ error: 'Failed to fetch recently played track.' });
       }
     });
   } else {
-    console.error('Access token is missing or invalid'); // Debug log
     res.json({ error: 'Access token is missing or invalid.' });
   }
 });
 
-app.listen(3001, () => {
-  console.log('Server is running on port 3001');
-});
+module.exports = app;

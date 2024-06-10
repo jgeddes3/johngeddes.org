@@ -3,9 +3,9 @@ import './Project1.css';
 
 const Project1 = () => {
   return (
-    <div className="project-content">
-      <h1>Project 1</h1>
-      <p>A chess game</p>
+    <div className="project-content1">
+      <h1>Rambler Registrar</h1>
+      <p>An scheduling app for school</p>
     </div>
   );
 };

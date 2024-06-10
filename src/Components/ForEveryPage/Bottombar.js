@@ -70,7 +70,7 @@ const Bottombar = () => {
                     <div className="column">
                         <div className="column-title">Contact</div>
                         <div className="bottomtext1">johngeddes@pm.me</div>
-                        <div className="bottomtext1">(612) 790-3691</div>
+                        <div className="bottomtext1">(312) 298-9877</div>
                     </div>
                 </div>
             </div>
