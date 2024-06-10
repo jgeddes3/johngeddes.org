@@ -4,7 +4,7 @@ import Background from '../ForEveryPage/Background';
 import Bottombar from '../ForEveryPage/Bottombar';
 import img_5354 from './AboutPages/img_5354.jpg'; 
 import ImageRectangles from './AboutPages/ImageRectangles';
-import SpotifyCurrentlyPlaying from '/Users/johngeddes/Documents/Github/johngeddes.org/src/SpotifyCurrentlyPlaying.js'; 
+import SpotifyCurrentlyPlaying from '../../SpotifyCurrentlyPlaying.js'; 
 
 const AboutPage = () => {
   return (

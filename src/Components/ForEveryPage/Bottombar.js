@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './Bottombar.css';
-import SpotifyCurrentlyPlaying from '/Users/johngeddes/Documents/Github/johngeddes.org/src/SpotifyCurrentlyPlaying.js';
+import SpotifyCurrentlyPlaying from '../../SpotifyCurrentlyPlaying.js';
 
 const Bottombar = () => {
     const [showOverlay, setShowOverlay] = useState(false);
