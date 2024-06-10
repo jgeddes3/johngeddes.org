@@ -3,7 +3,8 @@ import './AboutPage.css';
 import Background from '../ForEveryPage/Background';
 import Bottombar from '../ForEveryPage/Bottombar';
 import img_5354 from './AboutPages/img_5354.jpg'; 
-import ImageRectangles from './AboutPages/ImageRectangles'; 
+import ImageRectangles from './AboutPages/ImageRectangles';
+import SpotifyCurrentlyPlaying from '/Users/johngeddes/Documents/Github/johngeddes.org/src/SpotifyCurrentlyPlaying.js'; 
 
 const AboutPage = () => {
   return (
@@ -17,7 +18,9 @@ const AboutPage = () => {
         <div className="aboutoimage-container main-content">
             <img src= {img_5354} alt="About Me" className="about-image"/>
         </div>
-        <div className="aboutrectspotify main-content"></div>
+        <div className="aboutrectspotify main-content">
+        <SpotifyCurrentlyPlaying />
+        </div>
         <div className="AboutMeTextLarge AboutPara1 main-content">
             I’m a Recent Graduate, and aspiring Web Designer and Software Developer working from Chicago IL
         </div>

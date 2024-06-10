@@ -1,0 +1,52 @@
+.spotify-currently-playing {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.spotify-logo {
+  width: 50px; /* Adjust the size as needed */
+  height: 50px; /* Adjust the size as needed */
+  margin-right: 20px;
+  margin-left: 15px;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.header {
+  font-size: 18px;
+  font-family: 'EB Garamond', serif;
+  color: #A30000;
+  margin-bottom: 15px;
+}
+
+.track-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.track-details {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: 'EB Garamond', serif;
+  color: #A30000;
+  max-width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-link {
+  color: #A30000;
+  text-decoration: none;
+}
+
+.track-link:hover {
+  text-decoration: underline;
+}
+

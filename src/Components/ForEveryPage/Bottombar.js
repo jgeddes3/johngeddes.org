@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './Bottombar.css';
+import SpotifyCurrentlyPlaying from '/Users/johngeddes/Documents/Github/johngeddes.org/src/SpotifyCurrentlyPlaying.js';
 
 const Bottombar = () => {
     const [showOverlay, setShowOverlay] = useState(false);
@@ -19,7 +20,9 @@ const Bottombar = () => {
     return (
         <div className="bottom-bar">
             <div className="group-right">
-                <div className="spotifyrect1"></div>
+                <div className="spotifyrect1">
+                    <SpotifyCurrentlyPlaying />
+                </div>
                 <div className="inline-container">
                     <div className="name1 bottomtext1">John Geddes</div>
                     <div className="ellipse5"></div>
@@ -35,7 +38,7 @@ const Bottombar = () => {
                                     <div className="overlay-text overlay-text-large">Figma for Design</div>
                                     <div className="overlay-text overtext1">React for Code</div>
                                     <div className="overlay-text overtext2">GitHub for other versions</div>
-                                    <div className="overlay-text overtext3">AWS for Launch</div>
+                                    <div className="overlay-text overtext3">Vercel for Launch</div>
                                 </div>
                                 <div className="overlay-right">
                                     <div className="overlay-paragraph">
