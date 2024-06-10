@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './SpotifyCurrentlyPlaying.css';
-import SpotifyLogo from '/Users/johngeddes/Documents/Github/johngeddes.org/src/Components/SpotifyLogo.png';  // Adjust the path based on your project structure
+import SpotifyLogo from './SpotifyLogo.png';  // Adjust the path based on your project structure
 
 const SpotifyCurrentlyPlaying = () => {
   const [track, setTrack] = useState(null);
