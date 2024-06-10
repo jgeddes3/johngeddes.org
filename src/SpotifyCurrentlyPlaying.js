@@ -6,7 +6,7 @@ const SpotifyCurrentlyPlaying = () => {
   const [track, setTrack] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3001/recently-played')
+    fetch('https://www.johngeddes.org/api/recently-played')
       .then(response => response.json())
       .then(data => {
         console.log('Fetched Data:', data); // Debug log

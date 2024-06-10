@@ -46,8 +46,10 @@ app.get('/callback', (req, res) => {
   request.post(authOptions, (error, response, body) => {
     if (!error && response.statusCode === 200) {
       accessToken = body.access_token;
+      console.log('Access Token:', accessToken); // Debug log
       res.redirect('/api/recently-played');
     } else {
+      console.error('Failed to obtain access token', error, body); // Debug log
       res.send(`Failed to obtain access token: ${body.error_description || 'Unknown error'}`);
     }
   });
@@ -63,12 +65,15 @@ app.get('/recently-played', (req, res) => {
 
     request.get(options, (error, response, body) => {
       if (!error && response.statusCode === 200) {
+        console.log('Recently Played:', body); // Debug log
         res.json(body);
       } else {
+        console.error('Failed to fetch recently played track', error, body); // Debug log
         res.json({ error: 'Failed to fetch recently played track.' });
       }
     });
   } else {
+    console.error('Access token is missing or invalid'); // Debug log
     res.json({ error: 'Access token is missing or invalid.' });
   }
 });
