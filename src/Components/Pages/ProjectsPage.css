@@ -56,4 +56,10 @@
     background-color: #D5C6BA;
     transform: translateY(-10px);
   }
+ 
+    .main-content {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  }
   

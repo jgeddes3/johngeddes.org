@@ -35,22 +35,22 @@ const AboutPage = () => {
             <div className="ResumPara2 AboutMeGreyLarge">A.V. Technology Specialist</div>
             <div className="ResumNum AboutMeWhiteNum">24~</div>
           </div>
-          <div className="ResumeRect1">
+          <div className="ResumeRect1 main-content">
             <div className="ResumPara1 AboutMeWhiteLarge">Attending University of Loyola</div>
             <div className="ResumPara2 AboutMeGreyLarge">Student</div>
             <div className="ResumNum AboutMeWhiteNum">19-23</div>
           </div>
-          <div className="ResumeRect2">
+          <div className="ResumeRect2 main-content">
             <div className="ResumPara1 AboutMeWhiteLarge">Loyola University of Chicago</div>
             <div className="ResumPara2 AboutMeGreyLarge">Audio Visual (A.V.) Technician</div>
             <div className="ResumNum AboutMeWhiteNum">20-23</div>
           </div>
-          <div className="ResumeRect3">
+          <div className="ResumeRect3 main-content">
             <div className="ResumPara1 AboutMeWhiteLarge">TLC Precision Wafer</div>
             <div className="ResumPara2 AboutMeGreyLarge">Software Intern</div>
             <div className="ResumNum AboutMeWhiteNum">19-20</div>
           </div>
-          <div className="ResumeRect4">
+          <div className="ResumeRect4 main-content">
             <div className="ResumPara1 AboutMeWhiteLarge">The Brag House</div>
             <div className="ResumPara2 AboutMeGreyLarge">Front-End Intern</div>
             <div className="ResumNum AboutMeWhiteNum">21-22</div>

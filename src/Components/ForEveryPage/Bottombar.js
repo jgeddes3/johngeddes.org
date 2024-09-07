@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import './Bottombar.css';
 import SpotifyCurrentlyPlaying from '../../SpotifyCurrentlyPlaying.js';
+import Resume1 from '../PDF/Geddes_Resume_24.pdf';
 
 const Bottombar = () => {
     const [showOverlay, setShowOverlay] = useState(false);
@@ -54,9 +55,9 @@ const Bottombar = () => {
                 <div className="columns">
                     <div className="column">
                         <div className="column-title">More</div>
-                        <a href="/path/to/JohnGeddesResume.pdf" download className="bottom-button resume-button bottomtext1">
-                            Resume Download
-                        </a>
+                        <a href={Resume1} download="Audio_Visual_Engineer_Resume.pdf" className="bottom-button resume-button bottomtext1">
+                                            Resume Download
+                                        </a>
                         <a href="https://www.linkedin.com/in/therealjohngeddes" target="_blank" rel="noopener noreferrer" className="bottom-button linkedin-button bottomtext1">
                             LinkedIn
                         </a>
