@@ -1,0 +1,194 @@
+#centerpiece2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 744px;
+    height: 297px;
+    flex-shrink: 0;
+    margin: 160px auto 0;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+ .projects-description-container {
+    width: 90%;
+    max-width: 1000px;
+    font-size: 24px;
+    margin: 20px auto; /* Creates space between the header and paragraph */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+  .main-content {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  }
+/* Main container for the slideshow */
+.slideshow-container {
+    display: flex;
+    position: relative;
+    width: 1500px;
+    height: 700px;
+    overflow: hidden;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px;
+  }
+  
+  /* Active Slide */
+  .slide {
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    transition: all 0.8s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.5rem;
+  }
+  
+  /* Collapsed slides */
+  .slide.collapsed {
+    width: 100px; /* Fully collapsed */
+    height: 100%; /* Full height */
+    filter: none; /* No blur for collapsed slide */
+    opacity: 1;
+    transition: all 0.8s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+  
+  /* Left Navigation (Previous and First buttons) */
+  .navigation-buttons-left {
+    position: absolute;
+    left: 0;
+    display: flex;
+    flex-direction: row-reverse; /* Make first appear before previous */
+    height: 100%;
+    visibility: hidden; /* Hidden by default */
+    opacity: 0; /* Invisible by default */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .navigation-buttons-left.visible {
+    visibility: visible;
+    opacity: 1; /* Make buttons visible */
+  }
+  
+  .previous-button, .previous-button.first {
+    width: 88px;
+    height: 100%;
+    filter: blur(5px);
+    opacity: 0.3;
+    background-color: #EAE0D5;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+  
+  .previous-button:hover, .previous-button.first:hover {
+    opacity: 1;
+    filter: blur(3px);
+  }
+  
+  /* Right Navigation (Next and Last buttons) */
+  .navigation-buttons-right {
+    position: absolute;
+    right: 0;
+    display: flex;
+    height: 100%;
+    visibility: hidden; /* Hidden by default */
+    opacity: 0; /* Invisible by default */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .navigation-buttons-right.visible {
+    visibility: visible;
+    opacity: 1; /* Make buttons visible */
+  }
+  
+  .next-button, .next-button.last {
+    width: 88px;
+    height: 100%;
+    filter: blur(5px);
+    opacity: 0.3;
+    background-color: #EAE0D5;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+  
+  .next-button:hover, .next-button.last:hover {
+    opacity: 1;
+    filter: blur(3px);
+  }
+  
+  /* Slide text styling */
+  .slide-text {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+ /* Bottom Buttons */
+.bottom-buttons-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    gap: 20px; /* Space between the buttons */
+    flex-wrap: wrap;
+  }
+  
+  /* Friends Button */
+  .friends-nav-button {
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    font-family: 'Galgine', serif;
+    width: 400px; /* Make the button wider */
+    height: 130px; /* Keep height taller */
+    font-size: 30px; /* Larger text size */
+    padding: 10px;
+    background-color: transparent; /* Transparent background */
+    color: #3A7243; /* Text color */
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid #3A7243; /* Add a border */
+    border-radius: 40px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .friends-nav-button:hover {
+    background-color: #D5AC4E; /* Change background on hover */
+    color: white; /* Text color change on hover */
+    border:#D5AC4E;
+  }
+  
+  /* Recruiters Button */
+  .recruiters-nav-button {
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    font-family: 'Galgine', serif;
+    width: 400px; /* Make the button wider */
+    height: 130px; /* Keep height taller */
+    font-size: 30px; /* Larger text size */
+    padding: 10px;
+    background-color: transparent; /* Transparent background */
+    color: #3A7243; /* Text color */
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid #3A7243; /* Add a border */
+    border-radius: 40px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .recruiters-nav-button:hover {
+    background-color: #BC4749; /* Change background on hover */
+    color: white; /* Text color change on hover */
+    border:#BC4749;
+  }
+  

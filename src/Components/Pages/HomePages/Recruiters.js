@@ -84,7 +84,7 @@ const RecruitersPage = () => {
       {/* Add the button at the end linking to Contacts.js */}
       <div className="contract-button-container">
         <Link to="/contracts" className="contract-button">
-          Go to Contacts Page
+          Contacts Page
         </Link>
       </div>
       <Bottombar />
