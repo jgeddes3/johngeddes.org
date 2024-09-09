@@ -35,7 +35,7 @@
   }
   
   /* Friends Button */
-  .friends-nav-button {
+  .friends1-nav-button {
     display: flex; /* Use flexbox */
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
@@ -53,7 +53,7 @@
     transition: background-color 0.3s ease, color 0.3s ease;
   }
   
-  .friends-nav-button:hover {
+  .friends1-nav-button:hover {
     background-color: #D5AC4E; /* Change background on hover */
     color: white; /* Text color change on hover */
     border:#D5AC4E;

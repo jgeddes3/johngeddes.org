@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom'; 
 import Background from '../../ForEveryPage/Background';
 import Bottombar from '../../ForEveryPage/Bottombar';
@@ -17,11 +17,11 @@ const FriendsPage = () => {
         </p>
       </div>
         <div className="bottom-buttons-container">
-        <Link to="/friends" className="friends-nav-button">
-          Contracts Page
+        <Link to="/friends" className="friends1-nav-button">
+          Friends Page
         </Link>
         <Link to="/social" className="social-nav-button">
-          Philosophy Page
+          Social Page
         </Link>
 
       </div>
