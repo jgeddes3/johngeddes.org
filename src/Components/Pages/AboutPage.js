@@ -1,5 +1,6 @@
 // AboutPage.js
 import React from 'react';
+import { Link } from 'react-router-dom'; 
 import './AboutPage.css';
 import Background from '../ForEveryPage/Background';
 import Bottombar from '../ForEveryPage/Bottombar';
@@ -66,6 +67,11 @@ const AboutPage = () => {
             <div className="AboutPara6 AboutMeTextSmall">Apart from writing papers and side projects in computer science, I love to play chess, drink coffee, and pet cats. Music is also in my passions, but I am by no means a music expert.</div>
           </div>
         </div>
+        <div className="AboutFriends-button-container">
+        <Link to="/friends" className="AboutFriends-button">
+          Go to Friends to see more
+        </Link>
+      </div>
         <div id = "AboutMePhotos">
           <ImageRectangles />
         </div>

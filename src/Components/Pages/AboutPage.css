@@ -292,3 +292,36 @@
   font-weight: 400;
   line-height: normal;
 }
+
+.AboutFriends-button-container {
+    display: flex;
+    justify-content: center;
+    margin-left: 600px;
+    margin-top: -10px;
+    margin-bottom: 50px; /* Add margin to push it above the bottom bar */
+  }
+  
+  .AboutFriends-button {
+    display: flex; /* Use flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    font-family: 'Galgine', serif;
+    width: 300px; /* Make the button wider */
+    height: 80px; /* Keep height taller */
+    font-size: 20px; /* Larger text size */
+    padding: 10px;
+    background-color: transparent; /* Transparent background */
+    color:  #A30000; /* Text color */
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid #A30000; /* Add a border */
+    border-radius: 40px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+
+.AboutFriends-button:hover {
+    background-color: #D5AC4E; /* Change background on hover */
+    color: white; /* Text color change on hover */
+    border:#D5AC4E;
+}

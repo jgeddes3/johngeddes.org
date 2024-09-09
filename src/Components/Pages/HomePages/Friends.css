@@ -84,3 +84,89 @@
     border:#0E0D0D;
   }
   
+/* Main container for fantasy images, centered and 1450px wide */
+.fantasy-main-container {
+    display: flex;
+    justify-content: space-between;
+    width: 1340px; /* Set container width */
+    margin: 0 auto; /* Center the container */
+    padding: 0px;
+  }
+  
+  /* Individual fantasy item with color and size */
+  .fantasy-item {
+    font-family: 'Galgine', serif;
+    color: #A30000;
+    width: 420px;
+    height: 730px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Fantasy Team 1, 2, and 3 with different colors */
+  .fantasy-team1 {
+    color: #fff;
+    background-color: #ff5757; /* Light Khaki */
+  }
+  
+  .fantasy-team2 {
+    background-color: #f99; /* Light Blue */
+  }
+  
+  .fantasy-team3 {
+    background-color: #f99; /* Light Pink */
+  }
+  
+  /* Scrollable image box */
+  .image-box-scrollable {
+    width: 400px;
+    height: 700px;
+    overflow-y: scroll; /* Enable vertical scrolling */
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .image-box-scrollable img {
+    width: 100%; /* Fit image width */
+    height: auto;
+  }
+  
+  /* Info rectangle with text */
+.fantasy-second-container {
+    display: flex;
+    justify-content: space-between;
+    width: 1400px; /* Set container width */
+    height: 800px;
+    margin: 0 auto; /* Center the container */
+    padding: 0px;
+  }
+
+.info-rectangle {
+  width: 1022px;
+  height: 520px;
+  background-color: #fff6ed;
+  border-radius: 48px;
+  margin-top: 40px;
+  margin-left: 250px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-size: 18px;
+}
+  #FantasyPara {
+    display: flex;
+    flex-direction: row; /* Aligns child elements horizontally */
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: relative;
+    margin-top: 20px;
+    height: 750px; /* Changed from fixed height */
+    width: 100%;
+  }
