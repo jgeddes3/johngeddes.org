@@ -190,11 +190,11 @@
 
   /* Golf Image Container */
 .golf-container {
-  display: flex;
+  display: relative;
   justify-content: flex-end;
   margin: 0 auto;
   width: 1400px; /* Set container width */
-  height: 800px;
+  height: 750px;
   margin-top: 0px;
 }
 .golf-container2 {
@@ -223,7 +223,7 @@
   font-family: "EB Garamond";
   font-size: 28px;
   line-height: normal;
-  text-align: center;
+  text-align: right;
   margin-left: 30px;
 }
 
@@ -422,7 +422,7 @@
   
   .info-rectangle2 {
   width: 1022px;
-  height: 520px;
+  height: 700px;
   background-color: #fff6ed;
   border-radius: 48px;
   margin-top: 40px;
@@ -463,7 +463,7 @@
     display: flex;
     justify-content: space-between;
     width: 1400px; /* Set container width */
-    height: 630px;
+    height: 800px;
     margin: 0 auto; /* Center the container */
     padding: 0px;
   }
@@ -494,4 +494,18 @@
   line-height: normal;
   text-align: left;
   margin-left: 30px;
+}
+
+.BBQPara4, .BBQPara5, .BBQPara6s{
+    position: absolute;
+    left: 78px;
+    width: 833px;
+}
+.BBQPara4{
+    top: 48px;
+    height: 192px;
+}
+.BBQPara5{
+    top: 310px;
+    height: 216px;
 }

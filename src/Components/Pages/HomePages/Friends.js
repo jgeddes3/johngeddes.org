@@ -137,7 +137,7 @@ useEffect(() => {
           </div>
         </div>
         <div className="golf-container2 main-content">
-          <p className="golf-description">This is the golf section, where you will find some exciting insights into golf strategies and more!</p>
+          <p className="golf-description">I love golf. I am not good at golf by any means but the older I get the more fun it is. I took golf lessons all throughout grade school and was in my high school’s golf team for a short amount of time. It never stuck however until my sister and her boyfriend found some cheap golf clubs that I bought from them. Since then, I’ve been hitting from the red and running with a 32 handicap (I tell people 18).</p>
           </div>
       <div id="centerpieceFriends">
           <h1 className='main-content'>Books Books Books!</h1>
@@ -147,9 +147,10 @@ useEffect(() => {
         {/* Left 2/3rd box */}
         <div className="books-friends-left">
           <div className="books-friends-rect-left">
-            <h2 className="books-friends-header">Book Reviews and Summaries</h2>
+            <h2 className="books-friends-header">Book Reviews</h2>
             <p className="books-friends-description">
-              Explore a collection of insightful reviews and summaries of impactful books. From fantasy worlds to philosophical discussions, these reviews dive deep into each book's uniqueness.
+            I have a deep appreciation for books that explore complex themes and imaginative worlds. In Sci-Fi, the Red Rising series by Pierce Brown is my all-time favorite, with its space setting and intricate characters. In Fantasy, nothing compares to Brandon Sanderson's The Way of Kings, a masterpiece of world-building and storytelling. When it comes to Philosophy, The Art of Loving by Erich Fromm resonates with me on a personal level, offering profound insights into human nature and relationships. As for standalone novels, Babel by R.F. Kuang stands out for its powerful exploration of history, the British empire, and resistance.</p>
+            <p className="books-friends-description">I am no professional reader nor a well-developed reviewer, but if you click on any of the books to the right you will be able to see the reviews that I have left! In them I will link to the good reader review as well, but it will sound eerily similar to the review you would read on my website. If you have any recommendations based on the other books, do not hesitate to click this <a href="https://forms.gle/xjqgC1DkY8KZWBu7A" target="_blank" rel="noopener noreferrer">this link</a> and fill out the form!
             </p>
           </div>
         </div>
@@ -238,8 +239,8 @@ useEffect(() => {
       <div className='fantasy-third-container main-content'>
       <div className="info-rectangle2">
         <div id = "FantasyPara">
-            <div className="AboutPara4 AboutMeTextSmall">Friends! These are my three fantasy teams that I am running this year. The first team is a legacy team of 12, and I am the incumbent champion soon to retake my crown. The second team is my family team, and while I do not focus on this team quite as much, I still enjoy it. The third team is a random team I joined and put some money down.</div>
-            <div className="AboutPara5 AboutMeTextSmall">(9/09) As you can tell, I put a lot of stock into Caleb Williams panning out. Obviously, It is not going exactly how I’d like but this is only week 1. W1 saw a loss in OFaran, and Random but I won in the Family league against my amazing Grandmother. Being a Vikings fan, I am hoping to see some results on Darnold like last week, but we will see. I am hoping I won’t be eating my words with Caleb Williams, but TBD.</div>
+            <div className="BBQPara4 AboutMeTextSmall">Grilling is one of my favorite ways to cook, but I enjoy cooking in general and experimenting in the kitchen. Whether it’s modifying recipes to create something new or simply improving a dish, I love the creative process involved in cooking. Whether it's marinating meats for the grill or adding a twist to a traditional pasta dish, I'm always looking for ways to elevate the flavors. My passion for cooking extends beyond the grill, and I enjoy exploring different cuisines and techniques in the kitchen.</div>
+            <div className="BBQPara5 AboutMeTextSmall">At the end of this paragraph, you’ll find a button that will take you to the misc section, where I share some of my favorite recipes. I’ve taken classic dishes and added my own spin, whether it's tweaking the seasoning, adjusting the cooking method, or combining ingredients in a unique way. From grilled meats to hearty stews, my recipes reflect my passion for experimenting in the kitchen. If you enjoy cooking or just want to try something new, you'll find plenty of ideas and inspiration in the collection. </div>
           </div>
         </div>
         </div>
@@ -257,7 +258,7 @@ useEffect(() => {
            <img src={Chess} alt="Chess" className="chess-image" />
         </div>
         <div className="chess-container2 main-content">
-          <p className="chess-description">This is the golf section, where you will find some exciting insights into golf strategies and more!</p>
+          <p className="chess-description">Chess has always been a passion of mine, and I love the challenge and mental focus it brings with every game. My rank fluctuates, but regardless of the outcome, it's always a great time to meet new people, exchange strategies, and test my skills in a match. Whether I’m on a winning streak or learning from a tough game, every match sharpens my strategy and keeps me coming back for more. If you’re up for a game, feel free to add me at <a href="https://www.chess.com/member/shyne4life" target="_blank" rel="noopener noreferrer">Shyne4life</a> on chess.com—let's play!</p>
           </div>
 
       <div className="bottom-buttons-container">
