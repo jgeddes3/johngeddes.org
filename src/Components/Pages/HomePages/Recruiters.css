@@ -113,9 +113,12 @@
 
 .unique-text {
   flex: 1;
-  margin-right: 20px;
+  margin: 30px;
   color: white;
   margin-top: 20px;
+  font-size: 22px;
+  font-family: 'EB Garamond', serif;
+  text-align: left;
 }
 
 .pdf-viewer-container {

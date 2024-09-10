@@ -170,3 +170,42 @@
     height: 750px; /* Changed from fixed height */
     width: 100%;
   }
+
+  /* Golf Image Container */
+.golf-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 auto;
+  width: 1400px; /* Set container width */
+  height: 800px;
+  margin-top: 0px;
+}
+.golf-container2 {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 auto;
+  width: 1400px; /* Set container width */
+  height: 300px;
+  margin-top: 0px;
+}
+
+.golf-image-box {
+  display: flex;
+  gap: 20px;
+}
+
+.golf-image-box img {
+  width: 700px;
+  height: 700px;
+  border-radius: 20px;
+}
+
+/* Paragraph styling */
+.golf-description {
+  color: #A30000;
+  font-family: "EB Garamond";
+  font-size: 28px;
+  line-height: normal;
+  text-align: center;
+  margin-left: 30px;
+}

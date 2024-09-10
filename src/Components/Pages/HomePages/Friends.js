@@ -6,6 +6,8 @@ import './Friends.css';
 import Fantasy1 from './FriendsImages/Sleeper_Screenshot.png';
 import Fantasy2 from './FriendsImages/YahooFant1.png';
 import Fantasy3 from './FriendsImages/YahooFant2.png';
+import Golf1 from './FriendsImages/Golf1.jpg';
+import Golf2 from './FriendsImages/Golf2.jpg';
 
 
 const FriendsPage = () => {
@@ -57,6 +59,18 @@ const FriendsPage = () => {
           </div>
         </div>
       </div>
+
+      <div className="golf-container main-content">
+          <div className="golf-image-box">
+            <img src={Golf1} alt="Golf 1" />
+            <img src={Golf2} alt="Golf 2" />
+          </div>
+        </div>
+        <div className="golf-container2 main-content">
+          <p className="golf-description">This is the golf section, where you will find some exciting insights into golf strategies and more!</p>
+          </div>
+      
+
       <div className="bottom-buttons-container">
         <Link to="/contracts" className="contracts-nav-button">
           Contracts Page

@@ -47,7 +47,7 @@ const ContractsPage = () => {
       </div>
       <div className="projects-description-container">
       <p className="projects-description main-content">
-         I am always looking to help.
+         Like what you see? Go through the slides to see all the skills I bring to the table, my rates and how to contact me, and previous things I have done.
         </p>
       </div>
 
