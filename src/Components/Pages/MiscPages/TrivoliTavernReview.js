@@ -1,6 +1,7 @@
 import React from 'react';
 
-const TrovoliTavernReview = () => {
+const TrivoliTavernReview = () => {
+  
   return (
     <div>
       <h1>Trovoli Tavern Review</h1>
@@ -9,5 +10,5 @@ const TrovoliTavernReview = () => {
   );
 };
 
-export default TrovoliTavernReview;
+export default TrivoliTavernReview;
 
