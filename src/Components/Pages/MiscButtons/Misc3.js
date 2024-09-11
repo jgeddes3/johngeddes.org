@@ -1,11 +1,19 @@
 import React from 'react';
-import './Misc3.css';
+import './Misc1.css';
+import MiscPhoto3 from './MiscImages/BooksLogo.png';
 
-const Misc3 = () => {
+const Misc3 = ({ headerText, contentText }) => {  // Props for dynamic content
   return (
-    <div className="misc1-container">
-      <h2>Misc Page 3</h2>
-      <p>This is the content for Misc Page 3. Add your specific content here.</p>
+    <div className="misc2-container">
+      <div className="text-container">
+        <h2>{headerText}</h2>
+        <p>{contentText}</p>
+      </div>
+      <div className="miscPhoto1">
+        <div className="miscPhotoEllipse1">
+          <img src={MiscPhoto3} alt="Restaurant Logo" className="miscphoto1" />
+        </div>
+      </div>
     </div>
   );
 };

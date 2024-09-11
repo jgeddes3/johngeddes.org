@@ -53,7 +53,7 @@
   }
   
   .project-button:hover, .project-button-long:hover {
-    background-color: #D5C6BA;
+    background-color: #f8f4f1;
     transform: translateY(-10px);
   }
  

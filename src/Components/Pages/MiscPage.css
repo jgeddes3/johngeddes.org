@@ -40,7 +40,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #EAE0D5;
+    background-color: #e5d8cb;
     color: #A30000;
     text-decoration: none;
     font-family: 'EB Garamond', serif;
@@ -54,7 +54,7 @@
   }
   
   .misc-button:hover {
-    background-color: #D5C6BA;
+    background-color: #f8f4f1;
     transform: translateY(-10px);
   }
   

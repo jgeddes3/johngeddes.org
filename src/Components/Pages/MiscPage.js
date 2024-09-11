@@ -8,12 +8,6 @@ import './MiscPage.css';
 import Misc1 from './MiscButtons/Misc1';
 import Misc2 from './MiscButtons/Misc2';
 import Misc3 from './MiscButtons/Misc3';
-import Misc4 from './MiscButtons/Misc4';
-import Misc5 from './MiscButtons/Misc5';
-import Misc6 from './MiscButtons/Misc6';
-import Misc7 from './MiscButtons/Misc7';
-import Misc8 from './MiscButtons/Misc8';
-import Misc9 from './MiscButtons/Misc9';
 
 const MiscPage = () => {
   return (
@@ -27,49 +21,29 @@ const MiscPage = () => {
         <div className="misc-item">
           
           <Link to="/misc1" className="misc-button main-content">
-          <Misc1 />
+          <Misc1 
+            headerText="My Favorite Restaurant" 
+            contentText="A wonderful place for dining with family." 
+          />
           </Link>
         </div>
         <div className="misc-item">
           <Link to="/misc2" className="misc-button main-content">
-          <Misc2 />
+          <Misc2 
+            headerText="My Favorite Recipe" 
+            contentText="A nice hot chicken." 
+          />
           </Link>
         </div>
         <div className="misc-item">
-          <Link to="/misc3" className="misc-button main-content">
-          <Misc3 />
+          <Link to="/RedRisingReview" className="misc-button main-content">
+          <Misc3 
+            headerText="My Favorite Book!" 
+            contentText="Red Rising" 
+          />
           </Link>
         </div>
-        <div className="misc-item">
-          <Link to="/misc4" className="misc-button main-content">
-          <Misc4 />
-          </Link>
-        </div>
-        <div className="misc-item">
-          <Link to="/misc5" className="misc-button main-content">
-          <Misc5 />
-          </Link>
-        </div>
-        <div className="misc-item">
-          <Link to="/misc6" className="misc-button main-content">
-          <Misc6 />
-          </Link>
-        </div>
-        <div className="misc-item">
-          <Link to="/misc7" className="misc-button main-content">
-          <Misc7 />
-          </Link>
-        </div>
-        <div className="misc-item">
-          <Link to="/misc8" className="misc-button main-content">
-          <Misc8 />
-          </Link>
-        </div>
-        <div className="misc-item">
-          <Link to="/misc9" className="misc-button main-content">
-          <Misc9 />
-          </Link>
-        </div>
+       
       </div>
       <Bottombar />
     </>
