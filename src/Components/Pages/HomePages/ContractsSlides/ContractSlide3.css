@@ -1,0 +1,41 @@
+.content-slide-3-container {
+  width: 1224px;
+  height: 700px;
+  background-color: #88aa8e;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.content-slide-3-container h2 {
+  width: 1000px;
+  font-size: 40px;
+  color: black;
+  margin-bottom: 20px;
+  font-family: 'Galgine', serif;
+  font-weight: 400;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 20px;
+}
+
+.content-slide-3-button {
+  padding: 40px 80px;
+  background-color: #A30000;
+  color: white;
+  text-decoration: none;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+  font-family: 'Galgine', serif;
+  margin: 10px;
+}
+
+.content-slide-3-button:hover {
+    background-color: transparent; /* Change background on hover */
+    color: white; /* Text color change on hover */
+    border:3px solid #A30000;
+}

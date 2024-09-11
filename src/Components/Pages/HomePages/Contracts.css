@@ -191,4 +191,13 @@
     color: white; /* Text color change on hover */
     border:#BC4749;
   }
-  
+ 
+  /* Slide image styling */
+.slide-image {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain; /* Ensures the image fits within the container without clipping */
+}
+
+/* Other styles remain the same */

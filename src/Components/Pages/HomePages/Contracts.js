@@ -3,15 +3,18 @@ import { Link } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import Bottombar from '../../ForEveryPage/Bottombar';
 import './Contracts.css';
+import ContractSlide1 from './ContractsSlides/ContractSlide1.png';
+import ContractSlide2 from './ContractsSlides/ContractSlide2.png';
+import ContentSlide3 from './ContractsSlides/ContractSlide3'; // Import the new ContentSlide3 component
 
 const ContractsPage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showButtons, setShowButtons] = useState(false); // State for button visibility
 
   const slides = [
-    { text: 'Slide 1 Content', color: '#3a7243' }, // Red for Slide 1
-    { text: 'Slide 2 Content', color: '#618e68' }, // Green for Slide 2
-    { text: 'Slide 3 Content', color: '#88aa8e' }, // Blue for Slide 3
+    { image: ContractSlide1, color: '#3a7243' }, 
+    { image: ContractSlide2, color: '#618e68' }, 
+    { component: <ContentSlide3 />, color: '#88aa8e' },  // Use component for Slide 3
   ];
 
   useEffect(() => {
@@ -46,8 +49,8 @@ const ContractsPage = () => {
         <h1>Looking to Contract?</h1>
       </div>
       <div className="projects-description-container">
-      <p className="projects-description main-content">
-         Like what you see? Go through the slides to see all the skills I bring to the table, my rates and how to contact me, and previous things I have done.
+        <p className="projects-description main-content">
+          Like what you see? Go through the slides to see all the skills I bring to the table, my rates, and how to contact me, as well as previous projects I've worked on.
         </p>
       </div>
 
@@ -56,14 +59,15 @@ const ContractsPage = () => {
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`slide ${index === currentSlide ? 'active' : 'collapsed'}`}
+            className={`slide ${index === currentSlide ? 'active' : 'collapsed'}`} // Ensure the slide collapses
             style={{ backgroundColor: slide.color }}
           >
-            <p className="slide-text">{slide.text}</p>
+            {slide.image && <img src={slide.image} alt={`Contract Slide ${index + 1}`} className="slide-image" />} {/* Image for Slide 1 and Slide 2 */}
+            {index === 2 && index === currentSlide && <ContentSlide3 />} {/* Show ContentSlide3 only when active */}
           </div>
         ))}
 
-        {/* Navigation Buttons with delayed visibility */}
+        {/* Navigation Buttons */}
         <div className={`navigation-buttons-left ${showButtons ? 'visible' : ''}`}>
           {currentSlide > 0 && (
             <>
@@ -87,15 +91,13 @@ const ContractsPage = () => {
         </div>
       </div>
 
-             {/* Add buttons to navigate to Friends.js and Recruiters.js */}
-             <div className="bottom-buttons-container">
+      <div className="bottom-buttons-container">
         <Link to="/recruiters" className="recruiters-nav-button">
           Recruiters Page
         </Link>
         <Link to="/friends" className="friends-nav-button">
           Friends Page
         </Link>
-
       </div>
 
       <Bottombar />
