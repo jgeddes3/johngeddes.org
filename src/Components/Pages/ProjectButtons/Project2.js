@@ -1,11 +1,19 @@
 import React from 'react';
-import './Project2.css';
+import './Project1.css';
+import Photo2 from './ProjectButtonImages/Excel.png';
 
 const Project2 = () => {
   return (
-    <div className="project-content">
-      <h1>Excel Workbooks</h1>
-      <p>All of my Excel workbooks that I have made</p>
+    <div className="project-container1">
+      <div className="text-container1">
+        <h1>Excel Workbooks</h1>
+        <p>All of my Excel workbooks that I have made</p>
+      </div>
+      <div className="ProjectPhoto1">
+        <div className="ProjPhotoEllipse1">
+          <img src={Photo2} alt="Project 1" className="projphoto1" />
+        </div>
+      </div>
     </div>
   );
 };

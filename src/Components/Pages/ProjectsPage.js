@@ -23,31 +23,31 @@ const ProjectsPage = () => {
         <p className="projects-description">This is where you can find all my amazing projects. Stay tuned for more updates!</p>
       </div>
       <div className="projects-container main-content">
-        <Link to="/project1" className="project-button">
+        <Link to="/RamblerRegistrar" className="project-button">
           <Project1 />
         </Link>
-        <Link to="/project2" className="project-button">
+        <Link to="/ExcelWorkBooks" className="project-button">
           <Project2 />
         </Link>
-        <Link to="/project3" className="project-button-long">
+        <Link to="/ChessDeck" className="project-button-long">
           <Project3 />
         </Link>
-        <Link to="/project4" className="project-button">
+        <Link to="/SpotifyAstrologyApp" className="project-button">
           <Project4 />
         </Link>
-        <Link to="/project5" className="project-button-long">
+        <Link to="/ATourismApp" className="project-button-long">
           <Project5 />
         </Link>
-        <Link to="/project6" className="project-button-long">
+        <Link to="/InstagramBots" className="project-button-long">
           <Project6 />
         </Link>
-        <Link to="/project7" className="project-button">
+        <Link to="/WeatherApp" className="project-button">
           <Project7 />
         </Link>
-        <Link to="/project8" className="project-button">
+        <Link to="/ReactNativeCreditCardApp" className="project-button">
           <Project8 />
         </Link>
-        <Link to="/project9" className="project-button">
+        <Link to="/DrinkDecider" className="project-button">
           <Project9 />
         </Link>
       </div>

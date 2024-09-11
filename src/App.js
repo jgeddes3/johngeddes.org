@@ -13,6 +13,15 @@ import PhilosophyPage from './Components/Pages/HomePages/Philosophy';
 import SocialPage from './Components/Pages/HomePages/Social';
 import RecruitersPage from './Components/Pages/HomePages/Recruiters';
 import ScrollToTop from './Components/ForEveryPage/ScrollToTop';
+import ATourismApp from './Components/Pages/ProjectPages/ATourismApp';
+import ChessDeck from './Components/Pages/ProjectPages/ChessDeck';
+import DrinkDecider from './Components/Pages/ProjectPages/DrinkDecider';
+import ExcelWorkBooks from './Components/Pages/ProjectPages/ExcelWorkBooks';
+import InstagramBots from './Components/Pages/ProjectPages/InstagramBots';
+import RamblerRegistrar from './Components/Pages/ProjectPages/RamblerRegistrar';
+import ReactNativeCreditCardApp from './Components/Pages/ProjectPages/ReactNativeCreditCardApp';
+import SpotifyAstrologyApp from './Components/Pages/ProjectPages/SpotifyAstrologyApp';
+import WeatherApp from './Components/Pages/ProjectPages/WeatherApp';
 import BabelReview from './Components/Pages/MiscPages/BabelReview';
 import GoldenSonReview from './Components/Pages/MiscPages/GoldenSonReview';
 import HowToBlowUpAPipelineReview from './Components/Pages/MiscPages/HowToBlowUpAPipelineReview';
@@ -39,6 +48,15 @@ function App() {
           <Route path="/philosophy" element={<PhilosophyPage />} />
           <Route path="/social" element={<SocialPage />} />
           <Route path="/recruiters" element={<RecruitersPage />} />
+          <Route path="/ATourismApp" element={<ATourismApp />} />
+          <Route path="/ChessDeck" element={<ChessDeck />} />
+          <Route path="/DrinkDecider" element={<DrinkDecider />} />
+          <Route path="/ExcelWorkBooks" element={<ExcelWorkBooks />} />
+          <Route path="/InstagramBots" element={<InstagramBots />} />
+          <Route path="/RamblerRegistrar" element={<RamblerRegistrar />} />
+          <Route path="/ReactNativeCreditCardApp" element={<ReactNativeCreditCardApp />} />
+          <Route path="/SpotifyAstrologyApp" element={<SpotifyAstrologyApp />} />
+          <Route path="/WeatherApp" element={<WeatherApp />} />
           <Route path="/BabelReview" element={<BabelReview />} />
           <Route path="/GoldenSonReview" element={<GoldenSonReview />} />
           <Route path="/HowToBlowUpAPipelineReview" element={<HowToBlowUpAPipelineReview />} />
