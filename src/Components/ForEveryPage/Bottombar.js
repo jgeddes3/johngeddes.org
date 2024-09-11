@@ -64,7 +64,7 @@ const Bottombar = () => {
                         <a href="https://read.cv/johngeddes" target="_blank" rel="noopener noreferrer" className="bottom-button cv-button bottomtext1">
                             CV
                         </a>
-                        <a href="https://github.com/jgeddes" target="_blank" rel="noopener noreferrer" className="bottom-button github-button bottomtext1">
+                        <a href="https://github.com/jgeddes3" target="_blank" rel="noopener noreferrer" className="bottom-button github-button bottomtext1">
                             Github
                         </a>
                     </div>

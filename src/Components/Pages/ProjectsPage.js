@@ -4,15 +4,15 @@ import Bottombar from '../ForEveryPage/Bottombar';
 import { Link } from 'react-router-dom';
 import './ProjectsPage.css';
 
-import Project1 from '../ProjectButtons/Project1';
-import Project2 from '../ProjectButtons/Project2';
-import Project3 from '../ProjectButtons/Project3';
-import Project4 from '../ProjectButtons/Project4';
-import Project5 from '../ProjectButtons/Project5';
-import Project6 from '../ProjectButtons/Project6';
-import Project7 from '../ProjectButtons/Project7';
-import Project8 from '../ProjectButtons/Project8';
-import Project9 from '../ProjectButtons/Project9';
+import Project1 from './ProjectButtons/Project1';
+import Project2 from './ProjectButtons/Project2';
+import Project3 from './ProjectButtons/Project3';
+import Project4 from './ProjectButtons/Project4';
+import Project5 from './ProjectButtons/Project5';
+import Project6 from './ProjectButtons/Project6';
+import Project7 from './ProjectButtons/Project7';
+import Project8 from './ProjectButtons/Project8';
+import Project9 from './ProjectButtons/Project9';
 
 const ProjectsPage = () => {
   return (
