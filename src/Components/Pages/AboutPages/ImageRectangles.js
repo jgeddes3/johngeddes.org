@@ -30,7 +30,7 @@ const ImageRectangles = () => {
     const getRandomImages = () => {
       let randomIndexes = [];
       while (randomIndexes.length < 2) {
-        const rand = Math.floor(Math.random() * 20);
+        const rand = Math.floor(Math.random() * images.length);
         if (randomIndexes.indexOf(rand) === -1) randomIndexes.push(rand);
       }
       return [images[randomIndexes[0]], images[randomIndexes[1]]];
@@ -38,16 +38,32 @@ const ImageRectangles = () => {
     setRandomImages(getRandomImages());
   }, [images]);
 
+  // Extract the filename (imgX) from the import path
+  const getImageName = (image) => {
+    const parts = image.split('/');
+    return parts[parts.length - 1].split('.')[0];
+  };
+
   return (
     <>
       <div className="Aboutimgrects">
         <div className="Aboutimgrect">
-          <img src={randomImages[0]} alt="Random 1"/>
+          {randomImages[0] && (
+            <>
+              <img src={randomImages[0]} alt="Random 1" />
+              <div className="image-name-label">{getImageName(randomImages[0])}</div>
+            </>
+          )}
         </div>
       </div>
       <div className="Aboutimgrects2">
         <div className="Aboutimgrect2">
-          <img src={randomImages[1]} alt="Random 2"/>
+          {randomImages[1] && (
+            <>
+              <img src={randomImages[1]} alt="Random 2" />
+              <div className="image-name-label">{getImageName(randomImages[1])}</div>
+            </>
+          )}
         </div>
       </div>
     </>
@@ -55,3 +71,4 @@ const ImageRectangles = () => {
 };
 
 export default ImageRectangles;
+
