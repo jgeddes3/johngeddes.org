@@ -3,6 +3,7 @@ import React from 'react';
 import StickyBar from './Components/ForEveryPage/Stickybar';
 import HomePage from './Components/Pages/Homepage';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import NotFoundPage from './Components/NotFoundPage';
 import AboutPage from './Components/Pages/AboutPage';
 import ProjectsPage from './Components/Pages/ProjectsPage';
 import MiscPage from './Components/Pages/MiscPage';
@@ -47,6 +48,7 @@ function App() {
           <Route path="/WayOfKingsReview" element={<WayOfKingsReview />} />
           <Route path="/TrivoliTavernReview" element={<TrivoliTavernReview />} />
           <Route path="/SparrowReview" element={<SparrowReview />} />
+          <Route component={NotFoundPage} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
