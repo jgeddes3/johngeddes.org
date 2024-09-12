@@ -7,12 +7,12 @@
 }
 
 .Aboutimgrects {
-  width: 590px;
-  height: 510px;
+  width: 700px;
+  height: 526px;
   border-radius: 48px;
   overflow: hidden;
   position: relative;
-  left: 75px;
+  left: 18px;
 }
 
 .Aboutimgrects img {
@@ -31,12 +31,12 @@
 }
 
 .Aboutimgrects2 {
-  width: 590px;
-  height: 510px;
+  width: 700px;
+  height: 526px;
   border-radius: 48px;
   overflow: hidden;
   position: relative;
-  left: 200px;
+  left: 26px;
 }
 
 .Aboutimgrects2 img {
