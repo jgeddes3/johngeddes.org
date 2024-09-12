@@ -67,7 +67,6 @@ const RecruitersPage = () => {
                     title={`Resume PDF ${index + 1}`}
                     className="resume-viewer"
                   ></iframe>
-                  {/* Invisible download button over the entire PDF */}
                   <a 
                     href={resumes[index]} 
                     download={`Resume_${index + 1}.pdf`} 

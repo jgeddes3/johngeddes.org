@@ -165,17 +165,32 @@ useEffect(() => {
                 </Link>
                 <Link to="/GoldenSonReview" className="books-friends-button">Golden Son Review
                  <div className="star-container">
-                    {renderStars(7)}
+                    {renderStars(8)}
                    </div></Link>
-                <Link to="/HowToBlowUpAPipelineReview" className="books-friends-button">How To Blow Up A Pipeline
+                <Link to="/HowToBlowUpAPipelineReview" className="books-friends-button">How To Blow Up A...
+                <div className="star-container">
+                            {renderStars(6)}
+                        </div>
                 </Link>
                 <Link to="/MorningStarReview" className="books-friends-button">Morning Star Review
                         <div className="star-container">
-                            {renderStars(8)}
+                            {renderStars(9)}
                         </div></Link>
-                <Link to="/MythOfSisyphusReview" className="books-friends-button">Myth Of Sisyphus Review</Link>
-                <Link to="/RedRisingReview" className="books-friends-button">Red Rising Review</Link>
-                <Link to="/WayOfKingsReview" className="books-friends-button">Way of Kings Review</Link>
+                <Link to="/MythOfSisyphusReview" className="books-friends-button">Myth Of Sisyphus Review
+                <div className="star-container">
+                            {renderStars(5)}
+                      </div>
+                </Link>
+                <Link to="/RedRisingReview" className="books-friends-button">Red Rising Review
+                <div className="star-container">
+                            {renderStars(7)}
+                        </div>
+                </Link>
+                <Link to="/WayOfKingsReview" className="books-friends-button">Way of Kings Review
+                <div className="star-container">
+                            {renderStars(9)}
+                        </div>
+                </Link>
               </div>
             </div>
           </div>

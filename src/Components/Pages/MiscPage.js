@@ -20,10 +20,10 @@ const MiscPage = () => {
       <div className="content-container">
         <div className="misc-item">
           
-          <Link to="/misc1" className="misc-button main-content">
+          <Link to="/Hopleaf" className="misc-button main-content">
           <Misc1 
-            headerText="My Favorite Restaurant" 
-            contentText="A wonderful place for dining with family." 
+            headerText="Review of Hopleaf" 
+            contentText="A nice little Gastropub in Andersonville" 
           />
           </Link>
         </div>

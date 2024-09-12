@@ -43,7 +43,7 @@ const Bottombar = () => {
                                 </div>
                                 <div className="overlay-right">
                                     <div className="overlay-paragraph">
-                                        Galgine for Headline, EB Garamond for body. Plus heavily inspired by other online webpages.
+                                        Galgine for Headline, EB Garamond for body. Designed and Coded by me, John Geddes.
                                     </div>
                                 </div>
                             </div>

@@ -1,0 +1,135 @@
+.restaurant-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  font-family: 'EB Garamond', serif;
+  color: #A30000;
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.rating-container {
+  margin-top: 80px;
+  display: flex;
+  justify-content: center; /* Center the stars */
+  margin-bottom: 40px;
+}
+
+.star-container {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(163, 0, 0, 1);
+  padding: 10px; /* Padding around the stars */
+  border-radius: 3px; /* Rounded corners */
+}
+
+.star-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+}
+
+.halfstar-icon {
+  width: 15px;
+  height: 30px;
+  margin-right: 5px;
+}
+
+ /* Photos Must be 3x2 */
+.MainPhoto-container {
+  width: 100%;
+  height: 640px;
+  margin-bottom: 40px;
+}
+
+.MainPhoto-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  border-radius: 10px;
+}
+.image-with-caption {
+  display: block; /* Separate block for the image and caption */
+  width: 40%; /* Ensure the container takes up 40% of the parent */
+}
+
+.image-with-caption img {
+  width: 100%; /* Ensure the image takes full width of its container */
+  height: 320px; /* Height for the image */
+  object-fit: cover;
+  border-radius: 20px;
+}
+.image-caption {
+  font-family: 'EB Garamond', serif;
+  font-size: 10px;
+  color: #5e0000;
+  margin-top: 5px;
+  text-align: left;
+}
+
+/* Updated container to align elements correctly */
+.paragraph-photo-right-container,
+.paragraph-photo-left-container {
+  display: flex;
+  justify-content: space-between; /* Space between the paragraph and image */
+  margin-bottom: 20px;
+  align-items: flex-start; /* Align the items at the top */
+}
+.Seperator-photo-right, 
+.Seperator-photo-left{
+  width: 60%;
+}  
+.Seperator-photo-right p,
+.Seperator-photo-left p {
+  font-family: 'EB Garamond', serif;
+  font-size: 24px;
+  color: #720000;
+  margin-right: 20px;
+  text-align: left;
+  line-height: 1.5;
+  margin: 20px;
+}
+
+.paragraph-photo-left-container img {
+  order: -1; /* Move image to the left */
+}
+
+.paragraph-only-container {
+  width: 96%;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+
+.paragraph-only-container p {
+  font-family: 'EB Garamond', serif;
+  font-size: 24px;
+  line-height: 1.5;
+  color: #720000;
+  text-align: left;
+}
+
+
+.author-links {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.author-links p {
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  color: black;
+}
+
+.author-links a {
+  text-decoration: none;
+  color: black;
+}
+
+.author-links a:hover {
+  text-decoration: underline;
+  color:#720000;
+}
