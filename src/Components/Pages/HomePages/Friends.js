@@ -197,11 +197,11 @@ useEffect(() => {
         </div>
 
       <div id="centerpieceFriends">
-          <h1 className='main-content'>Bars I like and would like</h1>
+          <h1 className='main-content'>My Favs and Soon to be Favs</h1>
       </div> 
        <div className="friends-description-container">
         <p className="projects-description main-content">
-        In this section, on the right I have placed bars I like and on the left I have placed bars I have been to and reviewed!
+        In this section, on the right I have placed restaurants and bars I like and on the left I have placed restaurants and bars I have been to and reviewed!
         </p>
       </div>
 
@@ -232,6 +232,11 @@ useEffect(() => {
         <Link to="/TrivoliTavernReview" className="books-friends-button">Trivoli Tavern Review
         <div className="star-container">
             {renderStars(10)}
+          </div>
+        </Link>
+        <Link to="/Hopleaf" className="books-friends-button">Hopleaf Review
+        <div className="star-container">
+            {renderStars(9)}
           </div>
         </Link>
       </div>

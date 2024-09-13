@@ -25,7 +25,7 @@ const ResTemplate = () => {
       <div id="centerpiece2" className='main-content'>
         <h1>Template</h1>
       </div>
-      <div className="restaurant-container">
+      <div className="restaurant-container main-content">
         <div className="rating-container">
           <div className="star-container">
             {renderStars(7)}
@@ -54,15 +54,19 @@ const ResTemplate = () => {
             and more.
           </p>
           </div>
+          <div className = "image-with-caption">
           <img src={imageExample} alt="Hopleaf Interior" />
           <p className="image-caption">Hopleaf Interior</p>
+          </div>
         </div>
 
         {/* Paragraph with photo on the left */}
         <div className="paragraph-photo-left-container">
+            <div className = "image-with-caption">
           <img src={imageExample} alt="Hopleaf Dish" />
           <p className="image-caption">Hopleaf Dish</p>
-        <div className = "Seperator-photo-right">
+          </div>
+        <div className = "Seperator-photo-left">
           <p>
             Another paragraph, but this time the photo is on the left. This could
             be a detailed review of the food, drinks, or anything specific to the experience.
@@ -78,6 +82,18 @@ const ResTemplate = () => {
             discuss your overall experience, pricing, and whether you would recommend
             the restaurant.
           </p>
+        </div>
+        {/* Recipes */}
+        <div className="recipes">
+          <h2>Hopleaf Recipes</h2>
+          <p2>Serves: 8 people | Prep Time: 15 Minutes | Cook Time: 3 hours</p2>
+          <p>-</p>
+          <p>-</p>
+          <p>-</p>
+          <h2>Hopleaf Recipes</h2>
+          <p></p>
+          <p></p>
+          <p></p>
         </div>
       </div>
       <Bottombar />

@@ -32,6 +32,8 @@ import WayOfKingsReview from './Components/Pages/MiscPages/WayOfKingsReview';
 import SparrowReview from './Components/Pages/MiscPages/SparrowReview';
 import TrivoliTavernReview from './Components/Pages/MiscPages/TrivoliTavernReview';
 import Hopleaf from './Components/Pages/MiscPages/Hopleaf';
+import AmazingBurgerRecipe from './Components/Pages/MiscPages/AmazingBurgerRecipe';
+import TavaFreshIndian from './Components/Pages/MiscPages/TavaFreshIndian';
 
 function App() {
   return (
@@ -59,8 +61,12 @@ function App() {
           <Route path="/ReactNativeCreditCardApp" element={<ReactNativeCreditCardApp />} />
           <Route path="/SpotifyAstrologyApp" element={<SpotifyAstrologyApp />} />
           <Route path="/WeatherApp" element={<WeatherApp />} />
-          {/* Misc. Page*/}
+          {/* Misc. Page Resturants*/}
           <Route path="/Hopleaf" element={<Hopleaf />} />
+          <Route path="/TrivoliTavernReview" element={<TrivoliTavernReview />} />
+          <Route path="/SparrowReview" element={<SparrowReview />} />
+          <Route path="/TavaFreshIndian" element={<TavaFreshIndian />} />
+          {/* Misc. Page Books*/}
           <Route path="/BabelReview" element={<BabelReview />} />
           <Route path="/GoldenSonReview" element={<GoldenSonReview />} />
           <Route path="/HowToBlowUpAPipelineReview" element={<HowToBlowUpAPipelineReview />} />
@@ -68,8 +74,8 @@ function App() {
           <Route path="/MythOfSisyphusReview" element={<MythOfSisyphusReview />} />
           <Route path="/RedRisingReview" element={<RedRisingReview />} />
           <Route path="/WayOfKingsReview" element={<WayOfKingsReview />} />
-          <Route path="/TrivoliTavernReview" element={<TrivoliTavernReview />} />
-          <Route path="/SparrowReview" element={<SparrowReview />} />
+          {/* Misc. Page Recipes*/}
+          <Route path="/AmazingBurgerRecipe" element={<AmazingBurgerRecipe />} />
           <Route component={NotFoundPage} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

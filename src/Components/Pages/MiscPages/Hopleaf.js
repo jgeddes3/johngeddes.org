@@ -26,7 +26,7 @@ const Hopleaf = () => {
       <div id="centerpiece2" className='main-content'>
         <h1>Hopleaf</h1>
       </div>
-      <div className="restaurant-container">
+      <div className="restaurant-container main-content">
         <div className="rating-container">
           <div className="star-container">
             {renderStars(9)}

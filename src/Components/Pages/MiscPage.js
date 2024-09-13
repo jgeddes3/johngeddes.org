@@ -28,10 +28,18 @@ const MiscPage = () => {
           </Link>
         </div>
         <div className="misc-item">
-          <Link to="/misc2" className="misc-button main-content">
+          <Link to="/AmazingBurgerRecipe" className="misc-button main-content">
           <Misc2 
-            headerText="My Favorite Recipe" 
-            contentText="A nice hot chicken." 
+            headerText="My amazing and intense Burger Recipe" 
+            contentText="Are you looking to impress your friends? Try this burger recipe in order to step up your game." 
+          />
+          </Link>
+        </div>
+        <div className="misc-item">
+          <Link to="/TavaFreshIndian" className="misc-button main-content">
+          <Misc1 
+            headerText="Tava Fresh Taste of India" 
+            contentText="A very good indian option in the Chicago-Land area" 
           />
           </Link>
         </div>

@@ -78,6 +78,7 @@ h1 {
   justify-content: space-between; /* Space between the paragraph and image */
   margin-bottom: 20px;
   align-items: flex-start; /* Align the items at the top */
+  object-fit: cover;
 }
 .Seperator-photo-right, 
 .Seperator-photo-left{
@@ -101,7 +102,7 @@ h1 {
 .paragraph-only-container {
   width: 96%;
   margin: 0 auto;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .paragraph-only-container p {
@@ -132,4 +133,51 @@ h1 {
 .author-links a:hover {
   text-decoration: underline;
   color:#720000;
+}
+
+.recipes {
+  width: 80%;
+  margin: 20px auto; /* Center the container and add margin above and below */
+  padding: 30px;
+  background-color: #e5d8cb;
+  border-radius: 10px;
+}
+
+.recipes h2 {
+  font-family: 'Galgine', serif;
+  font-size: 30px;
+  color: #A30000;
+  margin-bottom: 20px; /* Space between the header and the paragraph */
+}
+
+.recipes p {
+  font-family: 'EB Garamond', serif;
+  font-size: 24px;
+  color: #A30000;
+  text-align: left;
+  margin-bottom: 0px;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-top: 0px; /* Remove margin between paragraphs */
+}
+.recipes p2 {
+  font-size: 10px;
+  font-family: 'EB Garamond', serif;
+  margin-bottom: 10px;
+  color: #720000;
+}
+
+.paragraph-wrap {
+  width: 96%;
+  margin: 0 auto;
+  margin-top: -42px;
+  margin-bottom: 30px;
+}
+
+.paragraph-wrap p {
+  font-family: 'EB Garamond', serif;
+  font-size: 24px;
+  line-height: 1.5;
+  color: #720000;
+  text-align: left;
 }
