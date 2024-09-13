@@ -38,7 +38,9 @@ const ResTemplate = () => {
             <a href="https://www.yelp.com/user_details_reviews_self?userid=fgyF6oOG788lkuxtjUWFFg" target="_blank" rel="noopener noreferrer"> Yelp </a>
           </p>
         </div>
-
+        {/*Link down to Recipe*/}
+        <a href="#CHANGE THIS">here</a>
+        <div id="CHANGE THIS" className="CHANGE THIS"></div>
         {/* Photo Container */}
         <div className="MainPhoto-container">
           <img src={imageExample} alt="Hopleaf Example" />

@@ -65,7 +65,7 @@ const AmazingBurgerRecipe = () => {
         <div id="BurgerRecipelink" className="BurgerRecipelink">
         <div className="recipes">
           <h2>THE AMAZING BURGERS</h2>
-          <p2>Serves: 8 people | Prep Time: 15 Minutes | Cook Time: 3 hours</p2>
+          <p2>Serves: 8 people | Prep Time: 30 Minutes | Cook Time: 14 minutes</p2>
           <p>-2 lb Ground beef</p>
           <p>-Steak Seasoning</p>
           <p>-Worcestershire sauce</p>

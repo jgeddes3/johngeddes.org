@@ -44,6 +44,14 @@ const MiscPage = () => {
           </Link>
         </div>
         <div className="misc-item">
+          <Link to="/MimosaRecipe" className="misc-button main-content">
+          <Misc2 
+            headerText="The Best Mimosa Recipe Ever" 
+            contentText="Do you not like mimosas? You may not be making them right." 
+          />
+          </Link>
+        </div>
+        <div className="misc-item">
           <Link to="/RedRisingReview" className="misc-button main-content">
           <Misc3 
             headerText="My Favorite Book!" 
