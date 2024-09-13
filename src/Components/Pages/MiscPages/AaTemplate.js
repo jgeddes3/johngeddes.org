@@ -75,6 +75,7 @@ const ResTemplate = () => {
           </p>
           </div>
         </div>
+        
 
         {/* Paragraph Only Container */}
         <div className="paragraph-only-container">
@@ -83,6 +84,16 @@ const ResTemplate = () => {
             form reviews without any photos to accompany the content. Here, you can
             discuss your overall experience, pricing, and whether you would recommend
             the restaurant.
+          </p>
+        </div>
+        {/* Paragraph Wrap */}
+        <div className="paragraph-wrap">
+          <p>
+          combinations and spices, but the foundation of my dad’s recipe, with that egg and Worcestershire combo, remains unchanged. 
+          I’ve tried adding garlic, onion, even a splash of soy sauce at times, but those two ingredients are always the base. 
+          It’s a simple recipe, but it’s one that never fails. 
+          Alright here is the recipe. 
+          Oh also it makes 6-8 burgers, or 4 half pound burgers.
           </p>
         </div>
         {/* Recipes */}

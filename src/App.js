@@ -35,6 +35,7 @@ import Hopleaf from './Components/Pages/MiscPages/Hopleaf';
 import AmazingBurgerRecipe from './Components/Pages/MiscPages/AmazingBurgerRecipe';
 import TavaFreshIndian from './Components/Pages/MiscPages/TavaFreshIndian';
 import MimosaRecipe from './Components/Pages/MiscPages/MimosaRecipe';
+import CrockPotChilli from './Components/Pages/MiscPages/CrockPotChilli';
 
 function App() {
   return (
@@ -78,6 +79,7 @@ function App() {
           {/* Misc. Page Recipes*/}
           <Route path="/AmazingBurgerRecipe" element={<AmazingBurgerRecipe />} />
           <Route path="/MimosaRecipe" element={<MimosaRecipe/>} />
+          <Route path="/CrockPotChilli" element={<CrockPotChilli/>} />
           <Route component={NotFoundPage} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

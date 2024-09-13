@@ -50,12 +50,32 @@ const MiscPage = () => {
             contentText="Do you not like mimosas? You may not be making them right." 
           />
           </Link>
+          <Link to="/CrockPotChilli" className="misc-button main-content">
+          <Misc2 
+            headerText="The Best Crock Pot Bear Chili" 
+            contentText="The best chili you've never had. " 
+          />
+          </Link>
+        </div>
+          <Link to="/WayOfKingsReview" className="misc-button main-content">
+          <Misc3 
+            headerText="The Way of Kings" 
+            contentText="My honest book review" 
+          />
+          </Link>
+        <div className="misc-item">
+          <Link to="/MythOfSisyphusReview" className="misc-button main-content">
+          <Misc3 
+            headerText="The Myth of Sisyphus" 
+            contentText="My honest book review" 
+          />
+          </Link>
         </div>
         <div className="misc-item">
           <Link to="/RedRisingReview" className="misc-button main-content">
           <Misc3 
-            headerText="My Favorite Book!" 
-            contentText="Red Rising" 
+            headerText="Red Rising" 
+            contentText="My honest book review" 
           />
           </Link>
         </div>
