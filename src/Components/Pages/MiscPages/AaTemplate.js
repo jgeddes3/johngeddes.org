@@ -108,6 +108,20 @@ const ResTemplate = () => {
           <p></p>
           <p></p>
         </div>
+        {/* Cover For Books */}
+        <div className="paragraph-photo-right-container">
+        <div className = "Seperator-photo-right">
+          <p>
+            This is where the text for the paragraph will go. This description
+            can highlight the ambiance of the restaurant, the quality of service,
+            and more.
+          </p>
+          </div>
+          <div className = "Cover-with-caption">
+          <img src={imageExample} alt="Hopleaf Interior" />
+          <p className="Cover-caption">Hopleaf Interior</p>
+          </div>
+        </div>
       </div>
       <Bottombar />
     </>

@@ -4,7 +4,7 @@ import Bottombar from '../../ForEveryPage/Bottombar';
 import './AaMiscTemplates.css';
 import FullStar from '../HomePages/FriendsImages/WhiteStar.png';
 import HalfStar from '../HomePages/FriendsImages/WhiteStarHalf.png'; 
-import imageExample from './MiscPageImages/Example.jpg'
+import TheWayofKings from './MiscPageImages/TheWayofKings/TheWayofKings.jpg'
 
 const WayOfKingsReview = () => {
   const renderStars = (rating) => {
@@ -38,67 +38,37 @@ const WayOfKingsReview = () => {
           </p>
         </div>
        
-        {/* Paragraph with photo on the right */}
+        {/* Cover For Books */}
         <div className="paragraph-photo-right-container">
         <div className = "Seperator-photo-right">
           <p>
-            This is where the text for the paragraph will go. This description
-            can highlight the ambiance of the restaurant, the quality of service,
-            and more.
+          Brandon Sanderson does it again. 
+          Sucks me into a massive series only for it to be probably my favorite fantasy series I’ve read to this date. 
+          To tell the story about how I found it really just shows how the smallest things can have such a drastic impact on your life. 
+          I was at a my sisters 49ers vs Chiefs super bowl party talking with people I have never met and I will never talk to again and this guy brings up Red Rising. 
+          Now the Red Rising series is my favorite and will probably always be my favorite Science Fiction book, so this perked my ears right up. 
+          We got to talking and I recommended him some books (name of the wind) and he recommended me this book right here. 
           </p>
+          <p>Initially, I didn’t even think I would read it, but I bought it and it didn’t speak to me. Not at all, I just couldn't relate to Kal while he was in Amarams </p>
           </div>
-          <div className = "image-with-caption">
-          <img src={imageExample} alt="Hopleaf Interior" />
-          <p className="image-caption">Hopleaf Interior</p>
+          <div className = "Cover-with-caption">
+          <img src={TheWayofKings} alt="Way of Kings" />
+          <p className="Cover-caption">The Way of Kings by Brandon Sanderson</p>
           </div>
         </div>
-
-        {/* Paragraph with photo on the left */}
-        <div className="paragraph-photo-left-container">
-            <div className = "image-with-caption">
-          <img src={imageExample} alt="Hopleaf Dish" />
-          <p className="image-caption">Hopleaf Dish</p>
-          </div>
-        <div className = "Seperator-photo-left">
+        <div className="paragraph-wrap">
           <p>
-            Another paragraph, but this time the photo is on the left. This could
-            be a detailed review of the food, drinks, or anything specific to the experience.
+          army. But I stuck with it and really got into it when he became a slave. I think this is what you would call a slow start but the moment it picks up I couldn’t put it down. The attention to detail is crazy, and I am currently writing this review after I finished Rhythm of war, the amount of call backs is insane. I could only read this series for a year and I don’t think I would ever get bored.
           </p>
-          </div>
         </div>
         
-
         {/* Paragraph Only Container */}
         <div className="paragraph-only-container">
           <p>
-            This is a container for only paragraphs. It allows you to write longer
-            form reviews without any photos to accompany the content. Here, you can
-            discuss your overall experience, pricing, and whether you would recommend
-            the restaurant.
+          The only downfall I’ve heard people say to me that I do get is the book is long. I don’t mind this in the least bit. There are very few things I would cut. I do understand this criticism however, it can seem daunting to read a book that long especially when you start. My only solace is it is so worth it to finish the series.
           </p>
         </div>
-        {/* Paragraph Wrap */}
-        <div className="paragraph-wrap">
-          <p>
-          combinations and spices, but the foundation of my dad’s recipe, with that egg and Worcestershire combo, remains unchanged. 
-          I’ve tried adding garlic, onion, even a splash of soy sauce at times, but those two ingredients are always the base. 
-          It’s a simple recipe, but it’s one that never fails. 
-          Alright here is the recipe. 
-          Oh also it makes 6-8 burgers, or 4 half pound burgers.
-          </p>
-        </div>
-        {/* Recipes */}
-        <div className="recipes">
-          <h2>Hopleaf Recipes</h2>
-          <p2>Serves: 8 people | Prep Time: 15 Minutes | Cook Time: 3 hours</p2>
-          <p>-</p>
-          <p>-</p>
-          <p>-</p>
-          <h2>Hopleaf Recipes</h2>
-          <p></p>
-          <p></p>
-          <p></p>
-        </div>
+
       </div>
       <Bottombar />
     </>

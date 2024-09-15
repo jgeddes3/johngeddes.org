@@ -27,7 +27,7 @@ const MimosaRecipe = () => {
           </p>
         </div>
         <div className="MainPhoto-container">
-          <img src={Cava1} alt="Hopleaf Example" />
+          <img src={Mimosa1} alt="Hopleaf Example" />
           <p className="image-caption">Mimosas (Not taken by me, will change when making mimosas)</p> 
         </div>
         <div className="paragraph-only-container">
@@ -42,8 +42,8 @@ const MimosaRecipe = () => {
         </div>
         <div className="paragraph-photo-left-container">
             <div className = "image-with-caption">
-          <img src={Mimosa1} alt="Cava" />
-          <p className="image-caption">Segura Viudas Rose</p>
+          <img src={OrangeJuice1} alt="Cava" />
+          <p className="image-caption">Rose Trader Joes Orange Juice</p>
           </div>
         <div className = "Seperator-photo-left">
           <p>
@@ -60,9 +60,9 @@ const MimosaRecipe = () => {
           </p>
           </div>
           <div className = "image-with-caption">
-          <img src={OrangeJuice1} alt="Hopleaf Interior" />
-          <p className="image-caption">Trader Joes Orange Juice</p>
-          </div>
+          <img src={Cava1} alt="Hopleaf Interior" />
+          <p className="image-caption">Segura Viudas</p>
+          </div> 
         </div>
         <div className="paragraph-only-container">
           <p>

@@ -181,3 +181,23 @@ h1 {
   color: #720000;
   text-align: left;
 }
+
+
+.Cover-with-caption {
+  display: block; /* Separate block for the image and caption */
+  width: 40%; /* Ensure the container takes up 40% of the parent */
+}
+
+.Cover-with-caption img {
+  width: 100%; /* Ensure the image takes full width of its container */
+  height: 600px; /* Height for the image */
+  object-fit: cover;
+  border-radius: 20px;
+}
+.Cover-caption {
+  font-family: 'EB Garamond', serif;
+  font-size: 10px;
+  color: #5e0000;
+  margin-top: 5px;
+  text-align: left;
+}
