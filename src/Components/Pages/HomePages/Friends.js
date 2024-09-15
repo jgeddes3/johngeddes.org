@@ -158,6 +158,16 @@ useEffect(() => {
           <div className="books-friends-right">
             <div className="books-friends-rect-right">
               <div className="books-friends-button-container">
+                <Link to="/WayOfKingsReview" className="books-friends-button">Way of Kings Review
+                <div className="star-container">
+                            {renderStars(9)}
+                        </div>
+                </Link>
+                <Link to="/MythOfSisyphusReview" className="books-friends-button">Myth Of Sisyphus Review
+                <div className="star-container">
+                            {renderStars(5)}
+                      </div>
+                </Link>
                 <Link to="/BabelReview" className="books-friends-button">Babel Review
                           <div className="star-container">
                             {renderStars(10)}
@@ -176,21 +186,13 @@ useEffect(() => {
                         <div className="star-container">
                             {renderStars(9)}
                         </div></Link>
-                <Link to="/MythOfSisyphusReview" className="books-friends-button">Myth Of Sisyphus Review
-                <div className="star-container">
-                            {renderStars(5)}
-                      </div>
-                </Link>
+                
                 <Link to="/RedRisingReview" className="books-friends-button">Red Rising Review
                 <div className="star-container">
                             {renderStars(7)}
                         </div>
                 </Link>
-                <Link to="/WayOfKingsReview" className="books-friends-button">Way of Kings Review
-                <div className="star-container">
-                            {renderStars(9)}
-                        </div>
-                </Link>
+                
               </div>
             </div>
           </div>
