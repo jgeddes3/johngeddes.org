@@ -163,14 +163,26 @@
       right: 14px; /* Adjust right position */
     }
   
-    .text-top, .text-bottom, .text-bottom5 {
-      font-size: 12px; /* Shrink font size */
-      top: 13.5px; /* Adjust top position */
-      left: 4.5px; /* Adjust left position */
+    .realstyle {
+        font-size: 25px;
     }
+    .realstylecontainer{
+        height: 0%;
+    }
+    .text-bottom5 {
+        width: 60px; /* Keep the same width */
+        height: 12px; /* Keep the same height */
+        font-size: 8px; /* Shrink font size */
+        top: 5px; /* Adjust top position */
+        left: 9px; /* Adjust left position */
+      }
   
-    .rec_container, .sqrphil {
-      width: 259.5px; /* Shrink width by 0.5 */
+    .rec_container {
+      width: 299.2px; /* Shrink width by 0.5 */
+      height: 274px; /* Shrink height by 0.5 */
+    }
+    .sqrphil{
+    width: 259.5px; /* Shrink width by 0.5 */
       height: 204.5px; /* Shrink height by 0.5 */
     }
   

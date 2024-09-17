@@ -7,7 +7,7 @@ const Largebutton3 = () => {
   return (
     <button className="large-btn3" id="large-btn3">
         <div className="inner-rectangle6">
-        <span className="text-bottom6">Tiktok Youtube</span>
+        <span className="TextBottomL6">Tiktok Youtube</span>
       </div>
       <div className="image-container-left">
         <img src={img_1237} alt="left" className="img-diag-right" />

@@ -11,7 +11,7 @@ const Largebutton1 = () => {
     <button className="large-btn" id="large-btn1">
       <div className="inner-rectangle">
         <span className="text-topL">Click here if you are</span>
-        <span className="text-bottomL">Recruiters</span>
+        <span className="TextBottomL1">Recruiters</span>
       </div>
       <div className="rectangle1"></div>
       <div className="rectangle2">

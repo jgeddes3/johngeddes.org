@@ -79,7 +79,7 @@
 @media (max-width: 720px) and (max-height: 1280px) {
   #centerpiece {
     width: 100%; /* Shrink width by 0.5 */
-    height: 148.5px; /* Shrink height by 0.5 */
+    height: 200px; /* Shrink height by 0.5 */
   }
 
   #centerpiece h1, #centerpiece1 h1 {

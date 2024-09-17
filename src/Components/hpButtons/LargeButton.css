@@ -47,7 +47,7 @@
   left: 25px;
 }
 
-.text-bottomL {
+.TextBottomL1 {
   width: 136px;
   height: 36px;
   color: #30343F;
@@ -91,7 +91,7 @@
   left: 25px;
 }
 
-.text-bottom3 {
+.TextBottomL3 {
   width: 136px;
   height: 36px;
   color: #30343F;
@@ -134,7 +134,7 @@
   right: 28px;
 }
 
-.text-bottom6 {
+.TextBottomL6 {
   width: 140px;
   height: 68px;
   color: #30343F;
@@ -211,12 +211,20 @@
       left: 12.5px; /* Adjust left position */
     }
   
-    .text-bottomL .text-bottom3, .text-bottom6 {
-      width: 68px; /* Keep the same width */
-      height: 18px; /* Keep the same height */
-      font-size: 5px; /* Shrink font size */
+    .TextBottomL1, .TextBottomL3 {
+      width: 60px; /* Keep the same width */
+      height: 12px; /* Keep the same height */
+      font-size: 12px; /* Shrink font size */
+      top: 12px; /* Adjust top position */
+      left: 9px; /* Adjust left position */
+    }
+
+    .TextBottomL6 {
+      width: 60px; /* Keep the same width */
+      height: 12px; /* Keep the same height */
+      font-size: 8px; /* Shrink font size */
       top: 5px; /* Adjust top position */
-      left: 5px; /* Adjust left position */
+      left: 9px; /* Adjust left position */
     }
   
     .image-container {
