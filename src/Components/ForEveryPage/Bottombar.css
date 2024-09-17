@@ -210,3 +210,81 @@
     align-items: center;
   }
 }
+@media (max-width: 768px) {
+  .group-left,
+  .group-right {
+  gap: 10px;
+}
+.spotifyrect1 {
+  width: 234px;
+  height: 47px;
+  border-radius: 216px;
+  background: #FFF6ED;
+}
+
+.bottomtext1 {
+  color: #A30000;
+  font-family: 'Galgine', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.name1 {
+  width: 60px;
+  height: 14px;
+}
+
+.ellipse5 {
+  width: 3.5px;
+  height: 3.5px;
+  background: #A30000;
+  border-radius: 50%;
+}
+
+.button-text1 {
+  width: 48px;
+  height: 14px;
+}
+.overlay {
+  width: 284.64px; /* Halved and reduced by 12% from 646px */
+  height: 99.44px; /* Halved and reduced by 12% from 226px */
+  border-radius: 14.96px; /* Halved and reduced by 12% from 34px */
+
+}
+
+.overlay-left, .overlay-right {
+  padding: 4.4px; /* Halved and reduced by 12% from 10px */
+}
+
+.overlay-text,
+.overlay-text-large,
+.overlay-paragraph {
+  font-size: 12.32px; /* Halved and reduced by 12% from 28px */
+}
+
+.overlay-paragraph {
+  height: 69.96px; /* Halved and reduced by 12% from 159px */
+}
+
+.elsewhereB {
+  width: 54.12px; /* Halved and reduced by 12% from 123px */
+  height: 14.08px; /* Halved and reduced by 12% from 32px */
+}
+
+.to-the-rightB {
+  width: 54.12px; /* Halved and reduced by 12% from 123px */
+  height: 14.08px; /* Halved and reduced by 12% from 32px */
+}
+
+.bottom-button {
+  width: 88.44px; /* Halved and reduced by 12% from 201px */
+  height: 14.08px; /* Halved and reduced by 12% from 32px */
+  font-size: 8.8px; /* Halved and reduced by 12% from 20px */
+}
+
+.email, .phone {
+  width: 96.36px; /* Halved and reduced by 12% from 219px */
+  height: 14.08px; /* Halved and reduced by 12% from 32px */
+  font-size: 8.8px; /* Halved and reduced by 12% from 20px */
+}
+}

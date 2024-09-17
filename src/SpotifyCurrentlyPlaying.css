@@ -50,3 +50,28 @@
   text-decoration: underline;
 }
 
+
+@media (max-width: 720px) {
+  .spotify-currently-playing {
+  padding: 0px; /* Halved */
+}
+
+.spotify-logo {
+  width: 25px; /* Halved and reduced by 12% from 50px */
+  height: 25px; /* Halved from 50px */
+  margin-right: 10px; /* Halved from 20px */
+  margin-left: 10px; /* Halved from 15px */
+}
+
+
+.header {
+  font-size: 9px; /* Halved from 18px */
+  margin-bottom: -20px; /* Halved from 15px */
+}
+
+.track-details {
+  font-size: 11px; /* Halved from 22px */
+  max-width: 220px; /* Halved and reduced by 12% from 500px */
+}
+
+}

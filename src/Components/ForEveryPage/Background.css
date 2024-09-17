@@ -73,3 +73,48 @@ body {
   filter: blur(150px); 
   border-radius: 100px;
 }
+@media (max-width: 720px) and (max-height: 1280px) {
+
+  #orb1 {
+  width: 220.88px; /* Halved and reduced by 12% */
+  height: 206.64px; /* Halved and reduced by 12% */
+  background: rgba(84, 190, 127, 0.50);
+}
+
+#orb2 {
+  width: 302.64px; /* Halved and reduced by 12% */
+  height: 296.64px; /* Halved and reduced by 12% */
+  background: #A9D563;
+}
+
+#orb3 {
+  width: 387.28px; /* Halved and reduced by 12% */
+  height: 368.72px; /* Halved and reduced by 12% */
+  background: rgba(213, 172, 78, 0.50);
+}
+
+#orb4 {
+  width: 307.52px; /* Halved and reduced by 12% */
+  height: 287.76px; /* Halved and reduced by 12% */
+  background: rgba(188, 71, 73, 0.50);
+}
+
+#orb5 {
+  width: 307.52px; /* Halved and reduced by 12% */
+  height: 287.76px; /* Halved and reduced by 12% */
+  background: rgba(200, 100, 150, 0.50);
+}
+
+#orb6 {
+  width: 214.64px; /* Halved and reduced by 12% */
+  height: 208.64px; /* Halved and reduced by 12% */
+  background: rgba(50, 50, 200, 0.50);
+}
+
+#orb8 {
+  width: 308px; /* Halved and reduced by 12% */
+  height: 308px; /* Halved and reduced by 12% */
+  background: rgba(0, 128, 128, 0.50);  
+}
+
+}
