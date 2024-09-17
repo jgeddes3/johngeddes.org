@@ -1,5 +1,5 @@
 import React from 'react';
-import './Largebutton1.css';
+import './LargeButton.css';
 import './ComplexLayoutL.css';
 import img_1230 from './img_1230.png'; 
 import img_1231 from './img_1231.png'; 
@@ -10,8 +10,8 @@ const Largebutton1 = () => {
   return (
     <button className="large-btn" id="large-btn1">
       <div className="inner-rectangle">
-        <span className="text-top">Click here if you are</span>
-        <span className="text-bottom">Recruiters</span>
+        <span className="text-topL">Click here if you are</span>
+        <span className="text-bottomL">Recruiters</span>
       </div>
       <div className="rectangle1"></div>
       <div className="rectangle2">

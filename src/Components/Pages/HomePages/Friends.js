@@ -165,7 +165,7 @@ useEffect(() => {
                 </Link>
                 <Link to="/MythOfSisyphusReview" className="books-friends-button">Myth Of Sisyphus Review
                 <div className="star-container">
-                            {renderStars(5)}
+                            {renderStars(7)}
                       </div>
                 </Link>
                 <Link to="/BabelReview" className="books-friends-button">Babel Review

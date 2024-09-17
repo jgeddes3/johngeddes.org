@@ -1,5 +1,5 @@
 import React from 'react';
-import './Smallbutton2.css';
+import './SmallButton.css';
 import img_1235 from './img_1235.png';
 
 const Smallbutton2 = () => {

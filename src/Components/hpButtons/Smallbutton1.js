@@ -1,5 +1,5 @@
 import React from 'react';
-import './Smallbutton1.css';
+import './SmallButton.css';
 import './ComplexLayoutS.css';
 import img_1233 from './img_1233.png'; 
 

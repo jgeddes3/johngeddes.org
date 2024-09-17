@@ -82,3 +82,70 @@
     bottom: 0;
     right: 22px;
 }
+
+/* Shrink elements proportionally for 720x1280 display */
+@media (max-width: 720px) and (max-height: 1280px) {
+  .rectangle11 {
+    width: 227.5px; /* Shrink width by 0.5 */
+    height: 212.5px; /* Shrink height by 0.5 */
+    border-radius: 5.5px 0px 10px 0px; /* Shrink border radius by 0.5 */
+    bottom: 0;
+    right: 0;
+  }
+
+  .rectangle12 {
+    width: 227.5px; /* Shrink width by 0.5 */
+    height: 40px; /* Shrink height by 0.5 */
+    border-radius: 5.5px 0px 0px 0px; /* Shrink border radius by 0.5 */
+    bottom: 172.5px; /* Adjust bottom position */
+    right: 0;
+  }
+
+  .circle-img1 {
+    width: 35px; /* Shrink size by 0.5 */
+    height: 35px; /* Shrink size by 0.5 */
+    margin-right: 10px; /* Adjust margin */
+    right: 174.5px; /* Adjust right position */
+    bottom: 176.5px; /* Adjust bottom position */
+  }
+
+  .rectangle13 {
+    width: 46.5px; /* Shrink width by 0.5 */
+    height: 10px; /* Shrink height by 0.5 */
+    border-radius: 5px; /* Shrink border radius */
+    bottom: 187.5px; /* Adjust bottom position */
+    right: 106.5px; /* Adjust right position */
+  }
+
+  .rectangle14 {
+    width: 93.5px; /* Shrink width by 0.5 */
+    height: 10px; /* Shrink height by 0.5 */
+    border-radius: 5px 0px 0px 5px; /* Shrink border radius */
+    bottom: 187.5px; /* Adjust bottom position */
+    right: 0;
+  }
+
+  .rectangle15 {
+    width: 187.5px; /* Shrink width by 0.5 */
+    height: 10px; /* Shrink height by 0.5 */
+    border-radius: 5px 0px 0px 5px; /* Shrink border radius */
+    bottom: 139.5px; /* Adjust bottom position */
+    right: 0;
+  }
+
+  .rectangle16 {
+    width: 145px; /* Shrink width by 0.5 */
+    height: 10px; /* Shrink height by 0.5 */
+    border-radius: 5px; /* Shrink border radius */
+    bottom: 115.5px; /* Adjust bottom position */
+    right: 42.5px; /* Adjust right position */
+  }
+
+  .rectangle17 {
+    width: 176.5px; /* Shrink width by 0.5 */
+    height: 98px; /* Shrink height by 0.5 */
+    border-radius: 4px 4px 0px 0px; /* Shrink border radius */
+    bottom: 0;
+    right: 11px; /* Adjust right position */
+  }
+}

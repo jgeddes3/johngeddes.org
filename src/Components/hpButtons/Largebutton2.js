@@ -1,5 +1,5 @@
 import React from 'react';
-import './Largebutton2.css';
+import './LargeButton.css';
 import img_1234 from './img_1234.jpg';
 
 const Largebutton2 = () => {

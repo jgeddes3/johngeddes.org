@@ -89,3 +89,76 @@
     bottom: 0;
     right: 0;
 }
+
+/* Shrink elements proportionally for 720x1280 display with 12% smaller width */
+@media (max-width: 720px) and (max-height: 1280px) {
+  .rectangle1 {
+    width: 274.12px; /* Original width was 311.5px, reduced by 12% */
+    height: 212.5px; /* Keep the same height */
+    border-radius: 5.5px 0px 10px 0px; /* Keep border radius */
+    bottom: 0;
+    right: 0;
+  }
+
+  .rectangle2 {
+    width: 274.12px; /* Original width was 311.5px, reduced by 12% */
+    height: 40px; /* Keep the same height */
+    border-radius: 5.5px 0px 0px 0px; /* Keep border radius */
+    bottom: 172.5px; /* Keep the same bottom position */
+    right: 0;
+  }
+
+  .rectangle3 {
+    width: 50.16px; /* Original width was 57px, reduced by 12% */
+    height: 10px; /* Keep the same height */
+    border-radius: 5px; /* Keep border radius */
+    bottom: 187.5px; /* Keep the same bottom position */
+    right: 101.2px; /* Original right position was 115px, reduced by 12% */
+  }
+
+  .rectangle4 {
+    width: 90.64px; /* Original width was 103px, reduced by 12% */
+    height: 10px; /* Keep the same height */
+    border-radius: 5px 0px 0px 5px; /* Keep border radius */
+    bottom: 187.5px; /* Keep the same bottom position */
+    right: 0;
+  }
+
+  .rectangle5 {
+    width: 244.2px; /* Original width was 277.5px, reduced by 12% */
+    height: 10px; /* Keep the same height */
+    border-radius: 5px 0px 0px 5px; /* Keep border radius */
+    bottom: 139.5px; /* Keep the same bottom position */
+    right: 0;
+  }
+
+  .rectangle6 {
+    width: 174.68px; /* Original width was 198.5px, reduced by 12% */
+    height: 10px; /* Keep the same height */
+    border-radius: 5px; /* Keep border radius */
+    bottom: 115.5px; /* Keep the same bottom position */
+    right: 69.08px; /* Original right position was 78.5px, reduced by 12% */
+  }
+
+  .rectangle7 {
+    width: 162.36px; /* Original width was 184.5px, reduced by 12% */
+    height: 98px; /* Keep the same height */
+    border-radius: 4px 4px 0px 0px; /* Keep border radius */
+    bottom: 0;
+    right: 81.84px; /* Original right position was 93px, reduced by 12% */
+  }
+
+  .rectangle8 {
+    width: 68.2px; /* Original width was 77.5px, reduced by 12% */
+    height: 98px; /* Keep the same height */
+    border-radius: 4px 0px 10px 0px; /* Keep border radius */
+    bottom: 0;
+    right: 0;
+  }
+
+  .circle-img {
+    width: 30.8px; /* Original width was 35px, reduced by 12% */
+    height: 30.8px; /* Keep the same width and height */
+    margin-right: 4.84px; /* Original margin-right was 5.5px, reduced by 12% */
+  }
+}
