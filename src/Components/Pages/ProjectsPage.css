@@ -9,6 +9,14 @@
     margin: 160px auto 0;
     text-align: center;
   }
+
+  #centerpiece2 h1 {
+  color: #A30000;
+  text-align: center;
+  font-family: 'Galgine', serif;
+  font-size: 96px;
+  font-weight: 400;
+}
   
   .projects-description {
     font-family: 'EB Garamond', serif;
