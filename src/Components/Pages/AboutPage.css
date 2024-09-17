@@ -1,4 +1,4 @@
-#centerpiece2 {
+#centerpieceAbout {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,7 +8,7 @@
   margin: 160px auto 0;
 }
 
-#centerpiece2 h1 {
+#centerpieceAbout h1 {
   color: #A30000;
   text-align: center;
   font-family: 'Galgine', serif;
@@ -324,4 +324,162 @@
     background-color: #D5AC4E; /* Change background on hover */
     color: white; /* Text color change on hover */
     border:#D5AC4E;
+}
+
+@media (max-width: 740px) {
+  #centerpieceAbout {
+    width: 100%;
+    height: 297px; /* Scaled down proportionally from 297px */
+    margin: 0px auto 0;
+  }
+
+  #centerpieceAbout h1 {
+    font-size: 49px; /* Scaled down proportionally from 96px */
+  }
+
+  .aboutoimage-container {
+    width: 192px; /* Scaled down proportionally from 376px */
+    height: 170px; /* Scaled down proportionally from 333px */
+  }
+
+  .aboutrectspotify {
+    width: 192px; /* Scaled down proportionally from 376px */
+    height: 40px; /* Scaled down proportionally from 80px */
+    top: 170px; /* Scaled down proportionally from 333px */
+  }
+
+  .AboutPara1 {
+    width: 352px; /* Scaled down proportionally from 683px */
+    height: 88px; /* Scaled down proportionally from 177px */
+    left: 285px; /* Scaled down proportionally from 550px */
+  }
+
+  .AboutPara2 {
+    width: 349px; /* Scaled down proportionally from 678px */
+    height: 83px; /* Scaled down proportionally from 166px */
+    left: 285px; /* Scaled down proportionally from 550px */
+    top: 119px; /* Scaled down proportionally from 238px */
+  }
+
+  #AboutMeStartcontainer {
+    margin-top: 75px; /* Scaled down proportionally from 150px */
+    height: 207px; /* Scaled down proportionally from 413px */
+  }
+
+  #AboutMeResume {
+    height: 275px; /* Scaled down proportionally from 550px */
+    left: -50px; /* Scaled down proportionally from -100px */
+  }
+
+  #AboutMeColab {
+    height: 157px; /* Scaled down proportionally from 313px */
+    left: -50px; /* Scaled down proportionally from -100px */
+  }
+
+  #AboutMePara {
+    height: 361px; /* Scaled down proportionally from 721px */
+    left: -50px; /* Scaled down proportionally from -100px */
+  }
+
+  #AboutMePhotos {
+    height: 294px; /* Scaled down proportionally from 588px */
+    width: 740px; /* Scaled down proportionally from 1444px */
+  }
+
+  .ResumeRect1 {
+    width: 513px; /* Scaled down proportionally from 1000px */
+    top: 76px; /* Scaled down proportionally from 151px */
+    left: 26px; /* Scaled down proportionally from 51px */
+  }
+
+  .ResumeRect2 {
+    width: 342px; /* Scaled down proportionally from 668px */
+    top: 126px; /* Scaled down proportionally from 252px */
+    left: 196px; /* Scaled down proportionally from 383px */
+  }
+
+  .ResumeRect3 {
+    width: 184px; /* Scaled down proportionally from 360px */
+    top: 176px; /* Scaled down proportionally from 353px */
+    left: 26px; /* Scaled down proportionally from 51px */
+  }
+
+  .ResumeRect4 {
+    width: 164px; /* Scaled down proportionally from 321px */
+    top: 226px; /* Scaled down proportionally from 453px */
+    left: 279px; /* Scaled down proportionally from 563px */
+  }
+
+  .ResumeRect5 {
+    width: 523px; /* Scaled down proportionally from 1022px */
+    height: 353px; /* Scaled down proportionally from 706px */
+    left: 117px; /* Scaled down proportionally from 235px */
+  }
+
+  .ResumeRect6 {
+    width: 209px; /* Scaled down proportionally from 408px */
+    top: 25px; /* Scaled down proportionally from 51px */
+    left: 484px; /* Scaled down proportionally from 970px */
+  }
+
+  .AboutPara3 {
+    width: 479px; /* Scaled down proportionally from 955px */
+    height: 122px; /* Scaled down proportionally from 245px */
+    left: 210px; /* Scaled down proportionally from 420px */
+    top: 24px; /* Scaled down proportionally from 48px */
+    font-size: 25px; /* Scaled down proportionally from 48px */
+  }
+
+  .AboutPara4, .AboutPara5, .AboutPara6 {
+    width: 430px; /* Scaled down proportionally from 833px */
+    left: 39px; /* Scaled down proportionally from 78px */
+  }
+
+  .AboutPara4 {
+    top: 24px; /* Scaled down proportionally from 47px */
+    height: 96px; /* Scaled down proportionally from 192px */
+  }
+
+  .AboutPara5 {
+    top: 125px; /* Scaled down proportionally from 250px */
+    height: 108px; /* Scaled down proportionally from 216px */
+  }
+
+  .AboutPara6 {
+    top: 245px; /* Scaled down proportionally from 490px */
+    height: 56px; /* Scaled down proportionally from 113px */
+  }
+
+  .ResumPara1 {
+    top: 6px; /* Scaled down proportionally from 12px */
+    height: 18px; /* Scaled down proportionally from 37px */
+    left: 20px; /* Scaled down proportionally from 39px */
+  }
+
+  .ResumPara2 {
+    top: 22px; /* Scaled down proportionally from 43px */
+    height: 18px; /* Scaled down proportionally from 37px */
+    left: 20px; /* Scaled down proportionally from 39px */
+  }
+
+  .ResumNum {
+    top: 15px; /* Scaled down proportionally from 30px */
+    right: 18px; /* Scaled down proportionally from 36px */
+    height: 21px; /* Scaled down proportionally from 43px */
+    width: 44px; /* Scaled down proportionally from 88px */
+  }
+
+  .AboutFriends-button-container {
+    margin-left: 300px; /* Scaled down proportionally from 600px */
+    margin-top: -5px; /* Scaled down proportionally from -10px */
+    margin-bottom: 25px; /* Scaled down proportionally from 50px */
+  }
+
+  .AboutFriends-button {
+    width: 150px; /* Scaled down proportionally from 300px */
+    height: 40px; /* Scaled down proportionally from 80px */
+    font-size: 10px; /* Scaled down proportionally from 20px */
+    padding: 5px; /* Scaled down proportionally from 10px */
+    border-radius: 20px; /* Scaled down proportionally from 40px */
+  }
 }

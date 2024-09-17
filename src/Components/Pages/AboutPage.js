@@ -12,7 +12,7 @@ const AboutPage = () => {
   return (
     <>
       <Background />
-      <div id="centerpiece2" className='main-content'>
+      <div id="centerpieceAbout" className='main-content'>
         <h1>I'm John.</h1>
       </div>
       <div className="content-container main-content">

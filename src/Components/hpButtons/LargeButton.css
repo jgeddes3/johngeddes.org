@@ -228,8 +228,10 @@
     }
   
     .image-container {
-      width: 299.2px; /* Proportional to the reduced button width */
-      height: 204.5px; /* Keep the same height */
+    top: 97px;
+    width: 270.5px; /* Shrink width by 0.5 */
+    height: 204.5px; /* Shrink height by 0.5 */
+
     }
     .image-container-left, .image-container-right {
       width: 128.4px; /* Proportional to the reduced button width */
