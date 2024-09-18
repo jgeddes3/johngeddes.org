@@ -57,3 +57,35 @@
   border-radius: 10px;
   color: black;
 }
+
+
+@media (max-width: 1080px) {
+  .Aboutimgrect {
+  position: relative;
+  justify-content: center;
+  top: 29px;
+  display: flex;
+  width: 100%;
+}
+
+.Aboutimgrects {
+  width: 350px;
+  height: 263px;
+  border-radius: 24px;
+  left: 9px;
+}
+
+.Aboutimgrects2 {
+  width: 350px;
+  height: 263px;
+  border-radius: 24px;
+  left: 13px;
+}
+
+.image-name-label {
+  bottom: 20px;
+  right: 10px;
+  padding: 2.5px 5px;
+  font-size: 9px;
+}
+}

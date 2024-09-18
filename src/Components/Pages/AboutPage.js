@@ -44,7 +44,7 @@ const AboutPage = () => {
           <div className="ResumeRect2 main-content">
             <div className="ResumPara1 AboutMeWhiteLarge">Loyola University of Chicago</div>
             <div className="ResumPara2 AboutMeGreyLarge">Audio Visual (A.V.) Technician</div>
-            <div className="ResumNum AboutMeWhiteNum">20-23</div>
+            <div className="ResumNum AboutMeWhiteNum">21-23</div>
           </div>
           <div className="ResumeRect3 main-content">
             <div className="ResumPara1 AboutMeWhiteLarge">TLC Precision Wafer</div>
@@ -54,7 +54,7 @@ const AboutPage = () => {
           <div className="ResumeRect4 main-content">
             <div className="ResumPara1 AboutMeWhiteLarge">The Brag House</div>
             <div className="ResumPara2 AboutMeGreyLarge">Front-End Intern</div>
-            <div className="ResumNum AboutMeWhiteNum">21-22</div>
+            <div className="ResumNum AboutMeWhiteNum">22-22</div>
           </div>
         </div>
         <div id = "AboutMeColab">

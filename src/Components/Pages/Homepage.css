@@ -76,7 +76,7 @@
 }
 
 /* Shrink elements proportionally for 720x1280 display */
-@media (max-width: 720px) {
+@media (max-width: 720pxx  ) {
   #centerpiece {
     width: 100%; /* Shrink width by 0.5 */
     height: 200px; /* Shrink height by 0.5 */
@@ -107,4 +107,6 @@
   .large-btn, .small-btn, .small-btn2, .large-btn2, .small-btn3, .large-btn3 {
     margin-bottom: 20px; /* Adjust spacing between rows */
   }
+  
 }
+
