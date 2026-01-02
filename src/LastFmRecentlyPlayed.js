@@ -6,7 +6,7 @@ const LastFmRecentlyPlayed = () => {
   const [track, setTrack] = useState(null);
 
   useEffect(() => {
-    fetch('https://www.johngeddes.org/api/recently-played')
+    fetch('/api/recently-played')
       .then((response) => response.json())
       .then((data) => {
         const items = data && Array.isArray(data.items) ? data.items : [];

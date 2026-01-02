@@ -42,7 +42,7 @@ const normalizeTracks = (tracks) => {
   });
 };
 
-app.get('/recently-played', (req, res) => {
+const handleRecentlyPlayed = (req, res) => {
   if (!LASTFM_API_KEY || !LASTFM_USER) {
     res.status(500).json({
       error: 'Last.fm credentials are missing. Set LASTFM_API_KEY and LASTFM_USER.'
@@ -62,6 +62,14 @@ app.get('/recently-played', (req, res) => {
       return;
     }
 
+    if (body && body.error) {
+      console.error('Last.fm API error', body);
+      res.status(500).json({
+        error: body.message || 'Last.fm API returned an error.'
+      });
+      return;
+    }
+
     const tracks = body && body.recenttracks && body.recenttracks.track
       ? body.recenttracks.track
       : [];
@@ -73,6 +81,8 @@ app.get('/recently-played', (req, res) => {
 
     res.json({ items: normalizeTracks(tracks) });
   });
-});
+};
+
+app.get(['/recently-played', '/api/recently-played', '/recently'], handleRecentlyPlayed);
 
 module.exports = app;
