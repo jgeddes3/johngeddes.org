@@ -17,12 +17,13 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  max-width: 100%;
 }
 
 .header {
   font-size: 18px;
   font-family: 'EB Garamond', serif;
-  color: #000000;
+  color: #ffffff;
   margin-bottom: 15px;
 }
 
@@ -36,15 +37,15 @@
   font-size: 22px;
   font-weight: bold;
   font-family: 'EB Garamond', serif;
-  color: #000000;
-  max-width: 500px;
+  color: #ffffff;
+  max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .track-link {
-  color: #000000;
+  color: #ffffff;
   text-decoration: none;
 }
 
