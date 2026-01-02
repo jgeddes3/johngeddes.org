@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+﻿import React, { useState, useRef } from 'react';
 import './Bottombar.css';
-import SpotifyCurrentlyPlaying from '../../SpotifyCurrentlyPlaying.js';
+import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed.js';
 import Resume1 from '../PDF/Geddes_Resume_24.pdf';
 
 const Bottombar = () => {
@@ -21,8 +21,8 @@ const Bottombar = () => {
     return (
         <div className="bottom-bar">
             <div className="group-right">
-                <div className="spotifyrect1">
-                    <SpotifyCurrentlyPlaying />
+                <div className="lastfmrect1">
+                    <LastFmRecentlyPlayed />
                 </div>
                 <div className="inline-container">
                     <div className="name1 bottomtext1">John Geddes</div>

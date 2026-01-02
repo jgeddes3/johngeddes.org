@@ -1,4 +1,4 @@
-.bottom-bar {
+﻿.bottom-bar {
   position: relative;
   bottom: 0;
   width: 100%;
@@ -70,7 +70,7 @@
   margin-top: 2px; /* Adjust as needed */
 }
 
-.spotifyrect1 {
+.lastfmrect1 {
   width: 533px;
   height: 95px;
   border-radius: 26px;
@@ -215,7 +215,7 @@
   .group-right {
   gap: 10px;
 }
-.spotifyrect1 {
+.lastfmrect1 {
   width: 234px;
   height: 47px;
   border-radius: 216px;

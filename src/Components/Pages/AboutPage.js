@@ -1,4 +1,4 @@
-// AboutPage.js
+﻿// AboutPage.js
 import React from 'react';
 import { Link } from 'react-router-dom'; 
 import './AboutPage.css';
@@ -6,7 +6,7 @@ import Background from '../ForEveryPage/Background';
 import Bottombar from '../ForEveryPage/Bottombar';
 import img_5354 from './AboutPages/img_5354.jpg'; 
 import ImageRectangles from './AboutPages/ImageRectangles';
-import SpotifyCurrentlyPlaying from '../../SpotifyCurrentlyPlaying.js'; 
+import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed.js'; 
 
 const AboutPage = () => {
   return (
@@ -20,14 +20,14 @@ const AboutPage = () => {
           <div className="aboutoimage-container main-content">
             <img src= {img_5354} alt="About Me" className="about-image"/>
           </div>
-          <div className="aboutrectspotify main-content">
-            <SpotifyCurrentlyPlaying />
+          <div className="aboutrectlastfm main-content">
+            <LastFmRecentlyPlayed />
           </div>
           <div className="AboutMeTextLarge AboutPara1 main-content">
-          I’m an Audio Visual Engineer, and aspiring Web Designer, Data Analyst, and IT Specialist working from Chicago IL
+          Iâ€™m an Audio Visual Engineer, and aspiring Web Designer, Data Analyst, and IT Specialist working from Chicago IL
           </div>
           <div className="AboutMeTextSmall AboutPara2 main-content">
-            In the most recent months, I have been working at Kirkland & Ellis. On the side, I’ve been working on projects and certificates in order to improve my chances to be a marketable employee. I am always willing to try new things and work with anyone and everyone.
+            In the most recent months, I have been working at Kirkland & Ellis. On the side, Iâ€™ve been working on projects and certificates in order to improve my chances to be a marketable employee. I am always willing to try new things and work with anyone and everyone.
           </div>
         </div>
         <div id= "AboutMeResume">
@@ -58,7 +58,7 @@ const AboutPage = () => {
           </div>
         </div>
         <div id = "AboutMeColab">
-          <div className="AboutPara3">I’m willing to collaborate! Let me know if you need help with designing or implementing mockups!</div>
+          <div className="AboutPara3">Iâ€™m willing to collaborate! Let me know if you need help with designing or implementing mockups!</div>
         </div>
         <div id = "AboutMePara">
           <div className="ResumeRect5">

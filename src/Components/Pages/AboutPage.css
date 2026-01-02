@@ -1,4 +1,4 @@
-#centerpieceAbout {
+﻿#centerpieceAbout {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,7 +44,7 @@
     width: 100%;
   }
 
-  .aboutoimage-container, .aboutrectspotify, .AboutPara1, .AboutPara2 {
+  .aboutoimage-container, .aboutrectlastfm, .AboutPara1, .AboutPara2 {
     position: absolute;
   }
 
@@ -65,7 +65,7 @@
   border-radius: 150px 150px 0px 0px;
 }
 
-.aboutrectspotify {
+.aboutrectlastfm {
     width: 376px;
     height: 80px;
     flex-shrink: 0;
@@ -74,7 +74,7 @@
     left: 0;
   }
 
-  .aboutoimage-container, .aboutrectspotify {
+  .aboutoimage-container, .aboutrectlastfm {
     left: 0px;
   }
   
@@ -367,7 +367,7 @@
   }
 
   /* Remove absolute positioning for all children */
-  .aboutoimage-container, .aboutrectspotify, .AboutPara1, .AboutPara2 {
+  .aboutoimage-container, .aboutrectlastfm, .AboutPara1, .AboutPara2 {
     position: relative;
     left: auto;
     top: auto;
@@ -380,7 +380,7 @@
     margin: 0 auto;
   }
 
-  .aboutrectspotify {
+  .aboutrectlastfm {
     width: 280px;
     height: 70px;
     margin: 0 auto 25px auto;
@@ -548,7 +548,7 @@
   }
 
   /* Remove absolute positioning for all children */
-  .aboutoimage-container, .aboutrectspotify, .AboutPara1, .AboutPara2 {
+  .aboutoimage-container, .aboutrectlastfm, .AboutPara1, .AboutPara2 {
     position: relative;
     left: auto;
     top: auto;
@@ -561,7 +561,7 @@
     margin: 0 auto;
   }
 
-  .aboutrectspotify {
+  .aboutrectlastfm {
     width: 220px;
     height: 60px;
     margin: 0 auto 20px auto;
@@ -703,7 +703,7 @@
     height: 160px;
   }
 
-  .aboutrectspotify {
+  .aboutrectlastfm {
     width: 180px;
     height: 50px;
   }
