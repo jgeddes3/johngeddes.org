@@ -9,6 +9,8 @@
   height: 50px; /* Adjust the size as needed */
   margin-right: 20px;
   margin-left: 15px;
+  border: 2px solid #ffffff;
+  border-radius: 6px;
 }
 
 .text-container {
@@ -20,7 +22,7 @@
 .header {
   font-size: 18px;
   font-family: 'EB Garamond', serif;
-  color: #A30000;
+  color: #000000;
   margin-bottom: 15px;
 }
 
@@ -34,7 +36,7 @@
   font-size: 22px;
   font-weight: bold;
   font-family: 'EB Garamond', serif;
-  color: #A30000;
+  color: #000000;
   max-width: 500px;
   white-space: nowrap;
   overflow: hidden;
@@ -42,7 +44,7 @@
 }
 
 .track-link {
-  color: #A30000;
+  color: #000000;
   text-decoration: none;
 }
 
