@@ -24,10 +24,10 @@ const AboutPage = () => {
             <LastFmRecentlyPlayed />
           </div>
           <div className="AboutMeTextLarge AboutPara1 main-content">
-          Iâ€™m an Audio Visual Engineer, and aspiring Web Designer, Data Analyst, and IT Specialist working from Chicago IL
+          I'm an Audio Visual Engineer, and aspiring Web Designer, Data Analyst, and IT Specialist working from Chicago IL
           </div>
           <div className="AboutMeTextSmall AboutPara2 main-content">
-            In the most recent months, I have been working at Kirkland & Ellis. On the side, Iâ€™ve been working on projects and certificates in order to improve my chances to be a marketable employee. I am always willing to try new things and work with anyone and everyone.
+            In the most recent months, I have been working at Kirkland & Ellis. On the side, I've been working on projects and certificates in order to improve my chances to be a marketable employee. I am always willing to try new things and work with anyone and everyone.
           </div>
         </div>
         <div id= "AboutMeResume">
