@@ -15,9 +15,9 @@ const Largebutton1 = () => {
       </div>
       <div className="rectangle1"></div>
       <div className="rectangle2">
-        <img src={img_1230} alt="1230" className="circle-img" />
-        <img src={img_1231} alt="1231" className="circle-img" />
-        <img src={img_1232} alt="1232" className="circle-img" />
+        <img loading="lazy" decoding="async" src={img_1230} alt="1230" className="circle-img" />
+        <img loading="lazy" decoding="async" src={img_1231} alt="1231" className="circle-img" />
+        <img loading="lazy" decoding="async" src={img_1232} alt="1232" className="circle-img" />
       </div>
       <div className="rectangle4"></div>
       <div className="rectangle3"></div>
@@ -30,3 +30,4 @@ const Largebutton1 = () => {
 };
 
 export default Largebutton1;
+

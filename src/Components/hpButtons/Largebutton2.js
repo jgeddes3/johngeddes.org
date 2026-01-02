@@ -10,10 +10,11 @@ const Largebutton2 = () => {
         <span className="TextBottomL3">Friends</span>
       </div>
       <div className="image-container">
-        <img src={img_1234} alt="1234" className="sqr-img" />
+        <img loading="lazy" decoding="async" src={img_1234} alt="1234" className="sqr-img" />
         </div>
     </button>
   );
 };
 
 export default Largebutton2;
+

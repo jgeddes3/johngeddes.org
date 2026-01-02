@@ -10,13 +10,14 @@ const Largebutton3 = () => {
         <span className="TextBottomL6">Tiktok Youtube</span>
       </div>
       <div className="image-container-left">
-        <img src={img_1237} alt="left" className="img-diag-right" />
+        <img loading="lazy" decoding="async" src={img_1237} alt="left" className="img-diag-right" />
         </div>
         <div className="image-container-right">
-        <img src={img_1238} alt="right" className="img-diag-left" />
+        <img loading="lazy" decoding="async" src={img_1238} alt="right" className="img-diag-left" />
         </div>
     </button>
   );
 };
 
 export default Largebutton3;
+

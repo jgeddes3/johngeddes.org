@@ -11,9 +11,9 @@ const MythOfSisyphusReview = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       if (i <= rating / 2) {
-        stars.push(<img key={i} src={FullStar} alt="Full Star" className="star-icon" />);
+        stars.push(<img loading="lazy" decoding="async" key={i} src={FullStar} alt="Full Star" className="star-icon" />);
       } else if (i === Math.ceil(rating / 2) && rating % 2 !== 0) {
-        stars.push(<img key={i} src={HalfStar} alt="Half Star" className="halfstar-icon" />);
+        stars.push(<img loading="lazy" decoding="async" key={i} src={HalfStar} alt="Half Star" className="halfstar-icon" />);
       }
     }
     return stars;
@@ -46,17 +46,17 @@ const MythOfSisyphusReview = () => {
           Camus presents the ancient Greek myth of Sisyphus, the man condemned by the gods to roll a boulder up a hill for eternity, only to watch it roll back down every time he reaches the top. 
           This endless, futile task becomes a symbol of human life, which Camus argues is inherently devoid of meaning, yet we continue to seek purpose in a world that offers none.
           </p>
-          <p>What makes this myth particularly tragic, Camus suggests, is that Sisyphus is fully aware of his situation. It’s this consciousness that both burdens and frees him. As Camus writes, "If this myth is tragic, it is because the Hero is conscious." Sisyphus knows the futility of his task, yet he 
+          <p>What makes this myth particularly tragic, Camus suggests, is that Sisyphus is fully aware of his situation. Itâ€™s this consciousness that both burdens and frees him. As Camus writes, "If this myth is tragic, it is because the Hero is conscious." Sisyphus knows the futility of his task, yet he 
           </p>
           </div>
           <div className = "Cover-with-caption">
-          <img src={MythOfSisyphus} alt="Way of Kings" />
+          <img loading="lazy" decoding="async" src={MythOfSisyphus} alt="Way of Kings" />
           <p className="Cover-caption">The Way of Kings by Brandon Sanderson</p>
           </div>
         </div>
         <div className="paragraph-wrap">
           <p>
-         continues, and it’s in this perseverance that we find a profound statement about human resilience and defiance.
+         continues, and itâ€™s in this perseverance that we find a profound statement about human resilience and defiance.
           </p>
         </div>
         

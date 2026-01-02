@@ -9,10 +9,11 @@ const Smallbutton3 = () => {
         <span className="text-bottom5">Philosophical Content</span>
       </div>
     <div className="sqrphil">
-        <img src={img_1236} alt="1236" className="phil-img" />
+        <img loading="lazy" decoding="async" src={img_1236} alt="1236" className="phil-img" />
       </div>
     </button>
   );
 };
 
 export default Smallbutton3;
+

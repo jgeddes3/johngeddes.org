@@ -11,7 +11,7 @@ const Project9 = () => {
       </div>
       <div className="ProjectPhoto1">
         <div className="ProjPhotoEllipse1">
-          <img src={Photo9} alt="Project 1" className="projphoto1" />
+          <img loading="lazy" decoding="async" src={Photo9} alt="Project 1" className="projphoto1" />
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ const Project4 = () => {
       </div>
       <div className="ProjectPhoto1">
         <div className="ProjPhotoEllipse1">
-          <img src={Photo4} alt="Project 1" className="projphoto1" />
+          <img loading="lazy" decoding="async" src={Photo4} alt="Project 1" className="projphoto1" />
         </div>
       </div>
     </div>
@@ -19,3 +19,4 @@ const Project4 = () => {
 };
 
 export default Project4;
+

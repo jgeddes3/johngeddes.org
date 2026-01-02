@@ -13,7 +13,7 @@ const Smallbutton1 = () => {
       </div>
       <div className="rectangle11"></div>
       <div className="rectangle12"></div>
-      <img src={img_1233} alt="1233" className="circle-img1" />
+      <img loading="lazy" decoding="async" src={img_1233} alt="1233" className="circle-img1" />
       <div className="rectangle14"></div>
       <div className="rectangle13"></div>
       <div className="rectangle15"></div>
@@ -24,3 +24,4 @@ const Smallbutton1 = () => {
 };
 
 export default Smallbutton1;
+

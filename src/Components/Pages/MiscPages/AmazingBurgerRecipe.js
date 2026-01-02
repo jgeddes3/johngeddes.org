@@ -24,40 +24,40 @@ const AmazingBurgerRecipe = () => {
           </p>
         </div>
         <div className="MainPhoto-container">
-          <img src={BurgerPhoto} alt="Burger" />
+          <img loading="lazy" decoding="async" src={BurgerPhoto} alt="Burger" />
           <p className="image-caption">Photo of a Burger (not mine but I will be putting a photo of mine when I make it)</p> 
         </div>
 
         <div className="paragraph-only-container">
           <p>
-          Well okay, so everyone always has a story when they write their recipes, so I figured I’d do the same. 
+          Well okay, so everyone always has a story when they write their recipes, so I figured Iâ€™d do the same. 
           I think it has something to do with Google Analytics, but if you want to skip to the recipe, click <a href="#BurgerRecipelink">here</a>. 
           When it comes to burgers, this recipe is the best way to go. 
-          My dad taught me how to make burgers when I was a kid, and over the years, I’ve stuck to his method while adding a few tweaks of my own. 
+          My dad taught me how to make burgers when I was a kid, and over the years, Iâ€™ve stuck to his method while adding a few tweaks of my own. 
           One thing he always emphasized was the magic of eggs and Worcestershire sauce. 
-          I wasn’t sure about it at first, but after trying it his way, I couldn’t go back.
+          I wasnâ€™t sure about it at first, but after trying it his way, I couldnâ€™t go back.
           </p>
         </div>
         <div className="paragraph-photo-left-container">
             <div className = "image-with-caption">
-        <img src={GrillPhoto} alt="Hopleaf Interior" />
+        <img loading="lazy" decoding="async" src={GrillPhoto} alt="Hopleaf Interior" />
         <p className="image-caption">Burger on the grill (also not mine I will replace it when I grill)</p>
         </div>
         <div className = "Seperator-photo-right">
           <p>
           The egg helps bind everything together, giving the burger that perfect, juicy consistency. 
-          It keeps the patty from drying out, especially when you’re cooking it to perfection. 
-          Then there’s the Worcestershire sauce, which might be the best-kept secret of any good burger. 
-          It brings this deep, savory flavor that’s just hard to beat — it’s like a flavor bomb that seeps into the meat as it cooks. 
-          Over time, I’ve experimented with different 
+          It keeps the patty from drying out, especially when youâ€™re cooking it to perfection. 
+          Then thereâ€™s the Worcestershire sauce, which might be the best-kept secret of any good burger. 
+          It brings this deep, savory flavor thatâ€™s just hard to beat â€” itâ€™s like a flavor bomb that seeps into the meat as it cooks. 
+          Over time, Iâ€™ve experimented with different 
           </p>
           </div>
         </div>
         <div className="paragraph-wrap">
           <p>
-          combinations and spices, but the foundation of my dad’s recipe, with that egg and Worcestershire combo, remains unchanged. 
-          I’ve tried adding garlic, onion, even a splash of soy sauce at times, but those two ingredients are always the base. 
-          It’s a simple recipe, but it’s one that never fails. 
+          combinations and spices, but the foundation of my dadâ€™s recipe, with that egg and Worcestershire combo, remains unchanged. 
+          Iâ€™ve tried adding garlic, onion, even a splash of soy sauce at times, but those two ingredients are always the base. 
+          Itâ€™s a simple recipe, but itâ€™s one that never fails. 
           Alright here is the recipe. 
           Oh also it makes 6-8 burgers, or 4 half pound burgers.
           </p>
@@ -80,8 +80,8 @@ const AmazingBurgerRecipe = () => {
           <p>-Butter (For Buns)</p>
           <p>-Buns</p>
           <h2>Directions</h2>
-          <p>-Cut up the onions and garlic and start sautéing the onions. When the onions start to get soft, throw in the garlic. Cook for another 3 minutes then put off to the side. (This isn’t to cool but its okay if this does happen)</p>
-          <p>-Throw the Beef, steak seasoning, Worchestire sauce, egg, smoked paprika, cayenne, and sautéd onions and garlic in a bowl and start mixing. I am honestly not sure on measurements, the more you play around with it the more it’ll feel natural to you, just do NOT over season it with steak seasoning. </p>
+          <p>-Cut up the onions and garlic and start sautÃ©ing the onions. When the onions start to get soft, throw in the garlic. Cook for another 3 minutes then put off to the side. (This isnâ€™t to cool but its okay if this does happen)</p>
+          <p>-Throw the Beef, steak seasoning, Worchestire sauce, egg, smoked paprika, cayenne, and sautÃ©d onions and garlic in a bowl and start mixing. I am honestly not sure on measurements, the more you play around with it the more itâ€™ll feel natural to you, just do NOT over season it with steak seasoning. </p>
           <p>-Butter your buns before you grill. This allows you to toss it on when you have less than a minute of grilling</p>
           <p>-Throw on the grill and cook for 7 minutes on each side or until looking good. This is also to personal preference, just don't burn the patties. </p>
           <p>-When you flip it for the last time and it's starting to look like your taking it off the grill, throw those buns on for a minute or so. This is touche, and will burn very quickly.</p>

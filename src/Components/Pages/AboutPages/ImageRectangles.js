@@ -57,7 +57,7 @@ const ImageRectangles = () => {
         <div className="Aboutimgrect">
           {randomImages[0] && (
             <>
-              <img src={randomImages[0]} alt="Random 1" />
+              <img loading="lazy" decoding="async" src={randomImages[0]} alt="Random 1" />
               <div className="image-name-label">{getImageName(randomImages[0])}</div>
             </>
           )}
@@ -67,7 +67,7 @@ const ImageRectangles = () => {
         <div className="Aboutimgrect2">
           {randomImages[1] && (
             <>
-              <img src={randomImages[1]} alt="Random 2" />
+              <img loading="lazy" decoding="async" src={randomImages[1]} alt="Random 2" />
               <div className="image-name-label">{getImageName(randomImages[1])}</div>
             </>
           )}
@@ -78,4 +78,5 @@ const ImageRectangles = () => {
 };
 
 export default ImageRectangles;
+
 

@@ -11,9 +11,9 @@ const ResTemplate = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       if (i <= rating / 2) {
-        stars.push(<img key={i} src={FullStar} alt="Full Star" className="star-icon" />);
+        stars.push(<img loading="lazy" decoding="async" key={i} src={FullStar} alt="Full Star" className="star-icon" />);
       } else if (i === Math.ceil(rating / 2) && rating % 2 !== 0) {
-        stars.push(<img key={i} src={HalfStar} alt="Half Star" className="halfstar-icon" />);
+        stars.push(<img loading="lazy" decoding="async" key={i} src={HalfStar} alt="Half Star" className="halfstar-icon" />);
       }
     }
     return stars;
@@ -43,7 +43,7 @@ const ResTemplate = () => {
         <div id="CHANGE THIS" className="CHANGE THIS"></div>
         {/* Photo Container */}
         <div className="MainPhoto-container">
-          <img src={imageExample} alt="Hopleaf Example" />
+          <img loading="lazy" decoding="async" src={imageExample} alt="Hopleaf Example" />
           <p className="image-caption">Hopleaf Exterior</p> 
         </div>
 
@@ -57,7 +57,7 @@ const ResTemplate = () => {
           </p>
           </div>
           <div className = "image-with-caption">
-          <img src={imageExample} alt="Hopleaf Interior" />
+          <img loading="lazy" decoding="async" src={imageExample} alt="Hopleaf Interior" />
           <p className="image-caption">Hopleaf Interior</p>
           </div>
         </div>
@@ -65,7 +65,7 @@ const ResTemplate = () => {
         {/* Paragraph with photo on the left */}
         <div className="paragraph-photo-left-container">
             <div className = "image-with-caption">
-          <img src={imageExample} alt="Hopleaf Dish" />
+          <img loading="lazy" decoding="async" src={imageExample} alt="Hopleaf Dish" />
           <p className="image-caption">Hopleaf Dish</p>
           </div>
         <div className = "Seperator-photo-left">
@@ -89,9 +89,9 @@ const ResTemplate = () => {
         {/* Paragraph Wrap */}
         <div className="paragraph-wrap">
           <p>
-          combinations and spices, but the foundation of my dad’s recipe, with that egg and Worcestershire combo, remains unchanged. 
-          I’ve tried adding garlic, onion, even a splash of soy sauce at times, but those two ingredients are always the base. 
-          It’s a simple recipe, but it’s one that never fails. 
+          combinations and spices, but the foundation of my dadâ€™s recipe, with that egg and Worcestershire combo, remains unchanged. 
+          Iâ€™ve tried adding garlic, onion, even a splash of soy sauce at times, but those two ingredients are always the base. 
+          Itâ€™s a simple recipe, but itâ€™s one that never fails. 
           Alright here is the recipe. 
           Oh also it makes 6-8 burgers, or 4 half pound burgers.
           </p>
@@ -118,7 +118,7 @@ const ResTemplate = () => {
           </p>
           </div>
           <div className = "Cover-with-caption">
-          <img src={imageExample} alt="Hopleaf Interior" />
+          <img loading="lazy" decoding="async" src={imageExample} alt="Hopleaf Interior" />
           <p className="Cover-caption">Hopleaf Interior</p>
           </div>
         </div>

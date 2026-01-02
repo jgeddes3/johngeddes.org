@@ -11,7 +11,7 @@ const Phil3 = ({ headerText, contentText }) => {  // Props for dynamic content
       </div>
       <div className="PhilPhoto1">
         <div className="PhilPhotoEllipse1">
-          <img src={PhilPhoto3} alt="Phil Logo" className="Philphoto1" />
+          <img loading="lazy" decoding="async" src={PhilPhoto3} alt="Phil Logo" className="Philphoto1" />
         </div>
       </div>
     </div>

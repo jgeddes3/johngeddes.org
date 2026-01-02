@@ -9,10 +9,11 @@ const Smallbutton2 = () => {
       <p className="realstyle">In Progess! Come back soon!!!</p>
     </div>
     <div className="rec_container">
-        <img src={img_1235} alt="1235" className="rec-img" />
+        <img loading="lazy" decoding="async" src={img_1235} alt="1235" className="rec-img" />
       </div>
     </button>
   );
 };
 
 export default Smallbutton2;
+

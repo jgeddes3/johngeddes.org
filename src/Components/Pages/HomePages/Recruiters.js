@@ -38,7 +38,7 @@ const RecruitersPage = () => {
       </div>
       <div className="projects-description-container">
       <p className="projects-description main-content">
-          I am a versatile professional with a Bachelor's degree in Computer Science from Loyola University Chicago and a minor in Philosophy. Over the past three years, I’ve gained valuable experience across multiple areas, including Data Analytics, IT Support, A.V. Technology, and Web Development. I’ve managed and supported A.V. systems in corporate environments, provided technical support for high-profile events, and worked with platforms like WebEx and Microsoft Teams. Additionally, my background in front-end development, including Python, Java, and React.js, has sharpened my problem-solving and analytical skills. My diverse experience allows me to thrive in IT and technical roles, where I enjoy leading projects and collaborating with teams to deliver effective solutions.
+          I am a versatile professional with a Bachelor's degree in Computer Science from Loyola University Chicago and a minor in Philosophy. Over the past three years, Iâ€™ve gained valuable experience across multiple areas, including Data Analytics, IT Support, A.V. Technology, and Web Development. Iâ€™ve managed and supported A.V. systems in corporate environments, provided technical support for high-profile events, and worked with platforms like WebEx and Microsoft Teams. Additionally, my background in front-end development, including Python, Java, and React.js, has sharpened my problem-solving and analytical skills. My diverse experience allows me to thrive in IT and technical roles, where I enjoy leading projects and collaborating with teams to deliver effective solutions.
         </p>
       </div>
       <div className="button-container main-content">
@@ -51,7 +51,7 @@ const RecruitersPage = () => {
             <div className="button-cover">
               <span className="resume-text">{label}</span>
               <div className="ellipsis">
-                <img src={recruiterImages[index]} alt={`Recruiter ${index + 1}`} className="recruiter-img" />
+                <img loading="lazy" decoding="async" src={recruiterImages[index]} alt={`Recruiter ${index + 1}`} className="recruiter-img" />
               </div>
             </div>
             {activeButton === index && (

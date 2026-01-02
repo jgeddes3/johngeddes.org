@@ -18,7 +18,7 @@ const AboutPage = () => {
       <div className="content-container main-content">
         <div id= "AboutMeStartcontainer">
           <div className="aboutoimage-container main-content">
-            <img src= {img_5354} alt="About Me" className="about-image"/>
+            <img loading="lazy" decoding="async" src= {img_5354} alt="About Me" className="about-image"/>
           </div>
           <div className="aboutrectlastfm main-content">
             <LastFmRecentlyPlayed />
@@ -58,7 +58,7 @@ const AboutPage = () => {
           </div>
         </div>
         <div id = "AboutMeColab">
-          <div className="AboutPara3">Iâ€™m willing to collaborate! Let me know if you need help with designing or implementing mockups!</div>
+          <div className="AboutPara3">IÃ¢â‚¬â„¢m willing to collaborate! Let me know if you need help with designing or implementing mockups!</div>
         </div>
         <div id = "AboutMePara">
           <div className="ResumeRect5">
@@ -82,3 +82,4 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
+

@@ -12,9 +12,9 @@ const TavaFreshIndian = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       if (i <= rating / 2) {
-        stars.push(<img key={i} src={FullStar} alt="Full Star" className="star-icon" />);
+        stars.push(<img loading="lazy" decoding="async" key={i} src={FullStar} alt="Full Star" className="star-icon" />);
       } else if (i === Math.ceil(rating / 2) && rating % 2 !== 0) {
-        stars.push(<img key={i} src={HalfStar} alt="Half Star" className="halfstar-icon" />);
+        stars.push(<img loading="lazy" decoding="async" key={i} src={HalfStar} alt="Half Star" className="halfstar-icon" />);
       }
     }
     return stars;
@@ -42,12 +42,12 @@ const TavaFreshIndian = () => {
 
         {/* Photo Container */}
         <div className="MainPhoto-container">
-          <img src={Tava1} alt="Tava Food" />
+          <img loading="lazy" decoding="async" src={Tava1} alt="Tava Food" />
           <p className="image-caption">Tandoori Chicken and Tava fish Tandoori, Taken by John Geddes 2024</p> 
         </div>
         <div className="paragraph-only-container">
           <p>
-          This is one of the best, if not the best, Indian food I’ve had in Chicago. 
+          This is one of the best, if not the best, Indian food Iâ€™ve had in Chicago. 
           From the moment I walked in, I could tell this place was special. 
           The aromas alone were enough to get my mouth watering, and once the food arrived, I was not disappointed. 
           They also serve some of the first and best alcoholic Lassi's I have ever had, which added an extra layer of enjoyment to the meal.
@@ -59,11 +59,11 @@ const TavaFreshIndian = () => {
           I had the Tandoori Chicken, Tava Fish Tandoori, Chicken Makhani, and Carrot Halwa for dessert. Each dish was bursting with flavor, perfectly spiced, and cooked to perfection. 
           Anything that is a TAVA Signature I would recommend without hesitation, but the Chicken Makhani was truly something to die for. 
           It was rich, creamy, and full of that buttery tomato goodness that defines a great makhani. 
-          I couldn’t get enough.
+          I couldnâ€™t get enough.
           </p>
           </div>
           <div className = "image-with-caption">
-          <img src={Tava2} alt="Hopleaf Interior" />
+          <img loading="lazy" decoding="async" src={Tava2} alt="Hopleaf Interior" />
           <p className="image-caption">Tava Fish Tandoori and Lassi, Taken by John Geddes 2024</p>
           </div>
         </div>

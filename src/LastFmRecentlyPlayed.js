@@ -30,7 +30,7 @@ const LastFmRecentlyPlayed = () => {
 
   return (
     <div className="lastfm-currently-playing">
-      <img src={LastFmLogo} alt="Last.fm Logo" className="lastfm-logo" />
+      <img loading="lazy" decoding="async" src={LastFmLogo} alt="Last.fm Logo" className="lastfm-logo" />
       <div className="text-container">
         <div className="header">Recently Played</div>
         {track ? (
@@ -56,3 +56,4 @@ const LastFmRecentlyPlayed = () => {
 };
 
 export default LastFmRecentlyPlayed;
+

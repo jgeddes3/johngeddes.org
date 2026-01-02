@@ -62,7 +62,7 @@ const ContractsPage = () => {
             className={`slide ${index === currentSlide ? 'active' : 'collapsed'}`} // Ensure the slide collapses
             style={{ backgroundColor: slide.color }}
           >
-            {slide.image && <img src={slide.image} alt={`Contract Slide ${index + 1}`} className="slide-image" />} {/* Image for Slide 1 and Slide 2 */}
+            {slide.image && <img loading="lazy" decoding="async" src={slide.image} alt={`Contract Slide ${index + 1}`} className="slide-image" />} {/* Image for Slide 1 and Slide 2 */}
             {index === 2 && index === currentSlide && <ContentSlide3 />} {/* Show ContentSlide3 only when active */}
           </div>
         ))}
@@ -106,3 +106,4 @@ const ContractsPage = () => {
 };
 
 export default ContractsPage;
+
