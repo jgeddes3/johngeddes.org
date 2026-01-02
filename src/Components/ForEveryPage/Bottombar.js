@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import './Bottombar.css';
 import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed.js';
 import Resume1 from '../PDF/Geddes_Resume_24.pdf';
