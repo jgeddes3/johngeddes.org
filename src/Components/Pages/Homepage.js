@@ -15,7 +15,11 @@ const HomePage = () => {
     <>
       <Background />
       <div id="centerpiece" className='main-content'>
-        <h1>I'm John Joseph Geddes</h1>
+        <h1>
+          <span className="line1">I'm John</span>
+          <br />
+          <span className="line2">Joseph Geddes</span>
+        </h1>
       </div>
       <div className="button-container main-content">
         <div className="button-row">

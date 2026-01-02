@@ -1,16 +1,19 @@
 .content-slide-3-container {
-  width: 1224px;
-  height: 700px;
+  width: 100%;
+  height: 100%;
   background-color: #88aa8e;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .content-slide-3-container h2 {
-  width: 1000px;
+  width: 90%;
+  max-width: 1000px;
   font-size: 40px;
   color: black;
   margin-bottom: 20px;
@@ -21,6 +24,8 @@
 .buttons-container {
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .content-slide-3-button {
@@ -29,13 +34,80 @@
   color: white;
   text-decoration: none;
   border-radius: 20px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, border 0.3s ease;
   font-family: 'Galgine', serif;
   margin: 10px;
+  border: 3px solid #A30000;
 }
 
 .content-slide-3-button:hover {
-    background-color: transparent; /* Change background on hover */
-    color: white; /* Text color change on hover */
-    border:3px solid #A30000;
+  background-color: transparent;
+  color: white;
+  border: 3px solid #A30000;
+}
+
+/* Tablet responsiveness */
+@media (max-width: 1200px) {
+  .content-slide-3-container h2 {
+    font-size: 32px;
+  }
+
+  .content-slide-3-button {
+    padding: 30px 60px;
+  }
+}
+
+/* Tablet and mobile landscape */
+@media (max-width: 900px) {
+  .content-slide-3-container h2 {
+    font-size: 26px;
+  }
+
+  .content-slide-3-button {
+    padding: 25px 50px;
+    font-size: 16px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 768px) {
+  .content-slide-3-container h2 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .buttons-container {
+    gap: 8px;
+  }
+
+  .content-slide-3-button {
+    padding: 15px 30px;
+    font-size: 12px;
+    margin: 4px;
+    border-radius: 12px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .content-slide-3-container {
+    padding: 10px;
+  }
+
+  .content-slide-3-container h2 {
+    font-size: 14px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .buttons-container {
+    gap: 5px;
+  }
+
+  .content-slide-3-button {
+    padding: 10px 20px;
+    font-size: 11px;
+    margin: 3px;
+    border-radius: 10px;
+  }
 }

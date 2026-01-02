@@ -163,7 +163,7 @@ useEffect(() => {
                             {renderStars(9)}
                         </div>
                 </Link>
-                <Link to="/MythOfSisyphusReview" className="books-friends-button">Myth Of Sisyphus Review
+                <Link to="/MythOfSisyphusReview" className="books-friends-button">Myth of Sisy... Review
                 <div className="star-container">
                             {renderStars(7)}
                       </div>
@@ -210,6 +210,7 @@ useEffect(() => {
   <div className="bars-friends-container main-content">
   {/* Left Side with Bars (Non-Scrollable Rectangle, Scrollable Buttons) */}
   <div className="bars-friends-right">
+    <h3 className="mobile-section-header">Unreviewed</h3>
     <div className="bars-friends-rect-right">
       <div className="books-friends-button-container">
       <button className="bars-friends-button" onClick={(e) => handleButtonClick('https://www.yelp.com/biz/dearly-beloved-chicago', e)}>Dearly Beloved</button>
@@ -224,6 +225,7 @@ useEffect(() => {
 
   {/* Right Side with Reviews */}
   <div className="bars-friends-right">
+    <h3 className="mobile-section-header">Reviewed</h3>
     <div className="bars-friends-rect-right">
       <div className="books-friends-button-container">
         <Link to="/SparrowReview" className="books-friends-button">Sparrow Review

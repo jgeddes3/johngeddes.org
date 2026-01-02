@@ -2,10 +2,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 744px;
-  height: 297px;
+  width: 100%;
+  max-width: 744px;
+  height: auto;
+  min-height: 297px;
   flex-shrink: 0;
   margin: 160px auto 0;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 #centerpieceAbout h1 {
@@ -20,9 +24,10 @@
 .content-container {
   background-color: rgba(255, 255, 255, 0.0); /* Transparent background */
   box-sizing: border-box;
-  max-width: 1600px; /* Adjust as needed */
-  margin: 0 auto; /* Center the container */
+  max-width: 1600px;
+  margin: 0 auto;
   width: 100%;
+  padding: 0 20px;
 }
 
 
@@ -326,144 +331,417 @@
     border:#D5AC4E;
 }
 
+/* Tablet and below */
+@media (max-width: 1200px) {
+  #centerpieceAbout h1 {
+    font-size: 72px;
+  }
+
+  #AboutMeStartcontainer,
+  #AboutMeResume,
+  #AboutMeColab,
+  #AboutMePara {
+    padding: 0 20px;
+  }
+}
+
 @media (max-width: 1080px) {
   #centerpieceAbout {
-    width: 100%;
-    height: 297px; /* Scaled down proportionally from 297px */
-    margin: 0px auto 0;
+    margin: 100px auto 0;
   }
 
   #centerpieceAbout h1 {
-    font-size: 49px; /* Scaled down proportionally from 96px */
+    font-size: 56px;
   }
+
+  /* Start container - switch to flexbox column layout */
   #AboutMeStartcontainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 50px;
-    height: 780px; /* Changed from fixed height */
+    height: auto;
+    min-height: auto;
     width: 100%;
+    padding: 0 20px;
   }
+
+  /* Remove absolute positioning for all children */
+  .aboutoimage-container, .aboutrectspotify, .AboutPara1, .AboutPara2 {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+  }
+
   .aboutoimage-container {
-    width: 376px; /* Scaled down proportionally from 376px */
-    height: 333px; /* Scaled down proportionally from 333px */
+    width: 280px;
+    height: 250px;
+    margin: 0 auto;
   }
 
   .aboutrectspotify {
-    width: 376px; /* Scaled down proportionally from 376px */
-    height: 80px; /* Scaled down proportionally from 80px */
-    top: 333px; /* Scaled down proportionally from 333px */
+    width: 280px;
+    height: 70px;
+    margin: 0 auto 25px auto;
   }
 
-    .AboutMeTextLarge {
-  font-size: 24px;
+  .AboutMeTextLarge {
+    font-size: 22px;
   }
+
   .AboutMeTextSmall {
-  font-size: 18px;
-}
+    font-size: 16px;
+  }
 
-  .AboutPara1{
-    width: 300px; 
-    height: 120px;
-    left: 20px; 
-    top: 420px;
-  }
-  .AboutPara2{
-    width: 100%; 
-    height: 90px;
-    left: 10px;
-    top: 690px;
-  }
-  #AboutMeResume {
-    margin-top: 5px;
-    height: 400px; /* Changed from fixed height */
+  .AboutPara1 {
     width: 100%;
-    left: 0px;
+    max-width: 600px;
+    height: auto;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .AboutPara2 {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    text-align: center;
+  }
+
+  /* Resume section - switch to flexbox column */
+  #AboutMeResume {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 40px;
+    height: auto;
+    min-height: auto;
+    width: 100%;
+    left: 0;
+    padding: 0 20px;
   }
 
   .ResumeRect1, .ResumeRect2, .ResumeRect3, .ResumeRect4, .ResumeRect6 {
-    border-radius: 61px;
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    border-radius: 40px;
     background-color: #710000;
-    height: 67px;
+    height: 60px;
     width: 100%;
-    left: 0px;
-    position:absolute;
-    align-items: center;
-}
-.ResumeRect1{
-    top: 121px;
-}
+    max-width: 500px;
+  }
 
-.ResumeRect2{
-    top: 191px;
-}
+  /* Reorder resume items visually */
+  .ResumeRect6 { order: 1; }
+  .ResumeRect1 { order: 2; }
+  .ResumeRect2 { order: 3; }
+  .ResumeRect3 { order: 4; }
+  .ResumeRect4 { order: 5; }
 
-.ResumeRect3{
-    top: 261px;
-}
+  .AboutMeWhiteLarge, .AboutMeGreyLarge, .AboutMeWhiteNum {
+    font-size: 15px;
+  }
 
-.ResumeRect4{
-    top: 331px;
-}
-
-.ResumeRect6{
-  top: 51px;
-}
-.AboutMeWhiteLarge, .AboutMeGreyLarge, .AboutMeWhiteNum  {
-  font-size: 17px;
-}
+  /* Colab section */
   #AboutMeColab {
-    margin-top: 5px;
-    height: 313px; /* Changed from fixed height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    height: auto;
+    min-height: auto;
     width: 100%;
-    left: -410px;
+    left: 0;
+    padding: 0 20px;
   }
-  .AboutPara3{
-    width: 100%; 
-    height: 245px;
-    left: 420px;
-    top: 48px;
-    font-size: 24px;
-}
 
+  .AboutPara3 {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    max-width: 700px;
+    height: auto;
+    font-size: 28px;
+    text-align: center;
+  }
 
+  /* Para section with the cream box */
   #AboutMePara {
-    margin-top: 0px;
-    height: 300px; /* Changed from fixed height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    height: auto;
+    min-height: auto;
     width: 100%;
-    left: 0px;
+    left: 0;
+    padding: 0 20px;
   }
-  .ResumeRect5{
-    width: 400px;
-    height: 300px;
-    border-radius: 20px;
-    left: 0px;
-}
-.AboutMeTextSmall {
-  font-size: 12px;
-}
-.AboutPara4, .AboutPara5, .AboutPara6{
-    left: 20px;
-    width: 400px;
-}
-.AboutPara4{
-    top: 20px;
-    height: 192px;
-}
-.AboutPara5{
-    top: 120px;
-    height: 216px;
-}
 
-.AboutPara6{
-    top: 220px;
-    height: 113px;
-}
-.AboutFriends-button-container {
+  .ResumeRect5 {
+    position: relative;
+    left: auto;
+    transform: none;
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    min-height: auto;
+    border-radius: 30px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .AboutMeTextSmall {
+    font-size: 14px;
+  }
+
+  .AboutPara4, .AboutPara5, .AboutPara6 {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+  }
+
+  .AboutFriends-button-container {
     display: flex;
     justify-content: center;
-    margin-left: 0px;
-    margin-top: -10px;
-    margin-bottom: 10px; /* Add margin to push it above the bottom bar */
+    margin-left: 0;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 
-  
+  #AboutMePhotos {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Mobile - switch from absolute to flexbox layout */
+@media (max-width: 768px) {
+  #centerpieceAbout {
+    margin: 80px auto 0;
+    padding: 10px;
+  }
+
+  #centerpieceAbout h1 {
+    font-size: 44px;
+  }
+
+  /* Start container - switch to flexbox column layout */
+  #AboutMeStartcontainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    height: auto;
+    min-height: auto;
+    padding: 0 15px;
+  }
+
+  /* Remove absolute positioning for all children */
+  .aboutoimage-container, .aboutrectspotify, .AboutPara1, .AboutPara2 {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+  }
+
+  .aboutoimage-container {
+    width: 220px;
+    height: 200px;
+    margin: 0 auto;
+  }
+
+  .aboutrectspotify {
+    width: 220px;
+    height: 60px;
+    margin: 0 auto 20px auto;
+  }
+
+  .AboutPara1 {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .AboutPara2 {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    text-align: center;
+  }
+
+  /* Resume section - switch to flexbox column */
+  #AboutMeResume {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+    height: auto;
+    min-height: auto;
+    left: 0;
+    padding: 0 15px;
+  }
+
+  .ResumeRect1, .ResumeRect2, .ResumeRect3, .ResumeRect4, .ResumeRect6 {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    max-width: 400px;
+    height: 55px;
+  }
+
+  /* Reorder resume items visually */
+  .ResumeRect6 { order: 1; }
+  .ResumeRect1 { order: 2; }
+  .ResumeRect2 { order: 3; }
+  .ResumeRect3 { order: 4; }
+  .ResumeRect4 { order: 5; }
+
+  /* Colab section */
+  #AboutMeColab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    height: auto;
+    min-height: auto;
+    left: 0;
+    padding: 0 15px;
+  }
+
+  .AboutPara3 {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    font-size: 22px;
+    text-align: center;
+  }
+
+  /* Para section with the cream box - switch to flexbox */
+  #AboutMePara {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    height: auto;
+    min-height: auto;
+    left: 0;
+    padding: 0 15px;
+  }
+
+  .ResumeRect5 {
+    position: relative;
+    left: auto;
+    transform: none;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    min-height: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .AboutPara4, .AboutPara5, .AboutPara6 {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    height: auto;
+  }
+
+  .AboutMeTextSmall {
+    font-size: 14px;
+  }
+
+  .AboutFriends-button-container {
+    margin-left: 0;
+    margin-bottom: 20px;
+    margin-top: 30px;
+  }
+
+  .AboutFriends-button {
+    width: 250px;
+    height: 70px;
+    font-size: 18px;
+  }
+
+  /* Photos section */
+  #AboutMePhotos {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  #centerpieceAbout h1 {
+    font-size: 32px;
+  }
+
+  .aboutoimage-container {
+    width: 180px;
+    height: 160px;
+  }
+
+  .aboutrectspotify {
+    width: 180px;
+    height: 50px;
+  }
+
+  .AboutMeTextLarge {
+    font-size: 16px;
+  }
+
+  .AboutMeTextSmall {
+    font-size: 12px;
+  }
+
+  .ResumeRect1, .ResumeRect2, .ResumeRect3, .ResumeRect4, .ResumeRect6 {
+    height: 50px;
+    border-radius: 30px;
+  }
+
+  .AboutMeWhiteLarge, .AboutMeGreyLarge {
+    font-size: 11px;
+  }
+
+  .AboutMeWhiteNum {
+    font-size: 10px;
+  }
+
+  .AboutPara3 {
+    font-size: 18px;
+  }
+
+  .ResumeRect5 {
+    border-radius: 20px;
+    padding: 15px;
+  }
+
+  .AboutFriends-button {
+    width: 200px;
+    height: 60px;
+    font-size: 16px;
+  }
 }
 

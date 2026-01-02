@@ -1,18 +1,18 @@
 #sticky-header {
   position: sticky;
-  top: 40px;
-  background-color: transparent; /* Start as transparent */
+  top: 20px;
+  background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px; /* Adjust the gap as needed */
-  z-index: 10;
-  padding: 10px 20px; /* Add some padding for better spacing */
+  gap: 20px;
+  z-index: 1000;
+  padding: 10px 20px;
   box-sizing: border-box;
-  width: calc(50% - 40px); /* Ensure it spans the full width with some margin */
-  margin: 0 auto; /* Center the header horizontally */
-  border-radius: 50px; /* Large border-radius for curved edges */
-  transition: all 0.3s ease; /* Smooth transition for resizing */
+  width: calc(50% - 40px);
+  margin: 0 auto;
+  border-radius: 50px;
+  transition: all 0.3s ease;
 }
 
 #sticky-header.scrolled {
@@ -68,29 +68,42 @@
 
 @media (max-width: 768px) {
   .nav-btn {
-    width: 120px; /* Further adjust the width for smaller screens */
-    height: 30px; /* Further adjust the height for smaller screens */
-    font-size: 14px; /* Further adjust the font size for smaller screens */
+    width: 120px;
+    height: 30px;
+    font-size: 14px;
     border-radius: 10px;
   }
   #sticky-header {
-  width: 300px; /* Ensure it spans the full width with some margin */
-  margin: 0 auto; /* Center the header horizontally */
-  border-radius: 20px; /* Large border-radius for curved edges */
-  padding: 5px 10px; /* Add some padding for better spacing */
-}
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 20px;
+    padding: 5px 10px;
+    top: 10px;
+    background-color: rgba(234, 224, 213, 0.95);
+  }
+  #sticky-header.scrolled {
+    background-color: rgba(234, 224, 213, 0.98);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
 }
 
 @media (max-width: 576px) {
   .nav-btn {
-    width: 90px; /* Further adjust the width for smaller screens */
-    height: 30px; /* Further adjust the height for smaller screens */
-    font-size: 10px; /* Further adjust the font size for smaller screens */
-    border-radius: 8x;
+    width: 90px;
+    height: 30px;
+    font-size: 10px;
+    border-radius: 8px;
   }
   #sticky-header {
-  width: 260px; /* Ensure it spans the full width with some margin */
-  margin: 0 auto; /* Center the header horizontally */
-  border-radius: 20px; /* Large border-radius for curved edges */
-}
+    width: 260px;
+    margin: 0 auto;
+    border-radius: 20px;
+    top: 10px;
+    background-color: rgba(234, 224, 213, 0.95);
+    gap: 8px;
+  }
+  #sticky-header.scrolled {
+    background-color: rgba(234, 224, 213, 0.98);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
 }

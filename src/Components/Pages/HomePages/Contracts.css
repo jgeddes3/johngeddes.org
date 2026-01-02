@@ -3,10 +3,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 744px;
-    height: 297px;
+    width: 100%;
+    max-width: 744px;
+    height: auto;
+    min-height: 200px;
     flex-shrink: 0;
     margin: 160px auto 0;
+    padding: 20px;
+    box-sizing: border-box;
     text-align: center;
     margin-bottom: 50px;
   }
@@ -29,7 +33,8 @@
 .slideshow-container {
     display: flex;
     position: relative;
-    width: 1400px;
+    width: 100%;
+    max-width: 1400px;
     height: 700px;
     overflow: hidden;
     margin: 0 auto;
@@ -197,7 +202,181 @@
   width: 100%;
   height: auto;
   max-height: 100%;
-  object-fit: contain; /* Ensures the image fits within the container without clipping */
+  object-fit: contain;
 }
 
-/* Other styles remain the same */
+/* Tablet responsiveness */
+@media (max-width: 1200px) {
+  #centerpiece2 {
+    margin: 120px auto 0;
+    margin-bottom: 30px;
+  }
+
+  #centerpiece2 h1 {
+    font-size: 72px;
+  }
+
+  .slideshow-container {
+    height: 550px;
+    margin: 0 20px;
+    width: calc(100% - 40px);
+  }
+
+  .slide.collapsed {
+    width: 60px;
+  }
+
+  .previous-button, .previous-button.first,
+  .next-button, .next-button.last {
+    width: 60px;
+  }
+
+  .friends-nav-button,
+  .recruiters-nav-button {
+    width: 300px;
+    height: 100px;
+    font-size: 24px;
+  }
+}
+
+/* Tablet and mobile landscape */
+@media (max-width: 900px) {
+  #centerpiece2 h1 {
+    font-size: 56px;
+  }
+
+  .projects-description {
+    font-size: 20px;
+  }
+
+  .slideshow-container {
+    height: 450px;
+  }
+
+  .slide.collapsed {
+    width: 40px;
+  }
+
+  .previous-button, .previous-button.first,
+  .next-button, .next-button.last {
+    width: 50px;
+  }
+
+  .friends-nav-button,
+  .recruiters-nav-button {
+    width: 250px;
+    height: 80px;
+    font-size: 20px;
+  }
+
+  .bottom-buttons-container {
+    margin-top: 30px;
+    gap: 15px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 768px) {
+  #centerpiece2 {
+    margin: 100px auto 0;
+    margin-bottom: 10px;
+    padding: 15px;
+    min-height: auto;
+  }
+
+  .projects-description-container {
+    margin: 10px auto;
+    padding: 10px;
+  }
+
+  #centerpiece2 h1 {
+    font-size: 44px;
+  }
+
+  .projects-description {
+    font-size: 18px;
+  }
+
+  .slideshow-container {
+    height: 400px;
+    margin: 0 15px;
+    width: calc(100% - 30px);
+    border-radius: 15px;
+  }
+
+  .slide.collapsed {
+    width: 30px;
+  }
+
+  .previous-button, .previous-button.first,
+  .next-button, .next-button.last {
+    width: 40px;
+  }
+
+  .friends-nav-button,
+  .recruiters-nav-button {
+    width: 200px;
+    height: 70px;
+    font-size: 18px;
+    border-radius: 30px;
+  }
+
+  .bottom-buttons-container {
+    margin-top: 25px;
+    margin-bottom: 30px;
+    gap: 12px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  #centerpiece2 {
+    margin: 80px auto 0;
+    margin-bottom: 5px;
+    padding: 10px;
+    min-height: auto;
+  }
+
+  #centerpiece2 h1 {
+    font-size: 32px;
+  }
+
+  .projects-description {
+    font-size: 16px;
+  }
+
+  .projects-description-container {
+    margin: 5px auto;
+    padding: 8px;
+  }
+
+  .slideshow-container {
+    height: 300px;
+    margin: 0 10px;
+    width: calc(100% - 20px);
+    border-radius: 12px;
+  }
+
+  .slide.collapsed {
+    width: 25px;
+  }
+
+  .previous-button, .previous-button.first,
+  .next-button, .next-button.last {
+    width: 35px;
+  }
+
+  .friends-nav-button,
+  .recruiters-nav-button {
+    width: 160px;
+    height: 60px;
+    font-size: 16px;
+    border-radius: 25px;
+  }
+
+  .bottom-buttons-container {
+    margin-top: 20px;
+    gap: 10px;
+    padding: 0 10px;
+  }
+}

@@ -3,10 +3,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 744px;
-    height: 297px;
+    width: 100%;
+    max-width: 744px;
+    height: auto;
+    min-height: 200px;
     flex-shrink: 0;
     margin: 160px auto 0;
+    padding: 20px;
+    box-sizing: border-box;
     text-align: center;
     margin-bottom: 50px;
   }
@@ -124,4 +128,130 @@
     transform: translateY(-10px);
     transition: transform 0.5s ease-out, opacity 0.5s ease-out;
   }
-  
+
+/* ========== MOBILE RESPONSIVENESS ========== */
+
+/* Tablet */
+@media (max-width: 1200px) {
+  #centerpiece2 {
+    margin: 120px auto 0;
+    margin-bottom: 30px;
+  }
+
+  .Philcontent-container {
+    padding: 0 20px;
+  }
+
+  .friends1-nav-button,
+  .social-nav-button {
+    width: 300px;
+    height: 100px;
+    font-size: 24px;
+  }
+}
+
+/* Tablet portrait */
+@media (max-width: 900px) {
+  #centerpiece2 {
+    margin: 100px auto 0;
+    margin-bottom: 20px;
+  }
+
+  #centerpiece2 h1 {
+    font-size: 72px;
+  }
+
+  .projects-description {
+    font-size: 20px;
+  }
+
+  .Phil-button {
+    padding: 15px;
+  }
+
+  .friends1-nav-button,
+  .social-nav-button {
+    width: 250px;
+    height: 80px;
+    font-size: 20px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 768px) {
+  #centerpiece2 {
+    margin: 80px auto 0;
+    margin-bottom: 15px;
+    padding: 15px;
+  }
+
+  #centerpiece2 h1 {
+    font-size: 56px;
+  }
+
+  .projects-description {
+    font-size: 18px;
+  }
+
+  .projects-description-container {
+    padding: 0 15px;
+  }
+
+  .Philcontent-container {
+    gap: 15px;
+    padding: 0 15px;
+  }
+
+  .Phil-button {
+    padding: 12px;
+    border-radius: 15px;
+  }
+
+  .friends1-nav-button,
+  .social-nav-button {
+    width: 180px;
+    height: 70px;
+    font-size: 16px;
+    border-radius: 30px;
+  }
+
+  .bottom-buttons-container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    gap: 15px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  #centerpiece2 {
+    margin: 70px auto 0;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+
+  #centerpiece2 h1 {
+    font-size: 44px;
+  }
+
+  .projects-description {
+    font-size: 16px;
+  }
+
+  .Philcontent-container {
+    gap: 12px;
+    padding: 0 10px;
+  }
+
+  .Phil-button {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .friends1-nav-button,
+  .social-nav-button {
+    width: 150px;
+    height: 60px;
+    font-size: 14px;
+  }
+}

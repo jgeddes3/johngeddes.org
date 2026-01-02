@@ -184,8 +184,26 @@
     transform: translate(-45%, -80%) rotate(-25.132deg);
   }
 
-/* Shrink elements proportionally for 720x1280 display with 12% smaller width */
-@media (max-width: 720px) and (max-height: 1280px) {
+/* Tablet responsiveness */
+@media (max-width: 900px) {
+  .large-btn, .large-btn2, .large-btn3 {
+    width: 100%;
+    max-width: 500px;
+    height: 400px;
+  }
+
+  .large-btn:hover, .large-btn2:hover, .large-btn3:hover {
+    height: 405px;
+  }
+
+  .image-container {
+    width: 90%;
+    height: auto;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 720px) {
     .large-btn, .large-btn2, .large-btn3 {
       width: 299.2px; /* Original width was 340px, reduced by 12% */
       height: 274px; /* Keep the same height */

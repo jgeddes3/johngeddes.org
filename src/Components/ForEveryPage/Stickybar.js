@@ -34,7 +34,7 @@ const StickyBar = () => {
     const scrollFunc = () => {
       const header = document.getElementById('sticky-header');
       const buttons = document.querySelectorAll('.nav-btn');
-      if (window.scrollY >= 240) {
+      if (window.scrollY >= 80) {
         header.classList.add('scrolled');
         buttons.forEach((btn) => btn.classList.add('scrolled'));
       } else {

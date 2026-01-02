@@ -5,9 +5,10 @@
   padding: 20px;
   border-radius: 3px;
   max-width: 100%;
-  width: 1200px;
+  width: 100%;
   margin-bottom: 10px;
   background-color: transparent;
+  box-sizing: border-box;
 }
 
 .Philtext-container {
@@ -26,7 +27,8 @@
 }
 
 .Philtext-container p {
-  width: 800px;
+  width: 100%;
+  max-width: 800px;
   text-align: left;
   font-family: 'EB Garamond', serif;
   font-size: 20px;
@@ -53,5 +55,87 @@
 .Philphoto1 {
   width: 100%;
   height: auto;
-  object-fit: cover; /* Ensure the image fits well */
+  object-fit: cover;
+}
+
+/* ========== MOBILE RESPONSIVENESS ========== */
+
+/* Tablet */
+@media (max-width: 900px) {
+  .Phil-container {
+    padding: 15px;
+  }
+
+  .Philtext-container h2 {
+    font-size: 24px;
+  }
+
+  .Philtext-container p {
+    font-size: 18px;
+  }
+
+  .PhilPhotoEllipse1 {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 768px) {
+  .Phil-container {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .Philtext-container {
+    margin-left: 10px;
+  }
+
+  .Philtext-container h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .Philtext-container p {
+    font-size: 16px;
+  }
+
+  .PhilPhoto1 {
+    margin-right: 10px;
+  }
+
+  .PhilPhotoEllipse1 {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .Phil-container {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .Philtext-container {
+    margin-left: 8px;
+  }
+
+  .Philtext-container h2 {
+    font-size: 16px;
+    margin-bottom: 3px;
+  }
+
+  .Philtext-container p {
+    font-size: 13px;
+  }
+
+  .PhilPhoto1 {
+    margin-right: 8px;
+  }
+
+  .PhilPhotoEllipse1 {
+    width: 45px;
+    height: 45px;
+  }
 }

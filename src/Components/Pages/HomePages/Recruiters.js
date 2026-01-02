@@ -60,19 +60,17 @@ const RecruitersPage = () => {
                   <p>{uniqueTexts[index]}</p>
                 </div>
                 <div className="pdf-viewer-container">
-                  <iframe 
-                    src={resumes[index]} 
-                    width="600px" 
-                    height="650px" 
+                  <iframe
+                    src={resumes[index]}
                     title={`Resume PDF ${index + 1}`}
                     className="resume-viewer"
                   ></iframe>
-                  <a 
-                    href={resumes[index]} 
-                    download={`Resume_${index + 1}.pdf`} 
-                    className="invisible-download-btn"
+                  <a
+                    href={resumes[index]}
+                    download={`Resume_${index + 1}.pdf`}
+                    className="download-btn"
                   >
-                      Download
+                    Download Resume
                   </a>
                 </div>
               </div>

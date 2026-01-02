@@ -145,8 +145,26 @@
   transform: scale(1.4);
 }
 
-/* Shrink elements proportionally for 720x1280 display */
-@media (max-width: 720px) and (max-height: 1280px) {
+/* Tablet responsiveness */
+@media (max-width: 900px) {
+  .small-btn, .small-btn2, .small-btn3 {
+    width: 100%;
+    max-width: 500px;
+    height: 400px;
+  }
+
+  .small-btn:hover, .small-btn2:hover, .small-btn3:hover {
+    height: 405px;
+  }
+
+  .rec_container, .sqrphil {
+    width: 90%;
+    height: auto;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 720px) {
     .small-btn, .small-btn2, .small-btn3 {
       width: 299.2px; /* Shrink width by 0.5 */
       height: 274px; /* Shrink height by 0.5 */

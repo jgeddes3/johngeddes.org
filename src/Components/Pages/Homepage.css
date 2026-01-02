@@ -3,9 +3,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 744px;
+  width: 100%;
+  max-width: 744px;
   height: 297px;
   margin: 240px auto 0;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 #centerpiece h1 {
@@ -14,16 +17,26 @@
   font-family: 'Galgine', serif;
   font-size: 96px;
   font-weight: 400;
+  line-height: 1.1;
+}
+
+#centerpiece h1 .line1,
+#centerpiece h1 .line2 {
+  display: inline-block;
+  white-space: nowrap;
 }
 
 #centerpiece1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 10000px;
+  width: 100%;
+  max-width: 1200px;
   height: 141px;
   flex-shrink: 0;
-  margin: 70px;
+  margin: 70px auto;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 #centerpiece1 h1 {
@@ -43,8 +56,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 160px;
+  margin: 160px auto;
+  max-width: 1400px;
+  padding: 0 20px;
   gap: 60px;  /* Space between button rows */
+  box-sizing: border-box;
 }
 
 .button-row {
@@ -58,15 +74,80 @@
   width: 519px;
 }
 
-/* Stack buttons on top of each other when zoomed in (or on smaller screens) */
+/* Tablet responsiveness */
 @media (max-width: 1200px) {
+  #centerpiece {
+    margin: 160px auto 0;
+    height: auto;
+    padding: 20px;
+  }
+
+  #centerpiece h1 {
+    font-size: 72px;
+  }
+
+  #centerpiece1 h1 {
+    font-size: 72px;
+  }
+
+  .button-container {
+    margin: 80px auto;
+    gap: 40px;
+  }
+
   .button-row {
     flex-direction: column;
-    gap: 20px; /* Adjust gap for vertical spacing */
+    gap: 20px;
   }
 
   .small-btn, .small-btn2, .small-btn3 {
-    width: 680px; /* Match the width of large buttons */
+    width: 680px;
+  }
+}
+
+/* Mobile landscape and small tablets */
+@media (max-width: 900px) {
+  #centerpiece h1, #centerpiece1 h1 {
+    font-size: 56px;
+  }
+
+  .button-container {
+    margin: 60px auto;
+  }
+
+  .small-btn, .small-btn2, .small-btn3 {
+    width: 90%;
+    max-width: 500px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 600px) {
+  #centerpiece {
+    margin: 100px auto 0;
+    height: auto;
+  }
+
+  #centerpiece h1 {
+    font-size: 44px;
+  }
+
+  #centerpiece1 {
+    margin: 40px auto;
+    height: auto;
+  }
+
+  #centerpiece1 h1 {
+    font-size: 44px;
+  }
+
+  .button-container {
+    margin: 40px auto;
+    gap: 30px;
+  }
+
+  .button-row {
+    gap: 15px;
   }
 }
 
@@ -75,38 +156,32 @@
   margin-bottom: 28px; /* Spacing between rows */
 }
 
-/* Shrink elements proportionally for 720x1280 display */
-@media (max-width: 720pxx  ) {
+/* Small mobile devices */
+@media (max-width: 480px) {
   #centerpiece {
-    width: 100%; /* Shrink width by 0.5 */
-    height: 200px; /* Shrink height by 0.5 */
+    margin: 80px auto 0;
+    padding: 10px;
   }
 
-  #centerpiece h1, #centerpiece1 h1 {
-    font-size: 44px; /* Shrink font size by 0.5 */
+  #centerpiece h1 {
+    font-size: 36px;
   }
 
   #centerpiece1 {
-    width: 50000px; /* Shrink width by 0.5 */
-    height: 70.5px; /* Shrink height by 0.5 */
+    margin: 30px auto;
+  }
+
+  #centerpiece1 h1 {
+    font-size: 36px;
   }
 
   .button-container {
-    margin: 80px; /* Shrink margin by 0.5 */
-    gap: 30px; /* Adjust gap between button rows */
+    margin: 30px auto;
+    gap: 20px;
   }
 
   .button-row {
-    gap: 30px; /* Adjust gap between Large and Small Buttons */
+    gap: 10px;
   }
-
-  .small-btn, .small-btn2, .small-btn3 {
-    width: 340px; /* Shrink width by 0.5 */
-  }
-
-  .large-btn, .small-btn, .small-btn2, .large-btn2, .small-btn3, .large-btn3 {
-    margin-bottom: 20px; /* Adjust spacing between rows */
-  }
-  
 }
 

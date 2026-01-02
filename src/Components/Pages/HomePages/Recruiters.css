@@ -3,10 +3,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 744px;
-    height: 297px;
+    width: 100%;
+    max-width: 744px;
+    height: auto;
+    min-height: 297px;
     flex-shrink: 0;
     margin: 160px auto 0;
+    padding: 20px;
+    box-sizing: border-box;
     text-align: center;
   }
   
@@ -43,11 +47,12 @@
 
 /* Collapsible button styling */
 .collapsible-button {
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   height: 100px;
   background-color:#BC4749;
   color: white;
-  font-family: 'EB Garamond', serif; 
+  font-family: 'EB Garamond', serif;
   cursor: pointer;
   font-size: 24px;
   transition: height 0.3s ease, background-color 0.5s ease;
@@ -127,20 +132,55 @@
 }
 
 .resume-viewer {
+  width: 600px;
+  height: 650px;
   border: none;
   margin-right: 20px;
   margin-top: 20px;
 }
 
-/* Invisible download button positioned over the entire PDF */
-.invisible-download-btn {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0; /* Make the button invisible */
+/* Download button - visible on mobile, positioned on desktop */
+.download-btn {
+  display: none;
+  margin: 20px auto;
+  padding: 12px 24px;
+  background-color: #BC4749;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  text-align: center;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+  background-color: #A30000;
+}
+
+/* Show download button on mobile, hide PDF viewer */
+@media (max-width: 900px) {
+  .download-btn {
+    display: block;
+    width: 80%;
+    max-width: 250px;
+  }
+
+  .pdf-viewer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .resume-viewer {
+    display: none;
+  }
+
+  .text-pdf-container {
+    align-items: center;
+  }
 }
 /* New Contact button styles */
 .contract-button-container {
@@ -173,4 +213,212 @@
     background-color: #3A7243; /* Change background on hover */
     color: white; /* Text color change on hover */
     border:#3A7243;
+}
+
+/* Tablet responsiveness */
+@media (max-width: 1200px) {
+  #centerpiece2 {
+    margin: 120px auto 0;
+  }
+
+  #centerpiece2 h1 {
+    font-size: 72px;
+  }
+
+  .button-container {
+    padding: 0 20px;
+  }
+
+  .contract-button {
+    width: 90%;
+    max-width: 700px;
+  }
+}
+
+/* Tablet and mobile landscape */
+@media (max-width: 900px) {
+  #centerpiece2 h1 {
+    font-size: 56px;
+  }
+
+  .projects-description {
+    font-size: 20px;
+  }
+
+  .collapsible-button {
+    height: 90px;
+  }
+
+  .collapsible-button.expanded {
+    height: auto;
+    min-height: 600px;
+  }
+
+  .resume-text {
+    font-size: 28px;
+    margin-left: 15px;
+  }
+
+  .ellipsis {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+  }
+
+  .text-pdf-container {
+    flex-direction: column;
+  }
+
+  .unique-text {
+    font-size: 18px;
+    margin: 20px;
+  }
+
+  .resume-viewer {
+    width: 100%;
+    max-width: 500px;
+    height: 550px;
+    margin: 0 auto;
+  }
+
+  .contract-button {
+    height: 100px;
+    font-size: 24px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 768px) {
+  #centerpiece2 {
+    margin: 100px auto 0;
+    padding: 15px;
+  }
+
+  #centerpiece2 h1 {
+    font-size: 48px;
+  }
+
+  .projects-description {
+    font-size: 18px;
+  }
+
+  .button-container {
+    padding: 0 15px;
+    gap: 15px;
+  }
+
+  .collapsible-button {
+    height: 80px;
+  }
+
+  .button-cover {
+    height: 80px;
+    padding: 0 15px;
+  }
+
+  .resume-text {
+    font-size: 22px;
+    margin-left: 10px;
+  }
+
+  .ellipsis {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+  }
+
+  .collapsible-button.expanded {
+    height: auto;
+    min-height: 500px;
+  }
+
+  .text-pdf-container {
+    padding-top: 80px;
+  }
+
+  .unique-text {
+    font-size: 16px;
+    margin: 15px;
+  }
+
+  .resume-viewer {
+    width: 95%;
+    height: 450px;
+  }
+
+  .contract-button {
+    width: 90%;
+    height: 90px;
+    font-size: 22px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  #centerpiece2 {
+    margin: 80px auto 0;
+    padding: 10px;
+  }
+
+  #centerpiece2 h1 {
+    font-size: 36px;
+  }
+
+  .projects-description {
+    font-size: 16px;
+  }
+
+  .button-container {
+    padding: 0 10px;
+    gap: 12px;
+  }
+
+  .collapsible-button {
+    height: 70px;
+  }
+
+  .button-cover {
+    height: 70px;
+    padding: 0 10px;
+  }
+
+  .resume-text {
+    font-size: 16px;
+    margin-left: 8px;
+  }
+
+  .ellipsis {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .collapsible-button.expanded {
+    height: auto;
+    min-height: 450px;
+  }
+
+  .text-pdf-container {
+    padding-top: 70px;
+  }
+
+  .unique-text {
+    font-size: 14px;
+    margin: 10px;
+  }
+
+  .resume-viewer {
+    width: 100%;
+    height: 400px;
+  }
+
+  .contract-button {
+    width: 95%;
+    height: 70px;
+    font-size: 18px;
+  }
+
+  .contract-button-container {
+    margin-bottom: 30px;
+  }
 }

@@ -3,10 +3,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 744px;
-    height: 297px;
+    width: 100%;
+    max-width: 744px;
+    height: auto;
+    min-height: 200px;
     flex-shrink: 0;
     margin: 160px auto 0;
+    padding: 20px;
+    box-sizing: border-box;
     text-align: center;
     margin-bottom: 50px;
   }
@@ -104,16 +108,20 @@
 .fantasy-main-container {
     display: flex;
     justify-content: space-between;
-    width: 1340px; /* Set container width */
-    margin: 0 auto; /* Center the container */
-    padding: 0px;
+    width: 100%;
+    max-width: 1340px;
+    margin: 0 auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+    gap: 10px;
   }
   
   /* Individual fantasy item with color and size */
   .fantasy-item {
     font-family: 'Galgine', serif;
     color: #A30000;
-    width: 420px;
+    width: 100%;
+    max-width: 420px;
     height: 730px;
     border: 2px solid #000;
     border-radius: 10px;
@@ -123,6 +131,8 @@
     flex-direction: column;
     justify-content: flex-start;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 0;
   }
   
   /* Fantasy Team 1, 2, and 3 with different colors */
@@ -141,9 +151,10 @@
   
   /* Scrollable image box */
   .image-box-scrollable {
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     height: 700px;
-    overflow-y: scroll; /* Enable vertical scrolling */
+    overflow-y: scroll;
     margin: 0 auto;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -190,30 +201,39 @@
 
   /* Golf Image Container */
 .golf-container {
-  display: relative;
-  justify-content: flex-end;
+  display: flex;
+  justify-content: center;
   margin: 0 auto;
-  width: 1400px; /* Set container width */
-  height: 750px;
-  margin-top: 0px;
+  width: 100%;
+  max-width: 1400px;
+  height: auto;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 .golf-container2 {
   display: flex;
   justify-content: flex-end;
   margin: 0 auto;
-  width: 1400px; /* Set container width */
-  height: 300px;
-  margin-top: 0px;
+  width: 100%;
+  max-width: 1400px;
+  height: auto;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .golf-image-box {
   display: flex;
   gap: 20px;
+  width: 100%;
+  justify-content: center;
 }
 
 .golf-image-box img {
-  width: 700px;
-  height: 700px;
+  width: 50%;
+  max-width: 700px;
+  height: auto;
+  aspect-ratio: 1/1;
+  object-fit: cover;
   border-radius: 20px;
 }
 
@@ -473,8 +493,9 @@
   text-align: center;
 }
 .chess-image {
-  width: 1400px;
-  height: 800px;
+  width: 100%;
+  max-width: 1400px;
+  height: auto;
   border-radius: 10px;
 }
 
@@ -508,4 +529,452 @@
 .BBQPara5{
     top: 310px;
     height: 216px;
+}
+
+/* Mobile-only section headers - hidden on desktop */
+.mobile-section-header {
+  display: none;
+  font-family: 'Galgine', serif;
+  color: #A30000;
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* ========== MOBILE RESPONSIVENESS ========== */
+
+/* Tablet */
+@media (max-width: 1200px) {
+  #centerpiece2 {
+    margin: 120px auto 0;
+    margin-bottom: 30px;
+  }
+
+  #centerpieceFriends h1 {
+    font-size: 48px;
+  }
+
+  .fantasy-item {
+    height: 550px;
+  }
+
+  .image-box-scrollable {
+    height: 500px;
+  }
+
+  .fantasy-second-container,
+  .fantasy-third-container {
+    width: 95%;
+    height: auto;
+  }
+
+  .info-rectangle,
+  .info-rectangle2 {
+    width: 90%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .books-friends-container,
+  .bars-friends-container {
+    width: 95%;
+    height: auto;
+  }
+
+  .chess-container2,
+  .golf-container2 {
+    width: 95%;
+  }
+
+  .contracts-nav-button,
+  .philosophy-nav-button {
+    width: 300px;
+    height: 100px;
+    font-size: 24px;
+  }
+}
+
+/* Tablet portrait / Mobile landscape */
+@media (max-width: 900px) {
+  #centerpiece2 {
+    margin: 100px auto 0;
+    margin-bottom: 20px;
+  }
+
+  #centerpieceFriends {
+    margin: 30px 10px;
+  }
+
+  #centerpieceFriends h1 {
+    font-size: 40px;
+  }
+
+  .projects-description {
+    font-size: 20px;
+  }
+
+  /* Fantasy - keep all 3 side by side but smaller */
+  .fantasy-item {
+    height: 450px;
+    padding: 5px;
+  }
+
+  .fantasy-item h3 {
+    font-size: 14px;
+  }
+
+  .image-box-scrollable {
+    height: 400px;
+  }
+
+  /* Golf - keep side by side */
+  .golf-image-box {
+    gap: 10px;
+  }
+
+  .golf-description {
+    font-size: 22px;
+  }
+
+  /* Books section - keep format */
+  .books-friends-container {
+    flex-direction: column;
+    height: auto;
+    gap: 20px;
+  }
+
+  .books-friends-left,
+  .books-friends-right {
+    width: 100%;
+  }
+
+  .books-friends-rect-left,
+  .books-friends-rect-right {
+    height: auto;
+    min-height: 400px;
+  }
+
+  .books-friends-description {
+    font-size: 22px;
+  }
+
+  .books-friends-button {
+    font-size: 22px;
+    height: 80px;
+  }
+
+  /* Bars section */
+  .bars-friends-container {
+    flex-direction: column;
+    height: auto;
+    gap: 20px;
+  }
+
+  .bars-friends-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mobile-section-header {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .bars-friends-rect-left,
+  .bars-friends-rect-right {
+    height: auto;
+    min-height: 350px;
+  }
+
+  .contracts-nav-button,
+  .philosophy-nav-button {
+    width: 250px;
+    height: 80px;
+    font-size: 20px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 768px) {
+  #centerpiece2 {
+    margin: 80px auto 0;
+    margin-bottom: 15px;
+    padding: 10px;
+  }
+
+  .friends-description-container {
+    padding: 10px;
+  }
+
+  #centerpieceFriends {
+    margin: 20px 10px;
+    height: 60px;
+  }
+
+  #centerpieceFriends h1 {
+    font-size: 32px;
+  }
+
+  .projects-description {
+    font-size: 18px;
+  }
+
+  /* Fantasy - still side by side but compact */
+  .fantasy-main-container {
+    gap: 5px;
+    padding: 0 5px;
+  }
+
+  .fantasy-item {
+    height: 380px;
+    padding: 4px;
+    border-radius: 8px;
+  }
+
+  .fantasy-item h3 {
+    font-size: 11px;
+    margin: 5px 0;
+  }
+
+  .image-box-scrollable {
+    height: 330px;
+    border-radius: 6px;
+  }
+
+  /* Fantasy text box */
+  .fantasy-second-container {
+    height: auto;
+    padding: 10px;
+  }
+
+  .info-rectangle {
+    margin-left: 0;
+    padding: 15px;
+    border-radius: 20px;
+  }
+
+  #FantasyPara {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .AboutPara4,
+  .AboutPara5 {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+  }
+
+  /* Golf - still side by side */
+  .golf-image-box {
+    gap: 8px;
+  }
+
+  .golf-image-box img {
+    border-radius: 12px;
+  }
+
+  .golf-description {
+    font-size: 18px;
+    margin-left: 10px;
+    text-align: center;
+  }
+
+  /* Books */
+  .books-friends-header {
+    font-size: 28px;
+  }
+
+  .books-friends-description {
+    font-size: 18px;
+  }
+
+  .books-friends-button {
+    font-size: 18px;
+    height: 70px;
+    padding: 15px;
+  }
+
+  .books-friends-button .star-icon {
+    width: 10px !important;
+    height: 10px !important;
+  }
+
+  .books-friends-button .half-star-icon {
+    width: 5px !important;
+    height: 10px !important;
+  }
+
+  .books-friends-button .star-container {
+    gap: 1px !important;
+  }
+
+  /* Bars */
+  .bars-friends-button {
+    font-size: 20px;
+    height: 80px;
+  }
+
+  /* BBQ section */
+  .fantasy-third-container {
+    width: 95%;
+    height: auto;
+    padding: 10px;
+  }
+
+  .info-rectangle2 {
+    margin-left: 0;
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    border-radius: 20px;
+  }
+
+  .BBQPara4,
+  .BBQPara5 {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+  }
+
+  /* Chess */
+  .chess-description {
+    font-size: 18px;
+    margin: 10px;
+    text-align: center;
+  }
+
+  .chess-container2 {
+    width: 95%;
+    height: auto;
+  }
+
+  /* Bottom buttons */
+  .contracts-nav-button,
+  .philosophy-nav-button {
+    width: 180px;
+    height: 70px;
+    font-size: 16px;
+    border-radius: 30px;
+  }
+
+  .AboutFriends-button {
+    width: 250px;
+    height: 70px;
+    font-size: 18px;
+  }
+
+  .bottom-buttons-container {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    gap: 15px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  #centerpiece2 {
+    margin: 70px auto 0;
+    margin-bottom: 10px;
+  }
+
+  #centerpieceFriends h1 {
+    font-size: 26px;
+  }
+
+  .projects-description {
+    font-size: 16px;
+  }
+
+  /* Fantasy - compact but still 3 across */
+  .fantasy-item {
+    height: 320px;
+    padding: 3px;
+  }
+
+  .fantasy-item h3 {
+    font-size: 9px;
+    margin: 3px 0;
+  }
+
+  .image-box-scrollable {
+    height: 280px;
+  }
+
+  /* Golf */
+  .golf-image-box {
+    gap: 5px;
+  }
+
+  .golf-image-box img {
+    border-radius: 8px;
+  }
+
+  .golf-description {
+    font-size: 16px;
+  }
+
+  /* Books */
+  .books-friends-header {
+    font-size: 24px;
+  }
+
+  .books-friends-description {
+    font-size: 16px;
+  }
+
+  .books-friends-button {
+    font-size: 16px;
+    height: 60px;
+    padding: 12px;
+  }
+
+  .books-friends-button .star-icon {
+    width: 8px !important;
+    height: 8px !important;
+  }
+
+  .books-friends-button .half-star-icon {
+    width: 4px !important;
+    height: 8px !important;
+  }
+
+  .books-friends-button .star-container {
+    gap: 1px !important;
+  }
+
+  /* Bars */
+  .bars-friends-button {
+    font-size: 16px;
+    height: 60px;
+  }
+
+  /* Chess */
+  .chess-description {
+    font-size: 16px;
+  }
+
+  /* Bottom buttons */
+  .contracts-nav-button,
+  .philosophy-nav-button {
+    width: 150px;
+    height: 60px;
+    font-size: 14px;
+  }
+
+  .AboutFriends-button {
+    width: 200px;
+    height: 60px;
+    font-size: 16px;
+  }
 }
