@@ -75,6 +75,8 @@
   height: 95px;
   border-radius: 26px;
   background: #FFF6ED;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .bottomtext1 {
@@ -220,6 +222,8 @@
   height: 47px;
   border-radius: 216px;
   background: #FFF6ED;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .bottomtext1 {

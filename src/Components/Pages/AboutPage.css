@@ -72,6 +72,8 @@
     background: #710000;
     top: 333px;  
     left: 0;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 
   .aboutoimage-container, .aboutrectlastfm {
