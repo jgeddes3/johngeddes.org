@@ -73,6 +73,7 @@
 @media (max-width: 720px) {
   .lastfm-currently-playing {
   padding: 0px; /* Halved */
+  align-items: center;
 }
 
 .lastfm-logo {
@@ -85,12 +86,18 @@
 
 .header {
   font-size: 9px; /* Halved from 18px */
-  margin-bottom: -20px; /* Halved from 15px */
+  margin-bottom: 2px;
+  line-height: 1.1;
 }
 
 .track-details {
   font-size: 11px; /* Halved from 22px */
   max-width: 220px; /* Halved and reduced by 12% from 500px */
+  line-height: 1.1;
+}
+
+.text-container {
+  gap: 2px;
 }
 
 }

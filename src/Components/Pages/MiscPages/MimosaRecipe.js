@@ -1,6 +1,7 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import Bottombar from '../../ForEveryPage/Bottombar';
+import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import Mimosa1 from './MiscPageImages/Mimosas/Mimosas1.jpg'
 import Cava1 from './MiscPageImages/Mimosas/Cava1.jpg'
@@ -80,6 +81,14 @@ const MimosaRecipe = () => {
           <p>Pour in half Orange Juice Half Cava into a champagne flute and enjoy!</p>
         </div>
         </div>
+      </div>
+      <div className="misc-nav-buttons">
+        <Link to="/friends" className="misc-nav-button misc-nav-friends">
+          Friends Page
+        </Link>
+        <Link to="/misc" className="misc-nav-button misc-nav-misc">
+          Misc Page
+        </Link>
       </div>
       <Bottombar />
     </>

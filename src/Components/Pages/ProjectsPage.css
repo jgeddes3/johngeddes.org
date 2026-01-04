@@ -98,11 +98,13 @@
     }
 
     .project-button {
-      height: 180px;
+      height: auto;
+      min-height: 170px;
     }
 
     .project-button-long {
-      height: 200px;
+      height: auto;
+      min-height: 190px;
       grid-row: span 1;
     }
   }
@@ -117,7 +119,8 @@
     }
 
     .project-button, .project-button-long {
-      height: 150px;
+      height: auto;
+      min-height: 150px;
       grid-row: span 1;
     }
   }

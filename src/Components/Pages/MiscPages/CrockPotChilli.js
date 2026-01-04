@@ -1,6 +1,7 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import Bottombar from '../../ForEveryPage/Bottombar';
+import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import Chili1 from './MiscPageImages/Chili/ChiliPhoto1.jpg';
 import Chili2 from './MiscPageImages/Chili/ChiliPhoto2.jpg';
@@ -128,6 +129,14 @@ const CrockPotChilli = () => {
           <p>-Cook for 6-8 hours on low.</p>
           <p>-Serve with cheese on top and cilantro on top, with a slice of bread to dip it in.</p>
         </div>
+      </div>
+      <div className="misc-nav-buttons">
+        <Link to="/friends" className="misc-nav-button misc-nav-friends">
+          Friends Page
+        </Link>
+        <Link to="/misc" className="misc-nav-button misc-nav-misc">
+          Misc Page
+        </Link>
       </div>
       <Bottombar />
     </>

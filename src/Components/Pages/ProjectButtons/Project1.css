@@ -15,6 +15,7 @@
   text-align: left;
   padding-left: 20px;
   margin-left: 10px;
+  min-width: 0;
 }
 
 .text-container1 h1 {
@@ -52,4 +53,47 @@
   width: 100%;
   height: auto;
   object-fit: cover; /* Make sure the image fits well */
+}
+
+@media (max-width: 768px) {
+  .project-container1 {
+    gap: 12px;
+  }
+
+  .text-container1 {
+    padding-left: 12px;
+    margin-left: 0;
+  }
+
+  .text-container1 h1 {
+    font-size: 22px;
+  }
+
+  .text-container1 p {
+    font-size: 13px;
+  }
+
+  .ProjectPhoto1 {
+    margin-right: 12px;
+  }
+
+  .ProjPhotoEllipse1 {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-container1 h1 {
+    font-size: 18px;
+  }
+
+  .text-container1 p {
+    font-size: 12px;
+  }
+
+  .ProjPhotoEllipse1 {
+    width: 46px;
+    height: 46px;
+  }
 }

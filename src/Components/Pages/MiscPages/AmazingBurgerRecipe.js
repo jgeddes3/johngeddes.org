@@ -1,6 +1,7 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import Bottombar from '../../ForEveryPage/Bottombar';
+import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import BurgerPhoto from './MiscPageImages/Burger/Burger.jpg'
 import GrillPhoto from './MiscPageImages/Burger/Grillin burgers.jpg'
@@ -88,6 +89,14 @@ const AmazingBurgerRecipe = () => {
           <p>-Take everything off the grill, and enjoy. Oh add pickles.</p>
         </div>
         </div>
+      </div>
+      <div className="misc-nav-buttons">
+        <Link to="/friends" className="misc-nav-button misc-nav-friends">
+          Friends Page
+        </Link>
+        <Link to="/misc" className="misc-nav-button misc-nav-misc">
+          Misc Page
+        </Link>
       </div>
       <Bottombar />
     </>
