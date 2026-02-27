@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom'; 
 import Background from '../../ForEveryPage/Background';
-import Bottombar from '../../ForEveryPage/Bottombar';
+import PageFooter from '../../ForEveryPage/PageFooter';
 import './Friends.css';
 import Fantasy1 from './FriendsImages/Sleeper_Screenshot.png';
 import Fantasy2 from './FriendsImages/YahooFant1.png';
@@ -83,7 +83,7 @@ useEffect(() => {
       </div>
       <div className="friends-description-container">
         <p className="projects-description main-content">
-        In this page, you will find everything I am passionate about. I have many passions ranging from reading to golf to fantasy football, and this will be a good read of my character if thatâ€™s what you are looking for. While I may not be the best at my passions, they are what keep me sane. Philosophy is also one of my greatest passions, and if you are looking for that you may find it at the bottom of the page. 
+        In this page, you will find everything I am passionate about. I have many passions ranging from reading to golf to fantasy football, and this will be a good read of my character if that's what you are looking for. While I may not be the best at my passions, they are what keep me sane. Philosophy is also one of my greatest passions, and if you are looking for that you may find it at the bottom of the page. 
         </p>
       </div>
       <div id="centerpieceFriends">
@@ -122,7 +122,7 @@ useEffect(() => {
       <div className="info-rectangle">
         <div id = "FantasyPara">
             <div className="AboutPara4 AboutMeTextSmall">Friends! These are my three fantasy teams that I am running this year. The first team is a legacy team of 12, and I am the incumbent champion soon to retake my crown. The second team is my family team, and while I do not focus on this team quite as much, I still enjoy it. The third team is a random team I joined and put some money down.</div>
-            <div className="AboutPara5 AboutMeTextSmall">(9/09) As you can tell, I put a lot of stock into Caleb Williams panning out. Obviously, It is not going exactly how Iâ€™d like but this is only week 1. W1 saw a loss in OFaran, and Random but I won in the Family league against my amazing Grandmother. Being a Vikings fan, I am hoping to see some results on Darnold like last week, but we will see. I am hoping I wonâ€™t be eating my words with Caleb Williams, but TBD.</div>
+            <div className="AboutPara5 AboutMeTextSmall">(9/09) As you can tell, I put a lot of stock into Caleb Williams panning out. Obviously, It is not going exactly how I'd like but this is only week 1. W1 saw a loss in OFaran, and Random but I won in the Family league against my amazing Grandmother. Being a Vikings fan, I am hoping to see some results on Darnold like last week, but we will see. I am hoping I won't be eating my words with Caleb Williams, but TBD.</div>
           </div>
         </div>
       </div>
@@ -137,7 +137,7 @@ useEffect(() => {
           </div>
         </div>
         <div className="golf-container2 main-content">
-          <p className="golf-description">I love golf. I am not good at golf by any means but the older I get the more fun it is. I took golf lessons all throughout grade school and was in my high schoolâ€™s golf team for a short amount of time. It never stuck however until my sister and her boyfriend found some cheap golf clubs that I bought from them. Since then, Iâ€™ve been hitting from the red and running with a 32 handicap (I tell people 18).</p>
+          <p className="golf-description">I love golf. I am not good at golf by any means but the older I get the more fun it is. I took golf lessons all throughout grade school and was in my high school's golf team for a short amount of time. It never stuck however until my sister and her boyfriend found some cheap golf clubs that I bought from them. Since then, I've been hitting from the red and running with a 32 handicap (I tell people 18).</p>
           </div>
       <div id="centerpieceFriends">
           <h1 className='main-content'>Books Books Books!</h1>
@@ -263,8 +263,8 @@ useEffect(() => {
       <div className='fantasy-third-container main-content'>
       <div className="info-rectangle2">
         <div id = "FantasyPara">
-            <div className="BBQPara4 AboutMeTextSmall">Grilling is one of my favorite ways to cook, but I enjoy cooking in general and experimenting in the kitchen. Whether itâ€™s modifying recipes to create something new or simply improving a dish, I love the creative process involved in cooking. Whether it's marinating meats for the grill or adding a twist to a traditional pasta dish, I'm always looking for ways to elevate the flavors. My passion for cooking extends beyond the grill, and I enjoy exploring different cuisines and techniques in the kitchen.</div>
-            <div className="BBQPara5 AboutMeTextSmall">At the end of this paragraph, youâ€™ll find a button that will take you to the misc section, where I share some of my favorite recipes. Iâ€™ve taken classic dishes and added my own spin, whether it's tweaking the seasoning, adjusting the cooking method, or combining ingredients in a unique way. From grilled meats to hearty stews, my recipes reflect my passion for experimenting in the kitchen. If you enjoy cooking or just want to try something new, you'll find plenty of ideas and inspiration in the collection. </div>
+            <div className="BBQPara4 AboutMeTextSmall">Grilling is one of my favorite ways to cook, but I enjoy cooking in general and experimenting in the kitchen. Whether it's modifying recipes to create something new or simply improving a dish, I love the creative process involved in cooking. Whether it's marinating meats for the grill or adding a twist to a traditional pasta dish, I'm always looking for ways to elevate the flavors. My passion for cooking extends beyond the grill, and I enjoy exploring different cuisines and techniques in the kitchen.</div>
+            <div className="BBQPara5 AboutMeTextSmall">At the end of this paragraph, you'll find a button that will take you to the misc section, where I share some of my favorite recipes. I've taken classic dishes and added my own spin, whether it's tweaking the seasoning, adjusting the cooking method, or combining ingredients in a unique way. From grilled meats to hearty stews, my recipes reflect my passion for experimenting in the kitchen. If you enjoy cooking or just want to try something new, you'll find plenty of ideas and inspiration in the collection. </div>
           </div>
         </div>
         </div>
@@ -282,7 +282,7 @@ useEffect(() => {
            <img loading="lazy" decoding="async" src={Chess} alt="Chess" className="chess-image" />
         </div>
         <div className="chess-container2 main-content">
-          <p className="chess-description">Chess has always been a passion of mine, and I love the challenge and mental focus it brings with every game. My rank fluctuates, but regardless of the outcome, it's always a great time to meet new people, exchange strategies, and test my skills in a match. Whether Iâ€™m on a winning streak or learning from a tough game, every match sharpens my strategy and keeps me coming back for more. If youâ€™re up for a game, feel free to add me at <a href="https://www.chess.com/member/shyne4life" target="_blank" rel="noopener noreferrer">Shyne4life</a> on chess.comâ€”let's play!</p>
+          <p className="chess-description">Chess has always been a passion of mine, and I love the challenge and mental focus it brings with every game. My rank fluctuates, but regardless of the outcome, it's always a great time to meet new people, exchange strategies, and test my skills in a match. Whether I'm on a winning streak or learning from a tough game, every match sharpens my strategy and keeps me coming back for more. If you're up for a game, feel free to add me at <a href="https://www.chess.com/member/shyne4life" target="_blank" rel="noopener noreferrer">Shyne4life</a> on chess.com—let's play!</p>
           </div>
 
       <div className="bottom-buttons-container">
@@ -294,7 +294,7 @@ useEffect(() => {
         </Link>
       </div>
 
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

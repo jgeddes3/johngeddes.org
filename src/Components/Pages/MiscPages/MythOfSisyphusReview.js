@@ -1,6 +1,6 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
-import Bottombar from '../../ForEveryPage/Bottombar';
+import PageFooter from '../../ForEveryPage/PageFooter';
 import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import FullStar from '../HomePages/FriendsImages/WhiteStar.png';
@@ -47,7 +47,7 @@ const MythOfSisyphusReview = () => {
           Camus presents the ancient Greek myth of Sisyphus, the man condemned by the gods to roll a boulder up a hill for eternity, only to watch it roll back down every time he reaches the top. 
           This endless, futile task becomes a symbol of human life, which Camus argues is inherently devoid of meaning, yet we continue to seek purpose in a world that offers none.
           </p>
-          <p>What makes this myth particularly tragic, Camus suggests, is that Sisyphus is fully aware of his situation. Itâ€™s this consciousness that both burdens and frees him. As Camus writes, "If this myth is tragic, it is because the Hero is conscious." Sisyphus knows the futility of his task, yet he 
+          <p>What makes this myth particularly tragic, Camus suggests, is that Sisyphus is fully aware of his situation. It's this consciousness that both burdens and frees him. As Camus writes, "If this myth is tragic, it is because the Hero is conscious." Sisyphus knows the futility of his task, yet he 
           </p>
           </div>
           <div className = "Cover-with-caption">
@@ -57,7 +57,7 @@ const MythOfSisyphusReview = () => {
         </div>
         <div className="paragraph-wrap">
           <p>
-         continues, and itâ€™s in this perseverance that we find a profound statement about human resilience and defiance.
+         continues, and it's in this perseverance that we find a profound statement about human resilience and defiance.
           </p>
         </div>
         
@@ -89,7 +89,7 @@ const MythOfSisyphusReview = () => {
           Misc Page
         </Link>
       </div>
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

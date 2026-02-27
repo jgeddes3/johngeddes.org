@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; 
 import Background from '../../ForEveryPage/Background';
-import Bottombar from '../../ForEveryPage/Bottombar';
+import PageFooter from '../../ForEveryPage/PageFooter';
 import './Social.css';
 
 const SocialPage = () => {
@@ -24,7 +24,7 @@ const SocialPage = () => {
       </div>
       </div>
 
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

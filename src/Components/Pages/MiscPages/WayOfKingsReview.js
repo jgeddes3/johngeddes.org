@@ -1,6 +1,6 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
-import Bottombar from '../../ForEveryPage/Bottombar';
+import PageFooter from '../../ForEveryPage/PageFooter';
 import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import FullStar from '../HomePages/FriendsImages/WhiteStar.png';
@@ -44,13 +44,13 @@ const WayOfKingsReview = () => {
         <div className = "Seperator-photo-right">
           <p>
           Brandon Sanderson does it again. 
-          Sucks me into a massive series only for it to be probably my favorite fantasy series Iâ€™ve read to this date. 
+          Sucks me into a massive series only for it to be probably my favorite fantasy series I've read to this date. 
           To tell the story about how I found it really just shows how the smallest things can have such a drastic impact on your life. 
           I was at a my sisters 49ers vs Chiefs super bowl party talking with people I have never met and I will never talk to again and this guy brings up Red Rising. 
           Now the Red Rising series is my favorite and will probably always be my favorite Science Fiction book, so this perked my ears right up. 
           We got to talking and I recommended him some books (name of the wind) and he recommended me this book right here. 
           </p>
-          <p>Initially, I didnâ€™t even think I would read it, but I bought it and it didnâ€™t speak to me. Not at all, I just couldn't relate to Kal while he was in Amarams </p>
+          <p>Initially, I didn't even think I would read it, but I bought it and it didn't speak to me. Not at all, I just couldn't relate to Kal while he was in Amarams </p>
           </div>
           <div className = "Cover-with-caption">
           <img loading="lazy" decoding="async" src={TheWayofKings} alt="Way of Kings" />
@@ -59,14 +59,14 @@ const WayOfKingsReview = () => {
         </div>
         <div className="paragraph-wrap">
           <p>
-          army. But I stuck with it and really got into it when he became a slave. I think this is what you would call a slow start but the moment it picks up I couldnâ€™t put it down. The attention to detail is crazy, and I am currently writing this review after I finished Rhythm of war, the amount of call backs is insane. I could only read this series for a year and I donâ€™t think I would ever get bored.
+          army. But I stuck with it and really got into it when he became a slave. I think this is what you would call a slow start but the moment it picks up I couldn't put it down. The attention to detail is crazy, and I am currently writing this review after I finished Rhythm of war, the amount of call backs is insane. I could only read this series for a year and I don't think I would ever get bored.
           </p>
         </div>
         
         {/* Paragraph Only Container */}
         <div className="paragraph-only-container">
           <p>
-          The only downfall Iâ€™ve heard people say to me that I do get is the book is long. I donâ€™t mind this in the least bit. There are very few things I would cut. I do understand this criticism however, it can seem daunting to read a book that long especially when you start. My only solace is it is so worth it to finish the series.
+          The only downfall I've heard people say to me that I do get is the book is long. I don't mind this in the least bit. There are very few things I would cut. I do understand this criticism however, it can seem daunting to read a book that long especially when you start. My only solace is it is so worth it to finish the series.
           </p>
         </div>
 
@@ -79,7 +79,7 @@ const WayOfKingsReview = () => {
           Misc Page
         </Link>
       </div>
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

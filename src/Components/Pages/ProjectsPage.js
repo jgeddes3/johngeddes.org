@@ -1,6 +1,6 @@
 import React from 'react';
 import Background from '../ForEveryPage/Background';
-import Bottombar from '../ForEveryPage/Bottombar';
+import PageFooter from '../ForEveryPage/PageFooter';
 import { Link } from 'react-router-dom';
 import './ProjectsPage.css';
 
@@ -51,7 +51,7 @@ const ProjectsPage = () => {
           <Project9 />
         </Link>
       </div>
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

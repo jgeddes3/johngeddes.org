@@ -1,10 +1,10 @@
-﻿.bottom-bar {
+.bottom-bar {
   position: relative;
   bottom: 0;
   width: 100%;
   height: 404px;
-  background: #EAE0D5;
-  color: #EAE0D5;
+  background: var(--bg-primary);
+  color: var(--bg-primary);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,7 +21,7 @@
   flex-direction: column;
   gap: 10px;
   width: 600px; /* Fixed width for the groups */
-  background: #EAE0D5; /* Background color for the groups */
+  background: var(--bg-primary); /* Background color for the groups */
   border-radius: 10px; /* Border radius for the groups */
   padding: 20px; /* Padding inside the groups */
   box-sizing: border-box; /* Ensure padding is included in the width */
@@ -50,7 +50,7 @@
 .column-title {
   font-size: 24px;
   font-weight: 700;
-  color: #A30000;
+  color: var(--color-accent);
   font-family: 'Galgine', sans-serif; /* Add font-family */
   margin-bottom: -3px;
 }
@@ -74,13 +74,13 @@
   width: 533px;
   height: 95px;
   border-radius: 26px;
-  background: #FFF6ED;
+  background: var(--bg-secondary);
   overflow: hidden;
   box-sizing: border-box;
 }
 
 .bottomtext1 {
-  color: #A30000;
+  color: var(--color-accent);
   font-family: 'Galgine', sans-serif;
   font-size: 20px;
   font-weight: 400;
@@ -94,7 +94,7 @@
 .ellipse5 {
   width: 7px;
   height: 7px;
-  background: #A30000;
+  background: var(--color-accent);
   border-radius: 50%;
 }
 
@@ -114,7 +114,7 @@
   width: 646px;
   height: 226px;
   border-radius: 34px;
-  background: rgba(255, 246, 237, 0.8);
+  background: var(--overlay-bg);
   position: absolute;
   bottom: 100%; /* Position the overlay above the button */
   left: 250%; /* Move the overlay slightly to the right */
@@ -139,7 +139,7 @@
 .overlay-text,
 .overlay-text-large,
 .overlay-paragraph {
-  color: #A30000;
+  color: var(--color-accent);
   font-family: "EB Garamond";
   font-size: 28px;
   line-height: normal;
@@ -149,7 +149,7 @@
 .overlay-paragraph {
   width: auto; /* Adjust width as needed */
   height: 159px;
-  text-align: left; 
+  text-align: left;
 }
 
 .overtext3,
@@ -183,7 +183,7 @@
   width: 201px;
   height: 32px;
   text-align: left;
-  color: #A30000;
+  color: var(--color-accent);
   font-family: 'Galgine', sans-serif; /* Add font-family */
   font-size: 20px;
   font-weight: 400;
@@ -193,7 +193,7 @@
   width: 219px;
   height: 32px;
   text-align: left;
-  color: #A30000;
+  color: var(--color-accent);
   font-family: 'Galgine', sans-serif; /* Add font-family */
   font-size: 20px;
   font-weight: 400;
@@ -221,13 +221,13 @@
   width: 234px;
   height: 47px;
   border-radius: 216px;
-  background: #FFF6ED;
+  background: var(--bg-secondary);
   overflow: hidden;
   box-sizing: border-box;
 }
 
 .bottomtext1 {
-  color: #A30000;
+  color: var(--color-accent);
   font-family: 'Galgine', sans-serif;
   font-size: 12px;
   font-weight: 400;
@@ -241,7 +241,7 @@
 .ellipse5 {
   width: 3.5px;
   height: 3.5px;
-  background: #A30000;
+  background: var(--color-accent);
   border-radius: 50%;
 }
 

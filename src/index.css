@@ -1,6 +1,83 @@
+:root {
+  --bg-primary: #EAE0D5;
+  --bg-secondary: #FFF6ED;
+  --bg-container: #e5d8cb;
+  --bg-hover: #f8f4f1;
+  --bg-not-found: #f2f2f2;
+  --color-accent: #A30000;
+  --color-accent-dark: #710000;
+  --color-accent-medium: #720000;
+  --color-accent-caption: #5e0000;
+  --color-text-dark: #333;
+  --color-text-black: #000000;
+  --color-grey-accent: #A67E7E;
+  --sticky-bg-scrolled: rgba(234, 224, 213, 0.9);
+  --sticky-bg-mobile: rgba(234, 224, 213, 0.95);
+  --sticky-bg-mobile-scrolled: rgba(234, 224, 213, 0.98);
+  --nav-active-bg: rgba(255, 255, 255, 0.8);
+  --overlay-bg: rgba(255, 246, 237, 0.8);
+  --overlay-bg-light: rgba(255, 246, 237, 0.7);
+  --color-red-brand: #BC4749;
+  --color-red-brand-hover: #933739;
+  --color-gold-brand: #D5AC4E;
+  --color-green-brand: #417F4B;
+  --color-green-brand-hover: #3A7243;
+  --color-slate-brand: #495166;
+  --color-charcoal: #30343F;
+  --orb1-color: rgba(84, 190, 127, 0.50);
+  --orb2-color: #A9D563;
+  --orb3-color: rgba(213, 172, 78, 0.50);
+  --orb4-color: rgba(188, 71, 73, 0.50);
+  --orb5-color: rgba(200, 100, 150, 0.50);
+  --orb6-color: rgba(50, 50, 200, 0.50);
+  --orb8-color: rgba(0, 128, 128, 0.50);
+  --blur-rect-bg: #EAE0D5;
+  --bars-color-1: #0A0908;
+  --bars-color-2: #BA9A47;
+  --bars-color-3: #EEEA82;
+  --bars-color-4: #F6E5AE;
+}
+
+[data-theme="dark"] {
+  --bg-primary: #30343F;
+  --bg-secondary: #3D4250;
+  --bg-container: #404558;
+  --bg-hover: #4A4F63;
+  --bg-not-found: #2A2E38;
+  --color-accent: #DE4D5B;
+  --color-accent-dark: #C43A48;
+  --color-accent-medium: #E06070;
+  --color-accent-caption: #D4737E;
+  --color-text-dark: #D0D0D0;
+  --color-text-black: #E0E0E0;
+  --color-grey-accent: #C4A0A0;
+  --sticky-bg-scrolled: rgba(48, 52, 63, 0.9);
+  --sticky-bg-mobile: rgba(48, 52, 63, 0.95);
+  --sticky-bg-mobile-scrolled: rgba(48, 52, 63, 0.98);
+  --nav-active-bg: rgba(255, 255, 255, 0.15);
+  --overlay-bg: rgba(61, 66, 80, 0.9);
+  --overlay-bg-light: rgba(61, 66, 80, 0.8);
+  --color-red-brand: #D45558;
+  --color-red-brand-hover: #B5484A;
+  --color-gold-brand: #E0BA58;
+  --color-green-brand: #4E9A5A;
+  --color-green-brand-hover: #3F8049;
+  --color-slate-brand: #5D6680;
+  --color-charcoal: #E0E0E0;
+  --orb1-color: rgba(10, 9, 8, 0.50);
+  --orb2-color: rgba(186, 154, 71, 0.50);
+  --orb3-color: rgba(238, 234, 130, 0.50);
+  --orb4-color: rgba(246, 229, 174, 0.50);
+  --orb5-color: rgba(10, 9, 8, 0.35);
+  --orb6-color: rgba(186, 154, 71, 0.35);
+  --orb8-color: rgba(238, 234, 130, 0.35);
+  --blur-rect-bg: #30343F;
+}
+
 html, body {
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: hidden; /* fallback */
+  overflow-x: clip;
 }
 
 body {
@@ -14,7 +91,8 @@ body {
 
 #root {
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: hidden; /* fallback */
+  overflow-x: clip;
 }
 
 code {

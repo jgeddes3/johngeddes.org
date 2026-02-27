@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:seanhalpin.xyz)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.awwwards.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(npx react-scripts build)",
+      "Bash(del \"C:\\\\Users\\\\johng\\\\johngeddes.org\\\\src\\\\Components\\\\ForEveryPage\\\\DarkModeToggle.js\")",
+      "Bash(del \"C:\\\\Users\\\\johng\\\\johngeddes.org\\\\src\\\\Components\\\\ForEveryPage\\\\DarkModeToggle.css\")",
+      "Bash(npm run build:*)",
+      "Bash(findstr:*)"
+    ]
+  }
+}

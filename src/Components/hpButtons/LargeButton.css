@@ -17,11 +17,11 @@
 
 /* LargeButton1 Specific Styles */
 .large-btn {
-  background: #BC4749;
+  background: var(--color-red-brand);
 }
 
 .large-btn:hover {
-  background: #933739;
+  background: var(--color-red-brand-hover);
 }
 
 .inner-rectangle {
@@ -38,7 +38,7 @@
 .text-topL {
   width: 114px;
   height: 19px;
-  color: #FFF;
+  color: var(--color-text-white);
   text-align: right;
   font-family: 'EB Garamond', serif;
   font-size: 12px;
@@ -50,7 +50,7 @@
 .TextBottomL1 {
   width: 136px;
   height: 36px;
-  color: #30343F;
+  color: var(--color-charcoal);
   text-align: center;
   font-family: 'Galgine', serif;
   font-size: 24px;
@@ -61,7 +61,7 @@
 
 /* LargeButton2 Specific Styles */
 .large-btn2 {
-  background: #D5AC4E;
+  background: var(--color-gold-brand);
 }
 
 .large-btn2:hover {
@@ -82,7 +82,7 @@
 .text-top3 {
   width: 114px;
   height: 19px;
-  color: #FFF;
+  color: var(--color-text-white);
   text-align: right;
   font-family: 'EB Garamond', serif;
   font-size: 12px;
@@ -94,7 +94,7 @@
 .TextBottomL3 {
   width: 136px;
   height: 36px;
-  color: #30343F;
+  color: var(--color-charcoal);
   text-align: center;
   font-family: 'Galgine', serif;
   font-size: 24px;
@@ -137,7 +137,7 @@
 .TextBottomL6 {
   width: 140px;
   height: 68px;
-  color: #30343F;
+  color: var(--color-charcoal);
   text-align: center;
   font-family: 'Galgine', serif;
   font-size: 20px;

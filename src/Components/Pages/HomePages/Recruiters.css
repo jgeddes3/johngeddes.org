@@ -26,7 +26,7 @@
 .projects-description {
     font-family: 'EB Garamond', serif;
     font-size: 25px;
-    color: #A30000;
+    color: var(--color-accent);
     line-height: 1.5; /* Improve readability */
     text-align: center; /* Optional */
 }
@@ -50,7 +50,7 @@
   width: 100%;
   max-width: 1200px;
   height: 100px;
-  background-color:#BC4749;
+  background-color:var(--color-red-brand);
   color: white;
   font-family: 'EB Garamond', serif;
   cursor: pointer;
@@ -65,7 +65,7 @@
 /* Expanded state with color transition */
 .collapsible-button.expanded {
   height: 800px;
-  background-color: #A30000; /* New color when expanded */
+  background-color: var(--color-accent); /* New color when expanded */
 }
 
 /* Button cover content remains at the top */
@@ -144,7 +144,7 @@
   display: none;
   margin: 20px auto;
   padding: 12px 24px;
-  background-color: #BC4749;
+  background-color: var(--color-red-brand);
   color: white;
   text-decoration: none;
   border-radius: 8px;
@@ -156,7 +156,7 @@
 }
 
 .download-btn:hover {
-  background-color: #A30000;
+  background-color: var(--color-accent);
 }
 
 /* Show download button on mobile, hide PDF viewer */
@@ -200,19 +200,19 @@
     font-size: 30px; /* Larger text size */
     padding: 10px;
     background-color: transparent; /* Transparent background */
-    color: #BC4749; /* Text color */
+    color: var(--color-red-brand); /* Text color */
     text-align: center;
     text-decoration: none;
-    border: 2px solid #BC4749; /* Add a border */
+    border: 2px solid var(--color-red-brand); /* Add a border */
     border-radius: 40px;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
   
 
 .contract-button:hover {
-    background-color: #3A7243; /* Change background on hover */
+    background-color: var(--color-green-brand-hover); /* Change background on hover */
     color: white; /* Text color change on hover */
-    border:#3A7243;
+    border:var(--color-green-brand-hover);
 }
 
 /* Tablet responsiveness */

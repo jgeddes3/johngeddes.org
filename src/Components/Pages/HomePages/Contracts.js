@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; 
 import Background from '../../ForEveryPage/Background';
-import Bottombar from '../../ForEveryPage/Bottombar';
+import PageFooter from '../../ForEveryPage/PageFooter';
 import './Contracts.css';
 import ContractSlide1 from './ContractsSlides/ContractSlide1.png';
 import ContractSlide2 from './ContractsSlides/ContractSlide2.png';
@@ -100,7 +100,7 @@ const ContractsPage = () => {
         </Link>
       </div>
 
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

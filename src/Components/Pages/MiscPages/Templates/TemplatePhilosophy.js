@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Background from '../../../ForEveryPage/Background';
-import Bottombar from '../../../ForEveryPage/Bottombar';
+import PageFooter from '../../../ForEveryPage/PageFooter';
 import '../AaMiscTemplates.css';
 // CONTENT: import your photos here if needed.
 // import Photo1 from '../MiscPageImages/YourFolder/Photo1.jpg';
@@ -114,7 +114,7 @@ Optional text beside a left photo.
           Misc Page
         </Link>
       </div>
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

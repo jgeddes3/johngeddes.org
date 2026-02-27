@@ -1,6 +1,6 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
-import Bottombar from '../../ForEveryPage/Bottombar';
+import PageFooter from '../../ForEveryPage/PageFooter';
 import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import FullStar from '../HomePages/FriendsImages/WhiteStar.png';
@@ -48,7 +48,7 @@ const TavaFreshIndian = () => {
         </div>
         <div className="paragraph-only-container">
           <p>
-          This is one of the best, if not the best, Indian food Iâ€™ve had in Chicago. 
+          This is one of the best, if not the best, Indian food I've had in Chicago. 
           From the moment I walked in, I could tell this place was special. 
           The aromas alone were enough to get my mouth watering, and once the food arrived, I was not disappointed. 
           They also serve some of the first and best alcoholic Lassi's I have ever had, which added an extra layer of enjoyment to the meal.
@@ -60,7 +60,7 @@ const TavaFreshIndian = () => {
           I had the Tandoori Chicken, Tava Fish Tandoori, Chicken Makhani, and Carrot Halwa for dessert. Each dish was bursting with flavor, perfectly spiced, and cooked to perfection. 
           Anything that is a TAVA Signature I would recommend without hesitation, but the Chicken Makhani was truly something to die for. 
           It was rich, creamy, and full of that buttery tomato goodness that defines a great makhani. 
-          I couldnâ€™t get enough.
+          I couldn't get enough.
           </p>
           </div>
           <div className = "image-with-caption">
@@ -90,7 +90,7 @@ const TavaFreshIndian = () => {
           Misc Page
         </Link>
       </div>
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

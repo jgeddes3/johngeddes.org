@@ -1,7 +1,7 @@
 import React from 'react';
 import './Homepage.css';
 import Background from '../ForEveryPage/Background';
-import Bottombar from '../ForEveryPage/Bottombar';
+import PageFooter from '../ForEveryPage/PageFooter';
 import Largebutton1 from '../hpButtons/Largebutton1';
 import Smallbutton1 from '../hpButtons/Smallbutton1';
 import LargeButton2 from '../hpButtons/Largebutton2';
@@ -50,7 +50,7 @@ const HomePage = () => {
           </Link>
         </div>
       </div>
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

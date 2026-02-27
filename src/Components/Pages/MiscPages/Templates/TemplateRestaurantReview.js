@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Background from '../../../ForEveryPage/Background';
-import Bottombar from '../../../ForEveryPage/Bottombar';
+import PageFooter from '../../../ForEveryPage/PageFooter';
 import '../AaMiscTemplates.css';
 import FullStar from '../../HomePages/FriendsImages/WhiteStar.png';
 import HalfStar from '../../HomePages/FriendsImages/WhiteStarHalf.png';
@@ -163,7 +163,7 @@ Closing paragraph here.
           Misc Page
         </Link>
       </div>
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

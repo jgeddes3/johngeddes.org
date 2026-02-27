@@ -1,7 +1,8 @@
 body {
-  background: #EAE0D5;
+  background: var(--bg-primary);
   margin: 0;
-  overflow-x: hidden; /* In case orbs move out of view */
+  overflow-x: hidden; /* fallback */
+  overflow-x: clip; /* In case orbs move out of view */
 }
 
 .orb-container {
@@ -24,54 +25,54 @@ body {
 #orb1 {
   width: 502px;
   height: 471px;
-  background: rgba(84, 190, 127, 0.50);
+  background: var(--orb1-color);
 }
 
 #orb2 {
   width: 687px;
   height: 673px;
-  background: #A9D563;
+  background: var(--orb2-color);
 }
 
 #orb3 {
   width: 881px;
   height: 838px;
-  background: rgba(213, 172, 78, 0.50);
+  background: var(--orb3-color);
 }
 
 #orb4 {
   width: 698px;
   height: 654px;
-  background: rgba(188, 71, 73, 0.50);
+  background: var(--orb4-color);
 }
 
 #orb5 {
   width: 698px;
   height: 654px;
-  background: rgba(200, 100, 150, 0.50);
+  background: var(--orb5-color);
 }
 
 #orb6 {
   width: 487px;
   height: 473px;
-  background: rgba(50, 50, 200, 0.50);
+  background: var(--orb6-color);
 }
 
 
 #orb8 {
   width: 700px;
   height: 700px;
-  background: rgba(0, 128, 128, 0.50);  
+  background: var(--orb8-color);
 }
 
 .blur-rectangle {
   position: absolute;
-  width: 140%; 
-  height: 1000px; 
-  top: 600px; 
-  left: -20%; 
-  background: #EAE0D5;
-  filter: blur(150px); 
+  width: 140%;
+  height: 1000px;
+  top: 600px;
+  left: -20%;
+  background: var(--blur-rect-bg);
+  filter: blur(150px);
   border-radius: 100px;
 }
 @media (max-width: 720px) and (max-height: 1280px) {
@@ -88,43 +89,43 @@ body {
   #orb1 {
   width: 220.88px; /* Halved and reduced by 12% */
   height: 206.64px; /* Halved and reduced by 12% */
-  background: rgba(84, 190, 127, 0.50);
+  background: var(--orb1-color);
 }
 
 #orb2 {
   width: 302.64px; /* Halved and reduced by 12% */
   height: 296.64px; /* Halved and reduced by 12% */
-  background: #A9D563;
+  background: var(--orb2-color);
 }
 
 #orb3 {
   width: 387.28px; /* Halved and reduced by 12% */
   height: 368.72px; /* Halved and reduced by 12% */
-  background: rgba(213, 172, 78, 0.50);
+  background: var(--orb3-color);
 }
 
 #orb4 {
   width: 307.52px; /* Halved and reduced by 12% */
   height: 287.76px; /* Halved and reduced by 12% */
-  background: rgba(188, 71, 73, 0.50);
+  background: var(--orb4-color);
 }
 
 #orb5 {
   width: 307.52px; /* Halved and reduced by 12% */
   height: 287.76px; /* Halved and reduced by 12% */
-  background: rgba(200, 100, 150, 0.50);
+  background: var(--orb5-color);
 }
 
 #orb6 {
   width: 214.64px; /* Halved and reduced by 12% */
   height: 208.64px; /* Halved and reduced by 12% */
-  background: rgba(50, 50, 200, 0.50);
+  background: var(--orb6-color);
 }
 
 #orb8 {
   width: 308px; /* Halved and reduced by 12% */
   height: 308px; /* Halved and reduced by 12% */
-  background: rgba(0, 128, 128, 0.50);  
+  background: var(--orb8-color);
 }
 
 }

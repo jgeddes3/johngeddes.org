@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #A30000;
+  color: var(--color-accent);
   padding: 20px;
   border-radius: 20px;
   max-width: 100%;
@@ -51,7 +51,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #EAE0D5; /* Background color */
+  background-color: var(--bg-primary); /* Background color */
 }
 
 .miscphoto1 {

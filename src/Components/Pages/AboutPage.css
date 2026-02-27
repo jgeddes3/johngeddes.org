@@ -13,7 +13,7 @@
 }
 
 #centerpieceAbout h1 {
-  color: #A30000;
+  color: var(--color-accent);
   text-align: center;
   font-family: 'Galgine', serif;
   font-size: 96px;
@@ -69,7 +69,7 @@
     width: 376px;
     height: 80px;
     flex-shrink: 0;
-    background: #710000;
+    background: var(--color-accent-dark);
     top: 333px;  
     left: 0;
     overflow: hidden;
@@ -141,7 +141,7 @@
 
 .ResumeRect1, .ResumeRect2, .ResumeRect3, .ResumeRect4, .ResumeRect6 {
     border-radius: 61px;
-    background-color: #710000;
+    background-color: var(--color-accent-dark);
     height: 93px;
     position:absolute;
 }
@@ -178,14 +178,14 @@
 .ResumeRect5{
     width: 1022px;
     height: 706px;
-    background-color: #fff6ed;
+    background-color: var(--bg-secondary);
     border-radius: 48px;
     position: absolute;
     left: 235px;
 }
 .AboutPara3{
     position: absolute;
-    color: #A30000;
+    color: var(--color-accent);
   font-family: 'Galgine', serif;
   font-style: normal;
   font-weight: 400;
@@ -236,7 +236,7 @@
     width: 88px;
 }
   .AboutMeTextLarge {
-  color: #A30000;
+  color: var(--color-accent);
   font-family: 'Galgine', serif;
   font-size: 36px;
   font-style: normal;
@@ -246,7 +246,7 @@
 }
 
 .AboutMeTextSmall {
-  color: #710000;
+  color: var(--color-accent-dark);
   font-family: 'EB Garamond', serif;
   font-size: 28px;
   font-style: normal;
@@ -256,7 +256,7 @@
 }
 
 .AboutMeWhiteLarge {
-  color: #EAE0D5;
+  color: var(--bg-primary);
   font-family: 'EB Garamond', serif;
   font-size: 24px;
   font-style: normal;
@@ -265,7 +265,7 @@
 }
 
 .AboutMeGreyLarge {
-  color: #A67E7E;
+  color: var(--color-grey-accent);
   font-family: 'EB Garamond', serif;
   font-size: 24px;
   font-style: normal;
@@ -274,7 +274,7 @@
 }
 
 .AboutMeWhiteSmall {
-  color: #EAE0D5;
+  color: var(--bg-primary);
   font-family: 'EB Garamond', serif;
   font-size: 20px;
   font-style: normal;
@@ -283,7 +283,7 @@
 }
 
 .AboutMeGreySmall {
-  color: #A67E7E;
+  color: var(--color-grey-accent);
   font-family: 'EB Garamond', serif;
   font-size: 14px;
   font-style: normal;
@@ -318,19 +318,19 @@
     font-size: 20px; /* Larger text size */
     padding: 10px;
     background-color: transparent; /* Transparent background */
-    color:  #A30000; /* Text color */
+    color:  var(--color-accent); /* Text color */
     text-align: center;
     text-decoration: none;
-    border: 2px solid #A30000; /* Add a border */
+    border: 2px solid var(--color-accent); /* Add a border */
     border-radius: 40px;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
   
 
 .AboutFriends-button:hover {
-    background-color: #D5AC4E; /* Change background on hover */
+    background-color: var(--color-gold-brand); /* Change background on hover */
     color: white; /* Text color change on hover */
-    border:#D5AC4E;
+    border-color: var(--color-gold-brand);
 }
 
 /* Tablet and below */
@@ -431,7 +431,7 @@
     top: auto;
     transform: none;
     border-radius: 40px;
-    background-color: #710000;
+    background-color: var(--color-accent-dark);
     height: 60px;
     width: 100%;
     max-width: 500px;

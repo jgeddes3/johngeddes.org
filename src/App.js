@@ -1,5 +1,6 @@
 import './App.css';
 import React, { Suspense } from 'react';
+import { ThemeProvider } from './ThemeContext';
 import StickyBar from './Components/ForEveryPage/Stickybar';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import ScrollToTop from './Components/ForEveryPage/ScrollToTop';
@@ -40,6 +41,7 @@ const CrockPotChilli = React.lazy(() => import('./Components/Pages/MiscPages/Cro
 
 function App() {
   return (
+    <ThemeProvider>
     <Router>
       <ScrollToTop />
       <div className="App">
@@ -88,6 +90,7 @@ function App() {
         </Suspense>
       </div>
     </Router>
+    </ThemeProvider>
   );
 }
 

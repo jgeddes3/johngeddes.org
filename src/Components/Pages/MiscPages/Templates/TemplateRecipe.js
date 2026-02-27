@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Background from '../../../ForEveryPage/Background';
-import Bottombar from '../../../ForEveryPage/Bottombar';
+import PageFooter from '../../../ForEveryPage/PageFooter';
 import '../AaMiscTemplates.css';
 // CONTENT: import your photos here.
 // import MainPhoto from '../MiscPageImages/YourFolder/Main.jpg';
@@ -169,7 +169,7 @@ Serves: 4 | Prep Time: 20 minutes | Cook Time: 30 minutes
           Misc Page
         </Link>
       </div>
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

@@ -16,7 +16,7 @@
 }
 
 #sticky-header.scrolled {
-  background-color: rgba(234, 224, 213, 0.9); /* Background color when scrolled */
+  background-color: var(--sticky-bg-scrolled); /* Background color when scrolled */
 }
 
 .nav-btn {
@@ -26,7 +26,7 @@
   flex-shrink: 1;
   border-radius: 20px;
   background: transparent;
-  color: #A30000;
+  color: var(--color-accent);
   font-family: 'EB Garamond', serif;
   font-size: 20px;
   text-align: center;
@@ -46,8 +46,8 @@
 }
 
 .nav-btn.active {
-  background: rgba(255, 255, 255, 0.8); /* Highlight active button with a semi-transparent white */
-  border-color: rgba(255, 255, 255, 0.8);  /* Border color to match the highlight */
+  background: var(--nav-active-bg); /* Highlight active button with a semi-transparent white */
+  border-color: var(--nav-active-bg);  /* Border color to match the highlight */
 }
 
 @media (max-width: 1200px) {
@@ -79,10 +79,10 @@
     border-radius: 20px;
     padding: 5px 10px;
     top: 10px;
-    background-color: rgba(234, 224, 213, 0.95);
+    background-color: var(--sticky-bg-mobile);
   }
   #sticky-header.scrolled {
-    background-color: rgba(234, 224, 213, 0.98);
+    background-color: var(--sticky-bg-mobile-scrolled);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 }
@@ -99,11 +99,11 @@
     margin: 0 auto;
     border-radius: 20px;
     top: 10px;
-    background-color: rgba(234, 224, 213, 0.95);
+    background-color: var(--sticky-bg-mobile);
     gap: 8px;
   }
   #sticky-header.scrolled {
-    background-color: rgba(234, 224, 213, 0.98);
+    background-color: var(--sticky-bg-mobile-scrolled);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 }

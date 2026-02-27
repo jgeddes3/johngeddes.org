@@ -12,7 +12,7 @@
 }
 
 #centerpiece h1 {
-  color: #A30000;
+  color: var(--color-accent);
   text-align: center;
   font-family: 'Galgine', serif;
   font-size: 96px;
@@ -40,7 +40,7 @@
 }
 
 #centerpiece1 h1 {
-  color: #A30000;
+  color: var(--color-accent);
   text-align: center;
   font-family: 'Galgine', serif;
   font-size: 96px;

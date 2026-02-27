@@ -30,20 +30,20 @@
 
 .content-slide-3-button {
   padding: 40px 80px;
-  background-color: #A30000;
+  background-color: var(--color-accent);
   color: white;
   text-decoration: none;
   border-radius: 20px;
   transition: background-color 0.3s ease, border 0.3s ease;
   font-family: 'Galgine', serif;
   margin: 10px;
-  border: 3px solid #A30000;
+  border: 3px solid var(--color-accent);
 }
 
 .content-slide-3-button:hover {
   background-color: transparent;
   color: white;
-  border: 3px solid #A30000;
+  border: 3px solid var(--color-accent);
 }
 
 /* Tablet responsiveness */

@@ -5,23 +5,23 @@
   align-items: center;
   height: 100vh;
   text-align: center;
-  background-color: #f2f2f2;
+  background-color: var(--bg-not-found);
 }
 
 .not-found-container h1 {
   font-size: 4rem;
-  color: #A30000;
+  color: var(--color-accent);
 }
 
 .not-found-container p {
   font-size: 1.5rem;
-  color: #333;
+  color: var(--color-text-dark);
 }
 
 .back-home-button {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #A30000;
+  background-color: var(--color-accent);
   color: white;
   text-decoration: none;
   border-radius: 5px;
@@ -29,5 +29,5 @@
 }
 
 .back-home-button:hover {
-  background-color: #933739;
+  background-color: var(--color-red-brand-hover);
 }

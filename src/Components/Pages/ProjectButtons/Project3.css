@@ -22,14 +22,14 @@
 .text-container3 h1 {
   font-family: 'EB Garamond', serif;
   font-size: 35px;
-  color: #A30000;
+  color: var(--color-accent);
   margin-bottom: 10px;
 }
 
 .text-container3 p {
   font-family: 'EB Garamond', serif;
   font-size: 20px;
-  color: #A30000;
+  color: var(--color-accent);
 }
 
 .ProjectPhoto3 {
@@ -42,7 +42,7 @@
 .ProjPhotoRectangle3 {
   width: 290px;
   height: 227px;
-  background-color: #EAE0D5; /* Background color for the rectangle */
+  background-color: var(--bg-primary); /* Background color for the rectangle */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,7 +74,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #EAE0D5; /* Background color */
+  background-color: var(--bg-primary); /* Background color */
 }
 
 .projphoto1 {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; 
 import Background from '../../ForEveryPage/Background';
-import Bottombar from '../../ForEveryPage/Bottombar';
+import PageFooter from '../../ForEveryPage/PageFooter';
 import Recruiterimg_1 from './RecruiterImages/Recruiterimg_1.png'; // Add image imports
 import Recruiterimg_3 from './RecruiterImages/Recruiterimg_2.png';
 import Recruiterimg_2 from './RecruiterImages/Recruiterimg_3.png';
@@ -38,7 +38,7 @@ const RecruitersPage = () => {
       </div>
       <div className="projects-description-container">
       <p className="projects-description main-content">
-          I am a versatile professional with a Bachelor's degree in Computer Science from Loyola University Chicago and a minor in Philosophy. Over the past three years, Iâ€™ve gained valuable experience across multiple areas, including Data Analytics, IT Support, A.V. Technology, and Web Development. Iâ€™ve managed and supported A.V. systems in corporate environments, provided technical support for high-profile events, and worked with platforms like WebEx and Microsoft Teams. Additionally, my background in front-end development, including Python, Java, and React.js, has sharpened my problem-solving and analytical skills. My diverse experience allows me to thrive in IT and technical roles, where I enjoy leading projects and collaborating with teams to deliver effective solutions.
+          Hello! I am an Audio Visual Engineer currently working Chicago. Well, my official title is Senior Executive Audio Visual Desktop Engineer, but that is just a mouthful and will not fit on my business cards. For my education, I graduated Loyola Chicago with a Bachelor's Degree in Computer Science and a minor in Philosophy. Over the past five years of my working career, I have gained very valuable experience in Programming, Data Analytics, IT Support, AV Technologies, and of course, Web development. In the most recent months I have been experimenting with AI and programming and the best applications to reduce and remove inefficiencies in my working life. With being a jack of all trades, it has allowed me to excel in the roles I have had. As I continue to learn, I will continue to excel in all of my technical and leadership roles to come.
         </p>
       </div>
       <div className="button-container main-content">
@@ -84,7 +84,7 @@ const RecruitersPage = () => {
           Contracts Page
         </Link>
       </div>
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

@@ -21,14 +21,14 @@
 .text-container1 h1 {
   font-family: 'EB Garamond', serif;
   font-size: 30px;
-  color: #A30000;
+  color: var(--color-accent);
   margin-bottom: 0px;
 }
 
 .text-container1 p {
   font-family: 'EB Garamond', serif;
   font-size: 15px;
-  color: #A30000;
+  color: var(--color-accent);
 }
 
 .ProjectPhoto1 {
@@ -46,7 +46,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #EAE0D5; /* Background color */
+  background-color: var(--bg-primary); /* Background color */
 }
 
 .projphoto1 {

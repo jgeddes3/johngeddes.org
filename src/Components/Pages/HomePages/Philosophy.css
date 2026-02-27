@@ -51,9 +51,9 @@
   }
   
   .friends1-nav-button:hover {
-    background-color: #D5AC4E; /* Change background on hover */
+    background-color: var(--color-gold-brand); /* Change background on hover */
     color: white; /* Text color change on hover */
-    border:#D5AC4E;
+    border:var(--color-gold-brand);
   }
   
   /* Recruiters Button */

@@ -33,7 +33,7 @@
 }
 
 #centerpieceFriends h1 {
-  color: #A30000;
+  color: var(--color-accent);
   text-align: center;
   font-family: 'Galgine', serif;
   font-size: 60px;
@@ -65,18 +65,18 @@
     font-size: 30px; /* Larger text size */
     padding: 10px;
     background-color: transparent; /* Transparent background */
-    color: #D5AC4E; /* Text color */
+    color: var(--color-gold-brand); /* Text color */
     text-align: center;
     text-decoration: none;
-    border: 2px solid #D5AC4E; /* Add a border */
+    border: 2px solid var(--color-gold-brand); /* Add a border */
     border-radius: 40px;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
   
   .contracts-nav-button:hover {
-    background-color: #3A7243; /* Change background on hover */
+    background-color: var(--color-green-brand-hover); /* Change background on hover */
     color: white; /* Text color change on hover */
-    border:#3A7243;
+    border-color: var(--color-green-brand-hover);
   }
   
   /* Recruiters Button */
@@ -90,10 +90,10 @@
     font-size: 30px; /* Larger text size */
     padding: 10px;
     background-color: transparent; /* Transparent background */
-    color: #D5AC4E; /* Text color */
+    color: var(--color-gold-brand); /* Text color */
     text-align: center;
     text-decoration: none;
-    border: 2px solid #D5AC4E; /* Add a border */
+    border: 2px solid var(--color-gold-brand); /* Add a border */
     border-radius: 40px;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
@@ -119,7 +119,7 @@
   /* Individual fantasy item with color and size */
   .fantasy-item {
     font-family: 'Galgine', serif;
-    color: #A30000;
+    color: var(--color-accent);
     width: 100%;
     max-width: 420px;
     height: 730px;
@@ -178,7 +178,7 @@
 .info-rectangle {
   width: 1022px;
   height: 520px;
-  background-color: #fff6ed;
+  background-color: var(--bg-secondary);
   border-radius: 48px;
   margin-top: 40px;
   margin-left: 250px;
@@ -239,7 +239,7 @@
 
 /* Paragraph styling */
 .golf-description {
-  color: #A30000;
+  color: var(--color-accent);
   font-family: "EB Garamond";
   font-size: 28px;
   line-height: normal;
@@ -276,8 +276,8 @@
   .books-friends-rect-left {
     width: 90%;
     height: 700px;
-    background-color: #fff6ed;
-    border: 2px solid #A30000; /* Red border */
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--color-accent); /* Red border */
     border-radius: 10px;
     padding: 20px;
   }
@@ -286,15 +286,15 @@
   .books-friends-rect-right {
     width: 90%;
     height: 700px;
-    background-color: #fff6ed;
-    border: 2px solid #A30000; /* Red border */
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--color-accent); /* Red border */
     border-radius: 10px;
     padding: 20px;
     overflow-y: auto; /* Scrollable content */
   }
   .books-friends-header {
   font-size: 35px;
-  color: #A30000;
+  color: var(--color-accent);
   font-family: "EB Garamond";
   text-align: center;
 }
@@ -305,7 +305,7 @@
     gap: 20px;
   }
   .books-friends-description {
-  color: #A30000;
+  color: var(--color-accent);
   font-family: "EB Garamond";
   font-size: 28px;
   line-height: normal;
@@ -317,7 +317,7 @@
     width: 90%;
     height: 100px;
     padding: 20px;
-    background-color: #A30000;
+    background-color: var(--color-accent);
     font-family: 'Galgine', serif;
     font-size: 28px;
     color: white;
@@ -328,7 +328,7 @@
   }
   
   .books-friends-button:hover {
-    background-color: #933739;
+    background-color: var(--color-red-brand-hover);
   }
   
   /* Star icon positioning */
@@ -380,8 +380,8 @@
   .bars-friends-rect-left, .bars-friends-rect-right {
     width: 90%;
     height: 700px;
-    background-color: #fff6ed;
-    border: 2px solid #A30000; /* Red border */
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--color-accent); /* Red border */
     border-radius: 10px;
     padding: 20px;
     overflow-y: auto; /* Scrollable content */
@@ -401,7 +401,7 @@
     width: 90%;
     height: 120px;
     padding: 20px;
-    background-color: #A30000;
+    background-color: var(--color-accent);
     font-family: 'Galgine', serif;
     font-size: 28px;
     color: white;
@@ -412,7 +412,7 @@
   }
   
   .bars-friends-button:hover {
-    background-color: #933739;
+    background-color: var(--color-red-brand-hover);
   }
   
   /* Popup Iframe */
@@ -422,7 +422,7 @@
     width: 1000px;
     height: 600px;
     background-color: white;
-    border: 2px solid #A30000;
+    border: 2px solid var(--color-accent);
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
@@ -443,7 +443,7 @@
   .info-rectangle2 {
   width: 1022px;
   height: 700px;
-  background-color: #fff6ed;
+  background-color: var(--bg-secondary);
   border-radius: 48px;
   margin-top: 40px;
   margin-left: 180px;
@@ -464,19 +464,19 @@
     font-size: 20px; /* Larger text size */
     padding: 10px;
     background-color: transparent; /* Transparent background */
-    color:  #A30000; /* Text color */
+    color:  var(--color-accent); /* Text color */
     text-align: center;
     text-decoration: none;
-    border: 2px solid #A30000; /* Add a border */
+    border: 2px solid var(--color-accent); /* Add a border */
     border-radius: 40px;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
   
 
 .AboutFriends-button:hover {
-    background-color: #D5AC4E; /* Change background on hover */
+    background-color: var(--color-gold-brand); /* Change background on hover */
     color: white; /* Text color change on hover */
-    border:#D5AC4E;
+    border:var(--color-gold-brand);
 }
 
 .fantasy-third-container {
@@ -509,7 +509,7 @@
   text-align: left;
 }
 .chess-description {
-  color: #A30000;
+  color: var(--color-accent);
   font-family: "EB Garamond";
   font-size: 28px;
   line-height: normal;
@@ -535,7 +535,7 @@
 .mobile-section-header {
   display: none;
   font-family: 'Galgine', serif;
-  color: #A30000;
+  color: var(--color-accent);
   text-align: center;
   font-size: 24px;
   margin-bottom: 10px;

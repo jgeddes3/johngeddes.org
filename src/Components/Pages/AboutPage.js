@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'; 
 import './AboutPage.css';
 import Background from '../ForEveryPage/Background';
-import Bottombar from '../ForEveryPage/Bottombar';
+import PageFooter from '../ForEveryPage/PageFooter';
 import img_5354 from './AboutPages/img_5354.jpg'; 
 import ImageRectangles from './AboutPages/ImageRectangles';
 import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed.js'; 
@@ -76,7 +76,7 @@ const AboutPage = () => {
           <ImageRectangles />
         </div>
       </div>
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

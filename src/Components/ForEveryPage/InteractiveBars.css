@@ -1,0 +1,61 @@
+.timeline-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 30px 0 20px;
+}
+
+.timeline-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1240px;
+  height: 100px;
+  cursor: default;
+}
+
+.timeline-bar {
+  width: 8px;
+  flex-shrink: 0;
+  border-radius: 3px 3px 0 0;
+  will-change: height;
+  transition: height 0.15s ease-out;
+}
+
+/* Light/dark hour bar colors */
+.bar-light-hour { background-color: var(--color-accent); }
+.bar-dark-hour  { background-color: var(--color-accent-dark); }
+
+/* Indicator */
+.timeline-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: left 0.5s ease;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.timeline-indicator button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-accent);
+  background: var(--bg-primary);
+  color: var(--color-accent);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.timeline-indicator button:hover {
+  background: var(--color-accent);
+  color: var(--bg-primary);
+}

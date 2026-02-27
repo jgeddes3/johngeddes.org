@@ -1,6 +1,6 @@
 import React from 'react';
 import Background from '../ForEveryPage/Background';
-import Bottombar from '../ForEveryPage/Bottombar';
+import PageFooter from '../ForEveryPage/PageFooter';
 import { Link } from 'react-router-dom';
 import './MiscPage.css';
 
@@ -81,7 +81,7 @@ const MiscPage = () => {
         </div>
        
       </div>
-      <Bottombar />
+      <PageFooter />
     </>
   );
 };

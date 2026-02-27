@@ -11,7 +11,7 @@
   }
 
   #centerpiece2 h1 {
-  color: #A30000;
+  color: var(--color-accent);
   text-align: center;
   font-family: 'Galgine', serif;
   font-size: 96px;
@@ -21,7 +21,7 @@
   .projects-description {
     font-family: 'EB Garamond', serif;
     font-size: 30px;
-    color: #A30000;
+    color: var(--color-accent);
     margin-top: 20px;
   }
   
@@ -39,8 +39,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #e5d8cb;
-    color: #A30000;
+    background-color: var(--bg-container);
+    color: var(--color-accent);
     text-decoration: none;
     font-family: 'EB Garamond', serif;
     font-size: 20px;
@@ -61,7 +61,7 @@
   }
   
   .project-button:hover, .project-button-long:hover {
-    background-color: #f8f4f1;
+    background-color: var(--bg-hover);
     transform: translateY(-10px);
   }
  
