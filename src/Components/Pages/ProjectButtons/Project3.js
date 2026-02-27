@@ -1,13 +1,13 @@
 import React from 'react';
 import './Project3.css';
-import Photo3 from './ProjectButtonImages/ChessDeckGame.png';
+import Photo3 from './ProjectButtonImages/CipherTrackerLogo.png';
 
 const Project3 = () => {
   return (
     <div className="project-container3">
       <div className="text-container3">
-        <h1>Chess Deck</h1>
-        <p>A Chess Game</p>
+        <h1>Cipher Tracker</h1>
+        <p>A private habit tracking app with end-to-end encryption</p>
       </div>
       <div className="ProjectPhoto3">
         <div className="ProjPhotoRectangle3">

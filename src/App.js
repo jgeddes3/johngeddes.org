@@ -19,10 +19,10 @@ const ATourismApp = React.lazy(() => import('./Components/Pages/ProjectPages/ATo
 const ChessDeck = React.lazy(() => import('./Components/Pages/ProjectPages/ChessDeck'));
 const DrinkDecider = React.lazy(() => import('./Components/Pages/ProjectPages/DrinkDecider'));
 const ExcelWorkBooks = React.lazy(() => import('./Components/Pages/ProjectPages/ExcelWorkBooks'));
-const InstagramBots = React.lazy(() => import('./Components/Pages/ProjectPages/InstagramBots'));
+const CipherTracker = React.lazy(() => import('./Components/Pages/ProjectPages/CipherTracker'));
 const RamblerRegistrar = React.lazy(() => import('./Components/Pages/ProjectPages/RamblerRegistrar'));
 const ReactNativeCreditCardApp = React.lazy(() => import('./Components/Pages/ProjectPages/ReactNativeCreditCardApp'));
-const SpotifyAstrologyApp = React.lazy(() => import('./Components/Pages/ProjectPages/SpotifyAstrologyApp'));
+const SnipeITTag = React.lazy(() => import('./Components/Pages/ProjectPages/SnipeITTag'));
 const WeatherApp = React.lazy(() => import('./Components/Pages/ProjectPages/WeatherApp'));
 const BabelReview = React.lazy(() => import('./Components/Pages/MiscPages/BabelReview'));
 const GoldenSonReview = React.lazy(() => import('./Components/Pages/MiscPages/GoldenSonReview'));
@@ -62,10 +62,10 @@ function App() {
             <Route path="/ChessDeck" element={<ChessDeck />} />
             <Route path="/DrinkDecider" element={<DrinkDecider />} />
             <Route path="/ExcelWorkBooks" element={<ExcelWorkBooks />} />
-            <Route path="/InstagramBots" element={<InstagramBots />} />
+            <Route path="/CipherTracker" element={<CipherTracker />} />
             <Route path="/RamblerRegistrar" element={<RamblerRegistrar />} />
             <Route path="/ReactNativeCreditCardApp" element={<ReactNativeCreditCardApp />} />
-            <Route path="/SpotifyAstrologyApp" element={<SpotifyAstrologyApp />} />
+            <Route path="/SnipeITTag" element={<SnipeITTag />} />
             <Route path="/WeatherApp" element={<WeatherApp />} />
             {/* Misc. Page Resturants*/}
             <Route path="/Hopleaf" element={<Hopleaf />} />

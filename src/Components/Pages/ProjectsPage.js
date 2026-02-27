@@ -29,16 +29,16 @@ const ProjectsPage = () => {
         <Link to="/ExcelWorkBooks" className="project-button">
           <Project2 />
         </Link>
-        <Link to="/ChessDeck" className="project-button-long">
+        <Link to="/CipherTracker" className="project-button-long">
           <Project3 />
         </Link>
-        <Link to="/SpotifyAstrologyApp" className="project-button">
+        <Link to="/SnipeITTag" className="project-button">
           <Project4 />
         </Link>
         <Link to="/ATourismApp" className="project-button-long">
           <Project5 />
         </Link>
-        <Link to="/InstagramBots" className="project-button-long">
+        <Link to="/ChessDeck" className="project-button-long">
           <Project6 />
         </Link>
         <Link to="/WeatherApp" className="project-button">
