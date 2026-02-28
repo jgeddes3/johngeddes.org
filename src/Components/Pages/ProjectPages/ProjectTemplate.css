@@ -1,0 +1,353 @@
+/* ===== Project Template ===== */
+/* Case-study layout for project detail pages */
+
+/* --- Page Container --- */
+.proj-page {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* --- Hero Section --- */
+.proj-hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.proj-hero-tagline {
+  font-family: 'EB Garamond', serif;
+  font-size: 22px;
+  color: var(--color-accent-medium);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.proj-tech-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.proj-pill {
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+  color: var(--color-accent);
+  background-color: var(--bg-container);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--color-accent);
+  white-space: nowrap;
+}
+
+.proj-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.proj-action-link {
+  font-family: 'Galgine', serif;
+  font-size: 16px;
+  color: var(--color-accent);
+  text-decoration: none;
+  padding: 8px 24px;
+  border: 1px solid var(--color-accent);
+  border-radius: 30px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.proj-action-link:hover {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
+/* --- Hero Screenshot --- */
+.proj-hero-screenshot {
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.proj-hero-screenshot img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* --- About Section --- */
+.proj-about {
+  margin-bottom: 40px;
+}
+
+.proj-section-heading {
+  font-family: 'Galgine', serif;
+  font-size: 28px;
+  color: var(--color-accent);
+  margin-bottom: 16px;
+}
+
+.proj-about p {
+  font-family: 'EB Garamond', serif;
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--color-accent-medium);
+  margin-bottom: 16px;
+}
+
+/* --- Feature Cards --- */
+.proj-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.proj-feature-card {
+  background-color: var(--bg-container);
+  border-radius: 12px;
+  padding: 24px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.proj-feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.proj-feature-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.proj-feature-card h3 {
+  font-family: 'Galgine', serif;
+  font-size: 20px;
+  color: var(--color-accent);
+  margin-bottom: 8px;
+}
+
+.proj-feature-card p {
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--color-accent-medium);
+  margin: 0;
+}
+
+/* --- Screenshots --- */
+.proj-screenshot {
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.proj-screenshot img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.proj-screenshot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.proj-screenshot-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.proj-caption {
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  color: var(--color-accent-caption);
+  margin-top: 6px;
+  text-align: center;
+}
+
+/* --- Card Fan (Cipher Tracker) --- */
+.proj-card-fan {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  margin-bottom: 20px;
+  overflow: visible;
+}
+
+/* --- Stub Pages --- */
+.proj-stub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.proj-stub-logo {
+  width: 160px;
+  height: 160px;
+  object-fit: contain;
+  margin-bottom: 32px;
+  border-radius: 20px;
+}
+
+.proj-stub-message {
+  font-family: 'Galgine', serif;
+  font-size: 24px;
+  color: var(--color-accent);
+  margin-bottom: 8px;
+}
+
+.proj-stub p {
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  color: var(--color-accent-medium);
+}
+
+/* --- Navigation Buttons --- */
+.proj-nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 50px auto 70px;
+  flex-wrap: wrap;
+}
+
+.proj-nav-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Galgine', serif;
+  width: 300px;
+  height: 80px;
+  font-size: 20px;
+  padding: 10px;
+  background-color: transparent;
+  color: var(--color-accent);
+  text-align: center;
+  text-decoration: none;
+  border: 2px solid var(--color-accent);
+  border-radius: 40px;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.proj-nav-button:hover {
+  background-color: #ffffff;
+  color: var(--color-text-black);
+  border-color: #ffffff;
+}
+
+/* --- Dark Mode Override --- */
+[data-theme="dark"] .proj-nav-button:hover {
+  background-color: var(--color-accent);
+  color: #ffffff;
+  border-color: var(--color-accent);
+}
+
+/* ===== Responsive: Tablet (900px) ===== */
+@media (max-width: 900px) {
+  .proj-page {
+    max-width: 100%;
+    padding: 20px 16px;
+  }
+}
+
+/* ===== Responsive: Small Tablet / Large Phone (768px) ===== */
+@media (max-width: 768px) {
+  .proj-hero-tagline {
+    font-size: 19px;
+  }
+
+  .proj-section-heading {
+    font-size: 24px;
+  }
+
+  .proj-about p {
+    font-size: 18px;
+  }
+
+  .proj-features {
+    grid-template-columns: 1fr;
+  }
+
+  .proj-feature-card h3 {
+    font-size: 18px;
+  }
+
+  .proj-feature-card p {
+    font-size: 16px;
+  }
+
+  .proj-screenshot-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .proj-stub-logo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .proj-stub-message {
+    font-size: 20px;
+  }
+
+  .proj-nav-button {
+    width: 250px;
+    height: 70px;
+    font-size: 18px;
+  }
+}
+
+/* ===== Responsive: Phone (480px) ===== */
+@media (max-width: 480px) {
+  .proj-hero-tagline {
+    font-size: 17px;
+  }
+
+  .proj-pill {
+    font-size: 12px;
+    padding: 4px 12px;
+  }
+
+  .proj-section-heading {
+    font-size: 20px;
+  }
+
+  .proj-about p {
+    font-size: 16px;
+  }
+
+  .proj-feature-card p {
+    font-size: 15px;
+  }
+
+  .proj-stub-logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .proj-stub-message {
+    font-size: 18px;
+  }
+
+  .proj-stub p {
+    font-size: 16px;
+  }
+
+  .proj-nav-button {
+    width: 200px;
+    height: 60px;
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,760 @@
+/* ===== Chess Deck Game ===== */
+
+/* --- Table Section (wraps game, fades in/out over orb background) --- */
+.cd-table-section {
+  position: relative;
+}
+
+.cd-table-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 120px, black calc(100% - 120px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 120px, black calc(100% - 120px), transparent 100%);
+}
+
+/* --- Game Container --- */
+.cd-game-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+/* --- Game Info --- */
+.cd-game-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.cd-turn-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cd-turn-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #d4af37;
+}
+
+.cd-turn-dot-white {
+  background-color: #f0f0f0;
+}
+
+.cd-turn-dot-black {
+  background-color: #222;
+}
+
+.cd-turn-text {
+  font-family: 'Galgine', serif;
+  font-size: 22px;
+  color: #f5e6c8;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.cd-message {
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  color: #d4af37;
+  text-align: center;
+  min-height: 24px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Turn Phase Bar --- */
+.cd-phase-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 8px;
+}
+
+.cd-phase-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.cd-phase-active {
+  border-color: #d4af37;
+  background-color: rgba(0, 0, 0, 0.55);
+}
+
+.cd-phase-number {
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  color: rgba(245, 230, 200, 0.6);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid rgba(245, 230, 200, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cd-phase-active .cd-phase-number {
+  border-color: #d4af37;
+  color: #d4af37;
+}
+
+.cd-phase-label {
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+  color: rgba(245, 230, 200, 0.6);
+}
+
+.cd-phase-active .cd-phase-label {
+  color: #f5e6c8;
+}
+
+.cd-phase-connector {
+  width: 20px;
+  height: 1px;
+  background-color: rgba(245, 230, 200, 0.3);
+}
+
+/* --- Opponent Hand --- */
+.cd-opponent-hand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.cd-opponent-cards {
+  display: flex;
+  justify-content: center;
+  gap: -10px;
+}
+
+.cd-card-back-wrapper {
+  margin-left: -12px;
+}
+
+.cd-card-back-wrapper:first-child {
+  margin-left: 0;
+}
+
+.cd-card-back {
+  width: 70px;
+  height: 100px;
+  border-radius: 6px;
+  object-fit: cover;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+}
+
+/* --- Play Area (board + captured) --- */
+.cd-play-area {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* --- Board Wrapper (holds background image) --- */
+.cd-board-wrapper {
+  position: relative;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+  width: min(750px, 95vw);
+  aspect-ratio: 1;
+}
+
+/* --- Board --- */
+.cd-board {
+  position: absolute;
+  top: 12.82%;
+  left: 12.82%;
+  right: 12.82%;
+  bottom: 12.82%;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  overflow: hidden;
+}
+
+/* --- Square --- */
+.cd-square {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cd-square-light {
+  background: transparent;
+}
+
+.cd-square-dark {
+  background: transparent;
+}
+
+.cd-square-selected {
+  background-color: rgba(255, 255, 100, 0.5) !important;
+}
+
+.cd-square-last-move {
+  background-color: rgba(255, 255, 100, 0.2) !important;
+}
+
+.cd-square-check {
+  background-color: rgba(255, 50, 50, 0.45) !important;
+}
+
+.cd-square-card-target {
+  box-shadow: inset 0 0 0 3px rgba(100, 200, 255, 0.7);
+}
+
+/* Move dot indicator */
+.cd-move-dot {
+  width: 28%;
+  height: 28%;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+/* Capture ring indicator */
+.cd-capture-ring {
+  position: absolute;
+  inset: 4%;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* --- Square modifiers --- */
+.cd-square-mods {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: calc(min(560px, 90vw) / 48);
+  line-height: 1;
+  z-index: 1;
+  display: flex;
+  gap: 1px;
+}
+
+.cd-square-mod {
+  opacity: 0.8;
+}
+
+/* --- Piece --- */
+.cd-piece {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.cd-piece-img {
+  width: 75%;
+  height: 75%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.cd-piece-white .cd-piece-img {
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
+}
+
+.cd-piece-black .cd-piece-img {
+  filter: drop-shadow(1px 1px 2px rgba(255, 255, 255, 0.15));
+}
+
+.cd-piece-modifiers {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: calc(min(560px, 90vw) / 56);
+  display: flex;
+  gap: 1px;
+}
+
+.cd-piece-modifier {
+  filter: drop-shadow(0 0 1px rgba(0,0,0,0.5));
+}
+
+/* --- Captured Pieces --- */
+.cd-captured {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 60px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+}
+
+.cd-captured-label {
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  color: #f5e6c8;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cd-captured-pieces {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 2px;
+  max-height: 300px;
+}
+
+.cd-captured-empty {
+  color: rgba(245, 230, 200, 0.5);
+  font-size: 16px;
+}
+
+.cd-captured-piece {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+}
+
+/* --- Card Hand --- */
+.cd-card-hand {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.cd-hand-label {
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  color: #f5e6c8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cd-hand-cards {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  min-height: 210px;
+  padding: 5px 10px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.cd-hand-card-wrapper {
+  flex-shrink: 0;
+}
+
+/* --- Card --- */
+.cd-card {
+  width: 140px;
+  height: 200px;
+  border-radius: 10px;
+  border: 2px solid rgba(212, 175, 55, 0.5);
+  background-color: rgba(20, 25, 40, 0.85);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  user-select: none;
+}
+
+.cd-card:hover:not(.cd-card-disabled) {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.cd-card-active {
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+}
+
+.cd-card-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* TODO: replace with card art */
+.cd-card-art {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cd-card-art-placeholder {
+  font-family: 'Galgine', serif;
+  font-size: 28px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.cd-card-body {
+  flex: 1;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.cd-card-name {
+  font-family: 'Galgine', serif;
+  font-size: 13px;
+  color: #d4af37;
+  line-height: 1.2;
+}
+
+.cd-card-desc {
+  font-family: 'EB Garamond', serif;
+  font-size: 11px;
+  color: rgba(245, 230, 200, 0.7);
+  line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+}
+
+.cd-card-rarity {
+  display: flex;
+  justify-content: center;
+  padding: 4px;
+}
+
+.cd-rarity-gem {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* --- Action Buttons --- */
+.cd-actions {
+  display: flex;
+  gap: 12px;
+  min-height: 44px;
+  align-items: center;
+}
+
+.cd-action-btn {
+  font-family: 'Galgine', serif;
+  font-size: 16px;
+  padding: 8px 24px;
+  border: 1px solid #d4af37;
+  border-radius: 30px;
+  background-color: transparent;
+  color: #d4af37;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.cd-action-btn:hover {
+  background-color: #d4af37;
+  color: #1a1a2e;
+}
+
+.cd-action-cancel {
+  border-color: #cc4444;
+  color: #cc4444;
+}
+
+.cd-action-cancel:hover {
+  background-color: #cc4444;
+  color: #fff;
+}
+
+/* --- Modals --- */
+.cd-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.cd-modal {
+  background-color: #1a1a2e;
+  border: 2px solid #d4af37;
+  border-radius: 16px;
+  padding: 32px 40px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.cd-modal-title {
+  font-family: 'Galgine', serif;
+  font-size: 28px;
+  color: #d4af37;
+  margin-bottom: 12px;
+}
+
+.cd-modal-subtitle {
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  color: #f5e6c8;
+  margin-bottom: 24px;
+}
+
+.cd-modal-button {
+  font-family: 'Galgine', serif;
+  font-size: 18px;
+  padding: 10px 32px;
+  border: 1px solid #d4af37;
+  border-radius: 30px;
+  background-color: transparent;
+  color: #d4af37;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.cd-modal-button:hover {
+  background-color: #d4af37;
+  color: #1a1a2e;
+}
+
+/* --- Promotion Modal --- */
+.cd-promo-options {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.cd-promo-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  border: 2px solid rgba(212, 175, 55, 0.4);
+  border-radius: 12px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.cd-promo-button:hover {
+  border-color: #d4af37;
+  transform: scale(1.1);
+}
+
+.cd-promo-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.cd-promo-label {
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  color: #f5e6c8;
+  text-transform: capitalize;
+}
+
+/* --- Responsive: Tablet (900px) --- */
+@media (max-width: 900px) {
+  .cd-play-area {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cd-captured {
+    flex-direction: row;
+    min-width: auto;
+  }
+
+  .cd-captured-pieces {
+    flex-direction: row;
+    max-height: none;
+  }
+
+  .cd-captured-piece {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* --- Responsive: Small Tablet / Large Phone (768px) --- */
+@media (max-width: 768px) {
+  .cd-board-wrapper {
+    width: min(650px, 95vw);
+  }
+
+  .cd-piece-modifiers {
+    font-size: calc(min(480px, 90vw) / 56);
+  }
+
+  .cd-square-mods {
+    font-size: calc(min(480px, 90vw) / 48);
+  }
+
+  .cd-turn-text {
+    font-size: 18px;
+  }
+
+  .cd-card {
+    width: 120px;
+    height: 175px;
+  }
+
+  .cd-card-art {
+    height: 55px;
+  }
+
+  .cd-card-name {
+    font-size: 12px;
+  }
+
+  .cd-card-desc {
+    font-size: 10px;
+  }
+
+  .cd-hand-cards {
+    min-height: 185px;
+  }
+
+  .cd-phase-step {
+    padding: 4px 10px;
+  }
+
+  .cd-phase-label {
+    font-size: 12px;
+  }
+
+  .cd-phase-number {
+    font-size: 11px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .cd-card-back {
+    width: 55px;
+    height: 80px;
+  }
+
+  .cd-card-back-wrapper {
+    margin-left: -8px;
+  }
+}
+
+/* --- Responsive: Phone (480px) --- */
+@media (max-width: 480px) {
+  .cd-board-wrapper {
+    width: 98vw;
+  }
+
+  .cd-piece-modifiers {
+    font-size: calc(95vw / 56);
+  }
+
+  .cd-square-mods {
+    font-size: calc(95vw / 48);
+  }
+
+  .cd-hand-cards {
+    gap: 6px;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 5px 16px;
+    min-height: 170px;
+  }
+
+  .cd-card {
+    width: 110px;
+    height: 160px;
+  }
+
+  .cd-card-art {
+    height: 45px;
+  }
+
+  .cd-card-art-placeholder {
+    font-size: 22px;
+  }
+
+  .cd-card-name {
+    font-size: 11px;
+  }
+
+  .cd-card-desc {
+    font-size: 9.5px;
+    -webkit-line-clamp: 4;
+  }
+
+  .cd-turn-text {
+    font-size: 16px;
+  }
+
+  .cd-message {
+    font-size: 14px;
+  }
+
+  .cd-action-btn {
+    font-size: 14px;
+    padding: 6px 18px;
+  }
+
+  .cd-phase-connector {
+    width: 10px;
+  }
+
+  .cd-phase-step {
+    padding: 3px 8px;
+  }
+
+  .cd-promo-button {
+    padding: 8px 12px;
+  }
+
+  .cd-promo-img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .cd-card-back {
+    width: 45px;
+    height: 65px;
+  }
+
+  .cd-card-back-wrapper {
+    margin-left: -6px;
+  }
+
+  .cd-captured-piece {
+    width: 22px;
+    height: 22px;
+  }
+}

@@ -1,0 +1,284 @@
+/* ===== Philosophy Template ===== */
+/* Reading-focused layout for long-form philosophical essays */
+
+/* --- Page Container --- */
+.phil-page {
+  width: 100%;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* --- Subtitle --- */
+.phil-subtitle {
+  font-family: 'EB Garamond', serif;
+  font-size: 22px;
+  color: var(--color-accent-medium);
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 40px;
+}
+
+/* --- Epigraph --- */
+.phil-epigraph {
+  font-family: 'EB Garamond', serif;
+  font-size: 19px;
+  font-style: italic;
+  color: var(--color-accent-medium);
+  text-align: center;
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto 48px;
+  padding: 24px 0;
+  border-top: 1px solid var(--color-accent-medium);
+  border-bottom: 1px solid var(--color-accent-medium);
+}
+
+.phil-epigraph-attribution {
+  display: block;
+  font-style: normal;
+  font-size: 16px;
+  margin-top: 12px;
+  color: var(--color-accent);
+}
+
+/* --- Body Container --- */
+.phil-body {
+  margin-bottom: 40px;
+}
+
+/* --- Body Text --- */
+.phil-text {
+  font-family: 'EB Garamond', serif;
+  font-size: 21px;
+  line-height: 1.8;
+  color: var(--color-text-dark);
+  margin-bottom: 24px;
+}
+
+/* --- Section Heading --- */
+.phil-heading {
+  font-family: 'Galgine', serif;
+  font-size: 28px;
+  color: var(--color-accent);
+  margin-top: 56px;
+  margin-bottom: 20px;
+}
+
+/* --- Blockquote --- */
+.phil-blockquote {
+  font-family: 'EB Garamond', serif;
+  font-size: 19px;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--color-accent-medium);
+  border-left: 3px solid var(--color-accent);
+  margin: 32px 0;
+  padding: 8px 0 8px 24px;
+  opacity: 0.9;
+}
+
+/* --- Pull Quote --- */
+.phil-pullquote {
+  font-family: 'EB Garamond', serif;
+  font-size: 26px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--color-accent);
+  text-align: center;
+  max-width: 600px;
+  margin: 48px auto;
+  padding: 0 20px;
+}
+
+/* --- Divider --- */
+.phil-divider {
+  border: none;
+  border-top: 1px solid var(--color-accent-medium);
+  width: 40%;
+  margin: 48px auto;
+  opacity: 0.4;
+}
+
+/* --- Image --- */
+.phil-image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.phil-image-caption {
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+  color: var(--color-accent-caption);
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+/* --- Image Aside (text + image side by side) --- */
+.phil-image-aside {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  margin: 32px 0;
+}
+
+.phil-image-aside-text {
+  flex: 3;
+  font-family: 'EB Garamond', serif;
+  font-size: 21px;
+  line-height: 1.8;
+  color: var(--color-text-dark);
+}
+
+.phil-image-aside-figure {
+  flex: 2;
+}
+
+.phil-image-aside-figure img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.phil-image-aside-figure .phil-image-caption {
+  margin-top: 8px;
+}
+
+/* --- Navigation Buttons --- */
+.phil-nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 50px auto 70px;
+  flex-wrap: wrap;
+}
+
+.phil-nav-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Galgine', serif;
+  width: 300px;
+  height: 80px;
+  font-size: 20px;
+  padding: 10px;
+  background-color: transparent;
+  color: var(--color-accent);
+  text-align: center;
+  text-decoration: none;
+  border: 2px solid var(--color-accent);
+  border-radius: 40px;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.phil-nav-button:hover {
+  background-color: #ffffff;
+  color: var(--color-text-black);
+  border-color: #ffffff;
+}
+
+/* --- Dark Mode Override --- */
+[data-theme="dark"] .phil-nav-button:hover {
+  background-color: var(--color-accent);
+  color: #ffffff;
+  border-color: var(--color-accent);
+}
+
+/* ===== Responsive: Tablet (900px) ===== */
+@media (max-width: 900px) {
+  .phil-page {
+    max-width: 100%;
+    padding: 20px 16px;
+  }
+}
+
+/* ===== Responsive: Small Tablet / Large Phone (768px) ===== */
+@media (max-width: 768px) {
+  .phil-subtitle {
+    font-size: 19px;
+  }
+
+  .phil-epigraph {
+    font-size: 17px;
+    max-width: 100%;
+  }
+
+  .phil-text {
+    font-size: 19px;
+  }
+
+  .phil-heading {
+    font-size: 24px;
+    margin-top: 40px;
+  }
+
+  .phil-blockquote {
+    font-size: 17px;
+  }
+
+  .phil-pullquote {
+    font-size: 22px;
+  }
+
+  .phil-image-aside {
+    flex-direction: column;
+  }
+
+  .phil-image-aside-text {
+    font-size: 19px;
+  }
+
+  .phil-nav-button {
+    width: 250px;
+    height: 70px;
+    font-size: 18px;
+  }
+}
+
+/* ===== Responsive: Phone (480px) ===== */
+@media (max-width: 480px) {
+  .phil-subtitle {
+    font-size: 17px;
+  }
+
+  .phil-epigraph {
+    font-size: 16px;
+    padding: 16px 0;
+  }
+
+  .phil-text {
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  .phil-heading {
+    font-size: 21px;
+    margin-top: 32px;
+  }
+
+  .phil-blockquote {
+    font-size: 16px;
+    padding-left: 16px;
+  }
+
+  .phil-pullquote {
+    font-size: 20px;
+    padding: 0 10px;
+  }
+
+  .phil-image-aside-text {
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  .phil-nav-button {
+    width: 200px;
+    height: 60px;
+    font-size: 16px;
+  }
+}

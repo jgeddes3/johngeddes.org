@@ -2,7 +2,7 @@ import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
 import { Link } from 'react-router-dom';
-import '../MiscPages/AaMiscTemplates.css';
+import './ProjectTemplate.css';
 import Photo1 from './ProjectPageImages/SnipeIT/SnipeITPhoto1.png';
 import Photo2 from './ProjectPageImages/SnipeIT/SnipeITPhoto2.png';
 import Photo3 from './ProjectPageImages/SnipeIT/SnipeITPhoto3.png';
@@ -15,20 +15,31 @@ const SnipeITTag = () => {
   return (
     <>
       <Background />
-      <div id="centerpiece2" className='main-content'>
+      <div id="centerpiece2" className="main-content">
         <h1>Snipe IT Tag</h1>
       </div>
-      <div className="restaurant-container main-content">
-        <div className="author-links">
-          <p>
-            Built by John Geddes
+      <div className="proj-page main-content">
+        <div className="proj-hero">
+          <p className="proj-hero-tagline">
+            A mobile-friendly web interface for enterprise IT asset management
           </p>
+          <div className="proj-tech-pills">
+            <span className="proj-pill">React 19</span>
+            <span className="proj-pill">TypeScript</span>
+            <span className="proj-pill">Vite</span>
+            <span className="proj-pill">TailwindCSS</span>
+            <span className="proj-pill">Node.js</span>
+            <span className="proj-pill">Express</span>
+            <span className="proj-pill">Azure AD</span>
+            <span className="proj-pill">JWT</span>
+          </div>
         </div>
-        <div className="MainPhoto-container">
+
+        <div className="proj-hero-screenshot">
           <img loading="lazy" decoding="async" src={Photo1} alt="Snipe IT Tag main interface" />
-          <p className="image-caption">Snipe IT Tag — Full webpage overview</p>
         </div>
-        <div className="paragraph-only-container">
+
+        <div className="proj-about">
           <p>
             Snipe IT Tag is a full-stack web application serving as a mobile-friendly interface for Snipe-IT asset management.
             Built for enterprise IT teams, it provides a streamlined way to track, manage, and control IT assets across multiple locations.
@@ -36,77 +47,60 @@ const SnipeITTag = () => {
             seamlessly on both desktop and mobile devices.
           </p>
         </div>
-        <div className="paragraph-photo-right-container">
-          <div className="Seperator-photo-right">
+
+        <div className="proj-features">
+          <div className="proj-feature-card">
+            <div className="proj-feature-icon">📦</div>
+            <h3>Asset Management</h3>
             <p>
-              The asset management system allows users to view, search, filter, check out, and check in assets with ease.
-              With support for over 30 sortable and filterable properties, teams can quickly locate any piece of equipment
-              across the organization. The advanced filtering system makes it simple to drill down into specific categories,
-              locations, or assignment statuses.
+              View, search, filter, check out, and check in assets with ease. Over 30 sortable and filterable
+              properties let teams quickly locate any piece of equipment across the organization.
             </p>
           </div>
-          <div className="image-with-caption">
-            <img loading="lazy" decoding="async" src={Photo4} alt="Asset management features" />
-            <p className="image-caption">Asset management and filtering interface</p>
-          </div>
-        </div>
-        <div className="paragraph-photo-left-container">
-          <div className="Seperator-photo-left">
+          <div className="proj-feature-card">
+            <div className="proj-feature-icon">👥</div>
+            <h3>User & Location Control</h3>
             <p>
-              User and location management features allow administrators to track who has what equipment and where it is deployed.
-              The system supports role-based access control, distinguishing between regular users and managers. Authentication is
-              handled through Azure AD with single sign-on (SSO), ensuring secure and seamless access for enterprise environments.
+              Track who has what equipment and where it is deployed. Role-based access control with Azure AD
+              single sign-on ensures secure and seamless access for enterprise environments.
             </p>
           </div>
-          <div className="image-with-caption">
-            <img loading="lazy" decoding="async" src={Photo5} alt="User management features" />
-            <p className="image-caption">User and location management</p>
-          </div>
-        </div>
-        <div className="MainPhoto-container">
-          <img loading="lazy" decoding="async" src={Photo2} alt="Snipe IT Tag dashboard view" />
-          <p className="image-caption">Dashboard and asset overview</p>
-        </div>
-        <div className="paragraph-photo-right-container">
-          <div className="Seperator-photo-right">
+          <div className="proj-feature-card">
+            <div className="proj-feature-icon">📊</div>
+            <h3>Data Export</h3>
             <p>
-              Additional features include data export to Excel for reporting, a 5-minute caching layer for improved performance,
-              and rate limiting to protect backend services. The application also includes a dark mode option for comfortable
-              use in any environment.
+              Export data to Excel for reporting, with a 5-minute caching layer for improved performance
+              and rate limiting to protect backend services.
             </p>
           </div>
-          <div className="image-with-caption">
-            <img loading="lazy" decoding="async" src={Photo6} alt="Data export and additional features" />
-            <p className="image-caption">Data export and feature controls</p>
-          </div>
-        </div>
-        <div className="paragraph-only-container">
-          <p>
-            The tech stack features React 19 with TypeScript and Vite on the frontend, styled with TailwindCSS for a clean,
-            responsive design. The backend runs on Node.js with Express and TypeScript. Authentication is powered by Azure AD
-            using MSAL and JWT tokens, providing enterprise-grade security throughout the application.
-          </p>
-        </div>
-        <div className="MainPhoto-container">
-          <img loading="lazy" decoding="async" src={Photo3} alt="Snipe IT Tag additional view" />
-          <p className="image-caption">Additional interface views</p>
-        </div>
-        <div className="paragraph-photo-right-container">
-          <div className="Seperator-photo-right">
+          <div className="proj-feature-card">
+            <div className="proj-feature-icon">🏗️</div>
+            <h3>Scalable Architecture</h3>
             <p>
-              The application was designed with scalability and maintainability in mind, utilizing TypeScript across the entire
-              stack for type safety and developer experience. TailwindCSS enables rapid UI development while keeping the
-              design consistent and responsive across all screen sizes.
+              TypeScript across the entire stack for type safety. TailwindCSS enables rapid UI development
+              while keeping the design consistent and responsive across all screen sizes.
             </p>
           </div>
-          <div className="image-with-caption">
-            <img loading="lazy" decoding="async" src={Photo7} alt="Feature detail view" />
-            <p className="image-caption">Feature detail view</p>
-          </div>
+        </div>
+
+        <div className="proj-screenshot">
+          <img loading="lazy" decoding="async" src={Photo2} alt="Dashboard and asset overview" />
+        </div>
+
+        <div className="proj-screenshot-grid">
+          <img loading="lazy" decoding="async" src={Photo4} alt="Asset management and filtering interface" />
+          <img loading="lazy" decoding="async" src={Photo5} alt="User and location management" />
+          <img loading="lazy" decoding="async" src={Photo6} alt="Data export and feature controls" />
+          <img loading="lazy" decoding="async" src={Photo7} alt="Feature detail view" />
+        </div>
+
+        <div className="proj-screenshot">
+          <img loading="lazy" decoding="async" src={Photo3} alt="Additional interface views" />
         </div>
       </div>
-      <div className="misc-nav-buttons">
-        <Link to="/projects" className="misc-nav-button misc-nav-misc">
+
+      <div className="proj-nav-buttons">
+        <Link to="/projects" className="proj-nav-button">
           Projects Page
         </Link>
       </div>

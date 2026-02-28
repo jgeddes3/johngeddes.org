@@ -15,7 +15,26 @@
       "Bash(ls \"C:\\\\Users\\\\johng\\\\ciphertrackwebsite\\\\public\\\\showcase\"\" 2>nul && dir /b \"C:Usersjohngciphertrackwebsitepublicshowcase\"\")",
       "Bash(powershell -Command:*)",
       "Bash(powershell -File -:*)",
-      "Bash(npm install framer-motion)"
+      "Bash(npm install framer-motion)",
+      "WebFetch(domain:brittanychiang.com)",
+      "WebFetch(domain:leerob.io)",
+      "WebFetch(domain:leerob.com)",
+      "WebFetch(domain:colorlib.com)",
+      "WebFetch(domain:www.sitebuilderreport.com)",
+      "WebFetch(domain:blog.uxfol.io)",
+      "WebFetch(domain:reallygooddesigns.com)",
+      "WebFetch(domain:alvarotrigo.com)",
+      "Bash(dir \"C:\\\\Users\\\\johng\\\\johngeddes.org\\\\src\" /B)",
+      "Bash(find:*)",
+      "Bash(while read size file)",
+      "Bash(do echo \"$size\t/c/Users/johng/Downloads/ChessDeck$file\")",
+      "Bash(done)",
+      "Bash(/tmp/measure_board2.ps1:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File:*)",
+      "Bash(/tmp/measure_board3.ps1 << 'EOF'\nAdd-Type -AssemblyName System.Drawing\n$img = [System.Drawing.Bitmap]::new\\(\"C:\\\\Users\\\\johng\\\\johngeddes.org\\\\src\\\\Components\\\\Pages\\\\ProjectPages\\\\ProjectPageImages\\\\ChessDeck\\\\ChessBoardtopdown.png\"\\)\n\n\"--- Top scan at x=500 \\(y=200..350\\) ---\"\nfor \\($y = 200; $y -lt 350; $y += 2\\) {\n    $px = $img.GetPixel\\(500, $y\\)\n    \"y=$y R=$\\($px.R\\) G=$\\($px.G\\) B=$\\($px.B\\)\"\n}\n\n\"--- Left scan at y=500 \\(x=200..350\\) ---\"\nfor \\($x = 200; $x -lt 350; $x += 2\\) {\n    $px = $img.GetPixel\\($x, 500\\)\n    \"x=$x R=$\\($px.R\\) G=$\\($px.G\\) B=$\\($px.B\\)\"\n}\n\n$img.Dispose\\(\\)\nEOF)",
+      "Bash(/tmp/measure_board4.ps1:*)",
+      "Bash(/tmp/measure_board5.ps1:*)",
+      "Bash(/tmp/measure_board6.ps1:*)"
     ]
   }
 }

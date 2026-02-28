@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
 import { Link } from 'react-router-dom';
-import '../MiscPages/AaMiscTemplates.css';
+import './ProjectTemplate.css';
 import MainPhoto from './ProjectPageImages/CipherTracker/Ciphertrackerphoto1.png';
 import Analytics from './ProjectPageImages/CipherTracker/IMG_9430.PNG';
 import Security from './ProjectPageImages/CipherTracker/IMG_9424.PNG';
@@ -70,85 +70,83 @@ const CipherTracker = () => {
   return (
     <>
       <Background />
-      <div id="centerpiece2" className='main-content'>
+      <div id="centerpiece2" className="main-content">
         <h1>Cipher Tracker</h1>
       </div>
-      <div className="restaurant-container main-content">
-        <div className="author-links">
-          <p>
-            Built by John Geddes |
-            <a href="https://www.cipher-app.org/" target="_blank" rel="noopener noreferrer"> cipher-app.org</a>
+      <div className="proj-page main-content">
+        <div className="proj-hero">
+          <p className="proj-hero-tagline">
+            Master Your Habits. Secure Your Life.
           </p>
+          <div className="proj-tech-pills">
+            <span className="proj-pill">React Native</span>
+            <span className="proj-pill">AES-256 Encryption</span>
+            <span className="proj-pill">PBKDF2</span>
+            <span className="proj-pill">Analytics Engine</span>
+          </div>
+          <div className="proj-actions">
+            <a href="https://www.cipher-app.org/" target="_blank" rel="noopener noreferrer" className="proj-action-link">
+              cipher-app.org
+            </a>
+          </div>
         </div>
-        <div className="MainPhoto-container">
+
+        <div className="proj-hero-screenshot">
           <img loading="lazy" decoding="async" src={MainPhoto} alt="Cipher Tracker" />
-          <p className="image-caption">Cipher Tracker — Master Your Habits. Secure Your Life.</p>
         </div>
-        <div className="paragraph-only-container">
+
+        <div className="proj-about">
           <p>
-            Master Your Habits. Secure Your Life. Cipher Tracker is the ultimate private tracker for what matters most.
+            Cipher Tracker is the ultimate private tracker for what matters most.
             From screen time to sleep, own your data with military-grade encryption. Built as a React Native mobile application,
             Cipher Tracker gives users complete control over their personal data while providing powerful tracking and analytics
             capabilities across a wide range of daily habits and health metrics.
           </p>
         </div>
-        <div className="paragraph-photo-right-container">
-          <div className="Seperator-photo-right">
+
+        <div className="proj-features">
+          <div className="proj-feature-card">
+            <div className="proj-feature-icon">📱</div>
+            <h3>Unified Tracking</h3>
             <p>
-              Everything in one place — Cipher Tracker provides a single dashboard for all your trackers.
-              Whether you're monitoring drinks, screen time, caffeine, cannabis, sleep, calories, period cycles,
-              nicotine, pills, hydration, or keeping a diary, everything lives in one unified interface. Each tracker
-              module is designed to capture the specific data points that matter most for that category.
+              Everything in one place — a single dashboard for all your trackers. Monitor drinks, screen time,
+              caffeine, cannabis, sleep, calories, period cycles, nicotine, pills, hydration, or keep a diary.
             </p>
           </div>
-          <div className="image-with-caption">
-            <img loading="lazy" decoding="async" src={Modules} alt="Tracker modules" />
-            <p className="image-caption">Tracker modules overview</p>
-          </div>
-        </div>
-        <div className="paragraph-photo-left-container">
-          <div className="Seperator-photo-left">
+          <div className="proj-feature-card">
+            <div className="proj-feature-icon">📈</div>
+            <h3>Advanced Analytics</h3>
             <p>
-              Advanced Analytics power your self-improvement journey with interactive charts and weekly summaries.
-              The analytics engine processes your tracking data to surface meaningful trends, patterns, and insights
-              that help you understand your habits at a deeper level. Weekly and monthly summaries make it easy to
-              see progress over time.
+              Interactive charts and weekly summaries power your self-improvement journey. The analytics engine
+              surfaces meaningful trends, patterns, and insights to understand your habits at a deeper level.
             </p>
           </div>
-          <div className="image-with-caption">
-            <img loading="lazy" decoding="async" src={Analytics} alt="Analytics dashboard" />
-            <p className="image-caption">Interactive analytics and charts</p>
-          </div>
-        </div>
-        <div className="paragraph-photo-right-container">
-          <div className="Seperator-photo-right">
+          <div className="proj-feature-card">
+            <div className="proj-feature-icon">🔒</div>
+            <h3>Complete Privacy</h3>
             <p>
-              Complete Privacy is at the core of Cipher Tracker. The app uses AES-256 encryption with a zero-access
-              architecture, meaning not even the developers can see your data. Your information is encrypted on-device
-              before it ever touches a server, using PBKDF2 key derivation to ensure your encryption keys are as
-              strong as possible.
+              AES-256 encryption with a zero-access architecture. Your information is encrypted on-device
+              before it ever touches a server, using PBKDF2 key derivation for maximum security.
             </p>
           </div>
-          <div className="image-with-caption">
-            <img loading="lazy" decoding="async" src={Security} alt="Security and privacy settings" />
-            <p className="image-caption">Security and privacy controls</p>
-          </div>
-        </div>
-        <div className="paragraph-photo-left-container">
-          <div className="Seperator-photo-left">
+          <div className="proj-feature-card">
+            <div className="proj-feature-icon">📊</div>
+            <h3>Progress Visualization</h3>
             <p>
-              Visualize your progress with intuitive graphs and trend analysis. The visualization system transforms
-              raw tracking data into clear, actionable insights. Whether you're looking at daily patterns, weekly
-              trends, or long-term progress, the charts adapt to show you exactly what you need to stay on track
-              with your goals.
+              Intuitive graphs and trend analysis transform raw tracking data into clear, actionable insights.
+              View daily patterns, weekly trends, or long-term progress to stay on track with your goals.
             </p>
           </div>
-          <div className="image-with-caption">
-            <img loading="lazy" decoding="async" src={Progress} alt="Progress visualization" />
-            <p className="image-caption">Progress visualization and trends</p>
-          </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '500px', marginBottom: '20px', overflow: 'visible' }}>
+
+        <div className="proj-screenshot-grid">
+          <img loading="lazy" decoding="async" src={Modules} alt="Tracker modules overview" />
+          <img loading="lazy" decoding="async" src={Analytics} alt="Interactive analytics and charts" />
+          <img loading="lazy" decoding="async" src={Security} alt="Security and privacy controls" />
+          <img loading="lazy" decoding="async" src={Progress} alt="Progress visualization and trends" />
+        </div>
+
+        <div className="proj-card-fan">
           {ANALYTICS_IMAGES.map((src, index) => (
             <AnalyticsCard
               key={index}
@@ -160,7 +158,8 @@ const CipherTracker = () => {
             />
           ))}
         </div>
-        <div className="paragraph-only-container">
+
+        <div className="proj-about">
           <p>
             Cipher Tracker supports a comprehensive set of tracker categories: Drinks, Screen Time, Caffeine, Cannabis,
             Sleep, Calories, Period, Nicotine, Pills, Hydration, and Diary. Each category is tailored with specific input
@@ -168,8 +167,9 @@ const CipherTracker = () => {
           </p>
         </div>
       </div>
-      <div className="misc-nav-buttons">
-        <Link to="/projects" className="misc-nav-button misc-nav-misc">
+
+      <div className="proj-nav-buttons">
+        <Link to="/projects" className="proj-nav-button">
           Projects Page
         </Link>
       </div>

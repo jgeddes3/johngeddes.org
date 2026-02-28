@@ -38,6 +38,7 @@ const AmazingBurgerRecipe = React.lazy(() => import('./Components/Pages/MiscPage
 const TavaFreshIndian = React.lazy(() => import('./Components/Pages/MiscPages/TavaFreshIndian'));
 const MimosaRecipe = React.lazy(() => import('./Components/Pages/MiscPages/MimosaRecipe'));
 const CrockPotChilli = React.lazy(() => import('./Components/Pages/MiscPages/CrockPotChilli'));
+const GeneralPhilosophy = React.lazy(() => import('./Components/Pages/PhilosophyPages/GeneralPhilosophy'));
 
 function App() {
   return (
@@ -80,6 +81,8 @@ function App() {
             <Route path="/MythOfSisyphusReview" element={<MythOfSisyphusReview />} />
             <Route path="/RedRisingReview" element={<RedRisingReview />} />
             <Route path="/WayOfKingsReview" element={<WayOfKingsReview />} />
+            {/* Philosophy Pages */}
+            <Route path="/phil1" element={<GeneralPhilosophy />} />
             {/* Misc. Page Recipes*/}
             <Route path="/AmazingBurgerRecipe" element={<AmazingBurgerRecipe />} />
             <Route path="/MimosaRecipe" element={<MimosaRecipe/>} />
