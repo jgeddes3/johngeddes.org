@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const GameOverModal = ({ gameResult, dispatch }) => {
+  const navigate = useNavigate();
   const { winner, reason } = gameResult;
 
   let title, subtitle;
@@ -17,12 +19,20 @@ const GameOverModal = ({ gameResult, dispatch }) => {
       <div className="cd-modal">
         <h2 className="cd-modal-title">{title}</h2>
         <p className="cd-modal-subtitle">{subtitle}</p>
-        <button
-          className="cd-modal-button"
-          onClick={() => dispatch({ type: 'REMATCH' })}
-        >
-          Rematch
-        </button>
+        <div className="cd-modal-buttons">
+          <button
+            className="cd-modal-button"
+            onClick={() => dispatch({ type: 'REMATCH' })}
+          >
+            Rematch
+          </button>
+          <button
+            className="cd-modal-button"
+            onClick={() => navigate('/ChessDeck')}
+          >
+            Back to Menu
+          </button>
+        </div>
       </div>
     </div>
   );

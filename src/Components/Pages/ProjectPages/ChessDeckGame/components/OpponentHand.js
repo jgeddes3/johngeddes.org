@@ -2,8 +2,10 @@ import React from 'react';
 import CardBack from '../../ProjectPageImages/ChessDeck/Card.png';
 import { WHITE, BLACK } from '../constants';
 
-const OpponentHand = ({ state }) => {
-  const opponentColor = state.currentPlayer === WHITE ? BLACK : WHITE;
+const OpponentHand = ({ state, perspective }) => {
+  const opponentColor = perspective
+    ? (perspective === WHITE ? BLACK : WHITE)
+    : (state.currentPlayer === WHITE ? BLACK : WHITE);
   const hand = state.hands[opponentColor];
 
   if (!hand || hand.length === 0) return null;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import Recruiterimg_1 from './RecruiterImages/Recruiterimg_1.png'; // Add image imports
 import Recruiterimg_3 from './RecruiterImages/Recruiterimg_2.png';
 import Recruiterimg_2 from './RecruiterImages/Recruiterimg_3.png';
@@ -32,6 +33,11 @@ const RecruitersPage = () => {
   };
   return (
     <>
+      <SEO
+        title="Recruiters"
+        description="John Geddes — resumes and experience for AV Engineer, Data Analyst, IT Specialist, and Web Developer roles."
+        path="/recruiters"
+      />
       <Background />
       <div id="centerpiece2" className='main-content'>
         <h1>Welcome Recruiters!</h1>

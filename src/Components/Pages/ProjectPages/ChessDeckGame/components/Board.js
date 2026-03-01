@@ -5,14 +5,15 @@ import { findKing, isKingInCheck } from '../gameLogic';
 import { getValidCardTargets } from '../cardLogic';
 import BoardBg from '../../ProjectPageImages/ChessDeck/ChessBoardtopdown.png';
 
-const Board = ({ state, dispatch }) => {
+const Board = ({ state, dispatch, perspective }) => {
   const {
     board, currentPlayer, phase, selectedSquare, validMoves,
     lastMove, squareModifiers, fogActive, activeCard,
   } = state;
 
   // Flip board so current player's pieces are at the bottom
-  const flipped = currentPlayer === BLACK;
+  // When perspective is provided, lock the board orientation to that color
+  const flipped = perspective ? perspective === BLACK : currentPlayer === BLACK;
 
   // Determine which squares are in check
   const whiteKing = findKing(board, WHITE);

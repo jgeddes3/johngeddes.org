@@ -1,9 +1,10 @@
 // AboutPage.js
 import React from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import './AboutPage.css';
 import Background from '../ForEveryPage/Background';
 import PageFooter from '../ForEveryPage/PageFooter';
+import SEO from '../ForEveryPage/SEO';
 import img_5354 from './AboutPages/img_5354.jpg'; 
 import ImageRectangles from './AboutPages/ImageRectangles';
 import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed.js'; 
@@ -11,6 +12,11 @@ import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed.js';
 const AboutPage = () => {
   return (
     <>
+      <SEO
+        title="About"
+        description="About John Geddes — Senior Audio Visual Engineer and software developer. Background, skills, and interests."
+        path="/about"
+      />
       <Background />
       <div id="centerpieceAbout" className='main-content'>
         <h1>I'm John.</h1>

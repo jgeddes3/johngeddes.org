@@ -34,7 +34,11 @@
       "Bash(/tmp/measure_board3.ps1 << 'EOF'\nAdd-Type -AssemblyName System.Drawing\n$img = [System.Drawing.Bitmap]::new\\(\"C:\\\\Users\\\\johng\\\\johngeddes.org\\\\src\\\\Components\\\\Pages\\\\ProjectPages\\\\ProjectPageImages\\\\ChessDeck\\\\ChessBoardtopdown.png\"\\)\n\n\"--- Top scan at x=500 \\(y=200..350\\) ---\"\nfor \\($y = 200; $y -lt 350; $y += 2\\) {\n    $px = $img.GetPixel\\(500, $y\\)\n    \"y=$y R=$\\($px.R\\) G=$\\($px.G\\) B=$\\($px.B\\)\"\n}\n\n\"--- Left scan at y=500 \\(x=200..350\\) ---\"\nfor \\($x = 200; $x -lt 350; $x += 2\\) {\n    $px = $img.GetPixel\\($x, 500\\)\n    \"x=$x R=$\\($px.R\\) G=$\\($px.G\\) B=$\\($px.B\\)\"\n}\n\n$img.Dispose\\(\\)\nEOF)",
       "Bash(/tmp/measure_board4.ps1:*)",
       "Bash(/tmp/measure_board5.ps1:*)",
-      "Bash(/tmp/measure_board6.ps1:*)"
+      "Bash(/tmp/measure_board6.ps1:*)",
+      "Bash(npm install peerjs)",
+      "Bash(copy:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm install:*)"
     ]
   }
 }

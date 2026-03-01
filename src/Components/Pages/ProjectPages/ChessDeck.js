@@ -6,7 +6,7 @@ import './ProjectTemplate.css';
 import './ChessDeck.css';
 
 import { gameReducer, createInitialState } from './ChessDeckGame/gameReducer';
-import { PHASE_DRAW, PHASE_MOVE, PHASE_PROMOTION, PHASE_GAME_OVER } from './ChessDeckGame/constants';
+import { PHASE_DRAW, PHASE_PROMOTION, PHASE_GAME_OVER } from './ChessDeckGame/constants';
 
 import Board from './ChessDeckGame/components/Board';
 import GameInfo from './ChessDeckGame/components/GameInfo';
@@ -17,7 +17,7 @@ import CapturedPieces from './ChessDeckGame/components/CapturedPieces';
 import PromotionModal from './ChessDeckGame/components/PromotionModal';
 import GameOverModal from './ChessDeckGame/components/GameOverModal';
 
-import TableBg from './ProjectPageImages/ChessDeck/BackgroundTable.png';
+import TableBg from './ProjectPageImages/ChessDeck/ChessBackground2.png';
 
 const ChessDeck = () => {
   const [state, dispatch] = useReducer(gameReducer, null, createInitialState);
@@ -25,12 +25,17 @@ const ChessDeck = () => {
   // Auto-draw card when entering draw phase
   useEffect(() => {
     if (state.phase === PHASE_DRAW) {
+      const hand = state.hands[state.currentPlayer];
+      if (hand.length >= 5) {
+        dispatch({ type: 'SKIP_DRAW' });
+        return;
+      }
       const timer = setTimeout(() => {
         dispatch({ type: 'DRAW_CARD' });
       }, 400);
       return () => clearTimeout(timer);
     }
-  }, [state.phase, state.currentPlayer]);
+  }, [state.phase, state.currentPlayer, state.hands]);
 
   return (
     <>
@@ -69,14 +74,6 @@ const ChessDeck = () => {
                 Cancel
               </button>
             )}
-            {state.phase === PHASE_MOVE && !state.activeCard && (
-              <button
-                className="cd-action-btn"
-                onClick={() => dispatch({ type: 'END_TURN' })}
-              >
-                End Turn
-              </button>
-            )}
           </div>
 
           {state.phase === PHASE_PROMOTION && (
@@ -89,6 +86,9 @@ const ChessDeck = () => {
       </div>
 
       <div className="proj-nav-buttons">
+        <Link to="/ChessDeck" className="proj-nav-button">
+          Back to Menu
+        </Link>
         <Link to="/projects" className="proj-nav-button">
           Projects Page
         </Link>

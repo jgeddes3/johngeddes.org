@@ -2,6 +2,7 @@ import React from 'react';
 import './Homepage.css';
 import Background from '../ForEveryPage/Background';
 import PageFooter from '../ForEveryPage/PageFooter';
+import SEO from '../ForEveryPage/SEO';
 import Largebutton1 from '../hpButtons/Largebutton1';
 import Smallbutton1 from '../hpButtons/Smallbutton1';
 import LargeButton2 from '../hpButtons/Largebutton2';
@@ -13,6 +14,10 @@ import { Link } from 'react-router-dom';
 const HomePage = () => {
   return (
     <>
+      <SEO
+        description="John Geddes — AV and Software Engineer. Portfolio, projects, reviews, and more."
+        path="/"
+      />
       <Background />
       <div id="centerpiece" className='main-content'>
         <h1>

@@ -5,16 +5,17 @@ import { PHASE_MOVE } from '../constants';
 import { CARDS } from '../cardDefinitions';
 import { canPlayCard } from '../cardLogic';
 
-const CardHand = ({ state, dispatch }) => {
+const CardHand = ({ state, dispatch, perspective }) => {
   const { hands, currentPlayer, phase, activeCard, cardPlayedThisTurn } = state;
-  const hand = hands[currentPlayer];
+  const displayPlayer = perspective || currentPlayer;
+  const hand = hands[displayPlayer];
 
   // Cards are playable during PHASE_MOVE if no card has been played yet this turn
   const canPlay = phase === PHASE_MOVE && !cardPlayedThisTurn && !activeCard;
 
   return (
     <div className="cd-card-hand">
-      <div className="cd-hand-label">{currentPlayer === 'white' ? 'White' : 'Black'}&apos;s Hand</div>
+      <div className="cd-hand-label">{displayPlayer === 'white' ? 'White' : 'Black'}&apos;s Hand</div>
       <div className="cd-hand-cards">
         <AnimatePresence>
           {hand.map((cardId, i) => {

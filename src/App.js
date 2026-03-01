@@ -1,5 +1,6 @@
 import './App.css';
 import React, { Suspense } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './ThemeContext';
 import StickyBar from './Components/ForEveryPage/Stickybar';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
@@ -16,7 +17,10 @@ import PhilosophyPage from './Components/Pages/HomePages/Philosophy';
 import SocialPage from './Components/Pages/HomePages/Social';
 import RecruitersPage from './Components/Pages/HomePages/Recruiters';
 const ATourismApp = React.lazy(() => import('./Components/Pages/ProjectPages/ATourismApp'));
+const ChessDeckMenu = React.lazy(() => import('./Components/Pages/ProjectPages/ChessDeckMenu'));
 const ChessDeck = React.lazy(() => import('./Components/Pages/ProjectPages/ChessDeck'));
+const ChessDeckComputer = React.lazy(() => import('./Components/Pages/ProjectPages/ChessDeckComputer'));
+const ChessDeckOnline = React.lazy(() => import('./Components/Pages/ProjectPages/ChessDeckOnline'));
 const DrinkDecider = React.lazy(() => import('./Components/Pages/ProjectPages/DrinkDecider'));
 const ExcelWorkBooks = React.lazy(() => import('./Components/Pages/ProjectPages/ExcelWorkBooks'));
 const CipherTracker = React.lazy(() => import('./Components/Pages/ProjectPages/CipherTracker'));
@@ -42,6 +46,7 @@ const GeneralPhilosophy = React.lazy(() => import('./Components/Pages/Philosophy
 
 function App() {
   return (
+    <HelmetProvider>
     <ThemeProvider>
     <Router>
       <ScrollToTop />
@@ -60,7 +65,11 @@ function App() {
             <Route path="/recruiters" element={<RecruitersPage />} />
              {/* Projects Page*/}
             <Route path="/ATourismApp" element={<ATourismApp />} />
-            <Route path="/ChessDeck" element={<ChessDeck />} />
+            <Route path="/ChessDeck" element={<ChessDeckMenu />} />
+            <Route path="/ChessDeck/local" element={<ChessDeck />} />
+            <Route path="/ChessDeck/computer" element={<ChessDeckComputer />} />
+            <Route path="/ChessDeck/online" element={<ChessDeckOnline />} />
+            <Route path="/ChessDeck/online/:peerId" element={<ChessDeckOnline />} />
             <Route path="/DrinkDecider" element={<DrinkDecider />} />
             <Route path="/ExcelWorkBooks" element={<ExcelWorkBooks />} />
             <Route path="/CipherTracker" element={<CipherTracker />} />
@@ -94,6 +103,7 @@ function App() {
       </div>
     </Router>
     </ThemeProvider>
+    </HelmetProvider>
   );
 }
 

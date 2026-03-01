@@ -1,6 +1,7 @@
 import React from 'react';
 import Background from '../ForEveryPage/Background';
 import PageFooter from '../ForEveryPage/PageFooter';
+import SEO from '../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './MiscPage.css';
 
@@ -12,6 +13,11 @@ import Misc3 from './MiscButtons/Misc3';
 const MiscPage = () => {
   return (
     <>
+      <SEO
+        title="Miscellaneous"
+        description="Book reviews, restaurant reviews, recipes, and other thoughts by John Geddes."
+        path="/misc"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Miscellaneous</h1>

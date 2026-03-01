@@ -222,6 +222,9 @@ export function gameReducer(state, action) {
         return endTurn(endState, status.isCheck);
       }
 
+      const effectPhase = result.phase || PHASE_MOVE;
+      const isPromotion = effectPhase === PHASE_PROMOTION;
+
       return {
         ...result,
         hands: { ...result.hands, [state.currentPlayer]: newHand },
@@ -230,8 +233,8 @@ export function gameReducer(state, action) {
         cardTargets: [],
         cardTargetStep: 0,
         cardPlayedThisTurn: true,
-        phase: PHASE_MOVE,
-        message: `${card.name} played! Now make your move.`,
+        phase: isPromotion ? PHASE_PROMOTION : PHASE_MOVE,
+        message: isPromotion ? 'Choose promotion piece' : `${card.name} played! Now make your move.`,
       };
     }
 
@@ -288,6 +291,16 @@ export function gameReducer(state, action) {
 
       const { newBoard, captured, enPassantTarget, promotionNeeded, shieldBroken } =
         executeMove(state.board, from, { row, col }, moveInfo);
+
+      if (shieldBroken) {
+        return {
+          ...state,
+          board: newBoard,
+          selectedSquare: null,
+          validMoves: [],
+          message: 'Shield broken! The piece survived. Choose another move.',
+        };
+      }
 
       // Handle sinkhole
       const sinkKey = `${row}-${col}`;
@@ -440,15 +453,21 @@ export function gameReducer(state, action) {
       return endTurn({ ...state, board: newBoard, promotionSquare: null }, status.isCheck);
     }
 
-    case 'END_TURN': {
-      if (state.phase !== PHASE_MOVE) return state;
-      const opp = state.currentPlayer === WHITE ? BLACK : WHITE;
-      const status = getGameStatus(state.board, opp, state.enPassantTarget, state.squareModifiers, state.temporaryEffects);
-      return endTurn(state, status.isCheck);
+    case 'SKIP_DRAW': {
+      if (state.phase !== PHASE_DRAW) return state;
+      return {
+        ...state,
+        phase: PHASE_MOVE,
+        cardPlayedThisTurn: false,
+        message: null,
+      };
     }
 
     case 'REMATCH':
       return createInitialState();
+
+    case 'REPLACE_STATE':
+      return action.state;
 
     default:
       return state;
@@ -468,7 +487,7 @@ function endTurn(state, isCheck) {
   );
 
   let fogActive = state.fogActive;
-  if (fogActive && fogActive !== nextPlayer) {
+  if (fogActive && fogActive === nextPlayer) {
     fogActive = null;
   }
 
