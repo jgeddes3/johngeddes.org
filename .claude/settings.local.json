@@ -38,7 +38,8 @@
       "Bash(npm install peerjs)",
       "Bash(copy:*)",
       "Bash(npm ls:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)"
     ]
   }
 }
