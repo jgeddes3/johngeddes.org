@@ -1,10 +1,11 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import FullStar from '../HomePages/FriendsImages/WhiteStar.png';
-import HalfStar from '../HomePages/FriendsImages/WhiteStarHalf.png'; 
+import HalfStar from '../HomePages/FriendsImages/WhiteStarHalf.png';
 import MythOfSisyphus from './MiscPageImages/TheMythofSisyphus/TheMythofSisyphus.jpg'
 
 const MythOfSisyphusReview = () => {
@@ -22,6 +23,11 @@ const MythOfSisyphusReview = () => {
 
   return (
     <>
+      <SEO
+        title="The Myth of Sisyphus Review"
+        description="John Geddes' review of The Myth of Sisyphus by Albert Camus — exploring absurdity, meaning, and existence."
+        path="/MythOfSisyphusReview"
+      />
       <Background />
       <div id="centerpiece2" className='main-content'>
         <h1>The Way of Kings</h1>

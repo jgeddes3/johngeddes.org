@@ -23,7 +23,47 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postbuild": "react-snap"
+  },
+  "reactSnap": {
+    "source": "build",
+    "inlineCss": true,
+    "include": [
+      "/",
+      "/about",
+      "/projects",
+      "/misc",
+      "/contracts",
+      "/friends",
+      "/philosophy",
+      "/social",
+      "/recruiters",
+      "/ATourismApp",
+      "/ChessDeck",
+      "/DrinkDecider",
+      "/ExcelWorkBooks",
+      "/CipherTracker",
+      "/RamblerRegistrar",
+      "/ReactNativeCreditCardApp",
+      "/SnipeITTag",
+      "/WeatherApp",
+      "/Hopleaf",
+      "/TrivoliTavernReview",
+      "/SparrowReview",
+      "/TavaFreshIndian",
+      "/BabelReview",
+      "/GoldenSonReview",
+      "/HowToBlowUpAPipelineReview",
+      "/MorningStarReview",
+      "/MythOfSisyphusReview",
+      "/RedRisingReview",
+      "/WayOfKingsReview",
+      "/AmazingBurgerRecipe",
+      "/MimosaRecipe",
+      "/CrockPotChilli",
+      "/phil1"
+    ]
   },
   "eslintConfig": {
     "extends": [
@@ -42,5 +82,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-snap": "^1.23.0"
   }
 }

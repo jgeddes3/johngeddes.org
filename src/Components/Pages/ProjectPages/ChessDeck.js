@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './ProjectTemplate.css';
 import './ChessDeck.css';
@@ -39,6 +40,11 @@ const ChessDeck = () => {
 
   return (
     <>
+      <SEO
+        title="Chess Deck — Local Play"
+        description="Chess Deck local multiplayer — a card-based chess game by John Geddes. Play with a friend on the same device."
+        path="/ChessDeck/local"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Chess Deck</h1>

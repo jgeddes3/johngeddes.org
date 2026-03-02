@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import './Contracts.css';
 import ContractSlide1 from './ContractsSlides/ContractSlide1.png';
 import ContractSlide2 from './ContractsSlides/ContractSlide2.png';
@@ -44,6 +45,11 @@ const ContractsPage = () => {
 
   return (
     <>
+      <SEO
+        title="Contracts"
+        description="Explore John Geddes' contract services, skills, rates, and previous projects as an AV and Software Engineer."
+        path="/contracts"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Looking to Contract?</h1>

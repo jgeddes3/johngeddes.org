@@ -3,46 +3,55 @@
   <!-- Main Pages -->
   <url>
     <loc>https://www.johngeddes.org/</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>1.0</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/about</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/projects</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/misc</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/recruiters</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/contracts</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/friends</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/philosophy</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/social</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
   </url>
@@ -50,46 +59,55 @@
   <!-- Projects -->
   <url>
     <loc>https://www.johngeddes.org/ATourismApp</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/ChessDeck</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/DrinkDecider</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/ExcelWorkBooks</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/CipherTracker</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/RamblerRegistrar</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/ReactNativeCreditCardApp</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/SnipeITTag</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/WeatherApp</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>
@@ -97,71 +115,85 @@
   <!-- Misc - Reviews & Recipes -->
   <url>
     <loc>https://www.johngeddes.org/Hopleaf</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/TrivoliTavernReview</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/SparrowReview</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/TavaFreshIndian</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/BabelReview</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/GoldenSonReview</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/HowToBlowUpAPipelineReview</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/MorningStarReview</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/MythOfSisyphusReview</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/RedRisingReview</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/WayOfKingsReview</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/AmazingBurgerRecipe</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/MimosaRecipe</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc>https://www.johngeddes.org/CrockPotChilli</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>
@@ -169,6 +201,7 @@
   <!-- Philosophy -->
   <url>
     <loc>https://www.johngeddes.org/phil1</loc>
+    <lastmod>2026-03-01</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>

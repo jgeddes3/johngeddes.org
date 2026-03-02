@@ -1,12 +1,18 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './PhilosophyTemplate.css';
 
 const GeneralPhilosophy = () => {
   return (
     <>
+      <SEO
+        title="General Philosophy"
+        description="John Geddes' writings on general philosophy — exploring fundamental questions about existence, meaning, and the human condition."
+        path="/phil1"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>General Philosophy</h1>

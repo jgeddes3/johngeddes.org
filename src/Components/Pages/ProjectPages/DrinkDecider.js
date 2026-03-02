@@ -1,6 +1,7 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './ProjectTemplate.css';
 import Logo from '../ProjectButtons/ProjectButtonImages/AlcoholAstro.png';
@@ -8,6 +9,11 @@ import Logo from '../ProjectButtons/ProjectButtonImages/AlcoholAstro.png';
 const DrinkDecider = () => {
   return (
     <>
+      <SEO
+        title="Drink Decider"
+        description="Drink Decider project by John Geddes — an app to help decide what to drink."
+        path="/DrinkDecider"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Drink Decider</h1>

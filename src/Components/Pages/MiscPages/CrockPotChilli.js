@@ -1,6 +1,8 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import Chili1 from './MiscPageImages/Chili/ChiliPhoto1.jpg';
@@ -12,6 +14,56 @@ const CrockPotChilli = () => {
     
   return (
     <>
+      <SEO
+        title="Crock Pot Beer Chili"
+        description="John Geddes' crock pot chili recipe with stout beer — slow-cooked with chipotle, garlic, beans, and tomato puree. Serves 12."
+        path="/CrockPotChilli"
+      />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Recipe",
+          "name": "Crockpot Chili with Beer",
+          "author": { "@type": "Person", "name": "John Geddes" },
+          "description": "Slow-cooked crock pot chili with stout beer, chipotle garlic seasoning, multiple beans, and tomato puree.",
+          "prepTime": "PT35M",
+          "cookTime": "PT480M",
+          "totalTime": "PT515M",
+          "recipeYield": "12 servings",
+          "recipeCategory": "Main Course",
+          "recipeCuisine": "American",
+          "recipeIngredient": [
+            "2 pounds ground beef",
+            "4 cans Westbrae chili bean mix",
+            "2 cans garbanzo beans",
+            "1 can black beans mild spice",
+            "15 oz tomato puree",
+            "1 onion, cut up",
+            "4 garlic cloves, minced",
+            "Chili seasoning",
+            "Steak seasoning",
+            "Chipotle garlic barbecue blend",
+            "Worcestershire sauce",
+            "Oregano",
+            "Cayenne",
+            "Garlic powder",
+            "Cloves",
+            "Cinnamon",
+            "1/2 cup stout beer",
+            "1/2 cup beef broth",
+            "Shredded cheese for topping",
+            "Sourdough bread for serving",
+            "Cilantro for topping"
+          ],
+          "recipeInstructions": [
+            { "@type": "HowToStep", "text": "Start by browning your meat with chipotle garlic seasoning, steak seasoning, cayenne, and garlic powder." },
+            { "@type": "HowToStep", "text": "When the meat is browned, put the meat in the crock pot and start browning the onions in the same pan. When browned, put on top of the meat." },
+            { "@type": "HowToStep", "text": "Now put the beans, tomato puree, garlic cloves, chili seasoning, Worcestershire sauce, oregano, more garlic powder, cloves, cinnamon, beer, and broth." },
+            { "@type": "HowToStep", "text": "Cook for 6-8 hours on low." },
+            { "@type": "HowToStep", "text": "Serve with cheese on top and cilantro on top, with a slice of bread to dip it in." }
+          ]
+        })}</script>
+      </Helmet>
       <Background />
       <div id="centerpiece2" className='main-content'>
         <h1>The Best Crock Pot Chili</h1>

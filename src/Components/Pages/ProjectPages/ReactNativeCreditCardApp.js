@@ -1,6 +1,7 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './ProjectTemplate.css';
 import Logo from '../ProjectButtons/ProjectButtonImages/Creditlogo.png';
@@ -8,6 +9,11 @@ import Logo from '../ProjectButtons/ProjectButtonImages/Creditlogo.png';
 const ReactNativeCreditCardApp = () => {
   return (
     <>
+      <SEO
+        title="React Native Credit Card App"
+        description="React Native Credit Card App — a mobile credit card management application by John Geddes."
+        path="/ReactNativeCreditCardApp"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>React Native Credit Card App</h1>

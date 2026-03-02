@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './ProjectTemplate.css';
 import MainPhoto from './ProjectPageImages/CipherTracker/Ciphertrackerphoto1.png';
@@ -69,6 +70,11 @@ const CipherTracker = () => {
 
   return (
     <>
+      <SEO
+        title="Cipher Tracker"
+        description="Cipher Tracker — a React Native habit tracking app with AES-256 encryption, analytics, and complete privacy by John Geddes."
+        path="/CipherTracker"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Cipher Tracker</h1>

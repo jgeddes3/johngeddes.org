@@ -1,6 +1,8 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import BurgerPhoto from './MiscPageImages/Burger/Burger.jpg'
@@ -10,6 +12,49 @@ const AmazingBurgerRecipe = () => {
 
   return (
     <>
+      <SEO
+        title="The Amazing Burger Recipe"
+        description="John Geddes' amazing burger recipe — juicy homemade burgers with egg, Worcestershire sauce, and smoked paprika. Serves 6-8."
+        path="/AmazingBurgerRecipe"
+      />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Recipe",
+          "name": "The Amazing Burger",
+          "author": { "@type": "Person", "name": "John Geddes" },
+          "description": "Juicy homemade burgers with egg, Worcestershire sauce, smoked paprika, and sauteed onions and garlic.",
+          "prepTime": "PT30M",
+          "cookTime": "PT14M",
+          "totalTime": "PT44M",
+          "recipeYield": "8 servings",
+          "recipeCategory": "Main Course",
+          "recipeCuisine": "American",
+          "recipeIngredient": [
+            "2 lb ground beef",
+            "Steak seasoning",
+            "Worcestershire sauce",
+            "Smoked paprika",
+            "Garlic powder",
+            "Cayenne",
+            "1 egg",
+            "3/4 onion",
+            "3 garlic cloves",
+            "Olive oil",
+            "Salt and pepper to taste",
+            "Butter for buns",
+            "Hamburger buns"
+          ],
+          "recipeInstructions": [
+            { "@type": "HowToStep", "text": "Cut up the onions and garlic and start sauteing the onions. When the onions start to get soft, throw in the garlic. Cook for another 3 minutes then put off to the side." },
+            { "@type": "HowToStep", "text": "Throw the beef, steak seasoning, Worcestershire sauce, egg, smoked paprika, cayenne, and sauteed onions and garlic in a bowl and start mixing." },
+            { "@type": "HowToStep", "text": "Butter your buns before you grill." },
+            { "@type": "HowToStep", "text": "Throw on the grill and cook for 7 minutes on each side or until looking good." },
+            { "@type": "HowToStep", "text": "When you flip it for the last time, throw those buns on for a minute or so." },
+            { "@type": "HowToStep", "text": "Take everything off the grill, add pickles, and enjoy." }
+          ]
+        })}</script>
+      </Helmet>
       <Background />
       <div id="centerpiece2" className='main-content'>
         <h1>The Amazing Burger Recipe</h1>

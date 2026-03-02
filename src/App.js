@@ -3,7 +3,7 @@ import React, { Suspense } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './ThemeContext';
 import StickyBar from './Components/ForEveryPage/Stickybar';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ScrollToTop from './Components/ForEveryPage/ScrollToTop';
 
 import HomePage from './Components/Pages/Homepage';
@@ -96,8 +96,7 @@ function App() {
             <Route path="/AmazingBurgerRecipe" element={<AmazingBurgerRecipe />} />
             <Route path="/MimosaRecipe" element={<MimosaRecipe/>} />
             <Route path="/CrockPotChilli" element={<CrockPotChilli/>} />
-            <Route component={NotFoundPage} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </div>

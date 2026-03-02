@@ -1,6 +1,7 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './ProjectTemplate.css';
 import Photo1 from './ProjectPageImages/SnipeIT/SnipeITPhoto1.png';
@@ -14,6 +15,11 @@ import Photo7 from './ProjectPageImages/SnipeIT/SnipeITPhoto7.png';
 const SnipeITTag = () => {
   return (
     <>
+      <SEO
+        title="Snipe IT Tag"
+        description="Snipe IT Tag — a mobile-friendly web interface for enterprise IT asset management built with React, TypeScript, and Azure AD."
+        path="/SnipeITTag"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Snipe IT Tag</h1>

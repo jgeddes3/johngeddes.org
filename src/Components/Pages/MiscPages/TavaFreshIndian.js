@@ -1,10 +1,11 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import FullStar from '../HomePages/FriendsImages/WhiteStar.png';
-import HalfStar from '../HomePages/FriendsImages/WhiteStarHalf.png'; 
+import HalfStar from '../HomePages/FriendsImages/WhiteStarHalf.png';
 import Tava1 from './MiscPageImages/TavaFresh/Tava1.jpg'
 import Tava2 from './MiscPageImages/TavaFresh/Tava2.jpg'
 
@@ -23,6 +24,11 @@ const TavaFreshIndian = () => {
 
   return (
     <>
+      <SEO
+        title="Tava Fresh Taste of India Review"
+        description="John Geddes' review of TAVA Fresh Taste of India in Chicago — Tandoori Chicken, Chicken Makhani, and alcoholic Lassis."
+        path="/TavaFreshIndian"
+      />
       <Background />
       <div id="centerpiece2" className='main-content'>
         <h1>TAVA Fresh Taste of India</h1>

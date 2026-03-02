@@ -1,6 +1,7 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './ProjectTemplate.css';
 import Logo from '../ProjectButtons/ProjectButtonImages/TourismApp.png';
@@ -8,6 +9,11 @@ import Logo from '../ProjectButtons/ProjectButtonImages/TourismApp.png';
 const ATourismApp = () => {
   return (
     <>
+      <SEO
+        title="A Tourism App"
+        description="A Tourism App project by John Geddes — a travel and tourism application."
+        path="/ATourismApp"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>A Tourism App</h1>

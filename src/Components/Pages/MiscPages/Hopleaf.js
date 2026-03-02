@@ -1,6 +1,7 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import FullStar from '../HomePages/FriendsImages/WhiteStar.png';
@@ -23,6 +24,11 @@ const Hopleaf = () => {
 
   return (
     <>
+      <SEO
+        title="Hopleaf Review"
+        description="John Geddes' review of Hopleaf in Chicago — craft beer, oysters, poutine, and the brisket reuben. A must-visit Chicago bar."
+        path="/Hopleaf"
+      />
       <Background />
       <div id="centerpiece2" className='main-content'>
         <h1>Hopleaf</h1>

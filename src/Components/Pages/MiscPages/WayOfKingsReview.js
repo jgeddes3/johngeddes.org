@@ -1,10 +1,11 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import FullStar from '../HomePages/FriendsImages/WhiteStar.png';
-import HalfStar from '../HomePages/FriendsImages/WhiteStarHalf.png'; 
+import HalfStar from '../HomePages/FriendsImages/WhiteStarHalf.png';
 import TheWayofKings from './MiscPageImages/TheWayofKings/TheWayofKings.jpg'
 
 const WayOfKingsReview = () => {
@@ -22,6 +23,11 @@ const WayOfKingsReview = () => {
 
   return (
     <>
+      <SEO
+        title="The Way of Kings Review"
+        description="John Geddes' review of The Way of Kings by Brandon Sanderson — a masterpiece of fantasy world-building and storytelling."
+        path="/WayOfKingsReview"
+      />
       <Background />
       <div id="centerpiece2" className='main-content'>
         <h1>The Way of Kings</h1>

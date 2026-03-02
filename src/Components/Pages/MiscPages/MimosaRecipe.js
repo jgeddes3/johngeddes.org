@@ -1,6 +1,8 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './AaMiscTemplates.css';
 import Mimosa1 from './MiscPageImages/Mimosas/Mimosas1.jpg'
@@ -12,6 +14,33 @@ const MimosaRecipe = () => {
 
   return (
     <>
+      <SEO
+        title="The Best Mimosa Recipe"
+        description="John Geddes' guide to the best mimosas — using Cava and fresh orange juice for the perfect brunch cocktail. Serves 8."
+        path="/MimosaRecipe"
+      />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Recipe",
+          "name": "The Best Mimosa",
+          "author": { "@type": "Person", "name": "John Geddes" },
+          "description": "The best mimosas using Cava and freshly squeezed orange juice for the perfect brunch cocktail.",
+          "prepTime": "PT15M",
+          "cookTime": "PT0M",
+          "totalTime": "PT15M",
+          "recipeYield": "8 servings",
+          "recipeCategory": "Beverage",
+          "recipeCuisine": "American",
+          "recipeIngredient": [
+            "1 bottle (750 ml) freshly squeezed orange juice",
+            "1 bottle (750 ml) Cava, chilled"
+          ],
+          "recipeInstructions": [
+            { "@type": "HowToStep", "text": "Pour half orange juice and half Cava into a champagne flute and enjoy." }
+          ]
+        })}</script>
+      </Helmet>
       <Background />
       <div id="centerpiece2" className='main-content'>
         <h1>Mimosa Recipe</h1>

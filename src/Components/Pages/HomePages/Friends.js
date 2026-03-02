@@ -1,8 +1,9 @@
 import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import './Friends.css';
 import Fantasy1 from './FriendsImages/Sleeper_Screenshot.png';
 import Fantasy2 from './FriendsImages/YahooFant1.png';
@@ -77,6 +78,11 @@ useEffect(() => {
 
   return (
     <>
+      <SEO
+        title="Friends & Interests"
+        description="John Geddes' personal interests including fantasy football, golf, book reviews, restaurant reviews, chess, and grilling."
+        path="/friends"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Hello Friends!</h1>

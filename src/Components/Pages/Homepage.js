@@ -15,7 +15,7 @@ const HomePage = () => {
   return (
     <>
       <SEO
-        description="John Geddes — AV and Software Engineer. Portfolio, projects, reviews, and more."
+        description="The portfolio of John Geddes, Audio Visual Engineer and Developer."
         path="/"
       />
       <Background />

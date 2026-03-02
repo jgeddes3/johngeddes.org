@@ -1,6 +1,7 @@
 import React from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './ProjectTemplate.css';
 import Logo from '../ProjectButtons/ProjectButtonImages/Excel.png';
@@ -8,6 +9,11 @@ import Logo from '../ProjectButtons/ProjectButtonImages/Excel.png';
 const ExcelWorkBooks = () => {
   return (
     <>
+      <SEO
+        title="Excel Workbooks"
+        description="Excel Workbooks project by John Geddes — custom Excel solutions and automation."
+        path="/ExcelWorkBooks"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Excel Work Books</h1>

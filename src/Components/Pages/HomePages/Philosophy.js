@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import './Philosophy.css';
 import Phil1 from './PhilosophyPage/Phil1';
 import Phil2 from './PhilosophyPage/Phil2';
@@ -13,6 +14,11 @@ import Phil5 from './PhilosophyPage/Phil5';
 const FriendsPage = () => {
   return (
     <>
+      <SEO
+        title="Philosophy"
+        description="Explore John Geddes' philosophy writings covering general, neuro-ethical, modern, political philosophy, and world events."
+        path="/philosophy"
+      />
      <Background />
       <div id="centerpiece2" className='main-content'>
         <h1>Philosophy</h1>
