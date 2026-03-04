@@ -208,4 +208,278 @@ app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
   }
 });
 
+// ---- Route Weather ----
+
+const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
+const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY;
+
+const geocodeLocation = async (query) => {
+  const url = `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(query)}&access_token=${MAPBOX_ACCESS_TOKEN}&limit=1`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Mapbox geocode returned ${res.status}`);
+  const json = await res.json();
+  if (!json.features || json.features.length === 0) return null;
+  const feature = json.features[0];
+  const [lon, lat] = feature.geometry.coordinates;
+  const name = feature.properties.full_address || feature.properties.name || query;
+  return { lat, lon, name };
+};
+
+const getRoute = async (startCoords, endCoords) => {
+  const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${startCoords.lon},${startCoords.lat};${endCoords.lon},${endCoords.lat}?access_token=${MAPBOX_ACCESS_TOKEN}&overview=full&geometries=geojson&steps=true`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Mapbox directions returned ${res.status}`);
+  const json = await res.json();
+  if (!json.routes || json.routes.length === 0) throw new Error('No route found');
+  const route = json.routes[0];
+  return {
+    duration: route.duration,
+    distance: route.distance,
+    geometry: route.geometry,
+    legs: route.legs
+  };
+};
+
+const extractWaypoints = (route, departureDatetime) => {
+  const waypoints = [];
+  let accumulatedTime = 0;
+  const INTERVAL = 3.5 * 3600; // 3.5 hours in seconds
+  let nextThreshold = INTERVAL;
+
+  const steps = route.legs[0].steps;
+  for (const step of steps) {
+    accumulatedTime += step.duration;
+    if (accumulatedTime >= nextThreshold) {
+      const endCoord = step.maneuver.location; // [lon, lat]
+      const eta = new Date(departureDatetime.getTime() + accumulatedTime * 1000);
+      waypoints.push({
+        lat: endCoord[1],
+        lon: endCoord[0],
+        eta: eta.toISOString(),
+        label: `Waypoint ${waypoints.length + 1}`
+      });
+      nextThreshold += INTERVAL;
+    }
+  }
+
+  // Add final destination
+  const lastStep = steps[steps.length - 1];
+  const finalCoord = lastStep.maneuver.location;
+  const arrivalEta = new Date(departureDatetime.getTime() + route.duration * 1000);
+  waypoints.push({
+    lat: finalCoord[1],
+    lon: finalCoord[0],
+    eta: arrivalEta.toISOString(),
+    label: 'Destination'
+  });
+
+  return waypoints;
+};
+
+const getOpenMeteoWeather = async (lat, lon, datetime) => {
+  const now = new Date();
+  const diffDays = (datetime - now) / (1000 * 60 * 60 * 24);
+
+  if (diffDays > 14) {
+    return getHistoricalClimate(lat, lon, datetime);
+  }
+
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation,weather_code,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&forecast_days=16`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const json = await res.json();
+    const times = json.hourly.time;
+    const targetISO = datetime.toISOString().slice(0, 13); // match to hour
+    let idx = times.findIndex(t => t.startsWith(targetISO));
+    if (idx === -1) {
+      // Find closest hour
+      const targetMs = datetime.getTime();
+      let minDiff = Infinity;
+      times.forEach((t, i) => {
+        const diff = Math.abs(new Date(t).getTime() - targetMs);
+        if (diff < minDiff) { minDiff = diff; idx = i; }
+      });
+    }
+    if (idx === -1) return null;
+    return {
+      temp: Math.round(json.hourly.temperature_2m[idx]),
+      precipitation: json.hourly.precipitation[idx],
+      weatherCode: json.hourly.weather_code[idx],
+      windSpeed: Math.round(json.hourly.wind_speed_10m[idx]),
+      isHistorical: false
+    };
+  } catch (err) {
+    console.error('Open-Meteo forecast error:', err.message);
+    return null;
+  }
+};
+
+const getHistoricalClimate = async (lat, lon, datetime) => {
+  const lastYear = new Date(datetime);
+  lastYear.setFullYear(lastYear.getFullYear() - 1);
+  const dateStr = lastYear.toISOString().slice(0, 10);
+  const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,precipitation&temperature_unit=fahrenheit`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const json = await res.json();
+    const times = json.hourly.time;
+    const targetHour = datetime.getUTCHours();
+    let idx = times.findIndex(t => new Date(t).getUTCHours() === targetHour);
+    if (idx === -1) idx = 0;
+    return {
+      temp: Math.round(json.hourly.temperature_2m[idx]),
+      precipitation: json.hourly.precipitation[idx],
+      weatherCode: null,
+      windSpeed: null,
+      isHistorical: true
+    };
+  } catch (err) {
+    console.error('Open-Meteo historical error:', err.message);
+    return null;
+  }
+};
+
+const getOpenWeatherMap = async (lat, lon) => {
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHERMAP_API_KEY}&units=imperial`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const json = await res.json();
+    return {
+      temp: Math.round(json.main.temp),
+      feelsLike: Math.round(json.main.feels_like),
+      humidity: json.main.humidity,
+      description: json.weather[0].description,
+      icon: json.weather[0].icon,
+      iconUrl: `https://openweathermap.org/img/wn/${json.weather[0].icon}@2x.png`,
+      windSpeed: Math.round(json.wind.speed)
+    };
+  } catch (err) {
+    console.error('OpenWeatherMap error:', err.message);
+    return null;
+  }
+};
+
+app.get(['/city-suggest', '/api/city-suggest'], async (req, res) => {
+  const q = (req.query.q || '').trim();
+  if (q.length < 2) return res.json([]);
+  try {
+    const url = `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(q)}&access_token=${MAPBOX_ACCESS_TOKEN}&limit=5&types=place,locality`;
+    const response = await fetch(url);
+    if (!response.ok) return res.json([]);
+    const json = await response.json();
+    const suggestions = (json.features || []).map(f => {
+      const [lon, lat] = f.geometry.coordinates;
+      return { name: f.properties.full_address || f.properties.name, lat, lon };
+    });
+    res.json(suggestions);
+  } catch (err) {
+    console.error('City suggest error:', err.message);
+    res.json([]);
+  }
+});
+
+app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
+  const { startLocation, endLocation, departureDate, departureTime, stayDays, mode } = req.query;
+
+  if (!startLocation || !endLocation || !departureDate || !departureTime) {
+    return res.status(400).json({ error: 'Missing required parameters: startLocation, endLocation, departureDate, departureTime' });
+  }
+
+  const numStayDays = parseInt(stayDays, 10) || 1;
+  const travelMode = mode === 'fly' ? 'fly' : 'drive';
+
+  try {
+    // Geocode both locations
+    const startCoords = await geocodeLocation(startLocation);
+    if (!startCoords) return res.status(400).json({ error: `Could not find location: ${startLocation}` });
+
+    const endCoords = await geocodeLocation(endLocation);
+    if (!endCoords) return res.status(400).json({ error: `Could not find location: ${endLocation}` });
+
+    const departureDatetime = new Date(`${departureDate}T${departureTime}:00`);
+
+    const response = {
+      start: startCoords,
+      end: endCoords,
+      mode: travelMode,
+      departureTime: departureDatetime.toISOString(),
+      totalDuration: null,
+      totalDistance: null,
+      waypoints: [],
+      destination: {
+        arrival: null,
+        stayDays: numStayDays,
+        days: []
+      }
+    };
+
+    if (travelMode === 'drive') {
+      const route = await getRoute(startCoords, endCoords);
+      response.totalDuration = route.duration;
+      response.totalDistance = route.distance;
+
+      const waypoints = extractWaypoints(route, departureDatetime);
+
+      // Fetch weather for each waypoint in parallel
+      const waypointWeather = await Promise.all(
+        waypoints.map(async (wp) => {
+          const weather = await getOpenMeteoWeather(wp.lat, wp.lon, new Date(wp.eta));
+          return { ...wp, weather };
+        })
+      );
+      response.waypoints = waypointWeather;
+
+      const arrivalTime = new Date(departureDatetime.getTime() + route.duration * 1000);
+      response.destination.arrival = arrivalTime.toISOString();
+    } else {
+      // Fly mode
+      const flightDuration = 3 * 3600; // 3 hours placeholder
+      response.totalDuration = flightDuration;
+
+      // Get departure weather
+      const departureWeather = await getOpenWeatherMap(startCoords.lat, startCoords.lon);
+      response.waypoints = [{
+        label: `Departure: ${startCoords.name}`,
+        lat: startCoords.lat,
+        lon: startCoords.lon,
+        eta: departureDatetime.toISOString(),
+        weather: departureWeather ? {
+          temp: departureWeather.temp,
+          precipitation: null,
+          weatherCode: null,
+          windSpeed: departureWeather.windSpeed,
+          isHistorical: false,
+          description: departureWeather.description,
+          icon: departureWeather.icon,
+          iconUrl: departureWeather.iconUrl
+        } : null
+      }];
+
+      const arrivalTime = new Date(departureDatetime.getTime() + flightDuration * 1000);
+      response.destination.arrival = arrivalTime.toISOString();
+    }
+
+    // Get destination weather for each stay day
+    const destinationDays = [];
+    const arrivalDate = new Date(response.destination.arrival);
+    for (let i = 0; i < numStayDays; i++) {
+      const dayDate = new Date(arrivalDate);
+      dayDate.setDate(dayDate.getDate() + i);
+      const dateStr = dayDate.toISOString().slice(0, 10);
+
+      const weather = await getOpenWeatherMap(endCoords.lat, endCoords.lon);
+      destinationDays.push({ date: dateStr, weather });
+    }
+    response.destination.days = destinationDays;
+
+    res.json(response);
+  } catch (err) {
+    console.error('Route weather error:', err.message);
+    res.status(500).json({ error: err.message || 'Failed to compute route weather.' });
+  }
+});
+
 module.exports = app;

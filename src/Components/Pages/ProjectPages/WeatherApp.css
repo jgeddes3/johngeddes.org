@@ -1,0 +1,544 @@
+/* ===== Route Weather App ===== */
+
+/* --- Form --- */
+
+.rw-form {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.rw-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.rw-input-group label {
+  font-family: 'Galgine', serif;
+  font-size: 14px;
+  color: var(--color-accent);
+  letter-spacing: 0.03em;
+}
+
+.rw-input-group input,
+.rw-input-group select {
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  color: var(--color-accent-medium);
+  background: var(--bg-container);
+  border: 1px solid var(--color-accent);
+  border-radius: 8px;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rw-input-group input:focus,
+.rw-input-group select:focus {
+  border-color: var(--color-accent-medium);
+  box-shadow: 0 0 0 2px rgba(var(--color-accent-rgb, 128, 128, 128), 0.15);
+}
+
+.rw-input-group input::placeholder {
+  color: var(--color-accent-caption);
+}
+
+.rw-row {
+  display: flex;
+  gap: 16px;
+}
+
+.rw-row .rw-input-group {
+  flex: 1;
+}
+
+/* --- Autocomplete Dropdown --- */
+
+.rw-autocomplete {
+  position: relative;
+}
+
+.rw-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: var(--bg-container);
+  border: 1px solid var(--color-accent);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.rw-suggestion-item {
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  color: var(--color-accent-medium);
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.rw-suggestion-item:hover {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
+.rw-suggestion-item:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+/* --- Mode Toggle --- */
+
+.rw-mode-toggle {
+  display: flex;
+  border: 1px solid var(--color-accent);
+  border-radius: 30px;
+  overflow: hidden;
+  align-self: center;
+}
+
+.rw-mode-toggle button {
+  font-family: 'Galgine', serif;
+  font-size: 16px;
+  padding: 10px 32px;
+  border: none;
+  background: transparent;
+  color: var(--color-accent);
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.rw-mode-toggle button.active {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
+.rw-mode-toggle button:not(.active):hover {
+  background-color: var(--bg-container);
+}
+
+/* --- Submit Button --- */
+
+.rw-submit {
+  font-family: 'Galgine', serif;
+  font-size: 18px;
+  color: var(--color-accent);
+  background: transparent;
+  border: 2px solid var(--color-accent);
+  border-radius: 30px;
+  padding: 12px 40px;
+  cursor: pointer;
+  align-self: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-top: 8px;
+}
+
+.rw-submit:hover {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
+.rw-submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* --- Loading --- */
+
+.rw-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 30vh;
+  gap: 20px;
+}
+
+.rw-loading-text {
+  font-family: 'EB Garamond', serif;
+  font-size: 20px;
+  color: var(--color-accent-medium);
+}
+
+.rw-loading-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  animation: rwPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes rwPulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+
+/* --- Error --- */
+
+.rw-error {
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  color: #cc6666;
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* --- Results --- */
+
+.rw-results {
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* --- Route Summary --- */
+
+.rw-summary {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rw-summary-route {
+  font-family: 'Galgine', serif;
+  font-size: 24px;
+  color: var(--color-accent);
+}
+
+.rw-summary-details {
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  color: var(--color-accent-medium);
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.rw-summary-detail {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* --- Timeline --- */
+
+.rw-timeline-heading {
+  font-family: 'Galgine', serif;
+  font-size: 22px;
+  color: var(--color-accent);
+  margin-bottom: 4px;
+}
+
+.rw-timeline {
+  position: relative;
+  padding-left: 32px;
+}
+
+.rw-timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-accent);
+  opacity: 0.3;
+}
+
+/* --- Waypoint Card --- */
+
+.rw-waypoint-card {
+  position: relative;
+  background: var(--bg-container);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.rw-waypoint-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.rw-waypoint-card::before {
+  content: '';
+  position: absolute;
+  left: -27px;
+  top: 22px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 2px solid var(--bg-primary);
+}
+
+.rw-wp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rw-wp-label {
+  font-family: 'Galgine', serif;
+  font-size: 17px;
+  color: var(--color-accent);
+}
+
+.rw-wp-eta {
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  color: var(--color-accent-caption);
+}
+
+.rw-wp-weather {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  color: var(--color-accent-medium);
+}
+
+.rw-wp-weather span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* --- Historical Badge --- */
+
+.rw-historical-badge {
+  display: inline-block;
+  font-family: 'EB Garamond', serif;
+  font-size: 12px;
+  color: var(--color-accent-caption);
+  background: var(--bg-container);
+  border: 1px solid var(--color-accent-caption);
+  border-radius: 10px;
+  padding: 2px 8px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* --- Destination Section --- */
+
+.rw-destination-heading {
+  font-family: 'Galgine', serif;
+  font-size: 22px;
+  color: var(--color-accent);
+  margin-bottom: 4px;
+}
+
+.rw-destination-arrival {
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  color: var(--color-accent-caption);
+  margin-bottom: 16px;
+}
+
+.rw-destination-days {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.rw-destination-day {
+  background: var(--bg-container);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.rw-destination-day:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.rw-day-date {
+  font-family: 'Galgine', serif;
+  font-size: 16px;
+  color: var(--color-accent);
+}
+
+.rw-day-icon {
+  width: 64px;
+  height: 64px;
+}
+
+.rw-day-temp {
+  font-family: 'Galgine', serif;
+  font-size: 28px;
+  color: var(--color-accent);
+}
+
+.rw-day-desc {
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  color: var(--color-accent-medium);
+  text-transform: capitalize;
+}
+
+.rw-day-details {
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+  color: var(--color-accent-caption);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* --- Reset Button --- */
+
+.rw-reset {
+  font-family: 'Galgine', serif;
+  font-size: 16px;
+  color: var(--color-accent);
+  background: transparent;
+  border: 1px solid var(--color-accent);
+  border-radius: 30px;
+  padding: 10px 32px;
+  cursor: pointer;
+  align-self: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.rw-reset:hover {
+  background-color: var(--color-accent);
+  color: #ffffff;
+}
+
+/* --- Dark Mode --- */
+
+[data-theme="dark"] .rw-input-group input,
+[data-theme="dark"] .rw-input-group select {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-accent-medium);
+}
+
+[data-theme="dark"] .rw-waypoint-card {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="dark"] .rw-destination-day {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="dark"] .rw-mode-toggle button.active {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .rw-suggestions {
+  background: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .rw-suggestion-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* --- Responsive: 768px --- */
+
+@media (max-width: 768px) {
+  .rw-form {
+    max-width: 100%;
+  }
+
+  .rw-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .rw-summary-route {
+    font-size: 20px;
+  }
+
+  .rw-summary-details {
+    font-size: 16px;
+    gap: 16px;
+  }
+
+  .rw-timeline-heading,
+  .rw-destination-heading {
+    font-size: 20px;
+  }
+
+  .rw-destination-days {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* --- Responsive: 480px --- */
+
+@media (max-width: 480px) {
+  .rw-mode-toggle button {
+    padding: 8px 24px;
+    font-size: 14px;
+  }
+
+  .rw-submit {
+    font-size: 16px;
+    padding: 10px 32px;
+  }
+
+  .rw-summary-route {
+    font-size: 18px;
+  }
+
+  .rw-summary-details {
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .rw-timeline {
+    padding-left: 24px;
+  }
+
+  .rw-timeline::before {
+    left: 6px;
+  }
+
+  .rw-waypoint-card::before {
+    left: -23px;
+  }
+
+  .rw-wp-weather {
+    gap: 12px;
+    font-size: 15px;
+  }
+
+  .rw-destination-days {
+    grid-template-columns: 1fr;
+  }
+
+  .rw-day-temp {
+    font-size: 24px;
+  }
+}

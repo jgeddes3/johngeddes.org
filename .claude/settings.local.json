@@ -61,7 +61,10 @@
       "WebFetch(domain:screensdesign.com)",
       "WebFetch(domain:horoscope-app-api.vercel.app)",
       "WebFetch(domain:freehoroscopeapi.com)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "WebFetch(domain:docs.mapbox.com)",
+      "WebFetch(domain:open-meteo.com)",
+      "WebFetch(domain:openweathermap.org)"
     ]
   }
 }

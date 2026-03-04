@@ -5,22 +5,34 @@ import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
 import Logo from '../ProjectButtons/ProjectButtonImages/HoroscopeLogo.webp';
 import TinyStar from './ProjectPageImages/TinyStar.png';
+import SignAries from './ProjectPageImages/Horoscope/Aries.png';
+import SignTaurus from './ProjectPageImages/Horoscope/Taurus.png';
+import SignGemini from './ProjectPageImages/Horoscope/Gemini.png';
+import SignCancer from './ProjectPageImages/Horoscope/Cancer.png';
+import SignLeo from './ProjectPageImages/Horoscope/Leo.png';
+import SignVirgo from './ProjectPageImages/Horoscope/Virgo.png';
+import SignLibra from './ProjectPageImages/Horoscope/Libra.png';
+import SignScorpio from './ProjectPageImages/Horoscope/Scorpio.png';
+import SignSagittarius from './ProjectPageImages/Horoscope/Sagittarius.png';
+import SignCapricorn from './ProjectPageImages/Horoscope/Capricorn.png';
+import SignAquarius from './ProjectPageImages/Horoscope/Aquarius.png';
+import SignPisces from './ProjectPageImages/Horoscope/Pisces.png';
 import './DrinkDecider.css';
 
 const ZODIAC_DATA = [
-  { sign: 'capricorn',   symbol: '\u2651', element: 'earth', start: [1, 1],   end: [1, 19] },
-  { sign: 'aquarius',    symbol: '\u2652', element: 'air',   start: [1, 20],  end: [2, 18] },
-  { sign: 'pisces',      symbol: '\u2653', element: 'water', start: [2, 19],  end: [3, 20] },
-  { sign: 'aries',       symbol: '\u2648', element: 'fire',  start: [3, 21],  end: [4, 19] },
-  { sign: 'taurus',      symbol: '\u2649', element: 'earth', start: [4, 20],  end: [5, 20] },
-  { sign: 'gemini',      symbol: '\u264A', element: 'air',   start: [5, 21],  end: [6, 20] },
-  { sign: 'cancer',      symbol: '\u264B', element: 'water', start: [6, 21],  end: [7, 22] },
-  { sign: 'leo',         symbol: '\u264C', element: 'fire',  start: [7, 23],  end: [8, 22] },
-  { sign: 'virgo',       symbol: '\u264D', element: 'earth', start: [8, 23],  end: [9, 22] },
-  { sign: 'libra',       symbol: '\u264E', element: 'air',   start: [9, 23],  end: [10, 22] },
-  { sign: 'scorpio',     symbol: '\u264F', element: 'water', start: [10, 23], end: [11, 21] },
-  { sign: 'sagittarius', symbol: '\u2650', element: 'fire',  start: [11, 22], end: [12, 21] },
-  { sign: 'capricorn',   symbol: '\u2651', element: 'earth', start: [12, 22], end: [12, 31] },
+  { sign: 'capricorn',   icon: SignCapricorn,   element: 'earth', start: [1, 1],   end: [1, 19] },
+  { sign: 'aquarius',    icon: SignAquarius,    element: 'air',   start: [1, 20],  end: [2, 18] },
+  { sign: 'pisces',      icon: SignPisces,      element: 'water', start: [2, 19],  end: [3, 20] },
+  { sign: 'aries',       icon: SignAries,       element: 'fire',  start: [3, 21],  end: [4, 19] },
+  { sign: 'taurus',      icon: SignTaurus,      element: 'earth', start: [4, 20],  end: [5, 20] },
+  { sign: 'gemini',      icon: SignGemini,      element: 'air',   start: [5, 21],  end: [6, 20] },
+  { sign: 'cancer',      icon: SignCancer,      element: 'water', start: [6, 21],  end: [7, 22] },
+  { sign: 'leo',         icon: SignLeo,         element: 'fire',  start: [7, 23],  end: [8, 22] },
+  { sign: 'virgo',       icon: SignVirgo,       element: 'earth', start: [8, 23],  end: [9, 22] },
+  { sign: 'libra',       icon: SignLibra,       element: 'air',   start: [9, 23],  end: [10, 22] },
+  { sign: 'scorpio',     icon: SignScorpio,     element: 'water', start: [10, 23], end: [11, 21] },
+  { sign: 'sagittarius', icon: SignSagittarius, element: 'fire',  start: [11, 22], end: [12, 21] },
+  { sign: 'capricorn',   icon: SignCapricorn,   element: 'earth', start: [12, 22], end: [12, 31] },
 ];
 
 function getZodiac(month, day) {
@@ -325,7 +337,7 @@ const DrinkDecider = () => {
                     style={{ background: result.horoscope.color }}
                   />
                 )}
-                <span className="dh-sign-symbol">{result.zodiac.symbol}</span>
+                <img src={result.zodiac.icon} alt={result.sign} className="dh-sign-icon" />
                 <h1 className="dh-sign-name">{result.sign}</h1>
                 <span className="dh-sign-element">{result.zodiac.element}</span>
               </div>

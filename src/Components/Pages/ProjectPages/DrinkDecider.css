@@ -302,10 +302,11 @@
   transform: translate(-50%, -50%);
 }
 
-.dh-sign-symbol {
-  font-size: 2.4rem;
-  color: #ffffff;
-  line-height: 1;
+.dh-sign-icon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: invert(1);
   position: relative;
   z-index: 1;
 }
@@ -611,8 +612,9 @@
     max-width: 240px;
   }
 
-  .dh-sign-symbol {
-    font-size: 2rem;
+  .dh-sign-icon {
+    width: 60px;
+    height: 60px;
   }
 
   .dh-fade-to-black,
