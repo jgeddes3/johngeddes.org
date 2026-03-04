@@ -116,9 +116,15 @@ const askHaikuForCocktail = async (mood, horoscopeText) => {
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 100,
+      temperature: 1,
       messages: [{
         role: 'user',
-        content: `Horoscope mood: ${mood}. Horoscope: "${snippet}"\nReply with ONLY a JSON object: {"cocktail":"<cocktail name>","vibe":"<8 words max>"}`
+        content: `You are a wildly creative cosmic bartender. Given this horoscope, pick a surprising and unique cocktail. NEVER pick Sazerac, Margarita, or Old Fashioned — be adventurous! Think tropical, tiki, obscure classics, modern craft cocktails.
+
+Mood: ${mood}
+Horoscope: "${snippet}"
+
+Reply with ONLY a JSON object: {"cocktail":"<cocktail name>","vibe":"<creative 8 words max>"}`
       }]
     })
   });
