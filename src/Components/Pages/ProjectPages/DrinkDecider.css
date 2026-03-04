@@ -306,7 +306,6 @@
   width: 80px;
   height: 80px;
   object-fit: contain;
-  filter: invert(1);
   position: relative;
   z-index: 1;
 }
@@ -315,7 +314,7 @@
   font-family: 'Galgine', serif;
   font-size: 2rem;
   font-weight: 400;
-  color: #ffffff;
+  color: #d4a843;
   text-transform: none;
   margin: 0;
   position: relative;

@@ -324,6 +324,13 @@ const WeatherApp = () => {
               </div>
             </div>
 
+            {/* Route Map (drive mode only) */}
+            {result.mapUrl && (
+              <div className="rw-map">
+                <img src={result.mapUrl} alt="Route map" />
+              </div>
+            )}
+
             {/* Waypoints Timeline */}
             {result.waypoints.length > 0 && (
               <div>
@@ -383,26 +390,23 @@ const WeatherApp = () => {
                     <span className="rw-day-date">{formatDate(day.date)}</span>
                     {day.weather ? (
                       <>
-                        {day.weather.iconUrl && (
-                          <img
-                            src={day.weather.iconUrl}
-                            alt={day.weather.description}
-                            className="rw-day-icon"
-                          />
-                        )}
-                        <span className="rw-day-temp">{day.weather.temp}&deg;F</span>
-                        {day.weather.description && (
-                          <span className="rw-day-desc">{day.weather.description}</span>
+                        <span className="rw-day-temp">
+                          {day.weather.tempHigh}&deg; / {day.weather.tempLow}&deg;F
+                        </span>
+                        {day.weather.weatherCode != null && (
+                          <span className="rw-day-desc">
+                            {WMO_CODES[day.weather.weatherCode] || `Code ${day.weather.weatherCode}`}
+                          </span>
                         )}
                         <div className="rw-day-details">
-                          {day.weather.feelsLike != null && (
-                            <span>Feels like {day.weather.feelsLike}&deg;F</span>
-                          )}
-                          {day.weather.humidity != null && (
-                            <span>Humidity {day.weather.humidity}%</span>
-                          )}
                           {day.weather.windSpeed != null && (
                             <span>Wind {day.weather.windSpeed} mph</span>
+                          )}
+                          {day.weather.precipitation != null && day.weather.precipitation > 0 && (
+                            <span>{day.weather.precipitation} mm precip</span>
+                          )}
+                          {day.weather.isHistorical && (
+                            <span className="rw-historical-badge">historical avg</span>
                           )}
                         </div>
                       </>

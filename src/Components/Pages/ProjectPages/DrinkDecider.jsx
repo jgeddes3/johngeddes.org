@@ -35,10 +35,15 @@ const ZODIAC_DATA = [
   { sign: 'capricorn',   icon: SignCapricorn,   element: 'earth', start: [12, 22], end: [12, 31] },
 ];
 
-function getZodiac(month, day) {
+function getZodiac(month, day, year) {
   const m = parseInt(month, 10);
   const d = parseInt(day, 10);
+  const y = parseInt(year, 10);
   if (isNaN(m) || isNaN(d) || m < 1 || m > 12 || d < 1 || d > 31) return null;
+  // Validate the date is real (e.g. reject Feb 30, Apr 31)
+  const testYear = (!isNaN(y) && y >= 1900 && y <= 2100) ? y : 2000;
+  const testDate = new Date(testYear, m - 1, d);
+  if (testDate.getMonth() !== m - 1 || testDate.getDate() !== d) return null;
   for (const z of ZODIAC_DATA) {
     const afterStart = m > z.start[0] || (m === z.start[0] && d >= z.start[1]);
     const beforeEnd = m < z.end[0] || (m === z.end[0] && d <= z.end[1]);
@@ -211,7 +216,7 @@ const DrinkDecider = () => {
     e.preventDefault();
     setError('');
 
-    const zodiac = getZodiac(month, day);
+    const zodiac = getZodiac(month, day, year);
     if (!zodiac) {
       setError('please enter a valid birthday');
       return;
@@ -357,12 +362,6 @@ const DrinkDecider = () => {
                   <div className="dh-detail-row">
                     <span className="dh-detail-label">lucky number</span>
                     <span className="dh-detail-value">{result.horoscope.luckyNumber}</span>
-                  </div>
-                )}
-                {result.horoscope?.compatibility && (
-                  <div className="dh-detail-row">
-                    <span className="dh-detail-label">compatibility</span>
-                    <span className="dh-detail-value">{result.horoscope.compatibility}</span>
                   </div>
                 )}
               </div>

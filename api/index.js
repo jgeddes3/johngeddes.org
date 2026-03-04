@@ -116,12 +116,12 @@ const askHaikuForPairing = async (sign, horoscopeText) => {
       temperature: 1,
       messages: [{
         role: 'user',
-        content: `You are a wildly creative cosmic bartender. Given this ${sign} horoscope, pick a surprising and unique cocktail and derive the horoscope's mood, lucky number, color, and compatibility sign. NEVER pick Sazerac, Margarita, or Old Fashioned — be adventurous! Think tropical, tiki, obscure classics, modern craft cocktails.
+        content: `You are a wildly creative cosmic bartender. Given this ${sign} horoscope, pick a surprising and unique cocktail and derive the horoscope's mood, lucky number, and color. NEVER pick Sazerac — be adventurous! Think tropical, tiki, obscure classics, modern craft cocktails, or timeless favorites.
 
 Horoscope: "${snippet}"
 
 Reply with ONLY a JSON object:
-{"cocktail":"<cocktail name>","vibe":"<creative 8 words max>","mood":"<one or two words>","luckyNumber":"<number 1-99>","color":"<hex color code like #7B3FA0>","compatibility":"<zodiac sign>"}`
+{"cocktail":"<cocktail name>","vibe":"<creative 8 words max>","mood":"<one or two words>","luckyNumber":"<number 1-99>","color":"<hex color code like #7B3FA0>"}`
       }]
     })
   });
@@ -186,7 +186,6 @@ app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
       horoscope.mood = haikuResult.mood || '';
       horoscope.luckyNumber = haikuResult.luckyNumber || '';
       horoscope.color = haikuResult.color || '';
-      horoscope.compatibility = haikuResult.compatibility || '';
       console.log('Haiku picked:', cocktailName, '/', flavorProfile);
     } catch (err) {
       console.error('Haiku fallback:', err.message);
@@ -194,9 +193,10 @@ app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
     }
 
     // 3. Get cocktail details
+    const FALLBACK_COCKTAILS = ['zombie', 'mojito', 'mai tai', 'cosmopolitan', 'negroni', 'paloma', 'pisco sour', 'aperol spritz', 'dark and stormy', 'french 75'];
     let cocktail = null;
     try {
-      cocktail = await fetchCocktail(cocktailName || 'daiquiri');
+      cocktail = await fetchCocktail(cocktailName || FALLBACK_COCKTAILS[Math.floor(Math.random() * FALLBACK_COCKTAILS.length)]);
     } catch (err) {
       console.error('CocktailDB fallback:', err.message);
     }
@@ -211,7 +211,6 @@ app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
 // ---- Route Weather ----
 
 const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
-const OPENWEATHERMAP_API_KEY = process.env.OPENWEATHERMAP_API_KEY;
 
 const geocodeLocation = async (query) => {
   const url = `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(query)}&access_token=${MAPBOX_ACCESS_TOKEN}&limit=1`;
@@ -341,25 +340,111 @@ const getHistoricalClimate = async (lat, lon, datetime) => {
   }
 };
 
-const getOpenWeatherMap = async (lat, lon) => {
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPENWEATHERMAP_API_KEY}&units=imperial`;
+const getOpenMeteoDailyForecast = async (lat, lon, startDate, numDays) => {
+  const now = new Date();
+  const start = new Date(startDate + 'T12:00:00');
+  const diffDays = (start - now) / (1000 * 60 * 60 * 24);
+
   try {
+    if (diffDays > 14) {
+      // Use historical archive from last year as estimate
+      const lastYear = new Date(start);
+      lastYear.setFullYear(lastYear.getFullYear() - 1);
+      const endDate = new Date(lastYear);
+      endDate.setDate(endDate.getDate() + numDays - 1);
+      const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${lastYear.toISOString().slice(0, 10)}&end_date=${endDate.toISOString().slice(0, 10)}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&temperature_unit=fahrenheit`;
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const json = await res.json();
+      if (!json.daily || !json.daily.time) return null;
+      return json.daily.time.map((date, i) => {
+        // Remap the date to the actual requested year
+        const actualDate = new Date(start);
+        actualDate.setDate(actualDate.getDate() + i);
+        return {
+          date: actualDate.toISOString().slice(0, 10),
+          weather: {
+            tempHigh: Math.round(json.daily.temperature_2m_max[i]),
+            tempLow: Math.round(json.daily.temperature_2m_min[i]),
+            precipitation: json.daily.precipitation_sum[i],
+            weatherCode: null,
+            windSpeed: null,
+            isHistorical: true
+          }
+        };
+      });
+    }
+
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code,wind_speed_10m_max&temperature_unit=fahrenheit&wind_speed_unit=mph&forecast_days=16`;
     const res = await fetch(url);
     if (!res.ok) return null;
     const json = await res.json();
-    return {
-      temp: Math.round(json.main.temp),
-      feelsLike: Math.round(json.main.feels_like),
-      humidity: json.main.humidity,
-      description: json.weather[0].description,
-      icon: json.weather[0].icon,
-      iconUrl: `https://openweathermap.org/img/wn/${json.weather[0].icon}@2x.png`,
-      windSpeed: Math.round(json.wind.speed)
-    };
+    if (!json.daily || !json.daily.time) return null;
+
+    // Find the index of the start date
+    const startIdx = json.daily.time.indexOf(startDate);
+    if (startIdx === -1) return null;
+
+    const days = [];
+    for (let i = 0; i < numDays && (startIdx + i) < json.daily.time.length; i++) {
+      const idx = startIdx + i;
+      days.push({
+        date: json.daily.time[idx],
+        weather: {
+          tempHigh: Math.round(json.daily.temperature_2m_max[idx]),
+          tempLow: Math.round(json.daily.temperature_2m_min[idx]),
+          precipitation: json.daily.precipitation_sum[idx],
+          weatherCode: json.daily.weather_code[idx],
+          windSpeed: Math.round(json.daily.wind_speed_10m_max[idx]),
+          isHistorical: false
+        }
+      });
+    }
+    return days;
   } catch (err) {
-    console.error('OpenWeatherMap error:', err.message);
+    console.error('Open-Meteo daily forecast error:', err.message);
     return null;
   }
+};
+
+const encodePolyline = (coordinates) => {
+  if (!coordinates.length) return '';
+  const factor = 1e5;
+  const round = (v) => Math.floor(Math.abs(v) + 0.5) * (v >= 0 ? 1 : -1);
+  const enc = (cur, prev) => {
+    cur = round(cur * factor);
+    prev = round(prev * factor);
+    let coord = (cur - prev) * 2;
+    if (coord < 0) coord = -coord - 1;
+    let out = '';
+    while (coord >= 0x20) {
+      out += String.fromCharCode((0x20 | (coord & 0x1f)) + 63);
+      coord = Math.floor(coord / 32);
+    }
+    out += String.fromCharCode(coord + 63);
+    return out;
+  };
+  // Polyline expects [lat, lon] but input is [lon, lat]
+  let out = enc(coordinates[0][1], 0) + enc(coordinates[0][0], 0);
+  for (let i = 1; i < coordinates.length; i++) {
+    out += enc(coordinates[i][1], coordinates[i - 1][1]);
+    out += enc(coordinates[i][0], coordinates[i - 1][0]);
+  }
+  return out;
+};
+
+const buildStaticMapUrl = (routeGeometry, waypoints) => {
+  if (!MAPBOX_ACCESS_TOKEN || !routeGeometry) return null;
+  const coords = routeGeometry.coordinates;
+  // Simplify to ~100 points to keep URL manageable
+  const step = Math.max(1, Math.floor(coords.length / 100));
+  const simplified = coords.filter((_, i) => i % step === 0 || i === coords.length - 1);
+  const encoded = encodePolyline(simplified);
+  const pathOverlay = `path-4+4882F5-0.6(${encodeURIComponent(encoded)})`;
+  // Pin markers for waypoints
+  const pins = waypoints.map(wp => `pin-s+FF6B35(${wp.lon.toFixed(4)},${wp.lat.toFixed(4)})`).join(',');
+  const overlays = pins ? `${pathOverlay},${pins}` : pathOverlay;
+  return `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/${overlays}/auto/800x400@2x?access_token=${MAPBOX_ACCESS_TOKEN}&padding=50`;
 };
 
 app.get(['/city-suggest', '/api/city-suggest'], async (req, res) => {
@@ -434,46 +519,33 @@ app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
 
       const arrivalTime = new Date(departureDatetime.getTime() + route.duration * 1000);
       response.destination.arrival = arrivalTime.toISOString();
+
+      // Build static map URL
+      response.mapUrl = buildStaticMapUrl(route.geometry, waypoints);
     } else {
       // Fly mode
       const flightDuration = 3 * 3600; // 3 hours placeholder
       response.totalDuration = flightDuration;
 
-      // Get departure weather
-      const departureWeather = await getOpenWeatherMap(startCoords.lat, startCoords.lon);
+      // Get departure weather using Open-Meteo hourly
+      const departureWeather = await getOpenMeteoWeather(startCoords.lat, startCoords.lon, departureDatetime);
       response.waypoints = [{
         label: `Departure: ${startCoords.name}`,
         lat: startCoords.lat,
         lon: startCoords.lon,
         eta: departureDatetime.toISOString(),
-        weather: departureWeather ? {
-          temp: departureWeather.temp,
-          precipitation: null,
-          weatherCode: null,
-          windSpeed: departureWeather.windSpeed,
-          isHistorical: false,
-          description: departureWeather.description,
-          icon: departureWeather.icon,
-          iconUrl: departureWeather.iconUrl
-        } : null
+        weather: departureWeather
       }];
 
       const arrivalTime = new Date(departureDatetime.getTime() + flightDuration * 1000);
       response.destination.arrival = arrivalTime.toISOString();
     }
 
-    // Get destination weather for each stay day
-    const destinationDays = [];
+    // Get destination weather for each stay day using Open-Meteo daily forecast
     const arrivalDate = new Date(response.destination.arrival);
-    for (let i = 0; i < numStayDays; i++) {
-      const dayDate = new Date(arrivalDate);
-      dayDate.setDate(dayDate.getDate() + i);
-      const dateStr = dayDate.toISOString().slice(0, 10);
-
-      const weather = await getOpenWeatherMap(endCoords.lat, endCoords.lon);
-      destinationDays.push({ date: dateStr, weather });
-    }
-    response.destination.days = destinationDays;
+    const arrivalDateStr = arrivalDate.toISOString().slice(0, 10);
+    const dailyForecast = await getOpenMeteoDailyForecast(endCoords.lat, endCoords.lon, arrivalDateStr, numStayDays);
+    response.destination.days = dailyForecast || [];
 
     res.json(response);
   } catch (err) {
