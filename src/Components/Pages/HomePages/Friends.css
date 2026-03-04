@@ -517,6 +517,27 @@
   margin-left: 30px;
 }
 
+.AboutPara4, .AboutPara5 {
+    position: absolute;
+    left: 78px;
+    width: 833px;
+}
+.AboutPara4 {
+    top: 47px;
+    height: 192px;
+}
+.AboutPara5 {
+    top: 250px;
+    height: 216px;
+}
+
+.AboutFriends-button-container {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    margin-bottom: 50px;
+}
+
 .BBQPara4, .BBQPara5, .BBQPara6s{
     position: absolute;
     left: 78px;

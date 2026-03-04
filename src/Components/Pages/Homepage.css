@@ -50,6 +50,7 @@
 @font-face {
   font-family: 'Galgine';
   src: url('../fonts/Galgine.otf') format('opentype');
+  font-display: swap;
 }
 
 .button-container {

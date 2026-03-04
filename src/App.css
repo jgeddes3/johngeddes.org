@@ -44,6 +44,13 @@
 @font-face {
   font-family: 'Galgine';
   src: url('./Components/fonts/Galgine.otf') format('opentype');
+  font-display: swap;
+}
+
+/* Global defaults so lazy-loaded page CSS doesn't cause a style flash */
+h1 {
+  font-family: 'Galgine', serif;
+  color: var(--color-accent);
 }
 
 @keyframes fallIn {
@@ -59,4 +66,30 @@
 
 .fall-in {
   animation: fallIn 0.5s ease-in-out forwards;
+}
+
+/* Shared styles used by multiple lazy-loaded pages */
+#centerpiece2 h1 {
+  color: var(--color-accent);
+  text-align: center;
+  font-family: 'Galgine', serif;
+  font-size: 96px;
+  font-weight: 400;
+}
+
+.projects-description {
+  font-family: 'EB Garamond', serif;
+  font-size: 30px;
+  color: var(--color-accent);
+  margin-top: 20px;
+}
+
+.AboutMeTextSmall {
+  color: var(--color-accent-dark);
+  font-family: 'EB Garamond', serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: left;
 }

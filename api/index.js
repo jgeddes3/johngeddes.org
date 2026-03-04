@@ -7,6 +7,8 @@ const app = express();
 
 const LASTFM_API_KEY = process.env.LASTFM_API_KEY;
 const LASTFM_USER = process.env.LASTFM_USER;
+const APIVERVE_API_KEY = process.env.APIVERVE_API_KEY;
+const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 
 app.use(cors());
 
@@ -84,5 +86,122 @@ const handleRecentlyPlayed = (req, res) => {
 };
 
 app.get(['/recently-played', '/api/recently-played', '/recently'], handleRecentlyPlayed);
+
+// ---- Drink Horoscope ----
+
+const VALID_SIGNS = [
+  'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
+  'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'
+];
+
+const fetchHoroscope = async (sign) => {
+  const res = await fetch(`https://api.apiverve.com/v1/horoscope?sign=${sign}`, {
+    headers: { 'x-api-key': APIVERVE_API_KEY }
+  });
+  if (!res.ok) throw new Error(`APIVerve returned ${res.status}`);
+  const json = await res.json();
+  if (!json.data) throw new Error('No horoscope data returned');
+  return json.data;
+};
+
+const askHaikuForCocktail = async (mood, horoscopeText) => {
+  const snippet = (horoscopeText || '').slice(0, 200);
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'x-api-key': ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 100,
+      messages: [{
+        role: 'user',
+        content: `Horoscope mood: ${mood}. Horoscope: "${snippet}"\nReply with ONLY a JSON object: {"cocktail":"<cocktail name>","vibe":"<8 words max>"}`
+      }]
+    })
+  });
+  if (!res.ok) throw new Error(`Anthropic API returned ${res.status}`);
+  const json = await res.json();
+  const text = json.content && json.content[0] && json.content[0].text;
+  return JSON.parse(text);
+};
+
+const fetchCocktail = async (name) => {
+  const searchRes = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${encodeURIComponent(name)}`);
+  const searchJson = await searchRes.json();
+  let drink = searchJson.drinks && searchJson.drinks[0];
+  if (!drink) {
+    const randomRes = await fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php');
+    const randomJson = await randomRes.json();
+    drink = randomJson.drinks && randomJson.drinks[0];
+  }
+  if (!drink) return null;
+  const ingredients = [];
+  for (let i = 1; i <= 15; i++) {
+    const ing = drink[`strIngredient${i}`];
+    const meas = drink[`strMeasure${i}`];
+    if (ing && ing.trim()) {
+      ingredients.push({ ingredient: ing.trim(), measure: (meas || '').trim() });
+    }
+  }
+  return {
+    name: drink.strDrink,
+    image: drink.strDrinkThumb,
+    instructions: drink.strInstructions,
+    glass: drink.strGlass,
+    ingredients
+  };
+};
+
+app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
+  const sign = (req.query.sign || '').toLowerCase().trim();
+  if (!VALID_SIGNS.includes(sign)) {
+    return res.status(400).json({ error: `Invalid sign. Must be one of: ${VALID_SIGNS.join(', ')}` });
+  }
+  if (!APIVERVE_API_KEY) {
+    return res.status(500).json({ error: 'APIVERVE_API_KEY not configured' });
+  }
+
+  try {
+    // 1. Get horoscope
+    const horoscopeData = await fetchHoroscope(sign);
+    const horoscope = {
+      text: horoscopeData.horoscope || '',
+      mood: horoscopeData.mood || '',
+      luckyNumber: horoscopeData.luckyNumber || horoscopeData.lucky_number || '',
+      luckyTime: horoscopeData.luckyTime || horoscopeData.lucky_time || '',
+      color: horoscopeData.color || '',
+      compatibility: horoscopeData.compatibility || '',
+      zodiac: sign
+    };
+
+    // 2. Ask Haiku for cocktail pairing
+    let cocktailName = '';
+    let flavorProfile = '';
+    try {
+      const haikuResult = await askHaikuForCocktail(horoscope.mood, horoscope.text);
+      cocktailName = haikuResult.cocktail || '';
+      flavorProfile = haikuResult.vibe || '';
+    } catch (err) {
+      console.error('Haiku fallback:', err.message);
+      flavorProfile = 'mysterious and unknowable';
+    }
+
+    // 3. Get cocktail details
+    let cocktail = null;
+    try {
+      cocktail = await fetchCocktail(cocktailName || 'margarita');
+    } catch (err) {
+      console.error('CocktailDB fallback:', err.message);
+    }
+
+    res.json({ sign, horoscope, cocktail, flavorProfile });
+  } catch (err) {
+    console.error('Horoscope error:', err.message);
+    res.status(500).json({ error: 'Failed to fetch horoscope. Please try again.' });
+  }
+});
 
 module.exports = app;

@@ -1,0 +1,41 @@
+# John Geddes — johngeddes.org
+
+## About
+John Geddes is a Senior Audio Visual Engineer and Software Developer based in Chicago, IL. He currently works at The Aspen Group (TAG) as a Senior AV Engineer. He holds a B.S. in Computer Science from Loyola University Chicago with a focus on Neuroethics and AI.
+
+## Technical Skills
+- Frontend: React, TypeScript, JavaScript, HTML, CSS
+- Mobile: React Native
+- Backend: Node.js, Express, Python
+- AV Systems: Crestron, Extron, enterprise AV integration
+- Data: Python data analysis, Excel automation
+- Tools: Git, Azure AD, Vite, TailwindCSS
+- Security: AES-256 encryption, PBKDF2, JWT authentication
+
+## Leadership
+- Senior-level AV engineering with team leadership experience
+- Cross-functional collaboration between AV and IT departments
+- Project management across enterprise environments
+
+## Projects
+- Cipher Tracker: React Native habit tracking app with AES-256 encryption and analytics (cipher-app.org)
+- Snipe IT Tag: Enterprise IT asset management web app (React 19, TypeScript, Azure AD, Node.js/Express)
+- Chess Deck: Browser-based card chess game with local, computer, and online multiplayer (PeerJS)
+- Rambler Registrar: Student course scheduling app (Python + JavaScript)
+- React Native Credit Card App: Mobile credit card management application
+- Weather App: Weather forecasting application
+- Drink Decider: Beverage recommendation app
+- Excel Workbooks: Custom Excel automation solutions
+- A Tourism App: Travel and tourism application
+
+## Content
+- Book reviews: The Way of Kings, Babel, Red Rising series, The Myth of Sisyphus, How to Blow Up a Pipeline
+- Restaurant reviews: Hopleaf, Sparrow, Trivoli Tavern, TAVA Fresh Taste of India (Chicago)
+- Recipes: The Amazing Burger, The Best Mimosa, Crock Pot Beer Chili
+- Philosophy writings on ethics, technology, and world events
+
+## Contact
+- Website: https://www.johngeddes.org
+- LinkedIn: https://www.linkedin.com/in/therealjohngeddes
+- GitHub: https://github.com/jgeddes3
+- Contracts & rates: https://www.johngeddes.org/contracts

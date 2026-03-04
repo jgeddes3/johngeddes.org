@@ -39,7 +39,26 @@
       "Bash(copy:*)",
       "Bash(npm ls:*)",
       "Bash(npm install:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(node -e:*)",
+      "Bash(npx vite build:*)",
+      "Bash(ls:*)",
+      "Bash(sort:*)",
+      "Bash(wc:*)",
+      "Bash(node:*)",
+      "Bash(del \"C:\\\\Users\\\\johng\\\\johngeddes.org\\\\convert-images.mjs\")",
+      "Bash(del:*)",
+      "WebFetch(domain:claude.com)",
+      "WebFetch(domain:www.costarastrology.com)",
+      "WebFetch(domain:apiverve.com)",
+      "WebFetch(domain:medium.com)",
+      "WebFetch(domain:ixd.prattsi.org)",
+      "WebFetch(domain:horoscope.apiverve.com)",
+      "WebFetch(domain:www.juliajmaloof.com)",
+      "WebFetch(domain:www.code-brew.com)",
+      "WebFetch(domain:www.apptunix.com)",
+      "WebFetch(domain:www.34st.com)",
+      "WebFetch(domain:screensdesign.com)"
     ]
   }
 }
