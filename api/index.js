@@ -94,11 +94,11 @@ const VALID_SIGNS = [
 ];
 
 const fetchHoroscope = async (sign) => {
-  const res = await fetch(`https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sign}&day=TODAY`);
+  const res = await fetch(`https://freehoroscopeapi.com/api/v1/get-horoscope/daily?sign=${sign}&day=TODAY`);
   if (!res.ok) throw new Error(`Horoscope API returned ${res.status}`);
   const json = await res.json();
-  if (!json.data || !json.data.horoscope_data) throw new Error('No horoscope data returned');
-  return json.data.horoscope_data;
+  if (!json.data || !json.data.horoscope) throw new Error('No horoscope data returned');
+  return json.data.horoscope;
 };
 
 const askHaikuForPairing = async (sign, horoscopeText) => {
