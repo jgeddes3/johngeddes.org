@@ -193,7 +193,17 @@ app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
     }
 
     // 3. Get cocktail details
-    const FALLBACK_COCKTAILS = ['zombie', 'mojito', 'mai tai', 'cosmopolitan', 'negroni', 'paloma', 'pisco sour', 'aperol spritz', 'dark and stormy', 'french 75'];
+    const FALLBACK_COCKTAILS = [
+      'zombie', 'mojito', 'mai tai', 'cosmopolitan', 'negroni', 'paloma',
+      'pisco sour', 'aperol spritz', 'dark and stormy', 'french 75',
+      'old fashioned', 'margarita', 'manhattan', 'sidecar', 'daiquiri',
+      'espresso martini', 'whiskey sour', 'tom collins', 'gimlet', 'penicillin',
+      'boulevardier', 'aviation', 'bee\'s knees', 'pornstar martini', 'spritz',
+      'tequila sunrise', 'pina colada', 'rum runner', 'rusty nail', 'stinger',
+      'old pal', 'new york sour', 'planter\'s punch', 'sangria', 'salty dog',
+      'singapore sling', 'screwdriver', 'sea breeze', 'white russian', 'rum punch',
+      'pegu club', 'pink lady', 'the last word', 'ramos gin fizz'
+    ];
     let cocktail = null;
     try {
       cocktail = await fetchCocktail(cocktailName || FALLBACK_COCKTAILS[Math.floor(Math.random() * FALLBACK_COCKTAILS.length)]);
@@ -239,32 +249,64 @@ const getRoute = async (startCoords, endCoords) => {
   };
 };
 
-const extractWaypoints = (route, departureDatetime) => {
-  const waypoints = [];
-  let accumulatedTime = 0;
-  const INTERVAL = 3.5 * 3600; // 3.5 hours in seconds
-  let nextThreshold = INTERVAL;
+const reverseGeocode = async (lat, lon) => {
+  try {
+    const url = `https://api.mapbox.com/search/geocode/v6/reverse?longitude=${lon}&latitude=${lat}&access_token=${MAPBOX_ACCESS_TOKEN}&limit=1&types=place,locality,neighborhood`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const json = await res.json();
+    if (!json.features || json.features.length === 0) return null;
+    const props = json.features[0].properties;
+    return props.name || props.full_address || null;
+  } catch {
+    return null;
+  }
+};
 
+const extractWaypoints = (route, departureDatetime) => {
+  const totalDuration = route.duration;
   const steps = route.legs[0].steps;
-  for (const step of steps) {
-    accumulatedTime += step.duration;
-    if (accumulatedTime >= nextThreshold) {
-      const endCoord = step.maneuver.location; // [lon, lat]
-      const eta = new Date(departureDatetime.getTime() + accumulatedTime * 1000);
-      waypoints.push({
-        lat: endCoord[1],
-        lon: endCoord[0],
-        eta: eta.toISOString(),
-        label: `Waypoint ${waypoints.length + 1}`
-      });
-      nextThreshold += INTERVAL;
+
+  // Determine how many intermediate waypoints (max 3)
+  const totalHours = totalDuration / 3600;
+  let numWaypoints;
+  if (totalHours < 2) numWaypoints = 0;
+  else if (totalHours < 5) numWaypoints = 1;
+  else if (totalHours < 8) numWaypoints = 2;
+  else numWaypoints = 3;
+
+  const waypoints = [];
+
+  if (numWaypoints > 0) {
+    // Place waypoints at evenly spaced time intervals
+    const interval = totalDuration / (numWaypoints + 1);
+    const targets = [];
+    for (let i = 1; i <= numWaypoints; i++) {
+      targets.push(interval * i);
+    }
+
+    let accumulatedTime = 0;
+    let targetIdx = 0;
+    for (const step of steps) {
+      accumulatedTime += step.duration;
+      if (targetIdx < targets.length && accumulatedTime >= targets[targetIdx]) {
+        const coord = step.maneuver.location; // [lon, lat]
+        const eta = new Date(departureDatetime.getTime() + accumulatedTime * 1000);
+        waypoints.push({
+          lat: coord[1],
+          lon: coord[0],
+          eta: eta.toISOString(),
+          label: null // will be filled by reverse geocoding
+        });
+        targetIdx++;
+      }
     }
   }
 
   // Add final destination
   const lastStep = steps[steps.length - 1];
   const finalCoord = lastStep.maneuver.location;
-  const arrivalEta = new Date(departureDatetime.getTime() + route.duration * 1000);
+  const arrivalEta = new Date(departureDatetime.getTime() + totalDuration * 1000);
   waypoints.push({
     lat: finalCoord[1],
     lon: finalCoord[0],
@@ -508,11 +550,18 @@ app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
 
       const waypoints = extractWaypoints(route, departureDatetime);
 
-      // Fetch weather for each waypoint in parallel
+      // Fetch weather and location names for each waypoint in parallel
       const waypointWeather = await Promise.all(
         waypoints.map(async (wp) => {
-          const weather = await getOpenMeteoWeather(wp.lat, wp.lon, new Date(wp.eta));
-          return { ...wp, weather };
+          const [weather, locationName] = await Promise.all([
+            getOpenMeteoWeather(wp.lat, wp.lon, new Date(wp.eta)),
+            wp.label === 'Destination' ? Promise.resolve(null) : reverseGeocode(wp.lat, wp.lon)
+          ]);
+          return {
+            ...wp,
+            label: wp.label || locationName || `Waypoint`,
+            weather
+          };
         })
       );
       response.waypoints = waypointWeather;

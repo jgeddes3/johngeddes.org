@@ -7,34 +7,40 @@ import './ProjectTemplate.css';
 import './WeatherApp.css';
 
 const WMO_CODES = {
-  0: 'Clear sky',
-  1: 'Mainly clear',
-  2: 'Partly cloudy',
-  3: 'Overcast',
-  45: 'Foggy',
-  48: 'Depositing rime fog',
-  51: 'Light drizzle',
-  53: 'Moderate drizzle',
-  55: 'Dense drizzle',
-  56: 'Light freezing drizzle',
-  57: 'Dense freezing drizzle',
-  61: 'Slight rain',
-  63: 'Moderate rain',
-  65: 'Heavy rain',
-  66: 'Light freezing rain',
-  67: 'Heavy freezing rain',
-  71: 'Slight snow fall',
-  73: 'Moderate snow fall',
-  75: 'Heavy snow fall',
-  77: 'Snow grains',
-  80: 'Slight rain showers',
-  81: 'Moderate rain showers',
-  82: 'Violent rain showers',
-  85: 'Slight snow showers',
-  86: 'Heavy snow showers',
-  95: 'Thunderstorm',
-  96: 'Thunderstorm with slight hail',
-  99: 'Thunderstorm with heavy hail'
+  0: { desc: 'Clear sky', icon: '\u2600\uFE0F' },
+  1: { desc: 'Mainly clear', icon: '\uD83C\uDF24\uFE0F' },
+  2: { desc: 'Partly cloudy', icon: '\u26C5' },
+  3: { desc: 'Overcast', icon: '\u2601\uFE0F' },
+  45: { desc: 'Foggy', icon: '\uD83C\uDF2B\uFE0F' },
+  48: { desc: 'Depositing rime fog', icon: '\uD83C\uDF2B\uFE0F' },
+  51: { desc: 'Light drizzle', icon: '\uD83C\uDF26\uFE0F' },
+  53: { desc: 'Moderate drizzle', icon: '\uD83C\uDF26\uFE0F' },
+  55: { desc: 'Dense drizzle', icon: '\uD83C\uDF27\uFE0F' },
+  56: { desc: 'Light freezing drizzle', icon: '\uD83C\uDF28\uFE0F' },
+  57: { desc: 'Dense freezing drizzle', icon: '\uD83C\uDF28\uFE0F' },
+  61: { desc: 'Slight rain', icon: '\uD83C\uDF26\uFE0F' },
+  63: { desc: 'Moderate rain', icon: '\uD83C\uDF27\uFE0F' },
+  65: { desc: 'Heavy rain', icon: '\uD83C\uDF27\uFE0F' },
+  66: { desc: 'Light freezing rain', icon: '\uD83C\uDF28\uFE0F' },
+  67: { desc: 'Heavy freezing rain', icon: '\uD83C\uDF28\uFE0F' },
+  71: { desc: 'Slight snow fall', icon: '\uD83C\uDF28\uFE0F' },
+  73: { desc: 'Moderate snow fall', icon: '\u2744\uFE0F' },
+  75: { desc: 'Heavy snow fall', icon: '\u2744\uFE0F' },
+  77: { desc: 'Snow grains', icon: '\u2744\uFE0F' },
+  80: { desc: 'Slight rain showers', icon: '\uD83C\uDF26\uFE0F' },
+  81: { desc: 'Moderate rain showers', icon: '\uD83C\uDF27\uFE0F' },
+  82: { desc: 'Violent rain showers', icon: '\uD83C\uDF27\uFE0F' },
+  85: { desc: 'Slight snow showers', icon: '\uD83C\uDF28\uFE0F' },
+  86: { desc: 'Heavy snow showers', icon: '\u2744\uFE0F' },
+  95: { desc: 'Thunderstorm', icon: '\u26C8\uFE0F' },
+  96: { desc: 'Thunderstorm with slight hail', icon: '\u26C8\uFE0F' },
+  99: { desc: 'Thunderstorm with heavy hail', icon: '\u26C8\uFE0F' }
+};
+
+const getWmoInfo = (code) => {
+  const entry = WMO_CODES[code];
+  if (!entry) return { desc: `Code ${code}`, icon: '\uD83C\uDF21\uFE0F' };
+  return entry;
 };
 
 const formatDuration = (seconds) => {
@@ -346,12 +352,12 @@ const WeatherApp = () => {
                       </div>
                       {wp.weather ? (
                         <div className="rw-wp-weather">
+                          {wp.weather.weatherCode != null && (
+                            <span className="rw-weather-icon">{getWmoInfo(wp.weather.weatherCode).icon}</span>
+                          )}
                           <span>{wp.weather.temp}&deg;F</span>
                           {wp.weather.weatherCode != null && (
-                            <span>{WMO_CODES[wp.weather.weatherCode] || `Code ${wp.weather.weatherCode}`}</span>
-                          )}
-                          {wp.weather.description && (
-                            <span>{wp.weather.description}</span>
+                            <span>{getWmoInfo(wp.weather.weatherCode).desc}</span>
                           )}
                           {wp.weather.windSpeed != null && (
                             <span>{wp.weather.windSpeed} mph wind</span>
@@ -390,12 +396,15 @@ const WeatherApp = () => {
                     <span className="rw-day-date">{formatDate(day.date)}</span>
                     {day.weather ? (
                       <>
+                        {day.weather.weatherCode != null && (
+                          <span className="rw-day-icon-emoji">{getWmoInfo(day.weather.weatherCode).icon}</span>
+                        )}
                         <span className="rw-day-temp">
                           {day.weather.tempHigh}&deg; / {day.weather.tempLow}&deg;F
                         </span>
                         {day.weather.weatherCode != null && (
                           <span className="rw-day-desc">
-                            {WMO_CODES[day.weather.weatherCode] || `Code ${day.weather.weatherCode}`}
+                            {getWmoInfo(day.weather.weatherCode).desc}
                           </span>
                         )}
                         <div className="rw-day-details">

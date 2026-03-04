@@ -400,9 +400,14 @@
   color: var(--color-accent);
 }
 
-.rw-day-icon {
-  width: 64px;
-  height: 64px;
+.rw-day-icon-emoji {
+  font-size: 40px;
+  line-height: 1;
+}
+
+.rw-weather-icon {
+  font-size: 20px;
+  line-height: 1;
 }
 
 .rw-day-temp {
