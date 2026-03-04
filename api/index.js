@@ -122,10 +122,16 @@ const askHaikuForCocktail = async (mood, horoscopeText) => {
       }]
     })
   });
-  if (!res.ok) throw new Error(`Anthropic API returned ${res.status}`);
+  if (!res.ok) {
+    const errBody = await res.text();
+    throw new Error(`Anthropic API returned ${res.status}: ${errBody}`);
+  }
   const json = await res.json();
-  const text = json.content && json.content[0] && json.content[0].text;
-  return JSON.parse(text);
+  const text = (json.content && json.content[0] && json.content[0].text) || '';
+  console.log('Haiku raw response:', text);
+  // Strip markdown code fences if Haiku wraps in ```json ... ```
+  const cleaned = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+  return JSON.parse(cleaned);
 };
 
 const fetchCocktail = async (name) => {
