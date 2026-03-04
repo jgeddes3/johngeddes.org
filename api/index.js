@@ -181,9 +181,13 @@ app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
     let cocktailName = '';
     let flavorProfile = '';
     try {
+      if (!ANTHROPIC_API_KEY) {
+        throw new Error('ANTHROPIC_API_KEY not configured');
+      }
       const haikuResult = await askHaikuForCocktail(horoscope.mood, horoscope.text);
       cocktailName = haikuResult.cocktail || '';
       flavorProfile = haikuResult.vibe || '';
+      console.log('Haiku picked:', cocktailName, '/', flavorProfile);
     } catch (err) {
       console.error('Haiku fallback:', err.message);
       flavorProfile = 'mysterious and unknowable';
