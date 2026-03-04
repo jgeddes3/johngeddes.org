@@ -7,7 +7,6 @@ const app = express();
 
 const LASTFM_API_KEY = process.env.LASTFM_API_KEY;
 const LASTFM_USER = process.env.LASTFM_USER;
-const APIVERVE_API_KEY = process.env.APIVERVE_API_KEY;
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 
 app.use(cors());
@@ -95,17 +94,15 @@ const VALID_SIGNS = [
 ];
 
 const fetchHoroscope = async (sign) => {
-  const res = await fetch(`https://api.apiverve.com/v1/horoscope?sign=${sign}`, {
-    headers: { 'x-api-key': APIVERVE_API_KEY }
-  });
-  if (!res.ok) throw new Error(`APIVerve returned ${res.status}`);
+  const res = await fetch(`https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sign}&day=TODAY`);
+  if (!res.ok) throw new Error(`Horoscope API returned ${res.status}`);
   const json = await res.json();
-  if (!json.data) throw new Error('No horoscope data returned');
-  return json.data;
+  if (!json.data || !json.data.horoscope_data) throw new Error('No horoscope data returned');
+  return json.data.horoscope_data;
 };
 
-const askHaikuForCocktail = async (mood, horoscopeText) => {
-  const snippet = (horoscopeText || '').slice(0, 200);
+const askHaikuForPairing = async (sign, horoscopeText) => {
+  const snippet = (horoscopeText || '').slice(0, 300);
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -115,16 +112,16 @@ const askHaikuForCocktail = async (mood, horoscopeText) => {
     },
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 100,
+      max_tokens: 150,
       temperature: 1,
       messages: [{
         role: 'user',
-        content: `You are a wildly creative cosmic bartender. Given this horoscope, pick a surprising and unique cocktail. NEVER pick Sazerac, Margarita, or Old Fashioned — be adventurous! Think tropical, tiki, obscure classics, modern craft cocktails.
+        content: `You are a wildly creative cosmic bartender. Given this ${sign} horoscope, pick a surprising and unique cocktail and derive the horoscope's mood, lucky number, color, and compatibility sign. NEVER pick Sazerac, Margarita, or Old Fashioned — be adventurous! Think tropical, tiki, obscure classics, modern craft cocktails.
 
-Mood: ${mood}
 Horoscope: "${snippet}"
 
-Reply with ONLY a JSON object: {"cocktail":"<cocktail name>","vibe":"<creative 8 words max>"}`
+Reply with ONLY a JSON object:
+{"cocktail":"<cocktail name>","vibe":"<creative 8 words max>","mood":"<one or two words>","luckyNumber":"<number 1-99>","color":"<hex color code like #7B3FA0>","compatibility":"<zodiac sign>"}`
       }]
     })
   });
@@ -135,7 +132,6 @@ Reply with ONLY a JSON object: {"cocktail":"<cocktail name>","vibe":"<creative 8
   const json = await res.json();
   const text = (json.content && json.content[0] && json.content[0].text) || '';
   console.log('Haiku raw response:', text);
-  // Strip markdown code fences if Haiku wraps in ```json ... ```
   const cleaned = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
   return JSON.parse(cleaned);
 };
@@ -172,33 +168,25 @@ app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
   if (!VALID_SIGNS.includes(sign)) {
     return res.status(400).json({ error: `Invalid sign. Must be one of: ${VALID_SIGNS.join(', ')}` });
   }
-  if (!APIVERVE_API_KEY) {
-    return res.status(500).json({ error: 'APIVERVE_API_KEY not configured' });
-  }
-
   try {
-    // 1. Get horoscope
-    const horoscopeData = await fetchHoroscope(sign);
-    const horoscope = {
-      text: horoscopeData.horoscope || '',
-      mood: horoscopeData.mood || '',
-      luckyNumber: horoscopeData.luckyNumber || horoscopeData.lucky_number || '',
-      luckyTime: horoscopeData.luckyTime || horoscopeData.lucky_time || '',
-      color: horoscopeData.color || '',
-      compatibility: horoscopeData.compatibility || '',
-      zodiac: sign
-    };
+    // 1. Get horoscope text from free API
+    const horoscopeText = await fetchHoroscope(sign);
 
-    // 2. Ask Haiku for cocktail pairing
+    // 2. Ask Haiku for cocktail pairing + details
     let cocktailName = '';
     let flavorProfile = '';
+    const horoscope = { text: horoscopeText, zodiac: sign };
     try {
       if (!ANTHROPIC_API_KEY) {
         throw new Error('ANTHROPIC_API_KEY not configured');
       }
-      const haikuResult = await askHaikuForCocktail(horoscope.mood, horoscope.text);
+      const haikuResult = await askHaikuForPairing(sign, horoscopeText);
       cocktailName = haikuResult.cocktail || '';
       flavorProfile = haikuResult.vibe || '';
+      horoscope.mood = haikuResult.mood || '';
+      horoscope.luckyNumber = haikuResult.luckyNumber || '';
+      horoscope.color = haikuResult.color || '';
+      horoscope.compatibility = haikuResult.compatibility || '';
       console.log('Haiku picked:', cocktailName, '/', flavorProfile);
     } catch (err) {
       console.error('Haiku fallback:', err.message);
@@ -208,7 +196,7 @@ app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
     // 3. Get cocktail details
     let cocktail = null;
     try {
-      cocktail = await fetchCocktail(cocktailName || 'margarita');
+      cocktail = await fetchCocktail(cocktailName || 'daiquiri');
     } catch (err) {
       console.error('CocktailDB fallback:', err.message);
     }

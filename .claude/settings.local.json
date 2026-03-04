@@ -58,7 +58,9 @@
       "WebFetch(domain:www.code-brew.com)",
       "WebFetch(domain:www.apptunix.com)",
       "WebFetch(domain:www.34st.com)",
-      "WebFetch(domain:screensdesign.com)"
+      "WebFetch(domain:screensdesign.com)",
+      "WebFetch(domain:horoscope-app-api.vercel.app)",
+      "WebFetch(domain:freehoroscopeapi.com)"
     ]
   }
 }

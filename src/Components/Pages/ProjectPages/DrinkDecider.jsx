@@ -319,6 +319,12 @@ const DrinkDecider = () => {
           {result && !loading && (
             <div className="dh-result">
               <div className="dh-sign-header">
+                {result.horoscope?.color && (
+                  <div
+                    className="dh-sign-glow"
+                    style={{ background: result.horoscope.color }}
+                  />
+                )}
                 <span className="dh-sign-symbol">{result.zodiac.symbol}</span>
                 <h1 className="dh-sign-name">{result.sign}</h1>
                 <span className="dh-sign-element">{result.zodiac.element}</span>
@@ -339,18 +345,6 @@ const DrinkDecider = () => {
                   <div className="dh-detail-row">
                     <span className="dh-detail-label">lucky number</span>
                     <span className="dh-detail-value">{result.horoscope.luckyNumber}</span>
-                  </div>
-                )}
-                {result.horoscope?.luckyTime && (
-                  <div className="dh-detail-row">
-                    <span className="dh-detail-label">lucky time</span>
-                    <span className="dh-detail-value">{result.horoscope.luckyTime}</span>
-                  </div>
-                )}
-                {result.horoscope?.color && (
-                  <div className="dh-detail-row">
-                    <span className="dh-detail-label">color</span>
-                    <span className="dh-detail-value">{result.horoscope.color}</span>
                   </div>
                 )}
                 {result.horoscope?.compatibility && (
