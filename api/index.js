@@ -562,7 +562,7 @@ app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
       const allWaypoints = [departureWaypoint, ...waypoints];
       const waypointWeather = await Promise.all(
         allWaypoints.map(async (wp) => {
-          const skipGeocode = wp.label === 'Destination' || wp.label.startsWith('Departure:');
+          const skipGeocode = wp.label === 'Destination' || (wp.label && wp.label.startsWith('Departure:'));
           const [weather, locationName] = await Promise.all([
             getOpenMeteoWeather(wp.lat, wp.lon, new Date(wp.eta)),
             skipGeocode ? Promise.resolve(null) : reverseGeocode(wp.lat, wp.lon)
