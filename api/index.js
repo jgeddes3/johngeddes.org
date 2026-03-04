@@ -548,14 +548,24 @@ app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
       response.totalDuration = route.duration;
       response.totalDistance = route.distance;
 
+      // Start with departure point
+      const departureWaypoint = {
+        lat: startCoords.lat,
+        lon: startCoords.lon,
+        eta: departureDatetime.toISOString(),
+        label: `Departure: ${startCoords.name}`
+      };
+
       const waypoints = extractWaypoints(route, departureDatetime);
 
       // Fetch weather and location names for each waypoint in parallel
+      const allWaypoints = [departureWaypoint, ...waypoints];
       const waypointWeather = await Promise.all(
-        waypoints.map(async (wp) => {
+        allWaypoints.map(async (wp) => {
+          const skipGeocode = wp.label === 'Destination' || wp.label.startsWith('Departure:');
           const [weather, locationName] = await Promise.all([
             getOpenMeteoWeather(wp.lat, wp.lon, new Date(wp.eta)),
-            wp.label === 'Destination' ? Promise.resolve(null) : reverseGeocode(wp.lat, wp.lon)
+            skipGeocode ? Promise.resolve(null) : reverseGeocode(wp.lat, wp.lon)
           ]);
           return {
             ...wp,
@@ -576,17 +586,29 @@ app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
       const flightDuration = 3 * 3600; // 3 hours placeholder
       response.totalDuration = flightDuration;
 
-      // Get departure weather using Open-Meteo hourly
-      const departureWeather = await getOpenMeteoWeather(startCoords.lat, startCoords.lon, departureDatetime);
-      response.waypoints = [{
-        label: `Departure: ${startCoords.name}`,
-        lat: startCoords.lat,
-        lon: startCoords.lon,
-        eta: departureDatetime.toISOString(),
-        weather: departureWeather
-      }];
-
       const arrivalTime = new Date(departureDatetime.getTime() + flightDuration * 1000);
+
+      // Get departure and arrival weather in parallel
+      const [departureWeather, arrivalWeather] = await Promise.all([
+        getOpenMeteoWeather(startCoords.lat, startCoords.lon, departureDatetime),
+        getOpenMeteoWeather(endCoords.lat, endCoords.lon, arrivalTime)
+      ]);
+      response.waypoints = [
+        {
+          label: `Departure: ${startCoords.name}`,
+          lat: startCoords.lat,
+          lon: startCoords.lon,
+          eta: departureDatetime.toISOString(),
+          weather: departureWeather
+        },
+        {
+          label: `Arrival: ${endCoords.name}`,
+          lat: endCoords.lat,
+          lon: endCoords.lon,
+          eta: arrivalTime.toISOString(),
+          weather: arrivalWeather
+        }
+      ];
       response.destination.arrival = arrivalTime.toISOString();
     }
 

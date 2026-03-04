@@ -341,7 +341,7 @@ const WeatherApp = () => {
             {result.waypoints.length > 0 && (
               <div>
                 <h2 className="rw-timeline-heading">
-                  {result.mode === 'drive' ? 'Along the Route' : 'Departure'}
+                  {result.mode === 'drive' ? 'Along the Route' : 'Flight'}
                 </h2>
                 <div className="rw-timeline">
                   {result.waypoints.map((wp, i) => (
