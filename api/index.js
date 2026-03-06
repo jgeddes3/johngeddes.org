@@ -534,7 +534,7 @@ app.get(['/city-suggest', '/api/city-suggest'], async (req, res) => {
 });
 
 app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
-  const { startLocation, endLocation, departureDate, departureTime, stayDays, mode, numWaypoints: numWaypointsParam } = req.query;
+  const { startLocation, endLocation, departureDate, departureTime, stayDays, mode, numWaypoints: numWaypointsParam, tzOffset: tzOffsetParam } = req.query;
 
   if (!startLocation || !endLocation || !departureDate || !departureTime) {
     return res.status(400).json({ error: 'Missing required parameters: startLocation, endLocation, departureDate, departureTime' });
@@ -543,6 +543,7 @@ app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
   const numStayDays = parseInt(stayDays, 10) || 1;
   const travelMode = mode === 'fly' ? 'fly' : 'drive';
   const requestedWaypoints = Math.min(Math.max(parseInt(numWaypointsParam, 10) || 3, 0), 10);
+  const tzOffset = parseInt(tzOffsetParam, 10) || 0; // minutes from UTC (e.g. 300 for CDT)
 
   try {
     // Geocode both locations
@@ -552,7 +553,9 @@ app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
     const endCoords = await geocodeLocation(endLocation);
     if (!endCoords) return res.status(400).json({ error: `Could not find location: ${endLocation}` });
 
+    // Create departure datetime in UTC, accounting for user's timezone
     const departureDatetime = new Date(`${departureDate}T${departureTime}:00`);
+    departureDatetime.setMinutes(departureDatetime.getMinutes() + tzOffset);
 
     const response = {
       start: startCoords,

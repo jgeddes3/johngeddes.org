@@ -159,6 +159,7 @@ const WeatherApp = () => {
         departureTime,
         stayDays: String(stayDays),
         mode,
+        tzOffset: String(new Date().getTimezoneOffset()),
         ...(mode === 'drive' ? { numWaypoints: String(numWaypoints) } : {})
       });
       const res = await fetch(`/api/route-weather?${params}`);

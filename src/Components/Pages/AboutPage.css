@@ -102,7 +102,6 @@
     margin-top: 5px;
     height: 550px; /* Changed from fixed height */
     width: 100%;
-    left: -100px;
   }
 
   #AboutMeColab {
@@ -114,7 +113,6 @@
     margin-top: 5px;
     height: 313px; /* Changed from fixed height */
     width: 100%;
-    left: -100px;
   }
 
   #AboutMePara {
@@ -126,7 +124,6 @@
     margin-top: 20px;
     height: 721px; /* Changed from fixed height */
     width: 100%;
-    left: -100px;
   }
 
   #AboutMePhotos {
@@ -303,7 +300,7 @@
 .AboutFriends-button-container {
     display: flex;
     justify-content: center;
-    margin-left: 600px;
+    margin-left: 0;
     margin-top: -10px;
     margin-bottom: 50px; /* Add margin to push it above the bottom bar */
   }
@@ -435,13 +432,39 @@
     height: 60px;
     width: 100%;
     max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6px 80px 6px 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .ResumPara1, .ResumPara2 {
+    position: relative;
+    top: auto;
+    left: auto;
+    height: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ResumNum {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: auto;
+    height: auto;
+    width: auto;
   }
 
   /* Reorder resume items visually */
-  .ResumeRect6 { order: 1; }
-  .ResumeRect1 { order: 2; }
-  .ResumeRect2 { order: 3; }
-  .ResumeRect3 { order: 4; }
+  .ResumeRect2 { order: 1; }
+  .ResumeRect6 { order: 2; }
+  .ResumeRect3 { order: 3; }
+  .ResumeRect1 { order: 4; }
   .ResumeRect4 { order: 5; }
 
   .AboutMeWhiteLarge, .AboutMeGreyLarge, .AboutMeWhiteNum {
@@ -605,13 +628,19 @@
     width: 100%;
     max-width: 400px;
     height: 55px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4px 70px 4px 16px;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 
   /* Reorder resume items visually */
-  .ResumeRect6 { order: 1; }
-  .ResumeRect1 { order: 2; }
-  .ResumeRect2 { order: 3; }
-  .ResumeRect3 { order: 4; }
+  .ResumeRect2 { order: 1; }
+  .ResumeRect6 { order: 2; }
+  .ResumeRect3 { order: 3; }
+  .ResumeRect1 { order: 4; }
   .ResumeRect4 { order: 5; }
 
   /* Colab section */
@@ -721,6 +750,11 @@
   .ResumeRect1, .ResumeRect2, .ResumeRect3, .ResumeRect4, .ResumeRect6 {
     height: 50px;
     border-radius: 30px;
+    padding: 4px 60px 4px 14px;
+  }
+
+  .ResumNum {
+    right: 14px;
   }
 
   .AboutMeWhiteLarge, .AboutMeGreyLarge {
