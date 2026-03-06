@@ -83,6 +83,7 @@ const WeatherApp = () => {
   const [departureDate, setDepartureDate] = useState('');
   const [departureTime, setDepartureTime] = useState('14:00');
   const [stayDays, setStayDays] = useState(3);
+  const [numWaypoints, setNumWaypoints] = useState(3);
   const [mode, setMode] = useState('drive');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -98,7 +99,6 @@ const WeatherApp = () => {
 
   // Date constraints
   const today = toDateStr(new Date());
-  const maxDate = toDateStr(new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
 
   // Cleanup debounce timers
   useEffect(() => {
@@ -158,7 +158,8 @@ const WeatherApp = () => {
         departureDate,
         departureTime,
         stayDays: String(stayDays),
-        mode
+        mode,
+        ...(mode === 'drive' ? { numWaypoints: String(numWaypoints) } : {})
       });
       const res = await fetch(`/api/route-weather?${params}`);
       const data = await res.json();
@@ -243,7 +244,6 @@ const WeatherApp = () => {
                   type="date"
                   value={departureDate}
                   min={today}
-                  max={maxDate}
                   onChange={(e) => setDepartureDate(e.target.value)}
                 />
               </div>
@@ -268,6 +268,18 @@ const WeatherApp = () => {
                   onChange={(e) => setStayDays(Math.min(Math.max(parseInt(e.target.value, 10) || 1, 1), 14))}
                 />
               </div>
+              {mode === 'drive' && (
+                <div className="rw-input-group">
+                  <label>Stops Along Route</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="10"
+                    value={numWaypoints}
+                    onChange={(e) => setNumWaypoints(Math.min(Math.max(parseInt(e.target.value, 10) || 0, 0), 10))}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="rw-mode-toggle">
@@ -396,6 +408,9 @@ const WeatherApp = () => {
                     <span className="rw-day-date">{formatDate(day.date)}</span>
                     {day.weather ? (
                       <>
+                        {day.weather.isHistorical && (
+                          <span className="rw-historical-badge">historical data</span>
+                        )}
                         {day.weather.weatherCode != null && (
                           <span className="rw-day-icon-emoji">{getWmoInfo(day.weather.weatherCode).icon}</span>
                         )}
@@ -407,15 +422,15 @@ const WeatherApp = () => {
                             {getWmoInfo(day.weather.weatherCode).desc}
                           </span>
                         )}
+                        {!day.weather.weatherCode && day.weather.isHistorical && (
+                          <span className="rw-day-desc">Based on last year</span>
+                        )}
                         <div className="rw-day-details">
                           {day.weather.windSpeed != null && (
                             <span>Wind {day.weather.windSpeed} mph</span>
                           )}
                           {day.weather.precipitation != null && day.weather.precipitation > 0 && (
                             <span>{day.weather.precipitation} mm precip</span>
-                          )}
-                          {day.weather.isHistorical && (
-                            <span className="rw-historical-badge">historical avg</span>
                           )}
                         </div>
                       </>

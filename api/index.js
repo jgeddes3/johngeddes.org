@@ -206,7 +206,14 @@ app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
     ];
     let cocktail = null;
     try {
-      cocktail = await fetchCocktail(cocktailName || FALLBACK_COCKTAILS[Math.floor(Math.random() * FALLBACK_COCKTAILS.length)]);
+      let pickName = cocktailName || FALLBACK_COCKTAILS[Math.floor(Math.random() * FALLBACK_COCKTAILS.length)];
+      // If zombie was picked, 1-in-10 chance to keep it — otherwise re-roll
+      if (pickName.toLowerCase() === 'zombie' && Math.random() > 0.1) {
+        const nonZombie = FALLBACK_COCKTAILS.filter(c => c !== 'zombie');
+        pickName = nonZombie[Math.floor(Math.random() * nonZombie.length)];
+        console.log('Zombie re-rolled to:', pickName);
+      }
+      cocktail = await fetchCocktail(pickName);
     } catch (err) {
       console.error('CocktailDB fallback:', err.message);
     }
@@ -256,24 +263,22 @@ const reverseGeocode = async (lat, lon) => {
     if (!res.ok) return null;
     const json = await res.json();
     if (!json.features || json.features.length === 0) return null;
-    const props = json.features[0].properties;
-    return props.name || props.full_address || null;
+    const feature = json.features[0];
+    const city = feature.properties.name;
+    const region = feature.properties.context && feature.properties.context.region;
+    const stateCode = region && (region.region_code_full || region.region_code || region.name);
+    // Format as "City, ST" — strip country prefix from region_code_full (e.g. "US-MN" → "MN")
+    const abbr = stateCode ? stateCode.replace(/^[A-Z]{2}-/, '') : null;
+    if (city && abbr) return `${city}, ${abbr}`;
+    return city || feature.properties.full_address || null;
   } catch {
     return null;
   }
 };
 
-const extractWaypoints = (route, departureDatetime) => {
+const extractWaypoints = (route, departureDatetime, numWaypoints) => {
   const totalDuration = route.duration;
   const steps = route.legs[0].steps;
-
-  // Determine how many intermediate waypoints (max 3)
-  const totalHours = totalDuration / 3600;
-  let numWaypoints;
-  if (totalHours < 2) numWaypoints = 0;
-  else if (totalHours < 5) numWaypoints = 1;
-  else if (totalHours < 8) numWaypoints = 2;
-  else numWaypoints = 3;
 
   const waypoints = [];
 
@@ -382,67 +387,87 @@ const getHistoricalClimate = async (lat, lon, datetime) => {
   }
 };
 
-const getOpenMeteoDailyForecast = async (lat, lon, startDate, numDays) => {
-  const now = new Date();
-  const start = new Date(startDate + 'T12:00:00');
-  const diffDays = (start - now) / (1000 * 60 * 60 * 24);
-
+const getHistoricalDaily = async (lat, lon, dates) => {
+  // Fetch last year's data for the given dates as historical estimates
+  if (dates.length === 0) return [];
+  const firstDate = new Date(dates[0] + 'T12:00:00');
+  const lastDate = new Date(dates[dates.length - 1] + 'T12:00:00');
+  const lyFirst = new Date(firstDate); lyFirst.setFullYear(lyFirst.getFullYear() - 1);
+  const lyLast = new Date(lastDate); lyLast.setFullYear(lyLast.getFullYear() - 1);
+  const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${lyFirst.toISOString().slice(0, 10)}&end_date=${lyLast.toISOString().slice(0, 10)}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&temperature_unit=fahrenheit`;
   try {
-    if (diffDays > 14) {
-      // Use historical archive from last year as estimate
-      const lastYear = new Date(start);
-      lastYear.setFullYear(lastYear.getFullYear() - 1);
-      const endDate = new Date(lastYear);
-      endDate.setDate(endDate.getDate() + numDays - 1);
-      const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${lastYear.toISOString().slice(0, 10)}&end_date=${endDate.toISOString().slice(0, 10)}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&temperature_unit=fahrenheit`;
-      const res = await fetch(url);
-      if (!res.ok) return null;
-      const json = await res.json();
-      if (!json.daily || !json.daily.time) return null;
-      return json.daily.time.map((date, i) => {
-        // Remap the date to the actual requested year
-        const actualDate = new Date(start);
-        actualDate.setDate(actualDate.getDate() + i);
-        return {
-          date: actualDate.toISOString().slice(0, 10),
-          weather: {
-            tempHigh: Math.round(json.daily.temperature_2m_max[i]),
-            tempLow: Math.round(json.daily.temperature_2m_min[i]),
-            precipitation: json.daily.precipitation_sum[i],
-            weatherCode: null,
-            windSpeed: null,
-            isHistorical: true
-          }
-        };
-      });
-    }
-
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code,wind_speed_10m_max&temperature_unit=fahrenheit&wind_speed_unit=mph&forecast_days=16`;
     const res = await fetch(url);
-    if (!res.ok) return null;
+    if (!res.ok) return dates.map(d => ({ date: d, weather: null }));
     const json = await res.json();
-    if (!json.daily || !json.daily.time) return null;
-
-    // Find the index of the start date
-    const startIdx = json.daily.time.indexOf(startDate);
-    if (startIdx === -1) return null;
-
-    const days = [];
-    for (let i = 0; i < numDays && (startIdx + i) < json.daily.time.length; i++) {
-      const idx = startIdx + i;
-      days.push({
-        date: json.daily.time[idx],
+    if (!json.daily || !json.daily.time) return dates.map(d => ({ date: d, weather: null }));
+    return dates.map((date, i) => {
+      const idx = i < json.daily.time.length ? i : json.daily.time.length - 1;
+      return {
+        date,
         weather: {
           tempHigh: Math.round(json.daily.temperature_2m_max[idx]),
           tempLow: Math.round(json.daily.temperature_2m_min[idx]),
           precipitation: json.daily.precipitation_sum[idx],
-          weatherCode: json.daily.weather_code[idx],
-          windSpeed: Math.round(json.daily.wind_speed_10m_max[idx]),
-          isHistorical: false
+          weatherCode: null,
+          windSpeed: null,
+          isHistorical: true
         }
-      });
+      };
+    });
+  } catch (err) {
+    console.error('Historical daily error:', err.message);
+    return dates.map(d => ({ date: d, weather: null }));
+  }
+};
+
+const getOpenMeteoDailyForecast = async (lat, lon, startDate, numDays) => {
+  // Build the list of dates we need
+  const allDates = [];
+  const start = new Date(startDate + 'T12:00:00');
+  for (let i = 0; i < numDays; i++) {
+    const d = new Date(start);
+    d.setDate(d.getDate() + i);
+    allDates.push(d.toISOString().slice(0, 10));
+  }
+
+  try {
+    // Fetch the 16-day forecast
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code,wind_speed_10m_max&temperature_unit=fahrenheit&wind_speed_unit=mph&forecast_days=16`;
+    const res = await fetch(url);
+    if (!res.ok) return await getHistoricalDaily(lat, lon, allDates);
+    const json = await res.json();
+    if (!json.daily || !json.daily.time) return await getHistoricalDaily(lat, lon, allDates);
+
+    const forecastDates = new Set(json.daily.time);
+    const forecastDays = [];
+    const historicalDates = [];
+
+    for (const date of allDates) {
+      const idx = json.daily.time.indexOf(date);
+      if (idx !== -1) {
+        forecastDays.push({
+          date,
+          weather: {
+            tempHigh: Math.round(json.daily.temperature_2m_max[idx]),
+            tempLow: Math.round(json.daily.temperature_2m_min[idx]),
+            precipitation: json.daily.precipitation_sum[idx],
+            weatherCode: json.daily.weather_code[idx],
+            windSpeed: Math.round(json.daily.wind_speed_10m_max[idx]),
+            isHistorical: false
+          }
+        });
+      } else {
+        historicalDates.push(date);
+      }
     }
-    return days;
+
+    // Fetch historical data for any dates beyond the forecast range
+    const historicalDays = await getHistoricalDaily(lat, lon, historicalDates);
+
+    // Merge and sort by date
+    const allDays = [...forecastDays, ...historicalDays];
+    allDays.sort((a, b) => a.date.localeCompare(b.date));
+    return allDays;
   } catch (err) {
     console.error('Open-Meteo daily forecast error:', err.message);
     return null;
@@ -509,7 +534,7 @@ app.get(['/city-suggest', '/api/city-suggest'], async (req, res) => {
 });
 
 app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
-  const { startLocation, endLocation, departureDate, departureTime, stayDays, mode } = req.query;
+  const { startLocation, endLocation, departureDate, departureTime, stayDays, mode, numWaypoints: numWaypointsParam } = req.query;
 
   if (!startLocation || !endLocation || !departureDate || !departureTime) {
     return res.status(400).json({ error: 'Missing required parameters: startLocation, endLocation, departureDate, departureTime' });
@@ -517,6 +542,7 @@ app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
 
   const numStayDays = parseInt(stayDays, 10) || 1;
   const travelMode = mode === 'fly' ? 'fly' : 'drive';
+  const requestedWaypoints = Math.min(Math.max(parseInt(numWaypointsParam, 10) || 3, 0), 10);
 
   try {
     // Geocode both locations
@@ -556,7 +582,7 @@ app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
         label: `Departure: ${startCoords.name}`
       };
 
-      const waypoints = extractWaypoints(route, departureDatetime);
+      const waypoints = extractWaypoints(route, departureDatetime, requestedWaypoints);
 
       // Fetch weather and location names for each waypoint in parallel
       const allWaypoints = [departureWaypoint, ...waypoints];
