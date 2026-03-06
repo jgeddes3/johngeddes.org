@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect, useCallback } from 'react';
+
 import { Link } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
@@ -15,34 +16,9 @@ import WhiteStar from './FriendsImages/WhiteStar.png';
 import WhiteStarHalf from './FriendsImages/WhiteStarHalf.png';
 
 const FriendsPage = () => {
-  const [iframeUrl, setIframeUrl] = useState(null);
-  const [iframePosition, setIframePosition] = useState({ top: 0, left: 0 });
-  
-  const handleButtonClick = (url, event) => {
-    event.stopPropagation(); // Prevent event bubbling to avoid closing iframe on button click
-    setIframeUrl(url);
-    const buttonRect = event.target.getBoundingClientRect();
-    const iframeTop = buttonRect.top + window.scrollY + (buttonRect.bottom > window.innerHeight / 2 ? -620 : 320);
-    const iframeLeft = buttonRect.left;
-    setIframePosition({ top: iframeTop, left: iframeLeft });
+  const handleButtonClick = (url) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
-  
-  // Memoize the closeIframe function so it doesn't change on every render
-  const closeIframe = useCallback((event) => {
-    if (!event.target.closest('.iframe-container')) {
-      setIframeUrl(null);
-    }
-  }, []); // No dependencies since the function doesn't rely on props/state
-  
-  useEffect(() => {
-    if (iframeUrl) {
-      document.addEventListener('click', closeIframe);
-    } else {
-      document.removeEventListener('click', closeIframe);
-    }
-  
-    return () => document.removeEventListener('click', closeIframe); // Cleanup event listener
-  }, [iframeUrl, closeIframe]);
   
 const renderStars = (rating) => {
   const stars = [];
@@ -219,12 +195,12 @@ useEffect(() => {
     <h3 className="mobile-section-header">Unreviewed</h3>
     <div className="bars-friends-rect-right">
       <div className="books-friends-button-container">
-      <button className="bars-friends-button" onClick={(e) => handleButtonClick('https://www.yelp.com/biz/dearly-beloved-chicago', e)}>Dearly Beloved</button>
-          <button className="bars-friends-button" onClick={(e) => handleButtonClick('https://www.yelp.com/biz/king-of-cups-chicago', e)}>King of Cups</button>
-          <button className="bars-friends-button" onClick={(e) => handleButtonClick('https://www.yelp.com/biz/bernards-chicago-2', e)}>Bernard's</button>
-          <button className="bars-friends-button" onClick={(e) => handleButtonClick('https://www.yelp.com/biz/the-gatsby-chicago', e)}>The Gatsby</button>
-          <button className="bars-friends-button" onClick={(e) => handleButtonClick('https://www.yelp.com/biz/buzzed-by-zea-chicago', e)}>Buzzed by Zea</button>
-          <button className="bars-friends-button" onClick={(e) => handleButtonClick('https://www.yelp.com/biz/ella-elli-chicago', e)}>Ella Elli</button>
+      <button className="bars-friends-button" onClick={() => handleButtonClick('https://www.yelp.com/biz/dearly-beloved-chicago')}>Dearly Beloved</button>
+          <button className="bars-friends-button" onClick={() => handleButtonClick('https://www.yelp.com/biz/king-of-cups-chicago')}>King of Cups</button>
+          <button className="bars-friends-button" onClick={() => handleButtonClick('https://www.yelp.com/biz/bernards-chicago-2')}>Bernard's</button>
+          <button className="bars-friends-button" onClick={() => handleButtonClick('https://www.yelp.com/biz/the-gatsby-chicago')}>The Gatsby</button>
+          <button className="bars-friends-button" onClick={() => handleButtonClick('https://www.yelp.com/biz/buzzed-by-zea-chicago')}>Buzzed by Zea</button>
+          <button className="bars-friends-button" onClick={() => handleButtonClick('https://www.yelp.com/biz/ella-elli-chicago')}>Ella Elli</button>
         </div>
     </div>
   </div>
@@ -254,14 +230,6 @@ useEffect(() => {
   </div>
 </div>
 
-    {/* Popup Iframe */}
-    {iframeUrl && (
-      <div className="iframe-popup" style={{ top: iframePosition.top, left: iframePosition.left }}>
-        <div className="iframe-container">
-          <iframe src={iframeUrl} title="Bar Yelp Review"></iframe>
-        </div>
-      </div>
-    )}
 
       <div id="centerpieceFriends">
           <h1 className='main-content'>BBQ'n n' Grillin</h1>

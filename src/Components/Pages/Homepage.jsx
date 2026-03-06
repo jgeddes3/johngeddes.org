@@ -6,9 +6,9 @@ import SEO from '../ForEveryPage/SEO';
 import Largebutton1 from '../hpButtons/Largebutton1';
 import Smallbutton1 from '../hpButtons/Smallbutton1';
 import LargeButton2 from '../hpButtons/Largebutton2';
-import SmallButton2 from '../hpButtons/Smallbutton2';
 import Largebutton3 from '../hpButtons/Largebutton3';
 import Smallbutton3 from '../hpButtons/Smallbutton3';
+import ProjectCarousel from '../hpButtons/ProjectCarousel';
 import { Link } from 'react-router-dom';
 
 const HomePage = () => {
@@ -36,9 +36,7 @@ const HomePage = () => {
           </Link>
         </div>
         <div className="button-row">
-          <Link to="/" className="small-btn">
-            <SmallButton2 />
-          </Link>
+          <ProjectCarousel />
           <Link to="/friends" className="large-btn">
             <LargeButton2 />
           </Link>

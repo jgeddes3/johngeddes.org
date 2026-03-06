@@ -248,11 +248,24 @@
   border-color: #ffffff;
 }
 
+/* --- Blue Projects Button (blue on hover only) --- */
+.proj-nav-button-blue:hover {
+  background-color: #3194C3;
+  color: #ffffff;
+  border-color: #3194C3;
+}
+
 /* --- Dark Mode Override --- */
 [data-theme="dark"] .proj-nav-button:hover {
   background-color: var(--color-accent);
   color: #ffffff;
   border-color: var(--color-accent);
+}
+
+[data-theme="dark"] .proj-nav-button-blue:hover {
+  background-color: #3194C3;
+  color: #ffffff;
+  border-color: #3194C3;
 }
 
 /* ===== Responsive: Tablet (900px) ===== */

@@ -28,28 +28,49 @@ import img26 from './Galway, Ireland.webp';
 
 import './ImageRectangles.css';
 
-const ImageRectangles = () => {
-  const images = useMemo(() => [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12, img13, img14, img15, img16, img17, img18, img19, img20, img21, img22, img23, img24, img25, img26], []);
+const ALL_IMAGES = [
+  { src: img1,  name: "Lily's" },
+  { src: img2,  name: 'Lisbon, Portugal' },
+  { src: img3,  name: 'Minneapolis, MN' },
+  { src: img4,  name: 'Montrose Point, Chicago' },
+  { src: img5,  name: 'Moorish Castle' },
+  { src: img6,  name: 'Phoenix, Arizona' },
+  { src: img7,  name: 'Portland, Maine' },
+  { src: img8,  name: 'Porto, Portugal' },
+  { src: img9,  name: 'Quinta da Regaleira' },
+  { src: img10, name: 'Rossaveel, Ireland' },
+  { src: img11, name: 'San Francisco, California' },
+  { src: img12, name: 'The Half Blood Prince' },
+  { src: img13, name: 'Toca da Raposa' },
+  { src: img14, name: 'Unknown Hills, Ireland' },
+  { src: img15, name: 'Well Out of Hell' },
+  { src: img16, name: 'Wicklow Mountains, Ireland' },
+  { src: img17, name: 'Wolf Point, Chicago' },
+  { src: img18, name: 'Wrigley Field, Chicago' },
+  { src: img19, name: 'Boyne Mountain, Michigan' },
+  { src: img20, name: 'Chattanooga, Tennessee' },
+  { src: img21, name: 'Cliffs of Moher, Ireland' },
+  { src: img22, name: 'Crete, Greece' },
+  { src: img23, name: 'Dublin, Ireland' },
+  { src: img24, name: 'Duluth, Minnesota' },
+  { src: img25, name: 'Fort Lauderdale, Florida' },
+  { src: img26, name: 'Galway, Ireland' },
+];
 
+const ImageRectangles = () => {
   const [randomImages, setRandomImages] = useState([]);
 
   useEffect(() => {
     const getRandomImages = () => {
       let randomIndexes = [];
       while (randomIndexes.length < 2) {
-        const rand = Math.floor(Math.random() * images.length);
+        const rand = Math.floor(Math.random() * ALL_IMAGES.length);
         if (randomIndexes.indexOf(rand) === -1) randomIndexes.push(rand);
       }
-      return [images[randomIndexes[0]], images[randomIndexes[1]]];
+      return [ALL_IMAGES[randomIndexes[0]], ALL_IMAGES[randomIndexes[1]]];
     };
     setRandomImages(getRandomImages());
-  }, [images]);
-
-  // Extract the filename (imgX) from the import path
-  const getImageName = (image) => {
-    const parts = image.split('/');
-    return decodeURIComponent(parts[parts.length - 1].split('.')[0]);
-  };
+  }, []);
 
   return (
     <>
@@ -57,8 +78,8 @@ const ImageRectangles = () => {
         <div className="Aboutimgrect">
           {randomImages[0] && (
             <>
-              <img loading="lazy" decoding="async" src={randomImages[0]} alt="Random 1" />
-              <div className="image-name-label">{getImageName(randomImages[0])}</div>
+              <img loading="lazy" decoding="async" src={randomImages[0].src} alt={randomImages[0].name} />
+              <div className="image-name-label">{randomImages[0].name}</div>
             </>
           )}
         </div>
@@ -67,8 +88,8 @@ const ImageRectangles = () => {
         <div className="Aboutimgrect2">
           {randomImages[1] && (
             <>
-              <img loading="lazy" decoding="async" src={randomImages[1]} alt="Random 2" />
-              <div className="image-name-label">{getImageName(randomImages[1])}</div>
+              <img loading="lazy" decoding="async" src={randomImages[1].src} alt={randomImages[1].name} />
+              <div className="image-name-label">{randomImages[1].name}</div>
             </>
           )}
         </div>
