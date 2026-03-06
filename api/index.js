@@ -584,22 +584,36 @@ app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
 
       const waypoints = extractWaypoints(route, departureDatetime, requestedWaypoints);
 
-      // Fetch weather and location names for each waypoint in parallel
+      // Fetch location names first (Mapbox can handle parallel), then weather in batches
       const allWaypoints = [departureWaypoint, ...waypoints];
-      const waypointWeather = await Promise.all(
-        allWaypoints.map(async (wp) => {
-          const skipGeocode = wp.label === 'Destination' || (wp.label && wp.label.startsWith('Departure:'));
-          const [weather, locationName] = await Promise.all([
-            getOpenMeteoWeather(wp.lat, wp.lon, new Date(wp.eta)),
-            skipGeocode ? Promise.resolve(null) : reverseGeocode(wp.lat, wp.lon)
-          ]);
-          return {
-            ...wp,
-            label: wp.label || locationName || `Waypoint`,
-            weather
-          };
+
+      // Step 1: Reverse geocode all waypoints that need it (parallel is fine for Mapbox)
+      const locationNames = await Promise.all(
+        allWaypoints.map(wp => {
+          const skip = wp.label === 'Destination' || (wp.label && wp.label.startsWith('Departure:'));
+          return skip ? Promise.resolve(null) : reverseGeocode(wp.lat, wp.lon);
         })
       );
+
+      // Apply labels
+      const labeledWaypoints = allWaypoints.map((wp, i) => ({
+        ...wp,
+        label: wp.label || locationNames[i] || 'Waypoint'
+      }));
+
+      // Step 2: Fetch weather in batches of 3 to avoid rate limiting
+      const BATCH_SIZE = 3;
+      const waypointWeather = [];
+      for (let i = 0; i < labeledWaypoints.length; i += BATCH_SIZE) {
+        const batch = labeledWaypoints.slice(i, i + BATCH_SIZE);
+        const results = await Promise.all(
+          batch.map(async (wp) => {
+            const weather = await getOpenMeteoWeather(wp.lat, wp.lon, new Date(wp.eta));
+            return { ...wp, weather };
+          })
+        );
+        waypointWeather.push(...results);
+      }
       response.waypoints = waypointWeather;
 
       const arrivalTime = new Date(departureDatetime.getTime() + route.duration * 1000);

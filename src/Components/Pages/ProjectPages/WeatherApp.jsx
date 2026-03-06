@@ -270,7 +270,7 @@ const WeatherApp = () => {
               </div>
               {mode === 'drive' && (
                 <div className="rw-input-group">
-                  <label>Stops Along Route</label>
+                  <label>Weather Waypoints</label>
                   <input
                     type="number"
                     min="0"
