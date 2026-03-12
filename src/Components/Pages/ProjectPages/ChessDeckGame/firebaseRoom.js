@@ -12,6 +12,17 @@ function generateRoomId() {
   return Math.random().toString(36).substring(2, 8);
 }
 
+// Firebase strips null values from objects, which destroys the board array
+// (empty squares are null). Serialize as JSON string to preserve nulls.
+function encode(state) {
+  return JSON.stringify(state);
+}
+
+function decode(raw) {
+  if (typeof raw === 'string') return JSON.parse(raw);
+  return raw;
+}
+
 /**
  * Create a room as the host. Returns { roomId, cleanup }.
  * Calls onOpponentJoin(sendState, onReceiveState) when the opponent connects.
@@ -31,14 +42,13 @@ export function createRoom(onOpponentJoin, onOpponentLeave) {
   // Listen for guest joining
   const unsubGuest = onValue(guestRef, (snapshot) => {
     if (snapshot.val() === true) {
-      // Guest joined — provide send/receive functions
       const sendState = (state) => {
-        set(stateRef, state);
+        set(stateRef, encode(state));
       };
       const onReceive = (callback) => {
         onValue(stateRef, (snap) => {
           const val = snap.val();
-          if (val) callback(val);
+          if (val) callback(decode(val));
         });
       };
       onOpponentJoin(sendState, onReceive);
@@ -57,14 +67,14 @@ export function createRoom(onOpponentJoin, onOpponentLeave) {
 
 /**
  * Join an existing room as the guest. Returns a Promise.
- * Resolves with { sendState, onReceiveState, cleanup }.
+ * Resolves with { sendState, onReceiveState, listenForHostLeave, cleanup }.
  * Rejects if room doesn't exist or host has left.
  */
 export async function joinRoom(roomId) {
-  const roomRef = ref(db, `rooms/${roomId}`);
   const hostRef = ref(db, `rooms/${roomId}/host`);
   const guestRef = ref(db, `rooms/${roomId}/guest`);
   const stateRef = ref(db, `rooms/${roomId}/gameState`);
+  const roomRef = ref(db, `rooms/${roomId}`);
 
   // Check if room exists
   const hostSnap = await get(hostRef);
@@ -77,17 +87,16 @@ export async function joinRoom(roomId) {
   onDisconnect(guestRef).set(false);
 
   const sendState = (state) => {
-    set(stateRef, state);
+    set(stateRef, encode(state));
   };
 
   const onReceive = (callback) => {
     onValue(stateRef, (snap) => {
       const val = snap.val();
-      if (val) callback(val);
+      if (val) callback(decode(val));
     });
   };
 
-  // Listen for host leaving
   const listenForHostLeave = (onLeave) => {
     onValue(hostRef, (snap) => {
       if (!snap.exists()) {
@@ -98,6 +107,7 @@ export async function joinRoom(roomId) {
 
   const cleanup = () => {
     set(guestRef, false);
+    remove(roomRef);
   };
 
   return { sendState, onReceiveState: onReceive, listenForHostLeave, cleanup };
