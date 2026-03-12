@@ -7,48 +7,66 @@ function generatePeerId() {
 
 /**
  * Create a host peer and wait for an incoming connection.
- * Returns { peer, peerId, onConnection }
+ * Returns a Promise that resolves with { peer, peerId } once the peer is
+ * registered on the signaling server and ready to accept connections.
  */
 export function createHost(onConnection, onError) {
   const peerId = generatePeerId();
   const peer = new Peer(peerId);
 
-  peer.on('open', () => {
-    // Peer server connection established
-  });
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      peer.destroy();
+      reject(new Error('Timed out connecting to signaling server'));
+    }, 15000);
 
-  peer.on('connection', (conn) => {
-    conn.on('open', () => {
-      onConnection(conn);
+    peer.on('open', () => {
+      clearTimeout(timeout);
+      resolve({ peer, peerId });
+    });
+
+    peer.on('connection', (conn) => {
+      conn.on('open', () => {
+        onConnection(conn);
+      });
+    });
+
+    peer.on('error', (err) => {
+      clearTimeout(timeout);
+      if (onError) onError(err);
+      reject(err);
     });
   });
-
-  peer.on('error', (err) => {
-    if (onError) onError(err);
-  });
-
-  return { peer, peerId };
 }
 
 /**
  * Join an existing game by connecting to the host's peer ID.
- * Returns a Promise that resolves with the data connection.
+ * Returns a Promise that resolves with { peer, conn } or rejects on
+ * timeout / error.
  */
 export function joinGame(hostPeerId) {
   return new Promise((resolve, reject) => {
     const peer = new Peer(generatePeerId());
 
+    const timeout = setTimeout(() => {
+      peer.destroy();
+      reject(new Error('Connection timed out — the host may no longer be available'));
+    }, 15000);
+
     peer.on('open', () => {
       const conn = peer.connect(hostPeerId, { reliable: true });
       conn.on('open', () => {
+        clearTimeout(timeout);
         resolve({ peer, conn });
       });
       conn.on('error', (err) => {
+        clearTimeout(timeout);
         reject(err);
       });
     });
 
     peer.on('error', (err) => {
+      clearTimeout(timeout);
       reject(err);
     });
   });

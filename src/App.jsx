@@ -69,8 +69,7 @@ function App() {
             <Route path="/ChessDeck" element={<ChessDeckMenu />} />
             <Route path="/ChessDeck/local" element={<ChessDeck />} />
             <Route path="/ChessDeck/computer" element={<ChessDeckComputer />} />
-            <Route path="/ChessDeck/online" element={<ChessDeckOnline />} />
-            <Route path="/ChessDeck/online/:peerId" element={<ChessDeckOnline />} />
+            <Route path="/ChessDeck/online/:peerId?" element={<ChessDeckOnline />} />
             <Route path="/DrinkDecider" element={<DrinkDecider />} />
             <Route path="/ExcelWorkBooks" element={<ExcelWorkBooks />} />
             <Route path="/CipherTracker" element={<CipherTracker />} />

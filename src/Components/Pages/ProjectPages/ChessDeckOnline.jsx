@@ -29,6 +29,7 @@ const ChessDeckOnline = () => {
   const [myColor, setMyColor] = useState(null);
   const [connected, setConnected] = useState(false);
   const [disconnected, setDisconnected] = useState(false);
+  const [error, setError] = useState(null);
   const [hostPeerId, setHostPeerId] = useState(null);
 
   const connRef = useRef(null);
@@ -44,19 +45,18 @@ const ChessDeckOnline = () => {
 
   // Setup connection
   useEffect(() => {
-    let peer;
     let cleaned = false;
+    let peer = null;
 
     if (!urlPeerId) {
-      // I'm the host — create a peer and redirect to the URL with my peer ID
-      const { peer: hostPeer, peerId } = createHost(
+      // I'm the host — create a peer, wait for it to register, then redirect
+      createHost(
         (conn) => {
           if (cleaned) return;
           connRef.current = conn;
           setConnected(true);
           setMyColor(WHITE);
 
-          // Send initial state to joiner
           sendState(conn, stateRef.current);
 
           onReceiveState(conn, (newState) => {
@@ -70,29 +70,33 @@ const ChessDeckOnline = () => {
         (err) => {
           console.error('Host peer error:', err);
         }
-      );
-
-      peer = hostPeer;
-      peerRef.current = peer;
-      setHostPeerId(peerId);
-
-      // Redirect to URL with peer ID
-      navigate(`/ChessDeck/online/${peerId}`, { replace: true });
-    } else {
-      // Check if we're the host coming back or a joiner
-      // If hostPeerId matches urlPeerId, we're the host waiting for connection
-      // Otherwise, we're a joiner
-      if (hostPeerId === urlPeerId) {
-        // We're the host — already set up, just wait
-        return;
-      }
-
-      // We're a joiner
+      )
+        .then(({ peer: hostPeer, peerId }) => {
+          if (cleaned) {
+            hostPeer.destroy();
+            return;
+          }
+          peer = hostPeer;
+          peerRef.current = peer;
+          setHostPeerId(peerId);
+          // Peer is registered on signaling server — safe to navigate
+          navigate(`/ChessDeck/online/${peerId}`, { replace: true });
+        })
+        .catch((err) => {
+          if (cleaned) return;
+          console.error('Failed to create host:', err);
+          setError('Failed to connect to server. Please try again.');
+        });
+    } else if (!hostPeerId) {
+      // We're a joiner (no hostPeerId means we didn't create this game)
       setMyColor(BLACK);
 
       joinGame(urlPeerId)
         .then(({ peer: joinerPeer, conn }) => {
-          if (cleaned) return;
+          if (cleaned) {
+            joinerPeer.destroy();
+            return;
+          }
           peer = joinerPeer;
           peerRef.current = peer;
           connRef.current = conn;
@@ -107,16 +111,18 @@ const ChessDeckOnline = () => {
           });
         })
         .catch((err) => {
+          if (cleaned) return;
           console.error('Failed to join game:', err);
+          setError('Could not connect to host — they may have left or the link expired.');
         });
     }
+    // If hostPeerId is set and matches urlPeerId, we're the host waiting — do nothing.
 
     return () => {
       cleaned = true;
       if (peer) peer.destroy();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [urlPeerId, hostPeerId, navigate]);
 
   // Custom dispatch that enforces turn-based play and syncs state
   const onlineDispatch = useCallback((action) => {
@@ -164,9 +170,49 @@ const ChessDeckOnline = () => {
   const isMyTurn = connected && state.currentPlayer === myColor;
   const activeDispatch = isMyTurn ? onlineDispatch : noopDispatch;
 
+  const handleRetry = () => {
+    setError(null);
+    // For the host, go back to create a fresh game
+    // For the joiner, retry the same link
+    if (!urlPeerId || hostPeerId) {
+      setHostPeerId(null);
+      navigate('/ChessDeck/online', { replace: true });
+    } else {
+      // Force re-run of the effect by toggling a re-render
+      setMyColor(null);
+      navigate(`/ChessDeck/online/${urlPeerId}`, { replace: true });
+    }
+  };
+
+  // Error state
+  if (error) {
+    return (
+      <>
+        <Background />
+        <div id="centerpiece2" className="main-content">
+          <h1>Chess Deck</h1>
+        </div>
+        <div className="cd-table-section">
+          <div className="cd-table-bg" style={{ backgroundImage: `url(${TableBg})` }} />
+          <div className="cd-waiting-room">
+            <div className="cd-waiting-status" style={{ color: '#ff6b6b' }}>{error}</div>
+            <button className="cd-action-btn" onClick={handleRetry} style={{ marginTop: '1rem' }}>
+              Try Again
+            </button>
+          </div>
+        </div>
+        <div className="proj-nav-buttons">
+          <Link to="/ChessDeck" className="proj-nav-button">
+            Back to Menu
+          </Link>
+        </div>
+        <PageFooter />
+      </>
+    );
+  }
+
   // Waiting room: host is waiting for opponent
   if (urlPeerId && !connected && myColor === null) {
-    // Still loading/connecting...
     const link = `${window.location.origin}/ChessDeck/online/${urlPeerId}`;
     return (
       <>
@@ -189,7 +235,6 @@ const ChessDeckOnline = () => {
   }
 
   if (!connected) {
-    // Joiner is connecting or host is waiting
     const link = hostPeerId
       ? `${window.location.origin}/ChessDeck/online/${hostPeerId}`
       : '';
