@@ -7,7 +7,7 @@ import './ChessDeck.css';
 
 import { gameReducer, createInitialState } from './ChessDeckGame/gameReducer';
 import { WHITE, BLACK, PHASE_DRAW, PHASE_PROMOTION, PHASE_GAME_OVER } from './ChessDeckGame/constants';
-import { createHost, joinGame, sendState, onReceiveState } from './ChessDeckGame/peerManager';
+import { createRoom, joinRoom } from './ChessDeckGame/firebaseRoom';
 
 import Board from './ChessDeckGame/components/Board';
 import GameInfo from './ChessDeckGame/components/GameInfo';
@@ -22,7 +22,7 @@ import WaitingRoom from './ChessDeckGame/components/WaitingRoom';
 import TableBg from './ProjectPageImages/ChessDeck/ChessBackground2.webp';
 
 const ChessDeckOnline = () => {
-  const { peerId: urlPeerId } = useParams();
+  const { peerId: roomId } = useParams();
   const navigate = useNavigate();
 
   const [state, dispatch] = useReducer(gameReducer, null, createInitialState);
@@ -30,11 +30,12 @@ const ChessDeckOnline = () => {
   const [connected, setConnected] = useState(false);
   const [disconnected, setDisconnected] = useState(false);
   const [error, setError] = useState(null);
-  const [hostPeerId, setHostPeerId] = useState(null);
+  const [hostRoomId, setHostRoomId] = useState(null);
 
-  const connRef = useRef(null);
-  const peerRef = useRef(null);
+  const sendRef = useRef(null);
+  const cleanupRef = useRef(null);
   const stateRef = useRef(state);
+  const ignoreNextUpdate = useRef(false);
 
   // Keep stateRef in sync
   useEffect(() => {
@@ -45,78 +46,86 @@ const ChessDeckOnline = () => {
 
   // Setup connection
   useEffect(() => {
-    let peer;
-    let cleaned = false;
+    let cancelled = false;
 
-    if (!urlPeerId) {
-      // I'm the host — create a peer and redirect to the URL with my peer ID
-      const { peer: hostPeer, peerId } = createHost(
-        (conn) => {
-          if (cleaned) return;
-          connRef.current = conn;
+    if (!roomId) {
+      // I'm the host — create a room and redirect
+      const { roomId: newRoomId, cleanup } = createRoom(
+        (sendState, onReceiveState) => {
+          if (cancelled) return;
+          sendRef.current = sendState;
+          cleanupRef.current = cleanup;
           setConnected(true);
           setMyColor(WHITE);
 
-          // Send initial state to joiner
-          sendState(conn, stateRef.current);
+          // Send initial state to guest
+          sendState(stateRef.current);
 
-          onReceiveState(conn, (newState) => {
+          onReceiveState((newState) => {
+            if (ignoreNextUpdate.current) {
+              ignoreNextUpdate.current = false;
+              return;
+            }
+            // Restore modifiers arrays
+            restoreModifiers(newState);
             dispatch({ type: 'REPLACE_STATE', state: newState });
           });
-
-          conn.on('close', () => {
-            setDisconnected(true);
-          });
         },
-        (err) => {
-          console.error('Host peer error:', err);
+        () => {
+          if (!cancelled) setDisconnected(true);
         }
       );
 
-      peer = hostPeer;
-      peerRef.current = peer;
-      setHostPeerId(peerId);
-
-      // Redirect to URL with peer ID
-      navigate(`/ChessDeck/online/${peerId}`, { replace: true });
+      cleanupRef.current = cleanup;
+      setHostRoomId(newRoomId);
+      navigate(`/ChessDeck/online/${newRoomId}`, { replace: true });
     } else {
       // Check if we're the host coming back or a joiner
-      if (hostPeerId === urlPeerId) {
-        // We're the host — already set up, just wait
+      if (hostRoomId === roomId) {
         return;
       }
 
       // We're a joiner
       setMyColor(BLACK);
 
-      joinGame(urlPeerId)
-        .then(({ peer: joinerPeer, conn }) => {
-          if (cleaned) return;
-          peer = joinerPeer;
-          peerRef.current = peer;
-          connRef.current = conn;
+      joinRoom(roomId)
+        .then(({ sendState, onReceiveState, listenForHostLeave, cleanup }) => {
+          if (cancelled) return;
+          sendRef.current = sendState;
+          cleanupRef.current = cleanup;
           setConnected(true);
 
-          onReceiveState(conn, (newState) => {
+          onReceiveState((newState) => {
+            if (ignoreNextUpdate.current) {
+              ignoreNextUpdate.current = false;
+              return;
+            }
+            restoreModifiers(newState);
             dispatch({ type: 'REPLACE_STATE', state: newState });
           });
 
-          conn.on('close', () => {
-            setDisconnected(true);
+          listenForHostLeave(() => {
+            if (!cancelled) setDisconnected(true);
           });
         })
         .catch((err) => {
-          if (cleaned) return;
-          console.error('Failed to join game:', err);
-          setError('Could not connect to host — they may have left or the link expired.');
+          if (cancelled) return;
+          console.error('Failed to join room:', err);
+          setError('Could not connect — the host may have left or the link expired.');
         });
     }
 
     return () => {
-      cleaned = true;
-      if (peer) peer.destroy();
+      cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (cleanupRef.current) cleanupRef.current();
+    };
   }, []);
 
   // Custom dispatch that enforces turn-based play and syncs state
@@ -127,7 +136,8 @@ const ChessDeckOnline = () => {
     if (action.type === 'REMATCH') {
       const newState = createInitialState();
       dispatch({ type: 'REPLACE_STATE', state: newState });
-      if (connRef.current) sendState(connRef.current, newState);
+      ignoreNextUpdate.current = true;
+      if (sendRef.current) sendRef.current(newState);
       return;
     }
 
@@ -139,9 +149,10 @@ const ChessDeckOnline = () => {
     const newState = gameReducer(currentState, action);
     dispatch({ type: 'REPLACE_STATE', state: newState });
 
-    // Send updated state to peer
-    if (connRef.current) {
-      sendState(connRef.current, newState);
+    // Send updated state to opponent
+    ignoreNextUpdate.current = true;
+    if (sendRef.current) {
+      sendRef.current(newState);
     }
   }, [myColor]);
 
@@ -197,8 +208,8 @@ const ChessDeckOnline = () => {
   }
 
   // Waiting room: host is waiting for opponent
-  if (urlPeerId && !connected && myColor === null) {
-    const link = `${window.location.origin}/ChessDeck/online/${urlPeerId}`;
+  if (roomId && !connected && myColor === null) {
+    const link = `${window.location.origin}/ChessDeck/online/${roomId}`;
     return (
       <>
         <Background />
@@ -220,8 +231,8 @@ const ChessDeckOnline = () => {
   }
 
   if (!connected) {
-    const link = hostPeerId
-      ? `${window.location.origin}/ChessDeck/online/${hostPeerId}`
+    const link = hostRoomId
+      ? `${window.location.origin}/ChessDeck/online/${hostRoomId}`
       : '';
 
     return (
@@ -232,7 +243,7 @@ const ChessDeckOnline = () => {
         </div>
         <div className="cd-table-section">
           <div className="cd-table-bg" style={{ backgroundImage: `url(${TableBg})` }} />
-          {hostPeerId ? (
+          {hostRoomId ? (
             <WaitingRoom link={link} />
           ) : (
             <div className="cd-waiting-room">
@@ -329,5 +340,18 @@ const ChessDeckOnline = () => {
     </>
   );
 };
+
+function restoreModifiers(state) {
+  if (state && state.board) {
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const piece = state.board[r][c];
+        if (piece && !piece.modifiers) {
+          piece.modifiers = [];
+        }
+      }
+    }
+  }
+}
 
 export default ChessDeckOnline;
