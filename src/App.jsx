@@ -1,5 +1,6 @@
 import './App.css';
 import React, { Suspense } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './ThemeContext';
 import StickyBar from './Components/ForEveryPage/Stickybar';
@@ -101,6 +102,7 @@ function App() {
         </Suspense>
       </div>
     </Router>
+    <SpeedInsights />
     </ThemeProvider>
     </HelmetProvider>
   );

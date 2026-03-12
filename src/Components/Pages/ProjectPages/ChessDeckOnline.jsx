@@ -31,6 +31,7 @@ const ChessDeckOnline = () => {
   const [disconnected, setDisconnected] = useState(false);
   const [error, setError] = useState(null);
   const [hostPeerId, setHostPeerId] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   const connRef = useRef(null);
   const peerRef = useRef(null);
@@ -45,14 +46,13 @@ const ChessDeckOnline = () => {
 
   // Setup connection
   useEffect(() => {
-    let cleaned = false;
-    let peer = null;
+    let cancelled = false;
 
-    if (!urlPeerId) {
+    if (!urlPeerId && !hostPeerId) {
       // I'm the host — create a peer, wait for it to register, then redirect
       createHost(
         (conn) => {
-          if (cleaned) return;
+          if (cancelled) return;
           connRef.current = conn;
           setConnected(true);
           setMyColor(WHITE);
@@ -71,33 +71,30 @@ const ChessDeckOnline = () => {
           console.error('Host peer error:', err);
         }
       )
-        .then(({ peer: hostPeer, peerId }) => {
-          if (cleaned) {
-            hostPeer.destroy();
+        .then(({ peer, peerId }) => {
+          if (cancelled) {
+            peer.destroy();
             return;
           }
-          peer = hostPeer;
           peerRef.current = peer;
           setHostPeerId(peerId);
-          // Peer is registered on signaling server — safe to navigate
           navigate(`/ChessDeck/online/${peerId}`, { replace: true });
         })
         .catch((err) => {
-          if (cleaned) return;
+          if (cancelled) return;
           console.error('Failed to create host:', err);
           setError('Failed to connect to server. Please try again.');
         });
-    } else if (!hostPeerId) {
-      // We're a joiner (no hostPeerId means we didn't create this game)
+    } else if (urlPeerId && !hostPeerId) {
+      // We're a joiner (hostPeerId is null so we didn't create this game)
       setMyColor(BLACK);
 
       joinGame(urlPeerId)
-        .then(({ peer: joinerPeer, conn }) => {
-          if (cleaned) {
-            joinerPeer.destroy();
+        .then(({ peer, conn }) => {
+          if (cancelled) {
+            peer.destroy();
             return;
           }
-          peer = joinerPeer;
           peerRef.current = peer;
           connRef.current = conn;
           setConnected(true);
@@ -111,18 +108,27 @@ const ChessDeckOnline = () => {
           });
         })
         .catch((err) => {
-          if (cleaned) return;
+          if (cancelled) return;
           console.error('Failed to join game:', err);
           setError('Could not connect to host — they may have left or the link expired.');
         });
     }
-    // If hostPeerId is set and matches urlPeerId, we're the host waiting — do nothing.
+    // If hostPeerId is set, we're the host waiting for an opponent — do nothing.
 
     return () => {
-      cleaned = true;
-      if (peer) peer.destroy();
+      cancelled = true;
     };
-  }, [urlPeerId, hostPeerId, navigate]);
+  }, [urlPeerId, hostPeerId, retryCount, navigate]);
+
+  // Destroy peer only on true unmount
+  useEffect(() => {
+    return () => {
+      if (peerRef.current) {
+        peerRef.current.destroy();
+        peerRef.current = null;
+      }
+    };
+  }, []);
 
   // Custom dispatch that enforces turn-based play and syncs state
   const onlineDispatch = useCallback((action) => {
@@ -171,17 +177,23 @@ const ChessDeckOnline = () => {
   const activeDispatch = isMyTurn ? onlineDispatch : noopDispatch;
 
   const handleRetry = () => {
+    // Clean up existing peer
+    if (peerRef.current) {
+      peerRef.current.destroy();
+      peerRef.current = null;
+    }
+    connRef.current = null;
     setError(null);
-    // For the host, go back to create a fresh game
-    // For the joiner, retry the same link
-    if (!urlPeerId || hostPeerId) {
+    setConnected(false);
+    setDisconnected(false);
+    setMyColor(null);
+
+    if (hostPeerId) {
+      // Host retry: go back to create a fresh game
       setHostPeerId(null);
       navigate('/ChessDeck/online', { replace: true });
-    } else {
-      // Force re-run of the effect by toggling a re-render
-      setMyColor(null);
-      navigate(`/ChessDeck/online/${urlPeerId}`, { replace: true });
     }
+    setRetryCount((c) => c + 1);
   };
 
   // Error state
