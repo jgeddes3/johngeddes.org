@@ -31,7 +31,6 @@ const ChessDeckOnline = () => {
   const [disconnected, setDisconnected] = useState(false);
   const [error, setError] = useState(null);
   const [hostPeerId, setHostPeerId] = useState(null);
-  const [retryCount, setRetryCount] = useState(0);
 
   const connRef = useRef(null);
   const peerRef = useRef(null);
@@ -46,17 +45,19 @@ const ChessDeckOnline = () => {
 
   // Setup connection
   useEffect(() => {
-    let cancelled = false;
+    let peer;
+    let cleaned = false;
 
-    if (!urlPeerId && !hostPeerId) {
-      // I'm the host — create a peer, wait for it to register, then redirect
-      createHost(
+    if (!urlPeerId) {
+      // I'm the host — create a peer and redirect to the URL with my peer ID
+      const { peer: hostPeer, peerId } = createHost(
         (conn) => {
-          if (cancelled) return;
+          if (cleaned) return;
           connRef.current = conn;
           setConnected(true);
           setMyColor(WHITE);
 
+          // Send initial state to joiner
           sendState(conn, stateRef.current);
 
           onReceiveState(conn, (newState) => {
@@ -70,31 +71,28 @@ const ChessDeckOnline = () => {
         (err) => {
           console.error('Host peer error:', err);
         }
-      )
-        .then(({ peer, peerId }) => {
-          if (cancelled) {
-            peer.destroy();
-            return;
-          }
-          peerRef.current = peer;
-          setHostPeerId(peerId);
-          navigate(`/ChessDeck/online/${peerId}`, { replace: true });
-        })
-        .catch((err) => {
-          if (cancelled) return;
-          console.error('Failed to create host:', err);
-          setError('Failed to connect to server. Please try again.');
-        });
-    } else if (urlPeerId && !hostPeerId) {
-      // We're a joiner (hostPeerId is null so we didn't create this game)
+      );
+
+      peer = hostPeer;
+      peerRef.current = peer;
+      setHostPeerId(peerId);
+
+      // Redirect to URL with peer ID
+      navigate(`/ChessDeck/online/${peerId}`, { replace: true });
+    } else {
+      // Check if we're the host coming back or a joiner
+      if (hostPeerId === urlPeerId) {
+        // We're the host — already set up, just wait
+        return;
+      }
+
+      // We're a joiner
       setMyColor(BLACK);
 
       joinGame(urlPeerId)
-        .then(({ peer, conn }) => {
-          if (cancelled) {
-            peer.destroy();
-            return;
-          }
+        .then(({ peer: joinerPeer, conn }) => {
+          if (cleaned) return;
+          peer = joinerPeer;
           peerRef.current = peer;
           connRef.current = conn;
           setConnected(true);
@@ -108,26 +106,17 @@ const ChessDeckOnline = () => {
           });
         })
         .catch((err) => {
-          if (cancelled) return;
+          if (cleaned) return;
           console.error('Failed to join game:', err);
           setError('Could not connect to host — they may have left or the link expired.');
         });
     }
-    // If hostPeerId is set, we're the host waiting for an opponent — do nothing.
 
     return () => {
-      cancelled = true;
+      cleaned = true;
+      if (peer) peer.destroy();
     };
-  }, [urlPeerId, hostPeerId, retryCount, navigate]);
-
-  // Destroy peer only on true unmount
-  useEffect(() => {
-    return () => {
-      if (peerRef.current) {
-        peerRef.current.destroy();
-        peerRef.current = null;
-      }
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Custom dispatch that enforces turn-based play and syncs state
@@ -176,26 +165,6 @@ const ChessDeckOnline = () => {
   const isMyTurn = connected && state.currentPlayer === myColor;
   const activeDispatch = isMyTurn ? onlineDispatch : noopDispatch;
 
-  const handleRetry = () => {
-    // Clean up existing peer
-    if (peerRef.current) {
-      peerRef.current.destroy();
-      peerRef.current = null;
-    }
-    connRef.current = null;
-    setError(null);
-    setConnected(false);
-    setDisconnected(false);
-    setMyColor(null);
-
-    if (hostPeerId) {
-      // Host retry: go back to create a fresh game
-      setHostPeerId(null);
-      navigate('/ChessDeck/online', { replace: true });
-    }
-    setRetryCount((c) => c + 1);
-  };
-
   // Error state
   if (error) {
     return (
@@ -208,7 +177,11 @@ const ChessDeckOnline = () => {
           <div className="cd-table-bg" style={{ backgroundImage: `url(${TableBg})` }} />
           <div className="cd-waiting-room">
             <div className="cd-waiting-status" style={{ color: '#ff6b6b' }}>{error}</div>
-            <button className="cd-action-btn" onClick={handleRetry} style={{ marginTop: '1rem' }}>
+            <button
+              className="cd-action-btn"
+              onClick={() => window.location.href = '/ChessDeck/online'}
+              style={{ marginTop: '1rem' }}
+            >
               Try Again
             </button>
           </div>
