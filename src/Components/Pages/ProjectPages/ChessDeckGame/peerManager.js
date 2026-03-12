@@ -1,5 +1,22 @@
 import Peer from 'peerjs';
 
+// ICE servers including TURN relays for cross-network connectivity
+const ICE_SERVERS = {
+  config: {
+    iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:stun1.l.google.com:19302' },
+      { urls: 'stun:global.stun.twilio.com:3478' },
+      // PeerJS default TURN
+      { urls: 'turn:0.peerjs.com:3478', username: 'peerjs', credential: 'peerjsp' },
+      // Open Relay TURN servers (free, multiple ports for firewall traversal)
+      { urls: 'turn:openrelay.metered.ca:80', username: 'openrelayproject', credential: 'openrelayproject' },
+      { urls: 'turn:openrelay.metered.ca:443', username: 'openrelayproject', credential: 'openrelayproject' },
+      { urls: 'turn:openrelay.metered.ca:443?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject' },
+    ],
+  },
+};
+
 // Generate a short random ID for peer connections
 function generatePeerId() {
   return 'cd-' + Math.random().toString(36).substring(2, 8);
@@ -11,7 +28,7 @@ function generatePeerId() {
  */
 export function createHost(onConnection, onError) {
   const peerId = generatePeerId();
-  const peer = new Peer(peerId);
+  const peer = new Peer(peerId, ICE_SERVERS);
 
   peer.on('open', () => {
     // Peer server connection established
@@ -37,7 +54,7 @@ export function createHost(onConnection, onError) {
  */
 export function joinGame(hostPeerId) {
   return new Promise((resolve, reject) => {
-    const peer = new Peer(generatePeerId());
+    const peer = new Peer(generatePeerId(), ICE_SERVERS);
 
     const timeout = setTimeout(() => {
       peer.destroy();
