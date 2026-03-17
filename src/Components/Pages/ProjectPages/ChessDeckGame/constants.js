@@ -123,7 +123,7 @@ export const TARGET_MULTI = 'multi';
 // Build the full deck: 2 copies of each card ID (1-20)
 export function createDeck() {
   const deck = [];
-  for (let id = 1; id <= 20; id++) {
+  for (let id = 1; id <= 21; id++) {
     deck.push(String(id));
     deck.push(String(id));
   }

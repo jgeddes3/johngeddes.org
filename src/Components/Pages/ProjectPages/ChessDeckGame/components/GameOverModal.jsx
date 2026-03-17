@@ -9,6 +9,9 @@ const GameOverModal = ({ gameResult, dispatch }) => {
   if (reason === 'checkmate') {
     title = 'Checkmate!';
     subtitle = `${winner === 'white' ? 'White' : 'Black'} wins`;
+  } else if (reason === 'king_captured') {
+    title = 'King Captured!';
+    subtitle = `${winner === 'white' ? 'White' : 'Black'} wins`;
   } else {
     title = 'Stalemate';
     subtitle = 'The game is a draw';

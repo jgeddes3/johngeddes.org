@@ -207,6 +207,15 @@ const CARD_LIST = [
     targetPrompt: 'Select an adjacent safe square for your king',
     artColor: '#5F9EA0', /* TODO: replace with card art */
   },
+  {
+    id: '21',
+    name: 'Second Chance',
+    description: 'Passive: While in your hand, if your king would be captured or you are checkmated, your king teleports to a random safe square. Consumed on use.',
+    rarity: RARITY_RARE,
+    targetType: TARGET_NONE,
+    isPassive: true,
+    artColor: '#FFD700', /* TODO: replace with card art */
+  },
 ];
 
 // Index by id for fast lookup

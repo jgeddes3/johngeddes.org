@@ -467,6 +467,22 @@ export function executeMove(board, from, to, moveInfo = {}) {
   return { newBoard, captured, enPassantTarget, promotionNeeded };
 }
 
+// ── Find a safe square for a king (used by Second Chance card) ───────
+
+export function findSafeSquareForKing(board, color, squareMods = {}) {
+  const safeSquares = [];
+  const opp = color === WHITE ? BLACK : WHITE;
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      if (!board[r][c] && !isSquareAttacked(board, r, c, opp, squareMods)) {
+        safeSquares.push({ row: r, col: c });
+      }
+    }
+  }
+  if (safeSquares.length === 0) return null;
+  return safeSquares[Math.floor(Math.random() * safeSquares.length)];
+}
+
 // ── Promotion ────────────────────────────────────────────────────────
 
 export function executePromotion(board, row, col, newType) {

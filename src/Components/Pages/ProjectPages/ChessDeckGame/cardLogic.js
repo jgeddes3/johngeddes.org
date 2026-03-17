@@ -6,6 +6,9 @@ import { deepCloneBoard, isSquareAttacked, findKing } from './gameLogic';
 // ── Can a card be played? ────────────────────────────────────────────
 
 export function canPlayCard(card, state) {
+  // Passive cards can't be actively played
+  if (card.isPassive) return false;
+
   const targets = getValidCardTargets(card, state, 0);
   // For instant cards, always playable (unless Sabotage with no opponent cards)
   if (card.targetType === 'none') {

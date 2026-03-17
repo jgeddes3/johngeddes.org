@@ -1,10 +1,11 @@
 import {
-  WHITE, BLACK,
+  WHITE, BLACK, KING,
   PHASE_DRAW, PHASE_MOVE, PHASE_PROMOTION, PHASE_GAME_OVER,
   createInitialBoard, createDeck, MAX_HAND_SIZE, STARTING_HAND_SIZE, shuffleArray,
 } from './constants';
 import {
   getValidMoves, getGameStatus, executeMove, executePromotion, deepCloneBoard,
+  findSafeSquareForKing,
 } from './gameLogic';
 import { CARDS } from './cardDefinitions';
 import { applyCardEffect, getValidCardTargets, canPlayCard, processTemporaryEffects } from './cardLogic';
@@ -67,6 +68,31 @@ function drawCards(state, count) {
   };
 }
 
+// ── Second Chance helper ─────────────────────────────────────────────
+
+function trySecondChance(state, kingColor) {
+  const hand = state.hands[kingColor];
+  const idx = hand.indexOf('21');
+  if (idx === -1) return null;
+
+  const board = deepCloneBoard(state.board);
+  const safeSquare = findSafeSquareForKing(board, kingColor, state.squareModifiers);
+  if (!safeSquare) return null;
+
+  board[safeSquare.row][safeSquare.col] = {
+    type: KING, color: kingColor, hasMoved: true, modifiers: [],
+  };
+
+  const newHand = hand.filter((_, i) => i !== idx);
+
+  return {
+    board,
+    hands: { ...state.hands, [kingColor]: newHand },
+    discardPile: [...state.discardPile, '21'],
+    message: 'Second Chance! The king escapes to safety!',
+  };
+}
+
 // ── Reducer ──────────────────────────────────────────────────────────
 
 export function gameReducer(state, action) {
@@ -109,23 +135,7 @@ export function gameReducer(state, action) {
         if (card.replacesMove) {
           const opp = state.currentPlayer === WHITE ? BLACK : WHITE;
           const status = getGameStatus(result.board, opp, result.enPassantTarget || state.enPassantTarget, result.squareModifiers || state.squareModifiers, result.temporaryEffects || state.temporaryEffects);
-          if (status.isCheckmate || status.isStalemate) {
-            return {
-              ...result,
-              hands: { ...result.hands, [state.currentPlayer]: newHand },
-              discardPile: [...result.discardPile, cardId],
-              activeCard: null,
-              cardTargets: [],
-              cardTargetStep: 0,
-              cardPlayedThisTurn: true,
-              phase: PHASE_GAME_OVER,
-              gameResult: status.isCheckmate
-                ? { winner: state.currentPlayer, reason: 'checkmate' }
-                : { winner: null, reason: 'stalemate' },
-              message: status.isCheckmate ? 'Checkmate!' : 'Stalemate!',
-            };
-          }
-          const endState = {
+          const baseEndState = {
             ...result,
             hands: { ...result.hands, [state.currentPlayer]: newHand },
             discardPile: [...result.discardPile, cardId],
@@ -134,7 +144,32 @@ export function gameReducer(state, action) {
             cardTargetStep: 0,
             cardPlayedThisTurn: true,
           };
-          return endTurn(endState, status.isCheck);
+          if (status.isCheckmate) {
+            const reprieve = trySecondChance(baseEndState, opp);
+            if (reprieve) {
+              return endTurn({
+                ...baseEndState,
+                board: reprieve.board,
+                hands: reprieve.hands,
+                discardPile: reprieve.discardPile,
+              }, false);
+            }
+            return {
+              ...baseEndState,
+              phase: PHASE_GAME_OVER,
+              gameResult: { winner: state.currentPlayer, reason: 'checkmate' },
+              message: 'Checkmate!',
+            };
+          }
+          if (status.isStalemate) {
+            return {
+              ...baseEndState,
+              phase: PHASE_GAME_OVER,
+              gameResult: { winner: null, reason: 'stalemate' },
+              message: 'Stalemate!',
+            };
+          }
+          return endTurn(baseEndState, status.isCheck);
         }
 
         return {
@@ -194,23 +229,7 @@ export function gameReducer(state, action) {
       if (card.replacesMove) {
         const opp = state.currentPlayer === WHITE ? BLACK : WHITE;
         const status = getGameStatus(result.board, opp, result.enPassantTarget || state.enPassantTarget, result.squareModifiers || state.squareModifiers, result.temporaryEffects || state.temporaryEffects);
-        if (status.isCheckmate || status.isStalemate) {
-          return {
-            ...result,
-            hands: { ...result.hands, [state.currentPlayer]: newHand },
-            discardPile: [...(result.discardPile || state.discardPile), cardId],
-            activeCard: null,
-            cardTargets: [],
-            cardTargetStep: 0,
-            cardPlayedThisTurn: true,
-            phase: PHASE_GAME_OVER,
-            gameResult: status.isCheckmate
-              ? { winner: state.currentPlayer, reason: 'checkmate' }
-              : { winner: null, reason: 'stalemate' },
-            message: status.isCheckmate ? 'Checkmate!' : 'Stalemate!',
-          };
-        }
-        const endState = {
+        const baseEndState2 = {
           ...result,
           hands: { ...result.hands, [state.currentPlayer]: newHand },
           discardPile: [...(result.discardPile || state.discardPile), cardId],
@@ -219,7 +238,32 @@ export function gameReducer(state, action) {
           cardTargetStep: 0,
           cardPlayedThisTurn: true,
         };
-        return endTurn(endState, status.isCheck);
+        if (status.isCheckmate) {
+          const reprieve = trySecondChance(baseEndState2, opp);
+          if (reprieve) {
+            return endTurn({
+              ...baseEndState2,
+              board: reprieve.board,
+              hands: reprieve.hands,
+              discardPile: reprieve.discardPile,
+            }, false);
+          }
+          return {
+            ...baseEndState2,
+            phase: PHASE_GAME_OVER,
+            gameResult: { winner: state.currentPlayer, reason: 'checkmate' },
+            message: 'Checkmate!',
+          };
+        }
+        if (status.isStalemate) {
+          return {
+            ...baseEndState2,
+            phase: PHASE_GAME_OVER,
+            gameResult: { winner: null, reason: 'stalemate' },
+            message: 'Stalemate!',
+          };
+        }
+        return endTurn(baseEndState2, status.isCheck);
       }
 
       const effectPhase = result.phase || PHASE_MOVE;
@@ -299,6 +343,46 @@ export function gameReducer(state, action) {
           selectedSquare: null,
           validMoves: [],
           message: 'Shield broken! The piece survived. Choose another move.',
+        };
+      }
+
+      // King captured — capturer wins (or Second Chance saves)
+      if (captured && captured.type === KING) {
+        const opp = state.currentPlayer === WHITE ? BLACK : WHITE;
+        const reprieve = trySecondChance(state, opp);
+        if (reprieve) {
+          // Second Chance: place king on safe square, continue game
+          const boardWithKing = deepCloneBoard(newBoard);
+          const safeSquare = findSafeSquareForKing(newBoard, opp, state.squareModifiers);
+          if (safeSquare) {
+            boardWithKing[safeSquare.row][safeSquare.col] = {
+              type: KING, color: opp, hasMoved: true, modifiers: [],
+            };
+          }
+          return endTurn({
+            ...state,
+            board: boardWithKing,
+            hands: reprieve.hands,
+            discardPile: reprieve.discardPile,
+            capturedPieces: state.capturedPieces, // king not added to captures
+            selectedSquare: null,
+            validMoves: [],
+            enPassantTarget,
+            lastMove: { from, to: { row, col } },
+            movesRemainingThisTurn: 0,
+            cardPlayedThisTurn: true,
+          }, false);
+        }
+        return {
+          ...state,
+          board: newBoard,
+          capturedPieces: { ...state.capturedPieces, [state.currentPlayer]: [...state.capturedPieces[state.currentPlayer], captured] },
+          selectedSquare: null,
+          validMoves: [],
+          lastMove: { from, to: { row, col } },
+          phase: PHASE_GAME_OVER,
+          gameResult: { winner: state.currentPlayer, reason: 'king_captured' },
+          message: 'King Captured!',
         };
       }
 
@@ -390,6 +474,16 @@ export function gameReducer(state, action) {
       const status = getGameStatus(boardAfterSinkhole, opp, enPassantTarget, sqMods, state.temporaryEffects);
 
       if (status.isCheckmate) {
+        const reprieve = trySecondChance(tempState, opp);
+        if (reprieve) {
+          return endTurn({
+            ...tempState,
+            board: reprieve.board,
+            hands: reprieve.hands,
+            discardPile: reprieve.discardPile,
+            movesRemainingThisTurn: 0,
+          }, false);
+        }
         return {
           ...tempState,
           phase: PHASE_GAME_OVER,
@@ -430,11 +524,19 @@ export function gameReducer(state, action) {
       const status = getGameStatus(newBoard, opp, state.enPassantTarget, state.squareModifiers, state.temporaryEffects);
 
       if (status.isCheckmate) {
+        const promoState = { ...state, board: newBoard, promotionSquare: null };
+        const reprieve = trySecondChance(promoState, opp);
+        if (reprieve) {
+          return endTurn({
+            ...promoState,
+            board: reprieve.board,
+            hands: reprieve.hands,
+            discardPile: reprieve.discardPile,
+          }, false);
+        }
         return {
-          ...state,
-          board: newBoard,
+          ...promoState,
           phase: PHASE_GAME_OVER,
-          promotionSquare: null,
           gameResult: { winner: state.currentPlayer, reason: 'checkmate' },
           message: 'Checkmate!',
         };
