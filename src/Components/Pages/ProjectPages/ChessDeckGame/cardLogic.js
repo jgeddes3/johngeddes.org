@@ -46,6 +46,28 @@ export function getValidCardTargets(card, state, step = 0) {
   const targets = [];
 
   switch (card.id) {
+    // Fortify: any square adjacent to at least one friendly pawn without shield
+    case '1': {
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          let hasAdjacentPawn = false;
+          for (let dr = -1; dr <= 1 && !hasAdjacentPawn; dr++) {
+            for (let dc = -1; dc <= 1 && !hasAdjacentPawn; dc++) {
+              if (dr === 0 && dc === 0) continue;
+              const nr = r + dr, nc = c + dc;
+              if (nr < 0 || nr > 7 || nc < 0 || nc > 7) continue;
+              const p = board[nr][nc];
+              if (p && p.color === currentPlayer && p.type === PAWN && !p.modifiers.includes('shield')) {
+                hasAdjacentPawn = true;
+              }
+            }
+          }
+          if (hasAdjacentPawn) targets.push({ row: r, col: c });
+        }
+      }
+      break;
+    }
+
     // Stallion Spirit: own non-knight
     case '5': {
       for (let r = 0; r < 8; r++) {
@@ -344,13 +366,17 @@ export function applyCardEffect(card, state, targets) {
   const opp = currentPlayer === WHITE ? BLACK : WHITE;
 
   switch (card.id) {
-    // Fortify: shield all unmoved pieces
+    // Fortify: shield all friendly pawns adjacent to selected square
     case '1': {
-      for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-          const p = board[r][c];
-          if (p && p.color === currentPlayer && !p.hasMoved && !p.modifiers.includes('shield')) {
-            board[r][c] = { ...p, modifiers: [...p.modifiers, 'shield'] };
+      const t = targets[0];
+      for (let dr = -1; dr <= 1; dr++) {
+        for (let dc = -1; dc <= 1; dc++) {
+          if (dr === 0 && dc === 0) continue;
+          const nr = t.row + dr, nc = t.col + dc;
+          if (nr < 0 || nr > 7 || nc < 0 || nc > 7) continue;
+          const p = board[nr][nc];
+          if (p && p.color === currentPlayer && p.type === PAWN && !p.modifiers.includes('shield')) {
+            board[nr][nc] = { ...p, modifiers: [...p.modifiers, 'shield'] };
           }
         }
       }

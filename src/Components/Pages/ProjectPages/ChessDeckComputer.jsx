@@ -31,15 +31,18 @@ const ChessDeckComputer = () => {
     stateRef.current = state;
   }, [state]);
 
-  const isAiTurn = state.currentPlayer === BLACK && state.phase !== PHASE_GAME_OVER;
+  // Human plays the starting color; AI plays the other
+  const humanColor = state.startingColor || WHITE;
+  const aiColor = humanColor === WHITE ? BLACK : WHITE;
+  const isAiTurn = state.currentPlayer === aiColor && state.phase !== PHASE_GAME_OVER;
 
   // No-op dispatch for when AI is thinking (disables user input)
   const noopDispatch = useCallback(() => {}, []);
 
-  // Auto-draw for White (human player)
+  // Auto-draw for human player
   useEffect(() => {
-    if (state.phase === PHASE_DRAW && state.currentPlayer === WHITE) {
-      const hand = state.hands[WHITE];
+    if (state.phase === PHASE_DRAW && state.currentPlayer === humanColor) {
+      const hand = state.hands[humanColor];
       if (hand.length >= 5) {
         dispatch({ type: 'SKIP_DRAW' });
         return;
@@ -49,12 +52,12 @@ const ChessDeckComputer = () => {
       }, 400);
       return () => clearTimeout(timer);
     }
-  }, [state.phase, state.currentPlayer, state.hands]);
+  }, [state.phase, state.currentPlayer, state.hands, humanColor]);
 
   // AI draw phase
   useEffect(() => {
-    if (state.currentPlayer !== BLACK || state.phase !== PHASE_DRAW) return;
-    const hand = state.hands[BLACK];
+    if (state.currentPlayer !== aiColor || state.phase !== PHASE_DRAW) return;
+    const hand = state.hands[aiColor];
     if (hand.length >= 5) {
       dispatch({ type: 'SKIP_DRAW' });
       return;
@@ -63,11 +66,11 @@ const ChessDeckComputer = () => {
       dispatch({ type: 'DRAW_CARD' });
     }, 600);
     return () => clearTimeout(timer);
-  }, [state.phase, state.currentPlayer, state.hands]);
+  }, [state.phase, state.currentPlayer, state.hands, aiColor]);
 
   // AI move phase — async chain that reads latest state via stateRef
   useEffect(() => {
-    if (state.currentPlayer !== BLACK || state.phase !== PHASE_MOVE) return;
+    if (state.currentPlayer !== aiColor || state.phase !== PHASE_MOVE) return;
     if (aiRunning.current) return;
 
     aiRunning.current = true;
@@ -123,7 +126,7 @@ const ChessDeckComputer = () => {
         }
 
         // Verify it's still our turn in PHASE_MOVE (card may have ended the turn)
-        if (currentState.currentPlayer !== BLACK || currentState.phase !== PHASE_MOVE) {
+        if (currentState.currentPlayer !== aiColor || currentState.phase !== PHASE_MOVE) {
           return;
         }
 
@@ -146,11 +149,11 @@ const ChessDeckComputer = () => {
     // Only abort on unmount, not on state changes from the AI's own dispatches
     return () => { aborted = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.currentPlayer, state.phase]);
+  }, [state.currentPlayer, state.phase, aiColor]);
 
   // AI promotion phase
   useEffect(() => {
-    if (state.currentPlayer !== BLACK || state.phase !== PHASE_PROMOTION) return;
+    if (state.currentPlayer !== aiColor || state.phase !== PHASE_PROMOTION) return;
     const timer = setTimeout(() => {
       dispatch({ type: 'CHOOSE_PROMOTION', pieceType: 'queen' });
     }, 500);
@@ -171,28 +174,28 @@ const ChessDeckComputer = () => {
 
           {isAiTurn && <div className="cd-ai-thinking">Computer is thinking...</div>}
 
-          <OpponentHand state={state} perspective={WHITE} />
+          <OpponentHand state={state} perspective={humanColor} />
 
           <div className="cd-play-area">
             <CapturedPieces
-              pieces={state.capturedPieces.black}
-              label="Black's captures"
+              pieces={state.capturedPieces[aiColor]}
+              label={`${aiColor === 'white' ? 'White' : 'Black'}'s captures`}
             />
             <Board
               state={state}
               dispatch={isAiTurn ? noopDispatch : dispatch}
-              perspective={WHITE}
+              perspective={humanColor}
             />
             <CapturedPieces
-              pieces={state.capturedPieces.white}
-              label="White's captures"
+              pieces={state.capturedPieces[humanColor]}
+              label={`${humanColor === 'white' ? 'White' : 'Black'}'s captures`}
             />
           </div>
 
           <CardHand
             state={state}
             dispatch={isAiTurn ? noopDispatch : dispatch}
-            perspective={WHITE}
+            perspective={humanColor}
           />
 
           <div className="cd-actions">
@@ -206,7 +209,7 @@ const ChessDeckComputer = () => {
             )}
           </div>
 
-          {state.phase === PHASE_PROMOTION && state.currentPlayer === WHITE && (
+          {state.phase === PHASE_PROMOTION && state.currentPlayer === humanColor && (
             <PromotionModal color={state.currentPlayer} dispatch={dispatch} />
           )}
           {state.phase === PHASE_GAME_OVER && state.gameResult && (

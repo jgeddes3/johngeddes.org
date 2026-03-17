@@ -12,14 +12,15 @@ import { applyCardEffect, getValidCardTargets, canPlayCard, processTemporaryEffe
 
 // ── Initial state builder ────────────────────────────────────────────
 
-export function createInitialState() {
+export function createInitialState(startingColor = WHITE) {
   const deck = createDeck();
   const whiteHand = deck.splice(0, STARTING_HAND_SIZE);
   const blackHand = deck.splice(0, STARTING_HAND_SIZE);
 
   return {
     board: createInitialBoard(),
-    currentPlayer: WHITE,
+    currentPlayer: startingColor,
+    startingColor,
     phase: PHASE_DRAW,
     hands: { white: whiteHand, black: blackHand },
     deck,
@@ -348,13 +349,36 @@ export function gameReducer(state, action) {
         executeMove(state.board, from, { row, col }, moveInfo);
 
       if (shieldBroken) {
-        return {
+        const shieldMovesLeft = state.movesRemainingThisTurn - 1;
+        const shieldState = {
           ...state,
           board: newBoard,
           selectedSquare: null,
           validMoves: [],
-          message: 'Shield broken! The piece survived. Choose another move.',
+          lastMove: { from, to: { row, col } },
+          movesRemainingThisTurn: shieldMovesLeft,
+          cardPlayedThisTurn: true,
         };
+
+        if (shieldMovesLeft > 0) {
+          return { ...shieldState, phase: PHASE_MOVE, message: 'Shield broken! The piece survived.' };
+        }
+
+        const shieldOpp = state.currentPlayer === WHITE ? BLACK : WHITE;
+        const shieldStatus = getGameStatus(newBoard, shieldOpp, state.enPassantTarget, state.squareModifiers, state.temporaryEffects);
+
+        if (shieldStatus.isCheckmate) {
+          const reprieve = trySecondChance(shieldState, shieldOpp);
+          if (reprieve) {
+            return endTurn({ ...shieldState, board: reprieve.board, hands: reprieve.hands, discardPile: reprieve.discardPile }, false);
+          }
+          return { ...shieldState, phase: PHASE_GAME_OVER, gameResult: { winner: state.currentPlayer, reason: 'checkmate' }, message: 'Checkmate!' };
+        }
+        if (shieldStatus.isStalemate) {
+          return { ...shieldState, phase: PHASE_GAME_OVER, gameResult: { winner: null, reason: 'stalemate' }, message: 'Stalemate!' };
+        }
+
+        return endTurn(shieldState, shieldStatus.isCheck);
       }
 
       // King captured — capturer wins (or Second Chance saves)
@@ -579,7 +603,7 @@ export function gameReducer(state, action) {
     }
 
     case 'REMATCH':
-      return createInitialState();
+      return createInitialState(state.startingColor === WHITE ? BLACK : WHITE);
 
     case 'REPLACE_STATE':
       return action.state;

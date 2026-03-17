@@ -10,9 +10,11 @@ const CARD_LIST = [
   {
     id: '1',
     name: 'Fortify',
-    description: 'All your unmoved pieces gain a shield. A shielded piece survives one capture attempt.',
+    description: 'Select a square. All your pawns adjacent to it gain a shield. A shielded piece survives one capture attempt.',
     rarity: RARITY_COMMON,
-    targetType: TARGET_NONE,
+    targetType: TARGET_SQUARE,
+    targetFilter: 'anySquare',
+    targetPrompt: 'Select a square to fortify around',
     artColor: '#6B8E23', /* TODO: replace with card art */
   },
   {

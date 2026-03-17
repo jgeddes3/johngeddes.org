@@ -36,6 +36,7 @@ const ChessDeckOnline = () => {
   const cleanupRef = useRef(null);
   const stateRef = useRef(state);
   const ignoreNextUpdate = useRef(false);
+  const isHost = useRef(false);
 
   // Keep stateRef in sync
   useEffect(() => {
@@ -56,6 +57,7 @@ const ChessDeckOnline = () => {
           sendRef.current = sendState;
           cleanupRef.current = cleanup;
           setConnected(true);
+          isHost.current = true;
           setMyColor(WHITE);
 
           // Send initial state to guest
@@ -66,8 +68,11 @@ const ChessDeckOnline = () => {
               ignoreNextUpdate.current = false;
               return;
             }
-            // Restore modifiers arrays
             restoreModifiers(newState);
+            // Detect color swap from opponent's rematch
+            if (newState.startingColor) {
+              setMyColor(newState.startingColor);
+            }
             dispatch({ type: 'REPLACE_STATE', state: newState });
           });
         },
@@ -101,6 +106,10 @@ const ChessDeckOnline = () => {
               return;
             }
             restoreModifiers(newState);
+            // Detect color swap from opponent's rematch (guest = opposite of startingColor)
+            if (newState.startingColor) {
+              setMyColor(newState.startingColor === WHITE ? BLACK : WHITE);
+            }
             dispatch({ type: 'REPLACE_STATE', state: newState });
           });
 
@@ -132,9 +141,12 @@ const ChessDeckOnline = () => {
   const onlineDispatch = useCallback((action) => {
     const currentState = stateRef.current;
 
-    // Allow REMATCH from anyone
+    // Allow REMATCH from anyone — swap colors
     if (action.type === 'REMATCH') {
-      const newState = createInitialState();
+      const nextStarting = currentState.startingColor === WHITE ? BLACK : WHITE;
+      const newState = createInitialState(nextStarting);
+      // Derive my new color: host's color matches startingColor
+      setMyColor(isHost.current ? nextStarting : (nextStarting === WHITE ? BLACK : WHITE));
       dispatch({ type: 'REPLACE_STATE', state: newState });
       ignoreNextUpdate.current = true;
       if (sendRef.current) sendRef.current(newState);

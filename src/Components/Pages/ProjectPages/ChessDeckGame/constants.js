@@ -106,7 +106,7 @@ export function createInitialBoard() {
 export const MAX_HAND_SIZE = 5;
 
 // Starting hand size
-export const STARTING_HAND_SIZE = 3;
+export const STARTING_HAND_SIZE = 1;
 
 // Card rarities
 export const RARITY_COMMON = 'common';
