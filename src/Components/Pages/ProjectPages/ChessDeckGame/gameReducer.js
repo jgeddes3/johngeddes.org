@@ -76,6 +76,17 @@ function trySecondChance(state, kingColor) {
   if (idx === -1) return null;
 
   const board = deepCloneBoard(state.board);
+
+  // Remove the existing king from the board
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const p = board[r][c];
+      if (p && p.type === KING && p.color === kingColor) {
+        board[r][c] = null;
+      }
+    }
+  }
+
   const safeSquare = findSafeSquareForKing(board, kingColor, state.squareModifiers);
   if (!safeSquare) return null;
 
@@ -349,29 +360,31 @@ export function gameReducer(state, action) {
       // King captured — capturer wins (or Second Chance saves)
       if (captured && captured.type === KING) {
         const opp = state.currentPlayer === WHITE ? BLACK : WHITE;
-        const reprieve = trySecondChance(state, opp);
-        if (reprieve) {
-          // Second Chance: place king on safe square, continue game
-          const boardWithKing = deepCloneBoard(newBoard);
+        // For king capture, use newBoard (king already gone) to find safe square
+        const hand = state.hands[opp];
+        const scIdx = hand.indexOf('21');
+        if (scIdx !== -1) {
           const safeSquare = findSafeSquareForKing(newBoard, opp, state.squareModifiers);
           if (safeSquare) {
+            const boardWithKing = deepCloneBoard(newBoard);
             boardWithKing[safeSquare.row][safeSquare.col] = {
               type: KING, color: opp, hasMoved: true, modifiers: [],
             };
+            const newHand = hand.filter((_, i) => i !== scIdx);
+            return endTurn({
+              ...state,
+              board: boardWithKing,
+              hands: { ...state.hands, [opp]: newHand },
+              discardPile: [...state.discardPile, '21'],
+              capturedPieces: state.capturedPieces,
+              selectedSquare: null,
+              validMoves: [],
+              enPassantTarget,
+              lastMove: { from, to: { row, col } },
+              movesRemainingThisTurn: 0,
+              cardPlayedThisTurn: true,
+            }, false);
           }
-          return endTurn({
-            ...state,
-            board: boardWithKing,
-            hands: reprieve.hands,
-            discardPile: reprieve.discardPile,
-            capturedPieces: state.capturedPieces, // king not added to captures
-            selectedSquare: null,
-            validMoves: [],
-            enPassantTarget,
-            lastMove: { from, to: { row, col } },
-            movesRemainingThisTurn: 0,
-            cardPlayedThisTurn: true,
-          }, false);
         }
         return {
           ...state,
