@@ -60,7 +60,8 @@ const ChessDeckOnline = () => {
           isHost.current = true;
           setMyColor(WHITE);
 
-          // Send initial state to guest
+          // Send initial state to guest; ignore the onValue echo
+          ignoreNextUpdate.current = true;
           sendState(stateRef.current);
 
           onReceiveState((newState) => {
@@ -69,11 +70,6 @@ const ChessDeckOnline = () => {
               return;
             }
             restoreModifiers(newState);
-            // Detect color swap from opponent's rematch
-            const cur = stateRef.current;
-            if (newState.startingColor && cur.startingColor && newState.startingColor !== cur.startingColor) {
-              setMyColor(newState.startingColor);
-            }
             dispatch({ type: 'REPLACE_STATE', state: newState });
           });
         },
@@ -107,11 +103,6 @@ const ChessDeckOnline = () => {
               return;
             }
             restoreModifiers(newState);
-            // Detect color swap from opponent's rematch (guest = opposite of startingColor)
-            const cur = stateRef.current;
-            if (newState.startingColor && cur.startingColor && newState.startingColor !== cur.startingColor) {
-              setMyColor(newState.startingColor === WHITE ? BLACK : WHITE);
-            }
             dispatch({ type: 'REPLACE_STATE', state: newState });
           });
 
@@ -138,6 +129,16 @@ const ChessDeckOnline = () => {
       if (cleanupRef.current) cleanupRef.current();
     };
   }, []);
+
+  // Swap color when opponent triggers rematch (startingColor flips in the received state)
+  useEffect(() => {
+    if (!connected || !state.startingColor) return;
+    if (isHost.current) {
+      setMyColor(state.startingColor);
+    } else {
+      setMyColor(state.startingColor === WHITE ? BLACK : WHITE);
+    }
+  }, [state.startingColor, connected]);
 
   // Custom dispatch that enforces turn-based play and syncs state
   const onlineDispatch = useCallback((action) => {
