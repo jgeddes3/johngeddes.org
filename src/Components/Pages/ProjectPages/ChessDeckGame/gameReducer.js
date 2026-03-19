@@ -19,7 +19,7 @@ export function createInitialState(startingColor = WHITE) {
 
   return {
     board: createInitialBoard(),
-    currentPlayer: startingColor,
+    currentPlayer: WHITE, // White always moves first
     startingColor,
     phase: PHASE_DRAW,
     hands: { white: whiteHand, black: blackHand },
