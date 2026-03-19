@@ -70,7 +70,8 @@ const ChessDeckOnline = () => {
             }
             restoreModifiers(newState);
             // Detect color swap from opponent's rematch
-            if (newState.startingColor) {
+            const cur = stateRef.current;
+            if (newState.startingColor && cur.startingColor && newState.startingColor !== cur.startingColor) {
               setMyColor(newState.startingColor);
             }
             dispatch({ type: 'REPLACE_STATE', state: newState });
@@ -107,7 +108,8 @@ const ChessDeckOnline = () => {
             }
             restoreModifiers(newState);
             // Detect color swap from opponent's rematch (guest = opposite of startingColor)
-            if (newState.startingColor) {
+            const cur = stateRef.current;
+            if (newState.startingColor && cur.startingColor && newState.startingColor !== cur.startingColor) {
               setMyColor(newState.startingColor === WHITE ? BLACK : WHITE);
             }
             dispatch({ type: 'REPLACE_STATE', state: newState });
