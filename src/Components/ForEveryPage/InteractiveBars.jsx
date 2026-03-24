@@ -1,6 +1,7 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
 import { useTheme } from '../../ThemeContext';
 import './InteractiveBars.css';
+import SunIcon from './sunicon.png';
 
 const BAR_COUNT = 24;
 const RESTING_HEIGHT = 20;
@@ -137,7 +138,9 @@ export default function InteractiveBars() {
     };
   }, []);
 
-  const icon = preference === 'light' ? '\u2600' : '\u263D';
+  const icon = preference === 'light'
+    ? <img src={SunIcon} alt="Light mode" style={{ width: '20px', height: '20px' }} />
+    : '\u263D';
 
   return (
     <div className="timeline-container" ref={containerRef}>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './Bottombar.css';
 import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed';
 import Resume1 from '../PDF/Geddes_Resume_24.pdf';
@@ -6,6 +6,7 @@ import Resume1 from '../PDF/Geddes_Resume_24.pdf';
 const Bottombar = () => {
     const [showOverlay, setShowOverlay] = useState(false);
     const timeoutRef = useRef(null);
+    const overlayRef = useRef(null);
 
     const handleMouseEnter = () => {
         clearTimeout(timeoutRef.current);
@@ -15,8 +16,27 @@ const Bottombar = () => {
     const handleMouseLeave = () => {
         timeoutRef.current = setTimeout(() => {
             setShowOverlay(false);
-        }, 1000); // Delay hiding the overlay by 1 second
+        }, 1000);
     };
+
+    const handleColophonClick = (e) => {
+        e.stopPropagation();
+        setShowOverlay(prev => !prev);
+    };
+
+    // Close overlay when clicking anywhere else (mobile)
+    useEffect(() => {
+        if (!showOverlay) return;
+
+        const handleClickOutside = (e) => {
+            if (overlayRef.current && !overlayRef.current.contains(e.target)) {
+                setShowOverlay(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [showOverlay]);
 
     return (
         <div className="bottom-bar">
@@ -27,8 +47,10 @@ const Bottombar = () => {
                 <div className="inline-container">
                     <div className="name1 bottomtext1">John Geddes</div>
                     <div className="ellipse5"></div>
-                    <button 
-                        className="button11" 
+                    <button
+                        className="button11"
+                        ref={overlayRef}
+                        onClick={handleColophonClick}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
                     >
@@ -71,7 +93,7 @@ const Bottombar = () => {
                     <div className="column">
                         <div className="column-title">Contact</div>
                         <div className="bottomtext1">johngeddes@pm.me</div>
-                        <div className="bottomtext1">(312) 298-9877</div>
+                        <div className="bottomtext1">(312) 612-0347</div>
                     </div>
                 </div>
             </div>

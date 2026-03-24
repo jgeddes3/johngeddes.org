@@ -77,6 +77,8 @@
   background: var(--bg-secondary);
   overflow: hidden;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .bottomtext1 {
@@ -224,6 +226,8 @@
   background: var(--bg-secondary);
   overflow: hidden;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .bottomtext1 {
@@ -250,24 +254,31 @@
   height: 14px;
 }
 .overlay {
-  width: 284.64px; /* Halved and reduced by 12% from 646px */
-  height: 99.44px; /* Halved and reduced by 12% from 226px */
-  border-radius: 14.96px; /* Halved and reduced by 12% from 34px */
-
+  width: calc(100vw - 20px);
+  height: auto;
+  border-radius: 14px;
+  position: fixed;
+  bottom: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 12px;
+  flex-direction: column;
 }
 
 .overlay-left, .overlay-right {
-  padding: 4.4px; /* Halved and reduced by 12% from 10px */
+  padding: 6px;
+  width: 50%;
 }
 
 .overlay-text,
 .overlay-text-large,
 .overlay-paragraph {
-  font-size: 12.32px; /* Halved and reduced by 12% from 28px */
+  font-size: 14px;
 }
 
 .overlay-paragraph {
-  height: 69.96px; /* Halved and reduced by 12% from 159px */
+  height: auto;
 }
 
 .elsewhereB {
