@@ -263,7 +263,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 12px;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .overlay-left, .overlay-right {
