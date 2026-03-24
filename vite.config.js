@@ -5,6 +5,14 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'build',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'animation': ['framer-motion'],
+        },
+      },
+    },
   },
   server: {
     port: 3000,

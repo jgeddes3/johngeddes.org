@@ -47,12 +47,6 @@
   font-weight: 400;
 }
 
-@font-face {
-  font-family: 'Galgine';
-  src: url('../fonts/Galgine.otf') format('opentype');
-  font-display: swap;
-}
-
 .button-container {
   display: flex;
   flex-direction: column;
