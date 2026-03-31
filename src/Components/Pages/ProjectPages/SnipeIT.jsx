@@ -12,22 +12,22 @@ import Photo5 from './ProjectPageImages/SnipeIT/SnipeITPhoto5.png';
 import Photo6 from './ProjectPageImages/SnipeIT/SnipeITPhoto6.png';
 import Photo7 from './ProjectPageImages/SnipeIT/SnipeITPhoto7.png';
 
-const SnipeITTag = () => {
+const SnipeIT = () => {
   return (
     <>
       <SEO
-        title="Snipe IT Tag"
-        description="Snipe IT Tag — a mobile-friendly web interface for enterprise IT asset management built with React, TypeScript, and Azure AD."
-        path="/SnipeITTag"
+        title="Snipe IT"
+        description="Snipe IT — a front end addition to the Snipe-IT asset management service, built with React, TypeScript, and Azure AD."
+        path="/SnipeIT"
       />
       <Background />
       <div id="centerpiece2" className="main-content">
-        <h1>Snipe IT Tag</h1>
+        <h1>Snipe IT</h1>
       </div>
       <div className="proj-page main-content">
         <div className="proj-hero">
           <p className="proj-hero-tagline">
-            A mobile-friendly web interface for enterprise IT asset management
+            A front end addition to the Snipe-IT asset management service
           </p>
           <div className="proj-tech-pills">
             <span className="proj-pill">React 19</span>
@@ -42,14 +42,14 @@ const SnipeITTag = () => {
         </div>
 
         <div className="proj-hero-screenshot">
-          <img loading="lazy" decoding="async" src={Photo1} alt="Snipe IT Tag main interface" />
+          <img loading="lazy" decoding="async" src={Photo1} alt="Snipe IT main interface" />
         </div>
 
         <div className="proj-about">
           <p>
-            Snipe IT Tag is a full-stack web application serving as a mobile-friendly interface for Snipe-IT asset management.
-            Built for enterprise IT teams, it provides a streamlined way to track, manage, and control IT assets across multiple locations.
-            The application brings the power of Snipe-IT's asset management system into an intuitive, responsive web portal that works
+            A front end addition to the Snipe-IT asset management service. This full-stack web application provides a mobile-friendly interface
+            for enterprise IT teams, offering a streamlined way to track, manage, and control IT assets across multiple locations.
+            It brings the power of Snipe-IT's asset management system into an intuitive, responsive web portal that works
             seamlessly on both desktop and mobile devices.
           </p>
         </div>
@@ -115,4 +115,4 @@ const SnipeITTag = () => {
   );
 };
 
-export default SnipeITTag;
+export default SnipeIT;

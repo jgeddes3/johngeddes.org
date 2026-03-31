@@ -50,7 +50,7 @@ const ExcelWorkBooks = () => {
         <Link to="/projects" className="proj-nav-button proj-nav-button-blue">
           Projects Page
         </Link>
-        <Link to="/SnipeITTag" className="proj-nav-button">
+        <Link to="/SnipeIT" className="proj-nav-button">
           Snipe IT
         </Link>
       </div>

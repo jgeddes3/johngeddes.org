@@ -27,7 +27,7 @@ import ExcelWorkBooks from './Components/Pages/ProjectPages/ExcelWorkBooks';
 import CipherTracker from './Components/Pages/ProjectPages/CipherTracker';
 import RamblerRegistrar from './Components/Pages/ProjectPages/RamblerRegistrar';
 import ReactNativeCreditCardApp from './Components/Pages/ProjectPages/ReactNativeCreditCardApp';
-import SnipeITTag from './Components/Pages/ProjectPages/SnipeITTag';
+import SnipeIT from './Components/Pages/ProjectPages/SnipeIT';
 import WeatherApp from './Components/Pages/ProjectPages/WeatherApp';
 import BabelReview from './Components/Pages/MiscPages/BabelReview';
 import GoldenSonReview from './Components/Pages/MiscPages/GoldenSonReview';
@@ -74,7 +74,7 @@ function App() {
           <Route path="/CipherTracker" element={<CipherTracker />} />
           <Route path="/RamblerRegistrar" element={<RamblerRegistrar />} />
           <Route path="/ReactNativeCreditCardApp" element={<ReactNativeCreditCardApp />} />
-          <Route path="/SnipeITTag" element={<SnipeITTag />} />
+          <Route path="/SnipeIT" element={<SnipeIT />} />
           <Route path="/WeatherApp" element={<WeatherApp />} />
           {/* Misc. Page Resturants*/}
           <Route path="/Hopleaf" element={<Hopleaf />} />

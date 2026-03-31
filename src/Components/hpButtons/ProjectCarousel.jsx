@@ -15,7 +15,7 @@ import CreditCardIcon from '../Pages/ProjectButtons/ProjectButtonImages/CreditCa
 const allProjects = [
   { name: 'Registrar', route: '/RamblerRegistrar', icon: RegistrarIcon },
   { name: 'Excel', route: '/ExcelWorkBooks', icon: ExcelIcon },
-  { name: 'Snipe IT', route: '/SnipeITTag', icon: SnipeITIcon },
+  { name: 'Snipe IT', route: '/SnipeIT', icon: SnipeITIcon },
   { name: 'Chess', route: '/ChessDeck', icon: ChessIcon },
   { name: 'Tourism', route: '/ATourismApp', icon: TourismIcon },
   { name: 'Cipher', route: '/CipherTracker', icon: CipherIcon },

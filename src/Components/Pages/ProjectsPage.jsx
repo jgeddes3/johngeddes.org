@@ -38,7 +38,7 @@ const ProjectsPage = () => {
         <Link to="/CipherTracker" className="project-button-long">
           <Project3 />
         </Link>
-        <Link to="/SnipeITTag" className="project-button">
+        <Link to="/SnipeIT" className="project-button">
           <Project4 />
         </Link>
         <Link to="/ATourismApp" className="project-button-long">

@@ -6,8 +6,8 @@ const Project4 = () => {
   return (
     <div className="project-container1">
       <div className="text-container1">
-        <h1>Snipe IT Tag</h1>
-        <p>An enterprise asset management web portal</p>
+        <h1>Snipe IT</h1>
+        <p>A front end addition to Snipe-IT asset management</p>
       </div>
       <div className="ProjectPhoto1">
         <div className="ProjPhotoEllipse1">
