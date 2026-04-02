@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Bottombar.css';
 import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed';
-import Resume1 from '../PDF/Geddes_Resume_24.pdf';
+import Resume1 from '../PDF/Geddes_Resume_26.pdf';
 
 const Bottombar = () => {
     const [showOverlay, setShowOverlay] = useState(false);
