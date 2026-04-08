@@ -3,25 +3,22 @@ import { Link } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
 import SEO from '../../ForEveryPage/SEO';
-import Recruiterimg_1 from './RecruiterImages/Recruiterimg_1.png'; // Add image imports
-import Recruiterimg_3 from './RecruiterImages/Recruiterimg_2.png';
-import Recruiterimg_2 from './RecruiterImages/Recruiterimg_3.png';
-import Recruiterimg_4 from './RecruiterImages/Recruiterimg_4.png';
-import Resume1 from '../../PDF/Audio_Visual_Engineer_Resume.pdf';
-import Resume2 from '../../PDF/Data_Analyst_Resume.pdf'; 
-import Resume3 from '../../PDF/IT_Specialist_Resume.pdf'; 
-import Resume4 from '../../PDF/Web_Developer_Resume.pdf'; 
+import AudioVisualIcon from './RecruiterImages/AudioVisual.png';
+import ExecutiveITIcon from './RecruiterImages/ExecutiveIT.png';
+import ManagerIcon from './RecruiterImages/Manager.png';
+import WebDevITIcon from './RecruiterImages/WebDevIT.png';
+import Resume from '../../PDF/Geddes_Resume_26.pdf';
 import './Recruiters.css';
 
 const RecruitersPage = () => {
   const [activeButton, setActiveButton] = useState(null);
-  const recruiterImages = [Recruiterimg_1, Recruiterimg_2, Recruiterimg_3, Recruiterimg_4];
-  const resumes = [Resume1, Resume2, Resume3, Resume4]; // Array of PDF resumes
+  const recruiterImages = [AudioVisualIcon, ExecutiveITIcon, ManagerIcon, WebDevITIcon];
+  const resumes = [Resume, Resume, Resume, Resume];
   const uniqueTexts = [
-    "During my time as an Audio Visual Engineer, I have racked up over three years of experience doing a multitude of tasks and working with a diverse range of individuals. From college age peers to senior executives at the largest law firm in the world, I have serviced them all to give the best experience possible. While at Loyola Chicago, I worked through many different scenarios and events that gave me the foundation through fire that allows me to succeed and thrive in the Audio-Visual environment. Loyola was a combination of tech stuck in time and conference rooms that were updated while I was there. This range allowed me to be successful in my next position at Kirkland and Ellis. Kirkland and Ellis was undergoing a move while I was hired on, which gave me excellent opportunities to install and service all of the newest AV equipment money could buy. Following the installation and troubleshooting process, I was given the esteemed opportunity to offer white glove service to many notable professionals such as Jon Ballis and Chiara Wrocinski. This extensive experience has equipped me with the technical expertise and customer service skills necessary to succeed as an Audio-Visual Engineer in any demanding environment.",
-    "While I have a year plus in experience at data analytics from my internships, I was incredibly passionate about it during my time at university and have tried to incorporate it in every part of my career and personal life. During my time at TLC wafer technology, I was first taught SQL and was given the time to dip my feet into python statistical programming.  Following that time, I was given the ability to query and work on large data modules at my time at the Brag House. This was a foundational time not only for SQL but also for Excel. Using the combination of these experiences, I was well prepared when I was designing my Practicum for Loyola Chicago. Rambler Registrar was a new and updated app that was an attempt at revolutionizing the class scheduling for Loyola students. This required me to make an app that used complex algorithms to sort all of the classes students had to take, but also sorted and curtailed classes students needed to take for their future goals as well. Based on my experience in SQL, Python, and data management, as well as my passion for data analytics, I am confident that I would excel as a data analyst at your company.",
-    "I have three plus years of experience working in the IT field, supporting the IT department in various capacities. While there are many things that go into making a good IT specialist, I believe technical expertise, adaptability, and communication are key. At Loyola Chicago, I worked closely with the IT department to troubleshoot and resolve issues with AV systems and other technology across campus, which honed my problem-solving skills. My adaptability was put to the test at Kirkland and Ellis, where I supported the IT team during a major office relocation, helping to install and configure the latest AV and IT equipment. Throughout these roles, effective communication was critical, as I often needed to explain technical issues to non-technical users and collaborate with the IT department to ensure seamless service delivery. These experiences have given me a strong foundation to thrive in IT environments.",
-    "Check the website nerd"
+    "With over five years of hands-on experience in Audio Visual engineering, I have designed, deployed, and supported enterprise AV solutions across corporate, legal, healthcare, and higher education environments. My career began at Loyola University of Chicago, where I managed AV operations across fifteen multipurpose spaces, mastering both analog and digital systems. From there I moved to Kirkland and Ellis, where I installed and configured Cisco and Crestron systems across over two hundred conference rooms, delivering white-glove service to some of the nation's most prominent attorneys. At Abbott Laboratories and Discover Financial, I deepened my expertise in Biamp, Q-SYS, and Shure platforms while leading break-fix operations and mentoring junior technicians. Now at The Aspen Group, I serve as a Senior AV Executive Support Engineer, spearheading the comprehensive modernization of the company's entire AV infrastructure within a Logitech ecosystem and providing dedicated technical support to the full C-Suite. This progression from campus technician to senior enterprise engineer has given me the end-to-end systems knowledge and executive-facing professionalism to deliver seamless AV experiences in any high-stakes environment.",
+    "Throughout my career, I have consistently operated at the intersection of technology and executive leadership, providing high-touch, white-glove technical support to C-Suite executives and senior professionals at major enterprises. At The Aspen Group, I serve as a trusted technology partner to the full executive leadership team, rapidly resolving AV, endpoint, and connectivity issues to ensure uninterrupted operations across critical business functions. My responsibilities extend well beyond traditional support — I administer and maintain endpoint management across JAMF, ServiceNow, Microsoft Intune, and Azure Active Directory, ensuring compliance and seamless provisioning across the entire enterprise environment. At Kirkland and Ellis, I honed this executive-facing approach by coordinating over two hundred conference room setups for high-profile client meetings, where discretion and technical precision were paramount. I also developed over fifty VBA macros to automate data workflows, demonstrating my commitment to proactive problem-solving and operational efficiency. This combination of executive-level interpersonal skills and deep technical expertise allows me to anticipate needs, minimize downtime, and deliver the seamless technology experiences that senior leadership demands.",
+    "My career in technology has been defined by a natural progression from hands-on technical work into leadership, team mentorship, and strategic project coordination. At Discover Financial, I led and mentored a team of five Level 1 technicians, providing strategic guidance on system optimization, best practices, and technical troubleshooting while managing comprehensive break-fix support across the enterprise. This leadership experience prepared me for my current role at The Aspen Group, where I serve as a senior technical lead within the AV engineering team, guiding priorities, coordinating project execution, and mentoring junior staff on escalation procedures and system standards. Beyond team management, I have consistently driven process improvement — from developing custom corporate tools with Microsoft Power Apps and Power BI at Discover to designing a full-stack IT asset management application using React.js and Express.js at TAG. My management philosophy centers on empowering team members through clear communication and hands-on guidance while maintaining the technical depth to make informed decisions. With a strong foundation in both technology and people leadership, I am confident in my ability to manage teams and deliver results in any enterprise environment.",
+    "As a web developer with a Computer Science degree from Loyola University of Chicago, I bring a strong foundation in both front-end and full-stack development to every project I take on. My journey began at The Brag House, where I collaborated with a development team using React.js, React Native, CSS, and HTML to enhance the front-end experience for their iOS app and website, and utilized Figma to deliver the modern design the company envisioned. At TLC Precision Wafer Technology, I transitioned the company from an on-site code repository to a cloud-based solution using Bitbucket, training personnel on Git workflows along the way. My senior practicum project, Rambler Registrar, challenged me to engineer a full mobile application using React Native with a Python back-end and MongoDB database hosted on AWS. Most recently at The Aspen Group, I designed and developed a full-stack IT asset management application using React.js and Vite.js with an Express.js backend, built on top of Snipe-IT to streamline inventory workflows and reporting. Of course, the website you are on right now is also built and maintained by me, and serves as a living portfolio of my development capabilities. With experience spanning front-end design, back-end architecture, and cloud deployment, I am well-equipped to build and maintain web solutions that deliver real business value."
   ];
 
   const toggleButton = (buttonIndex) => {
@@ -35,7 +32,7 @@ const RecruitersPage = () => {
     <>
       <SEO
         title="Recruiters"
-        description="John Geddes — resumes and experience for AV Engineer, Data Analyst, IT Specialist, and Web Developer roles."
+        description="John Geddes — resumes and experience for AV Engineer, Executive Technician, Manager, and Web Developer roles."
         path="/recruiters"
       />
       <Background />
@@ -48,7 +45,7 @@ const RecruitersPage = () => {
         </p>
       </div>
       <div className="button-container main-content">
-        {['Audio Visual Engineer Specialist Resume', 'Data Analyst Resume', 'IT Specialist Resume', 'Web Developer Resume'].map((label, index) => (
+        {['Audio Visual Engineer Resume', 'Executive Technician Resume', 'Manager Resume', 'Web Developer Resume'].map((label, index) => (
           <div 
             key={index} 
             className={`collapsible-button ${activeButton === index ? 'expanded' : ''}`} 
@@ -73,7 +70,7 @@ const RecruitersPage = () => {
                   ></iframe>
                   <a
                     href={resumes[index]}
-                    download={`Resume_${index + 1}.pdf`}
+                    download="Geddes_Resume.pdf"
                     className="download-btn"
                   >
                     Download Resume

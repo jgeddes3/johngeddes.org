@@ -124,6 +124,8 @@
   font-size: 22px;
   font-family: 'EB Garamond', serif;
   text-align: left;
+  max-height: 620px;
+  overflow-y: auto;
 }
 
 .pdf-viewer-container {
@@ -272,6 +274,8 @@
   .unique-text {
     font-size: 18px;
     margin: 20px;
+    max-height: 400px;
+    overflow-y: auto;
   }
 
   .resume-viewer {
@@ -339,6 +343,8 @@
   .unique-text {
     font-size: 16px;
     margin: 15px;
+    max-height: 350px;
+    overflow-y: auto;
   }
 
   .resume-viewer {
@@ -405,6 +411,8 @@
   .unique-text {
     font-size: 14px;
     margin: 10px;
+    max-height: 300px;
+    overflow-y: auto;
   }
 
   .resume-viewer {
