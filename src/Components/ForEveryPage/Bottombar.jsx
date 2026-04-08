@@ -92,7 +92,7 @@ const Bottombar = () => {
                     </div>
                     <div className="column">
                         <div className="column-title">Contact</div>
-                        <div className="bottomtext1">johngeddes@pm.me</div>
+                        <div className="bottomtext1">app@johngeddes.org</div>
                         <div className="bottomtext1">(312) 612-0347</div>
                     </div>
                 </div>

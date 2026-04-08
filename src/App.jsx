@@ -36,6 +36,16 @@ import MorningStarReview from './Components/Pages/MiscPages/MorningStarReview';
 import MythOfSisyphusReview from './Components/Pages/MiscPages/MythOfSisyphusReview';
 import RedRisingReview from './Components/Pages/MiscPages/RedRisingReview';
 import WayOfKingsReview from './Components/Pages/MiscPages/WayOfKingsReview';
+import KatabasisReview from './Components/Pages/MiscPages/KatabasisReview';
+import WillOfTheManyReview from './Components/Pages/MiscPages/WillOfTheManyReview';
+import StrengthOfTheFewReview from './Components/Pages/MiscPages/StrengthOfTheFewReview';
+import RecursionReview from './Components/Pages/MiscPages/RecursionReview';
+import BriefHistoryOfIntelligenceReview from './Components/Pages/MiscPages/BriefHistoryOfIntelligenceReview';
+import SunAlsoRisesReview from './Components/Pages/MiscPages/SunAlsoRisesReview';
+import ProjectHailMaryReview from './Components/Pages/MiscPages/ProjectHailMaryReview';
+import LiesOfLockeLamoraReview from './Components/Pages/MiscPages/LiesOfLockeLamoraReview';
+import RedSeasUnderRedSkiesReview from './Components/Pages/MiscPages/RedSeasUnderRedSkiesReview';
+import RepublicOfThievesReview from './Components/Pages/MiscPages/RepublicOfThievesReview';
 import SparrowReview from './Components/Pages/MiscPages/SparrowReview';
 import TrivoliTavernReview from './Components/Pages/MiscPages/TrivoliTavernReview';
 import Hopleaf from './Components/Pages/MiscPages/Hopleaf';
@@ -89,6 +99,16 @@ function App() {
           <Route path="/MythOfSisyphusReview" element={<MythOfSisyphusReview />} />
           <Route path="/RedRisingReview" element={<RedRisingReview />} />
           <Route path="/WayOfKingsReview" element={<WayOfKingsReview />} />
+          <Route path="/KatabasisReview" element={<KatabasisReview />} />
+          <Route path="/WillOfTheManyReview" element={<WillOfTheManyReview />} />
+          <Route path="/StrengthOfTheFewReview" element={<StrengthOfTheFewReview />} />
+          <Route path="/RecursionReview" element={<RecursionReview />} />
+          <Route path="/BriefHistoryOfIntelligenceReview" element={<BriefHistoryOfIntelligenceReview />} />
+          <Route path="/SunAlsoRisesReview" element={<SunAlsoRisesReview />} />
+          <Route path="/ProjectHailMaryReview" element={<ProjectHailMaryReview />} />
+          <Route path="/LiesOfLockeLamoraReview" element={<LiesOfLockeLamoraReview />} />
+          <Route path="/RedSeasUnderRedSkiesReview" element={<RedSeasUnderRedSkiesReview />} />
+          <Route path="/RepublicOfThievesReview" element={<RepublicOfThievesReview />} />
           {/* Philosophy Pages */}
           <Route path="/phil1" element={<GeneralPhilosophy />} />
           {/* Misc. Page Recipes*/}
