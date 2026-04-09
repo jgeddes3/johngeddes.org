@@ -1,47 +1,68 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
 import SEO from '../../ForEveryPage/SEO';
 import './Contracts.css';
-import ContractSlide1 from './ContractsSlides/ContractSlide1.webp';
-import ContractSlide2 from './ContractsSlides/ContractSlide2.png';
-import ContentSlide3 from './ContractsSlides/ContractSlide3'; // Import the new ContentSlide3 component
+import ContractSlide1 from './ContractsSlides/ContractSlide1';
+import ContractSlide2 from './ContractsSlides/ContractSlide2';
+import ContentSlide3 from './ContractsSlides/ContractSlide3';
+
+const SLIDES = [
+  { Component: ContractSlide1, color: '#3a7243', label: 'Skills' },
+  { Component: ContractSlide2, color: '#618e68', label: 'Rates and contact' },
+  { Component: ContentSlide3,  color: '#88aa8e', label: 'More of my work' },
+];
 
 const ContractsPage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [showButtons, setShowButtons] = useState(false); // State for button visibility
+  const [showButtons, setShowButtons] = useState(false);
 
-  const slides = [
-    { image: ContractSlide1, color: '#3a7243' }, 
-    { image: ContractSlide2, color: '#618e68' }, 
-    { component: <ContentSlide3 />, color: '#88aa8e' },  // Use component for Slide 3
-  ];
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
+  }, []);
+
+  const previousSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
+  }, []);
+
+  const firstSlide = useCallback(() => setCurrentSlide(0), []);
+  const lastSlide  = useCallback(() => setCurrentSlide(SLIDES.length - 1), []);
 
   useEffect(() => {
-    // Delay showing buttons by 0.5 seconds after slide change
+    // Delay showing nav buttons by 0.5s after slide change
     const timer = setTimeout(() => setShowButtons(true), 500);
     return () => {
-      clearTimeout(timer); // Clean up the timeout on slide change
-      setShowButtons(false); // Hide buttons right away when transitioning
+      clearTimeout(timer);
+      setShowButtons(false);
     };
   }, [currentSlide]);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const previousSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
-  const firstSlide = () => {
-    setCurrentSlide(0);
-  };
-
-  const lastSlide = () => {
-    setCurrentSlide(slides.length - 1);
-  };
+  // Keyboard navigation — arrow keys, Home, End
+  useEffect(() => {
+    const handleKey = (e) => {
+      // Don't hijack keys when the user is typing in an input
+      const target = e.target;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
+        return;
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        previousSlide();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        firstSlide();
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        lastSlide();
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [nextSlide, previousSlide, firstSlide, lastSlide]);
 
   return (
     <>
@@ -60,41 +81,90 @@ const ContractsPage = () => {
         </p>
       </div>
 
-      <div className="slideshow-container main-content">
-        {/* Full Slide when it's active */}
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`slide ${index === currentSlide ? 'active' : 'collapsed'}`} // Ensure the slide collapses
-            style={{ backgroundColor: slide.color }}
-          >
-            {slide.image && <img loading="lazy" decoding="async" src={slide.image} alt={`Contract Slide ${index + 1}`} className="slide-image" />} {/* Image for Slide 1 and Slide 2 */}
-            {index === 2 && index === currentSlide && <ContentSlide3 />} {/* Show ContentSlide3 only when active */}
-          </div>
-        ))}
+      <div
+        className="slideshow-container main-content"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label="Contract services"
+      >
+        {SLIDES.map(({ Component, color, label }, index) => {
+          const isActive = index === currentSlide;
+          return (
+            <div
+              key={index}
+              className={`slide ${isActive ? 'active' : 'collapsed'}`}
+              style={{ backgroundColor: color }}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${label} (${index + 1} of ${SLIDES.length})`}
+              aria-hidden={!isActive}
+            >
+              <Component active={isActive} />
+            </div>
+          );
+        })}
 
-        {/* Navigation Buttons */}
+        {/* Left Navigation (Previous and First buttons) */}
         <div className={`navigation-buttons-left ${showButtons ? 'visible' : ''}`}>
           {currentSlide > 0 && (
             <>
-              <div className="previous-button" onClick={previousSlide}></div>
-              {currentSlide === slides.length - 1 && (
-                <div className="previous-button first" onClick={firstSlide}></div>
+              <div
+                className="previous-button"
+                onClick={previousSlide}
+                role="button"
+                tabIndex={0}
+                aria-label="Previous slide"
+              ></div>
+              {currentSlide === SLIDES.length - 1 && (
+                <div
+                  className="previous-button first"
+                  onClick={firstSlide}
+                  role="button"
+                  tabIndex={0}
+                  aria-label="First slide"
+                ></div>
               )}
             </>
           )}
         </div>
 
         <div className={`navigation-buttons-right ${showButtons ? 'visible' : ''}`}>
-          {currentSlide < slides.length - 1 && (
+          {currentSlide < SLIDES.length - 1 && (
             <>
-              <div className="next-button" onClick={nextSlide}></div>
+              <div
+                className="next-button"
+                onClick={nextSlide}
+                role="button"
+                tabIndex={0}
+                aria-label="Next slide"
+              ></div>
               {currentSlide === 0 && (
-                <div className="next-button last" onClick={lastSlide}></div>
+                <div
+                  className="next-button last"
+                  onClick={lastSlide}
+                  role="button"
+                  tabIndex={0}
+                  aria-label="Last slide"
+                ></div>
               )}
             </>
           )}
         </div>
+      </div>
+
+      {/* Dot indicators */}
+      <div className="slideshow-dots" role="tablist" aria-label="Slide indicators">
+        {SLIDES.map((slide, index) => (
+          <button
+            key={index}
+            type="button"
+            className={`slideshow-dot ${index === currentSlide ? 'active' : ''}`}
+            onClick={() => setCurrentSlide(index)}
+            role="tab"
+            aria-selected={index === currentSlide}
+            aria-label={`Go to slide ${index + 1}: ${slide.label}`}
+          />
+        ))}
       </div>
 
       <div className="bottom-buttons-container">
@@ -112,4 +182,3 @@ const ContractsPage = () => {
 };
 
 export default ContractsPage;
-

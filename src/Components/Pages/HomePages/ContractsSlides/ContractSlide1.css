@@ -1,0 +1,299 @@
+/* ContractSlide1 — live Skills slide */
+
+.cs1 {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 40px 60px;
+  box-sizing: border-box;
+  color: #ffffff;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+/* Fade the content out when the parent slide is collapsed so the narrow column
+   doesn't show crushed HTML. The slide background color remains visible. */
+.slide.collapsed .cs1 {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Left column — headshot (with signature overlay) + name */
+.cs1-left {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Wrapper makes the signature overlay the photo at the top-left corner */
+.cs1-headshot-wrap {
+  position: relative;
+  display: inline-block;
+  line-height: 0;
+}
+
+.cs1-headshot {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  border-radius: 4px;
+  object-fit: cover;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.cs1-signature {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 240px;
+  height: auto;
+  opacity: 0.95;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+  pointer-events: none;
+  z-index: 2;
+}
+
+.cs1-name {
+  font-family: 'Galgine', serif;
+  font-size: 28px;
+  letter-spacing: 0.18em;
+  color: #ffffff;
+  margin: 24px 0 0;
+  text-align: center;
+}
+
+/* Right column — SKILLS heading + list card */
+.cs1-right {
+  flex: 1 1 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs1-heading {
+  font-family: 'Galgine', serif;
+  font-size: 72px;
+  font-weight: 400;
+  color: #ffffff;
+  margin: 0 0 16px;
+  letter-spacing: 0.02em;
+}
+
+.cs1-skills {
+  list-style: none;
+  margin: 0;
+  padding: 28px 36px;
+  width: 100%;
+  max-width: 520px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.cs1-skill {
+  display: grid;
+  grid-template-rows: auto 0fr;
+  padding: 6px 0;
+  cursor: default;
+  transition: grid-template-rows 0.25s ease;
+}
+
+.cs1-skill:hover,
+.cs1-skill:focus-within {
+  grid-template-rows: auto 1fr;
+}
+
+.cs1-skill-name {
+  font-family: 'EB Garamond', serif;
+  font-size: 26px;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.cs1-skill-proof {
+  overflow: hidden;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.82);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.25s ease 0.05s;
+}
+
+.cs1-skill:hover .cs1-skill-proof,
+.cs1-skill:focus-within .cs1-skill-proof {
+  opacity: 1;
+}
+
+/* Tablet */
+@media (max-width: 1200px) {
+  .cs1 {
+    gap: 28px;
+    padding: 32px 40px;
+  }
+
+  .cs1-heading {
+    font-size: 56px;
+  }
+
+  .cs1-skill-name {
+    font-size: 22px;
+  }
+
+  .cs1-headshot {
+    max-width: 340px;
+  }
+
+  .cs1-signature {
+    width: 200px;
+    top: 6px;
+    left: 6px;
+  }
+
+  .cs1-name {
+    font-size: 22px;
+  }
+}
+
+/* Tablet landscape */
+@media (max-width: 900px) {
+  .cs1 {
+    gap: 20px;
+    padding: 24px 28px;
+  }
+
+  .cs1-heading {
+    font-size: 44px;
+  }
+
+  .cs1-skills {
+    padding: 20px 24px;
+  }
+
+  .cs1-skill-name {
+    font-size: 18px;
+  }
+
+  .cs1-skill-proof {
+    font-size: 13px;
+  }
+
+  .cs1-headshot {
+    max-width: 260px;
+  }
+
+  .cs1-signature {
+    width: 160px;
+    top: 6px;
+    left: 6px;
+  }
+}
+
+/* Mobile portrait — stack columns */
+@media (max-width: 768px) {
+  .cs1 {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 20px;
+    overflow-y: auto;
+  }
+
+  .cs1-left,
+  .cs1-right {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .cs1-headshot {
+    max-width: 180px;
+  }
+
+  .cs1-signature {
+    width: 115px;
+    top: 4px;
+    left: 4px;
+  }
+
+  .cs1-name {
+    font-size: 16px;
+    margin-top: 12px;
+  }
+
+  .cs1-heading {
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+
+  .cs1-skills {
+    padding: 14px 18px;
+  }
+
+  .cs1-skill {
+    /* On touch devices, always show the proof line */
+    grid-template-rows: auto 1fr;
+  }
+
+  .cs1-skill-name {
+    font-size: 16px;
+  }
+
+  .cs1-skill-proof {
+    font-size: 12px;
+    opacity: 1;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .cs1 {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .cs1-headshot {
+    max-width: 130px;
+  }
+
+  .cs1-signature {
+    width: 85px;
+    top: 3px;
+    left: 3px;
+  }
+
+  .cs1-name {
+    font-size: 12px;
+    margin-top: 6px;
+  }
+
+  .cs1-heading {
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+
+  .cs1-skills {
+    padding: 10px 12px;
+  }
+
+  .cs1-skill {
+    padding: 2px 0;
+  }
+
+  .cs1-skill-name {
+    font-size: 13px;
+  }
+
+  .cs1-skill-proof {
+    font-size: 10px;
+  }
+}
