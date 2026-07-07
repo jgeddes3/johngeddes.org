@@ -12,7 +12,9 @@ const NewsTicker = () => {
         if (!res.ok) return;
         const data = await res.json();
 
-        const stockItems = (data.quotes || []).map(({ symbol, c, dp }) => {
+        const stockItems = (data.quotes || [])
+          .filter(({ c, dp }) => typeof c === 'number' && typeof dp === 'number')
+          .map(({ symbol, c, dp }) => {
           const change = dp ? dp.toFixed(2) : '0.00';
           const isUp = (dp || 0) >= 0;
           return {

@@ -123,6 +123,13 @@ const ProjectCarousel = () => {
       onMouseLeave={handleMouseLeave}
       onFocus={handleMouseEnter}
       onBlur={handleMouseLeave}
+      onKeyDown={(e) => {
+        // This was a <button> before becoming a Link — keep Space activation.
+        if (e.key === ' ') {
+          e.preventDefault();
+          e.currentTarget.click();
+        }
+      }}
     >
       {/* Static decorative elements */}
       <div className="proj-carousel-rect1"></div>

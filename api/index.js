@@ -1,5 +1,4 @@
 ﻿const express = require('express');
-const cors = require('cors');
 
 const app = express();
 
@@ -8,40 +7,74 @@ const LASTFM_USER = process.env.LASTFM_USER;
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY;
 
-// Only the site itself (plus Vercel previews and local dev) may call the API from a browser.
+// Only the site itself and local dev may call the API from a browser. Cross-origin
+// requests from other pages are rejected outright (not just denied CORS read access,
+// which would still let hostile pages spend the paid upstream quotas). Requests
+// without an Origin header (same-origin GETs, curl, crawlers) pass — the rate
+// limiter below is the backstop for those.
 const ALLOWED_ORIGINS = [
   /^https:\/\/(www\.)?johngeddes\.org$/,
-  /^https:\/\/[a-z0-9-]+\.vercel\.app$/,
   /^http:\/\/localhost(:\d+)?$/
 ];
 
-app.use(cors({
-  origin(origin, callback) {
-    callback(null, !origin || ALLOWED_ORIGINS.some((pattern) => pattern.test(origin)));
+const isAllowedOrigin = (origin, req) => {
+  if (!origin) return true;
+  if (ALLOWED_ORIGINS.some((pattern) => pattern.test(origin))) return true;
+  // Vercel preview deployments serve the frontend and API from the same host,
+  // so allow an origin that matches the host being requested (never a third party).
+  try {
+    return new URL(origin).host === req.headers.host;
+  } catch {
+    return false;
   }
-}));
-
-// Per-IP rate limit (per warm function instance) — protects the paid Anthropic/Mapbox proxies.
-const RATE_WINDOW_MS = 60 * 1000;
-const RATE_MAX_REQUESTS = 30;
-const rateBuckets = new Map();
+};
 
 app.use((req, res, next) => {
-  const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown')
-    .split(',')[0].trim();
-  const now = Date.now();
-  const bucket = rateBuckets.get(ip);
-  if (!bucket || now - bucket.start >= RATE_WINDOW_MS) {
-    if (rateBuckets.size > 5000) rateBuckets.clear();
-    rateBuckets.set(ip, { start: now, count: 1 });
-    return next();
+  const origin = req.headers.origin;
+  if (!isAllowedOrigin(origin, req)) {
+    return res.status(403).json({ error: 'Forbidden' });
   }
-  bucket.count += 1;
-  if (bucket.count > RATE_MAX_REQUESTS) {
-    return res.status(429).json({ error: 'Too many requests. Please slow down.' });
+  if (origin) {
+    res.set('Access-Control-Allow-Origin', origin);
+    res.set('Vary', 'Origin');
   }
   next();
 });
+
+// Per-IP rate limiting (per warm function instance) — protects the paid
+// Anthropic/Mapbox proxies. A generous default covers normal browsing (the
+// WeatherApp alone can fire dozens of suggest/map calls a minute); the expensive
+// endpoints add their own tighter scope below.
+const RATE_WINDOW_MS = 60 * 1000;
+const rateBuckets = new Map();
+
+const sweepExpiredBuckets = (now) => {
+  for (const [key, bucket] of rateBuckets) {
+    if (now - bucket.start >= RATE_WINDOW_MS) rateBuckets.delete(key);
+  }
+  // Last-resort memory guard; only reachable if >20k IPs are active in one window.
+  if (rateBuckets.size > 20000) rateBuckets.clear();
+};
+
+const rateLimit = (max, scope) => (req, res, next) => {
+  const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown')
+    .split(',')[0].trim();
+  const key = `${scope}:${ip}`;
+  const now = Date.now();
+  const bucket = rateBuckets.get(key);
+  if (!bucket || now - bucket.start >= RATE_WINDOW_MS) {
+    if (rateBuckets.size > 5000) sweepExpiredBuckets(now);
+    rateBuckets.set(key, { start: now, count: 1 });
+    return next();
+  }
+  bucket.count += 1;
+  if (bucket.count > max) {
+    return res.status(429).json({ error: 'Too many requests. Please slow down.' });
+  }
+  next();
+};
+
+app.use(rateLimit(120, 'all'));
 
 const buildRecentTracksUrl = () => {
   return 'https://ws.audioscrobbler.com/2.0/?' + new URLSearchParams({
@@ -122,6 +155,34 @@ app.get(['/recently-played', '/api/recently-played', '/recently'], handleRecentl
 const TICKER_SYMBOLS = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'SPY', 'TSLA'];
 const TICKER_TTL_MS = 4 * 60 * 1000;
 let tickerCache = { at: 0, data: null };
+let tickerPending = null; // concurrent cache misses share one upstream round-trip
+
+const buildTicker = async () => {
+  // Each fetch tolerates its own failure — one bad quote must not kill the ticker.
+  const [newsRes, ...quoteResults] = await Promise.all([
+    fetch(`https://finnhub.io/api/v1/news?category=general&token=${FINNHUB_API_KEY}`).catch(() => null),
+    ...TICKER_SYMBOLS.map((s) =>
+      fetch(`https://finnhub.io/api/v1/quote?symbol=${s}&token=${FINNHUB_API_KEY}`).catch(() => null)
+    )
+  ]);
+  const news = newsRes && newsRes.ok ? await newsRes.json().catch(() => null) : null;
+  const quotes = await Promise.all(
+    quoteResults.map((r) => (r && r.ok ? r.json().catch(() => null) : Promise.resolve(null)))
+  );
+  // Only real numbers leave the server — a failed quote is omitted, never a
+  // placeholder the client could render as a fabricated "+0.00%".
+  const quoteItems = TICKER_SYMBOLS
+    .map((symbol, i) => ({ symbol, quote: quotes[i] }))
+    .filter(({ quote }) => quote && typeof quote.c === 'number' && typeof quote.dp === 'number')
+    .map(({ symbol, quote }) => ({ symbol, c: quote.c, dp: quote.dp }));
+  const data = {
+    news: (Array.isArray(news) ? news : []).slice(0, 15).map((n) => ({ headline: n.headline })),
+    quotes: quoteItems
+  };
+  // Cache only complete responses; partial ones are served but retried next request.
+  const complete = Array.isArray(news) && quoteItems.length === TICKER_SYMBOLS.length;
+  return { data, complete };
+};
 
 app.get(['/ticker', '/api/ticker'], async (req, res) => {
   if (!FINNHUB_API_KEY) {
@@ -130,27 +191,14 @@ app.get(['/ticker', '/api/ticker'], async (req, res) => {
   if (tickerCache.data && Date.now() - tickerCache.at < TICKER_TTL_MS) {
     return res.json(tickerCache.data);
   }
+  if (!tickerPending) {
+    tickerPending = buildTicker().finally(() => { tickerPending = null; });
+  }
   try {
-    const [newsRes, ...quoteResults] = await Promise.all([
-      fetch(`https://finnhub.io/api/v1/news?category=general&token=${FINNHUB_API_KEY}`),
-      ...TICKER_SYMBOLS.map((s) =>
-        fetch(`https://finnhub.io/api/v1/quote?symbol=${s}&token=${FINNHUB_API_KEY}`)
-      )
-    ]);
-    if (!newsRes.ok) throw new Error(`Finnhub news returned ${newsRes.status}`);
-    const news = await newsRes.json();
-    const quotes = await Promise.all(
-      quoteResults.map((r) => (r.ok ? r.json() : Promise.resolve(null)))
-    );
-    const data = {
-      news: (Array.isArray(news) ? news : []).slice(0, 15).map((n) => ({ headline: n.headline })),
-      quotes: TICKER_SYMBOLS.map((symbol, i) => ({
-        symbol,
-        c: quotes[i] ? quotes[i].c : null,
-        dp: quotes[i] ? quotes[i].dp : null
-      }))
-    };
-    tickerCache = { at: Date.now(), data };
+    const { data, complete } = await tickerPending;
+    if (complete) {
+      tickerCache = { at: Date.now(), data };
+    }
     res.json(data);
   } catch (err) {
     console.error('Ticker error:', err.message);
@@ -235,72 +283,100 @@ const fetchCocktail = async (name) => {
   };
 };
 
-// Cache one pairing per sign per day — repeated requests must not each hit the Anthropic API.
-const horoscopeCache = new Map();
+// Cache one pairing per sign per day — repeated requests must not each hit the
+// Anthropic API. Only complete results are cached, so a transient upstream failure
+// is retried on the next request instead of pinning a degraded pairing all day.
+const horoscopeCache = new Map(); // `${sign}:${YYYY-MM-DD}` -> payload
+const horoscopePending = new Map(); // same key -> in-flight promise (dedups concurrent misses)
 
-app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
+// "Daily" should roll over at the audience's midnight, not UTC's mid-evening.
+const horoscopeDateKey = () =>
+  new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date());
+
+const buildHoroscope = async (sign) => {
+  let complete = true;
+
+  // 1. Get horoscope text from free API
+  const horoscopeText = await fetchHoroscope(sign);
+
+  // 2. Ask Haiku for cocktail pairing + details
+  let cocktailName = '';
+  let flavorProfile = '';
+  const horoscope = { text: horoscopeText, zodiac: sign };
+  try {
+    if (!ANTHROPIC_API_KEY) {
+      throw new Error('ANTHROPIC_API_KEY not configured');
+    }
+    const haikuResult = await askHaikuForPairing(sign, horoscopeText);
+    cocktailName = haikuResult.cocktail || '';
+    flavorProfile = haikuResult.vibe || '';
+    horoscope.mood = haikuResult.mood || '';
+    horoscope.luckyNumber = haikuResult.luckyNumber || '';
+    horoscope.color = haikuResult.color || '';
+    console.log('Haiku picked:', cocktailName, '/', flavorProfile);
+  } catch (err) {
+    console.error('Haiku fallback:', err.message);
+    flavorProfile = 'mysterious and unknowable';
+    complete = false;
+  }
+
+  // 3. Get cocktail details
+  const FALLBACK_COCKTAILS = [
+    'zombie', 'mojito', 'mai tai', 'cosmopolitan', 'negroni', 'paloma',
+    'pisco sour', 'aperol spritz', 'dark and stormy', 'french 75',
+    'old fashioned', 'margarita', 'manhattan', 'sidecar', 'daiquiri',
+    'espresso martini', 'whiskey sour', 'tom collins', 'gimlet', 'penicillin',
+    'boulevardier', 'aviation', 'bee\'s knees', 'pornstar martini', 'spritz',
+    'tequila sunrise', 'pina colada', 'rum runner', 'rusty nail', 'stinger',
+    'old pal', 'new york sour', 'planter\'s punch', 'sangria', 'salty dog',
+    'singapore sling', 'screwdriver', 'sea breeze', 'white russian', 'rum punch',
+    'pegu club', 'pink lady', 'the last word', 'ramos gin fizz'
+  ];
+  let cocktail = null;
+  try {
+    let pickName = cocktailName || FALLBACK_COCKTAILS[Math.floor(Math.random() * FALLBACK_COCKTAILS.length)];
+    // If zombie was picked, 1-in-10 chance to keep it — otherwise re-roll
+    if (pickName.toLowerCase() === 'zombie' && Math.random() > 0.1) {
+      const nonZombie = FALLBACK_COCKTAILS.filter(c => c !== 'zombie');
+      pickName = nonZombie[Math.floor(Math.random() * nonZombie.length)];
+      console.log('Zombie re-rolled to:', pickName);
+    }
+    cocktail = await fetchCocktail(pickName);
+  } catch (err) {
+    console.error('CocktailDB fallback:', err.message);
+  }
+  if (!cocktail) {
+    complete = false;
+  }
+
+  return { payload: { sign, horoscope, cocktail, flavorProfile }, complete };
+};
+
+app.get(['/horoscope', '/api/horoscope'], rateLimit(10, 'horoscope'), async (req, res) => {
   const sign = (req.query.sign || '').toLowerCase().trim();
   if (!VALID_SIGNS.includes(sign)) {
     return res.status(400).json({ error: `Invalid sign. Must be one of: ${VALID_SIGNS.join(', ')}` });
   }
-  const cacheKey = `${sign}:${new Date().toISOString().slice(0, 10)}`;
+  const today = horoscopeDateKey();
+  const cacheKey = `${sign}:${today}`;
   const cached = horoscopeCache.get(cacheKey);
   if (cached) {
     return res.json(cached);
   }
+  let job = horoscopePending.get(cacheKey);
+  if (!job) {
+    job = buildHoroscope(sign).finally(() => horoscopePending.delete(cacheKey));
+    horoscopePending.set(cacheKey, job);
+  }
   try {
-    // 1. Get horoscope text from free API
-    const horoscopeText = await fetchHoroscope(sign);
-
-    // 2. Ask Haiku for cocktail pairing + details
-    let cocktailName = '';
-    let flavorProfile = '';
-    const horoscope = { text: horoscopeText, zodiac: sign };
-    try {
-      if (!ANTHROPIC_API_KEY) {
-        throw new Error('ANTHROPIC_API_KEY not configured');
+    const { payload, complete } = await job;
+    if (complete && !horoscopeCache.has(cacheKey)) {
+      // Evict only stale-dated entries — never today's fresh ones.
+      for (const key of horoscopeCache.keys()) {
+        if (!key.endsWith(today)) horoscopeCache.delete(key);
       }
-      const haikuResult = await askHaikuForPairing(sign, horoscopeText);
-      cocktailName = haikuResult.cocktail || '';
-      flavorProfile = haikuResult.vibe || '';
-      horoscope.mood = haikuResult.mood || '';
-      horoscope.luckyNumber = haikuResult.luckyNumber || '';
-      horoscope.color = haikuResult.color || '';
-      console.log('Haiku picked:', cocktailName, '/', flavorProfile);
-    } catch (err) {
-      console.error('Haiku fallback:', err.message);
-      flavorProfile = 'mysterious and unknowable';
+      horoscopeCache.set(cacheKey, payload);
     }
-
-    // 3. Get cocktail details
-    const FALLBACK_COCKTAILS = [
-      'zombie', 'mojito', 'mai tai', 'cosmopolitan', 'negroni', 'paloma',
-      'pisco sour', 'aperol spritz', 'dark and stormy', 'french 75',
-      'old fashioned', 'margarita', 'manhattan', 'sidecar', 'daiquiri',
-      'espresso martini', 'whiskey sour', 'tom collins', 'gimlet', 'penicillin',
-      'boulevardier', 'aviation', 'bee\'s knees', 'pornstar martini', 'spritz',
-      'tequila sunrise', 'pina colada', 'rum runner', 'rusty nail', 'stinger',
-      'old pal', 'new york sour', 'planter\'s punch', 'sangria', 'salty dog',
-      'singapore sling', 'screwdriver', 'sea breeze', 'white russian', 'rum punch',
-      'pegu club', 'pink lady', 'the last word', 'ramos gin fizz'
-    ];
-    let cocktail = null;
-    try {
-      let pickName = cocktailName || FALLBACK_COCKTAILS[Math.floor(Math.random() * FALLBACK_COCKTAILS.length)];
-      // If zombie was picked, 1-in-10 chance to keep it — otherwise re-roll
-      if (pickName.toLowerCase() === 'zombie' && Math.random() > 0.1) {
-        const nonZombie = FALLBACK_COCKTAILS.filter(c => c !== 'zombie');
-        pickName = nonZombie[Math.floor(Math.random() * nonZombie.length)];
-        console.log('Zombie re-rolled to:', pickName);
-      }
-      cocktail = await fetchCocktail(pickName);
-    } catch (err) {
-      console.error('CocktailDB fallback:', err.message);
-    }
-
-    const payload = { sign, horoscope, cocktail, flavorProfile };
-    if (horoscopeCache.size > 48) horoscopeCache.clear();
-    horoscopeCache.set(cacheKey, payload);
     res.json(payload);
   } catch (err) {
     console.error('Horoscope error:', err.message);
@@ -598,17 +674,43 @@ const buildStaticMapUrl = (routeGeometry, waypoints) => {
   return `/api/route-map?o=${encodeURIComponent(overlays)}`;
 };
 
-// Overlays contain only polyline/pin syntax; anything else could smuggle path or
-// query segments into the upstream Mapbox URL.
-const OVERLAY_PATTERN = /^[A-Za-z0-9%+.,()!*'~_-]+$/;
+// The o param must be exactly what buildStaticMapUrl produces: one path overlay
+// with a percent-encoded polyline, then zero or more pin overlays. It is parsed
+// structurally and the upstream overlay string is REBUILT from the parsed pieces —
+// nothing from the request is forwarded verbatim, so double-encoded metacharacters
+// cannot smuggle path/query segments into the token-bearing Mapbox URL.
+const ROUTE_MAP_PATTERN = /^path-4\+4882F5-0\.6\(([A-Za-z0-9%!*'~._-]+)\)((?:,pin-s\+FF6B35\(-?\d{1,3}\.\d{4},-?\d{1,3}\.\d{4}\))*)$/;
+const PIN_PATTERN = /pin-s\+FF6B35\((-?\d{1,3}\.\d{4}),(-?\d{1,3}\.\d{4})\)/g;
 
 app.get(['/route-map', '/api/route-map'], async (req, res) => {
   if (!MAPBOX_ACCESS_TOKEN) {
     return res.status(500).json({ error: 'Map is not configured.' });
   }
-  const overlays = String(req.query.o || '');
-  if (!overlays || overlays.length > 8000 || !OVERLAY_PATTERN.test(overlays)) {
+  const raw = String(req.query.o || '');
+  const match = raw.length <= 8000 ? ROUTE_MAP_PATTERN.exec(raw) : null;
+  if (!match) {
     return res.status(400).json({ error: 'Invalid map parameters.' });
+  }
+  let polyline;
+  try {
+    polyline = decodeURIComponent(match[1]);
+  } catch {
+    return res.status(400).json({ error: 'Invalid map parameters.' });
+  }
+  // Encoded polylines use only ASCII 63-126.
+  if (!polyline || !/^[?-~]+$/.test(polyline)) {
+    return res.status(400).json({ error: 'Invalid map parameters.' });
+  }
+  let overlays = `path-4+4882F5-0.6(${encodeURIComponent(polyline)})`;
+  PIN_PATTERN.lastIndex = 0;
+  let pin;
+  while ((pin = PIN_PATTERN.exec(match[2])) !== null) {
+    const lon = Number(pin[1]);
+    const lat = Number(pin[2]);
+    if (Math.abs(lon) > 180 || Math.abs(lat) > 90) {
+      return res.status(400).json({ error: 'Invalid map parameters.' });
+    }
+    overlays += `,pin-s+FF6B35(${lon.toFixed(4)},${lat.toFixed(4)})`;
   }
   try {
     const url = `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/${overlays}/auto/800x400@2x?access_token=${MAPBOX_ACCESS_TOKEN}&padding=50`;
@@ -646,7 +748,7 @@ app.get(['/city-suggest', '/api/city-suggest'], async (req, res) => {
   }
 });
 
-app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
+app.get(['/route-weather', '/api/route-weather'], rateLimit(10, 'route-weather'), async (req, res) => {
   const { startLocation, endLocation, departureDate, departureTime, stayDays, mode, numWaypoints: numWaypointsParam, tzOffset: tzOffsetParam } = req.query;
 
   if (!startLocation || !endLocation || !departureDate || !departureTime) {
@@ -777,6 +879,11 @@ app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
     res.json(response);
   } catch (err) {
     console.error('Route weather error:', err.message);
+    // 'No route found' is user-actionable (no drivable connection) — keep it;
+    // everything else stays generic so internals don't leak.
+    if (err.message === 'No route found') {
+      return res.status(400).json({ error: 'No driving route found between those locations.' });
+    }
     res.status(500).json({ error: 'Failed to compute route weather. Please try again.' });
   }
 });

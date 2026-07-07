@@ -43,7 +43,9 @@ const Bottombar = () => {
     useEffect(() => () => clearTimeout(timeoutRef.current), []);
 
     return (
-        <footer className="bottom-bar">
+        // Explicit role: pages render this inside <main>, where an implicit
+        // <footer> would not be exposed as a contentinfo landmark.
+        <footer className="bottom-bar" role="contentinfo">
             <div className="group-right">
                 <div className="lastfmrect1">
                     <LastFmRecentlyPlayed />
