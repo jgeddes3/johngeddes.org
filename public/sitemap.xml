@@ -70,6 +70,24 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://www.johngeddes.org/ChessDeck/local</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.johngeddes.org/ChessDeck/computer</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.johngeddes.org/ChessDeck/online</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://www.johngeddes.org/DrinkDecider</loc>
     <lastmod>2026-03-01</lastmod>
     <priority>0.6</priority>
@@ -100,8 +118,8 @@
     <changefreq>yearly</changefreq>
   </url>
   <url>
-    <loc>https://www.johngeddes.org/SnipeITTag</loc>
-    <lastmod>2026-03-01</lastmod>
+    <loc>https://www.johngeddes.org/SnipeIT</loc>
+    <lastmod>2026-07-06</lastmod>
     <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>
@@ -176,6 +194,66 @@
   <url>
     <loc>https://www.johngeddes.org/WayOfKingsReview</loc>
     <lastmod>2026-03-01</lastmod>
+    <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.johngeddes.org/KatabasisReview</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.johngeddes.org/WillOfTheManyReview</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.johngeddes.org/StrengthOfTheFewReview</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.johngeddes.org/RecursionReview</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.johngeddes.org/BriefHistoryOfIntelligenceReview</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.johngeddes.org/SunAlsoRisesReview</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.johngeddes.org/ProjectHailMaryReview</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.johngeddes.org/LiesOfLockeLamoraReview</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.johngeddes.org/RedSeasUnderRedSkiesReview</loc>
+    <lastmod>2026-07-06</lastmod>
+    <priority>0.5</priority>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.johngeddes.org/RepublicOfThievesReview</loc>
+    <lastmod>2026-07-06</lastmod>
     <priority>0.5</priority>
     <changefreq>yearly</changefreq>
   </url>

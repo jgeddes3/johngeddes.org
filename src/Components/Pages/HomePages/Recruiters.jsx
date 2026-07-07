@@ -7,8 +7,11 @@ import AudioVisualIcon from './RecruiterImages/AudioVisual.png';
 import ExecutiveITIcon from './RecruiterImages/ExecutiveIT.png';
 import ManagerIcon from './RecruiterImages/Manager.png';
 import WebDevITIcon from './RecruiterImages/WebDevIT.png';
-import Resume from '../../PDF/Geddes_Resume_26.pdf';
 import './Recruiters.css';
+
+// Served from public/ at a stable URL that survives every deploy — bundling the PDF
+// gave it a content-hashed path that broke stale tabs and externally shared links.
+const Resume = '/Geddes_Resume_26.pdf';
 
 const RecruitersPage = () => {
   const [activeButton, setActiveButton] = useState(null);
@@ -46,19 +49,24 @@ const RecruitersPage = () => {
       </div>
       <div className="button-container main-content">
         {['Audio Visual Engineer Resume', 'Executive Technician Resume', 'Manager Resume', 'Web Developer Resume'].map((label, index) => (
-          <div 
-            key={index} 
-            className={`collapsible-button ${activeButton === index ? 'expanded' : ''}`} 
-            onClick={() => toggleButton(index)}
+          <div
+            key={index}
+            className={`collapsible-button ${activeButton === index ? 'expanded' : ''}`}
           >
-            <div className="button-cover">
+            <button
+              type="button"
+              className="button-cover"
+              aria-expanded={activeButton === index}
+              aria-controls={`resume-panel-${index}`}
+              onClick={() => toggleButton(index)}
+            >
               <span className="resume-text">{label}</span>
               <div className="ellipsis">
-                <img loading="lazy" decoding="async" src={recruiterImages[index]} alt={`Recruiter ${index + 1}`} className="recruiter-img" />
+                <img loading="lazy" decoding="async" src={recruiterImages[index]} alt="" className="recruiter-img" />
               </div>
-            </div>
+            </button>
             {activeButton === index && (
-              <div className="text-pdf-container">
+              <div id={`resume-panel-${index}`} className="text-pdf-container">
                 <div className="unique-text">
                   <p>{uniqueTexts[index]}</p>
                 </div>

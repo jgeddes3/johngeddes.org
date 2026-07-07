@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './Bottombar.css';
 import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed';
-import Resume1 from '../PDF/Geddes_Resume_26.pdf';
+
+const Resume1 = '/Geddes_Resume_26.pdf';
 
 const Bottombar = () => {
     const [showOverlay, setShowOverlay] = useState(false);
@@ -38,8 +39,11 @@ const Bottombar = () => {
         return () => document.removeEventListener('click', handleClickOutside);
     }, [showOverlay]);
 
+    // Clear any pending hide-timeout on unmount
+    useEffect(() => () => clearTimeout(timeoutRef.current), []);
+
     return (
-        <div className="bottom-bar">
+        <footer className="bottom-bar">
             <div className="group-right">
                 <div className="lastfmrect1">
                     <LastFmRecentlyPlayed />
@@ -47,16 +51,23 @@ const Bottombar = () => {
                 <div className="inline-container">
                     <div className="name1 bottomtext1">John Geddes</div>
                     <div className="ellipse5"></div>
-                    <button
-                        className="button11"
+                    <div
+                        className="colophon-wrap"
                         ref={overlayRef}
-                        onClick={handleColophonClick}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
                     >
-                        <span className="button-text1 bottomtext1">Colophon</span>
+                        <button
+                            type="button"
+                            className="button11"
+                            aria-expanded={showOverlay}
+                            aria-controls="colophon-overlay"
+                            onClick={handleColophonClick}
+                        >
+                            <span className="button-text1 bottomtext1">Colophon</span>
+                        </button>
                         {showOverlay && (
-                            <div className="overlay fade-in">
+                            <div id="colophon-overlay" className="overlay fade-in">
                                 <div className="overlay-left">
                                     <div className="overlay-text overlay-text-large">Figma for Design</div>
                                     <div className="overlay-text overtext1">React for Code</div>
@@ -70,7 +81,7 @@ const Bottombar = () => {
                                 </div>
                             </div>
                         )}
-                    </button>
+                    </div>
                 </div>
             </div>
             <div className="group-left">
@@ -89,12 +100,12 @@ const Bottombar = () => {
                     </div>
                     <div className="column">
                         <div className="column-title">Contact</div>
-                        <div className="bottomtext1">app@johngeddes.org</div>
-                        <div className="bottomtext1">(312) 612-0347</div>
+                        <a className="bottomtext1" href="mailto:app@johngeddes.org">app@johngeddes.org</a>
+                        <a className="bottomtext1" href="tel:+13126120347">(312) 612-0347</a>
                     </div>
                 </div>
             </div>
-        </div>
+        </footer>
     );
 };
 

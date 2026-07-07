@@ -41,10 +41,11 @@
 }
 
 
+/* Served from public/fonts at a stable URL so index.html can preload it
+   (woff2 is supported everywhere; the .otf fallback was dead weight). */
 @font-face {
   font-family: 'Galgine';
-  src: url('./Components/fonts/Galgine.woff2') format('woff2'),
-       url('./Components/fonts/Galgine.otf') format('opentype');
+  src: url('/fonts/Galgine.woff2') format('woff2');
   font-display: swap;
 }
 

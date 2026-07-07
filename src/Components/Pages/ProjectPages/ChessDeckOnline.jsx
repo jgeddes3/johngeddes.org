@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect, useState, useRef, useCallback } from 'react';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import './ProjectTemplate.css';
 import './ChessDeck.css';
@@ -191,10 +192,19 @@ const ChessDeckOnline = () => {
   const isMyTurn = connected && state.currentPlayer === myColor;
   const activeDispatch = isMyTurn ? onlineDispatch : noopDispatch;
 
+  const seo = (
+    <SEO
+      title="Chess Deck — Online Play"
+      description="Chess Deck online multiplayer — a card-based chess game by John Geddes. Create a room, share the link, and play a friend in real time from anywhere."
+      path="/ChessDeck/online"
+    />
+  );
+
   // Error state
   if (error) {
     return (
       <>
+        {seo}
         <Background />
         <div id="centerpiece2" className="main-content">
           <h1>Chess Deck</h1>
@@ -227,6 +237,7 @@ const ChessDeckOnline = () => {
     const link = `${window.location.origin}/ChessDeck/online/${roomId}`;
     return (
       <>
+        {seo}
         <Background />
         <div id="centerpiece2" className="main-content">
           <h1>Chess Deck</h1>
@@ -252,6 +263,7 @@ const ChessDeckOnline = () => {
 
     return (
       <>
+        {seo}
         <Background />
         <div id="centerpiece2" className="main-content">
           <h1>Chess Deck</h1>
@@ -280,6 +292,7 @@ const ChessDeckOnline = () => {
   // Connected — render the game
   return (
     <>
+      {seo}
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Chess Deck</h1>

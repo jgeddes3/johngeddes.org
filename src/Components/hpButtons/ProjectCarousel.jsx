@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './ProjectCarousel.css';
 
 import RegistrarIcon from '../Pages/ProjectButtons/ProjectButtonImages/RegistrarIcon.png';
@@ -37,7 +37,6 @@ const ROTATION_INTERVAL = 12000;
 const TRANSITION_DURATION = 400;
 
 const ProjectCarousel = () => {
-  const navigate = useNavigate();
   const projects = useMemo(() => shuffle(allProjects), []);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [displayIndex, setDisplayIndex] = useState(0);
@@ -48,6 +47,8 @@ const ProjectCarousel = () => {
   const isPausedRef = useRef(false);
 
   const startInterval = useCallback(() => {
+    // Don't auto-advance at all for users who prefer reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       if (!isPausedRef.current) {
@@ -91,11 +92,6 @@ const ProjectCarousel = () => {
     };
   }, [currentIndex]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleClick = () => {
-    const targetIndex = phase !== 'stable' ? clickTargetRef.current : displayIndex;
-    navigate(projects[targetIndex].route);
-  };
-
   const handleMouseEnter = () => {
     isPausedRef.current = true;
   };
@@ -104,6 +100,10 @@ const ProjectCarousel = () => {
     isPausedRef.current = false;
     startInterval();
   };
+
+  // During a transition the link keeps pointing at the project the user was
+  // looking at when they started the click (same behavior as the old onClick).
+  const targetIndex = phase !== 'stable' ? clickTargetRef.current : displayIndex;
 
   const current = projects[displayIndex];
   const exiting = exitingIndex !== null ? projects[exitingIndex] : null;
@@ -116,11 +116,13 @@ const ProjectCarousel = () => {
       : '';
 
   return (
-    <button
+    <Link
+      to={projects[targetIndex].route}
       className="proj-carousel"
-      onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
     >
       {/* Static decorative elements */}
       <div className="proj-carousel-rect1"></div>
@@ -179,7 +181,7 @@ const ProjectCarousel = () => {
           />
         </div>
       </div>
-    </button>
+    </Link>
   );
 };
 

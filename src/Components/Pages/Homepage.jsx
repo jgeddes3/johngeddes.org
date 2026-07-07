@@ -42,7 +42,7 @@ const HomePage = () => {
           </Link>
         </div>
         <div id="centerpiece1">
-          <h1>In Progress</h1>
+          <h2>In Progress</h2>
         </div>
         <div className="button-row">
           <Link to="/philosophy" className="small-btn">

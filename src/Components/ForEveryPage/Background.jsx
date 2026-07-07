@@ -49,9 +49,21 @@ const Background = () => {
       rafId = window.requestAnimationFrame(animate);
     };
 
+    // Decorative effect only — stop burning CPU/GPU while the tab is hidden.
+    const handleVisibility = () => {
+      window.cancelAnimationFrame(rafId);
+      if (!document.hidden) {
+        rafId = window.requestAnimationFrame(animate);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
     rafId = window.requestAnimationFrame(animate);
 
-    return () => window.cancelAnimationFrame(rafId);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibility);
+      window.cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (

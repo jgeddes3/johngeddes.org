@@ -88,7 +88,7 @@ useEffect(() => {
           </div>
         </div>
         <div className="golf-container2 main-content">
-          <p className="golf-description">In this page, you will find everything I am passionate about. I have many passions ranging from rock climbing, to reading, to chess, and this will be a good read of my character if that's what you are looking for. While I may not be the best at my passions, they are what keep me sane. Philosophy is also one of my greatest passions, and if you are looking for that you may find it at the bottom of the page. (I yet have to write so there may be nothing)</p>
+          <p className="golf-description">Rock climbing has become one of my favorite ways to stay active.</p>
           </div>
 
       {/* 2. Reading */}

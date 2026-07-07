@@ -100,11 +100,20 @@
   border-radius: 50%;
 }
 
+/* Wrapper for the Colophon button + its overlay panel. It is the positioning
+   anchor for .overlay (the overlay used to live inside .button11, which was
+   invalid markup), and hovering anywhere in it keeps the overlay open. */
+.colophon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .button11 {
   border: none;
   background: none;
   cursor: pointer;
-  position: relative; /* Ensure the overlay is positioned relative to the button */
+  position: relative;
 }
 
 .button-text1 {
@@ -127,8 +136,9 @@
   transition: opacity 0.5s ease; /* Add fade-in transition */
 }
 
-.button11:hover .overlay {
-  opacity: 1; /* Show overlay on hover */
+.colophon-wrap:hover .overlay,
+.colophon-wrap:focus-within .overlay {
+  opacity: 1; /* Show overlay on hover / keyboard focus */
 }
 
 .overlay-left, .overlay-right {
@@ -199,6 +209,11 @@
   font-family: 'Galgine', sans-serif; /* Add font-family */
   font-size: 20px;
   font-weight: 400;
+}
+
+/* Contact links (mailto/tel) — look like the plain footer text they replaced */
+a.bottomtext1:not(.bottom-button) {
+  text-decoration: none;
 }
 
 @media (max-width: 1280px) {
@@ -291,15 +306,29 @@
   height: 14.08px; /* Halved and reduced by 12% from 32px */
 }
 
+/* Keep footer links readable and tappable on mobile:
+   14px+ text with vertical padding gives each link a ~40px tap target. */
 .bottom-button {
-  width: 88.44px; /* Halved and reduced by 12% from 201px */
-  height: 14.08px; /* Halved and reduced by 12% from 32px */
-  font-size: 8.8px; /* Halved and reduced by 12% from 20px */
+  display: inline-block;
+  width: auto;
+  height: auto;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 10px 0;
 }
 
 .email, .phone {
-  width: 96.36px; /* Halved and reduced by 12% from 219px */
-  height: 14.08px; /* Halved and reduced by 12% from 32px */
-  font-size: 8.8px; /* Halved and reduced by 12% from 20px */
+  width: auto;
+  height: auto;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 10px 0;
+}
+
+.column a.bottomtext1:not(.bottom-button) {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 10px 0;
 }
 }

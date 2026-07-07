@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import '../MiscPages/AaMiscTemplates.css';
 import FullStar from '../HomePages/FriendsImages/WhiteStar.png';
 import HalfStar from '../HomePages/FriendsImages/WhiteStarHalf.png';
@@ -34,6 +35,11 @@ Check back later for the full review.
 
   return (
     <>
+      <SEO
+        title="Project Hail Mary Review"
+        description="John Geddes' review of Project Hail Mary by Andy Weir — rated 8/10. The full written review is coming soon; check back for his complete thoughts."
+        path="/ProjectHailMaryReview"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>{title}</h1>

@@ -29,7 +29,7 @@ John Geddes is a Senior Audio Visual Engineer and Software Developer based in Ch
 - A Tourism App: Travel and tourism application
 
 ## Content
-- Book reviews: The Way of Kings, Babel, Red Rising series, The Myth of Sisyphus, How to Blow Up a Pipeline
+- Book reviews: The Way of Kings, Babel, Red Rising series (Red Rising, Golden Son, Morning Star), The Myth of Sisyphus, How to Blow Up a Pipeline, Gentleman Bastard series (The Lies of Locke Lamora, Red Seas Under Red Skies, Republic of Thieves), Will of the Many, Strength of the Few, Katabasis, Recursion, Project Hail Mary, The Sun Also Rises, A Brief History of Intelligence
 - Restaurant reviews: Hopleaf, Sparrow, Trivoli Tavern, TAVA Fresh Taste of India (Chicago)
 - Recipes: The Amazing Burger, The Best Mimosa, Crock Pot Beer Chili
 - Philosophy writings on ethics, technology, and world events

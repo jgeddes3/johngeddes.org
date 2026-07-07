@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
+import SEO from '../../ForEveryPage/SEO';
 import '../MiscPages/AaMiscTemplates.css';
 import FullStar from '../HomePages/FriendsImages/WhiteStar.png';
 import HalfStar from '../HomePages/FriendsImages/WhiteStarHalf.png';
@@ -34,6 +35,11 @@ Check back later for the full review.
 
   return (
     <>
+      <SEO
+        title="A Brief History of Intelligence Review"
+        description="John Geddes' review of A Brief History of Intelligence by Max Bennett — rated 4/10. Full written review coming soon; check back for his thoughts."
+        path="/BriefHistoryOfIntelligenceReview"
+      />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>{title}</h1>

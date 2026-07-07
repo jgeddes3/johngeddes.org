@@ -39,12 +39,13 @@
   box-sizing: border-box;
 }
 
-#centerpiece1 h1 {
+#centerpiece1 h2 {
   color: var(--color-accent);
   text-align: center;
   font-family: 'Galgine', serif;
   font-size: 96px;
   font-weight: 400;
+  margin: 0.67em 0; /* Match the default h1 margin the element had before demotion */
 }
 
 .button-container {
@@ -81,7 +82,7 @@
     font-size: 72px;
   }
 
-  #centerpiece1 h1 {
+  #centerpiece1 h2 {
     font-size: 72px;
   }
 
@@ -102,7 +103,7 @@
 
 /* Mobile landscape and small tablets */
 @media (max-width: 900px) {
-  #centerpiece h1, #centerpiece1 h1 {
+  #centerpiece h1, #centerpiece1 h2 {
     font-size: 56px;
   }
 
@@ -132,7 +133,7 @@
     height: auto;
   }
 
-  #centerpiece1 h1 {
+  #centerpiece1 h2 {
     font-size: 44px;
   }
 
@@ -166,7 +167,7 @@
     margin: 30px auto;
   }
 
-  #centerpiece1 h1 {
+  #centerpiece1 h2 {
     font-size: 36px;
   }
 

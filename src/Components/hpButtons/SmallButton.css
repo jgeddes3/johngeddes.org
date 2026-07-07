@@ -6,12 +6,17 @@
   position: relative;
   transition: all 0.3s ease; /* For smooth hover */
   border: none;
-  outline: none;
 }
 
 /* Hover Effects */
 .small-btn:hover, .small-btn2:hover, .small-btn3:hover {
   height: 557px;
+}
+
+/* Keyboard focus indicator */
+.small-btn:focus-visible, .small-btn2:focus-visible, .small-btn3:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
 /* SmallButton1 Specific Styles */

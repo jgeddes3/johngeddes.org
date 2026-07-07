@@ -886,7 +886,11 @@
   border-radius: 8px;
   background-color: rgba(20, 25, 40, 0.85);
   color: #f5e6c8;
-  outline: none;
+}
+
+.cd-waiting-link-input:focus-visible {
+  outline: 2px solid #d4af37;
+  outline-offset: 3px;
 }
 
 .cd-waiting-copy-btn {

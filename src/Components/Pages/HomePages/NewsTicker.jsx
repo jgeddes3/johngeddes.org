@@ -1,42 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './NewsTicker.css';
 
-const FINNHUB_KEY = import.meta.env.VITE_FINNHUB_API_KEY;
-
-const STOCK_SYMBOLS = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'SPY', 'TSLA'];
-
 const NewsTicker = () => {
   const [items, setItems] = useState([]);
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    if (!FINNHUB_KEY) return;
-
     const fetchData = async () => {
       try {
-        const [newsRes, ...quoteResults] = await Promise.all([
-          fetch(`https://finnhub.io/api/v1/news?category=general&token=${FINNHUB_KEY}`),
-          ...STOCK_SYMBOLS.map(s =>
-            fetch(`https://finnhub.io/api/v1/quote?symbol=${s}&token=${FINNHUB_KEY}`)
-          ),
-        ]);
+        const res = await fetch('/api/ticker');
+        if (!res.ok) return;
+        const data = await res.json();
 
-        const news = await newsRes.json();
-        const quotes = await Promise.all(quoteResults.map(r => r.json()));
-
-        const stockItems = STOCK_SYMBOLS.map((symbol, i) => {
-          const q = quotes[i];
-          const change = q.dp ? q.dp.toFixed(2) : '0.00';
-          const isUp = q.dp >= 0;
+        const stockItems = (data.quotes || []).map(({ symbol, c, dp }) => {
+          const change = dp ? dp.toFixed(2) : '0.00';
+          const isUp = (dp || 0) >= 0;
           return {
             type: 'stock',
-            text: `${symbol} $${q.c?.toFixed(2) || '—'}`,
+            text: `${symbol} $${typeof c === 'number' ? c.toFixed(2) : '—'}`,
             change: `${isUp ? '+' : ''}${change}%`,
             isUp,
           };
         });
 
-        const newsItems = (news || []).slice(0, 15).map(n => ({
+        const newsItems = (data.news || []).map(n => ({
           type: 'news',
           text: n.headline,
         }));
@@ -64,7 +51,7 @@ const NewsTicker = () => {
     return () => clearInterval(interval);
   }, []);
 
-  if (!FINNHUB_KEY || items.length === 0) return null;
+  if (items.length === 0) return null;
 
   // Duplicate items for seamless loop
   const tickerContent = [...items, ...items];

@@ -1,24 +1,56 @@
 ﻿const express = require('express');
-const request = require('request');
 const cors = require('cors');
-const querystring = require('querystring');
 
 const app = express();
 
 const LASTFM_API_KEY = process.env.LASTFM_API_KEY;
 const LASTFM_USER = process.env.LASTFM_USER;
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY;
 
-app.use(cors());
+// Only the site itself (plus Vercel previews and local dev) may call the API from a browser.
+const ALLOWED_ORIGINS = [
+  /^https:\/\/(www\.)?johngeddes\.org$/,
+  /^https:\/\/[a-z0-9-]+\.vercel\.app$/,
+  /^http:\/\/localhost(:\d+)?$/
+];
+
+app.use(cors({
+  origin(origin, callback) {
+    callback(null, !origin || ALLOWED_ORIGINS.some((pattern) => pattern.test(origin)));
+  }
+}));
+
+// Per-IP rate limit (per warm function instance) — protects the paid Anthropic/Mapbox proxies.
+const RATE_WINDOW_MS = 60 * 1000;
+const RATE_MAX_REQUESTS = 30;
+const rateBuckets = new Map();
+
+app.use((req, res, next) => {
+  const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown')
+    .split(',')[0].trim();
+  const now = Date.now();
+  const bucket = rateBuckets.get(ip);
+  if (!bucket || now - bucket.start >= RATE_WINDOW_MS) {
+    if (rateBuckets.size > 5000) rateBuckets.clear();
+    rateBuckets.set(ip, { start: now, count: 1 });
+    return next();
+  }
+  bucket.count += 1;
+  if (bucket.count > RATE_MAX_REQUESTS) {
+    return res.status(429).json({ error: 'Too many requests. Please slow down.' });
+  }
+  next();
+});
 
 const buildRecentTracksUrl = () => {
-  return 'https://ws.audioscrobbler.com/2.0/?' + querystring.stringify({
+  return 'https://ws.audioscrobbler.com/2.0/?' + new URLSearchParams({
     method: 'user.getrecenttracks',
     user: LASTFM_USER,
     api_key: LASTFM_API_KEY,
-    limit: 5,
+    limit: '5',
     format: 'json'
-  });
+  }).toString();
 };
 
 const normalizeTracks = (tracks) => {
@@ -43,7 +75,7 @@ const normalizeTracks = (tracks) => {
   });
 };
 
-const handleRecentlyPlayed = (req, res) => {
+const handleRecentlyPlayed = async (req, res) => {
   if (!LASTFM_API_KEY || !LASTFM_USER) {
     res.status(500).json({
       error: 'Last.fm credentials are missing. Set LASTFM_API_KEY and LASTFM_USER.'
@@ -51,23 +83,19 @@ const handleRecentlyPlayed = (req, res) => {
     return;
   }
 
-  const options = {
-    url: buildRecentTracksUrl(),
-    json: true
-  };
-
-  request.get(options, (error, response, body) => {
-    if (error || response.statusCode !== 200) {
-      console.error('Failed to fetch recent tracks', error, body);
+  try {
+    const response = await fetch(buildRecentTracksUrl());
+    if (!response.ok) {
+      console.error('Failed to fetch recent tracks', response.status);
       res.status(500).json({ error: 'Failed to fetch recent tracks.' });
       return;
     }
 
+    const body = await response.json();
+
     if (body && body.error) {
       console.error('Last.fm API error', body);
-      res.status(500).json({
-        error: body.message || 'Last.fm API returned an error.'
-      });
+      res.status(500).json({ error: 'Last.fm API returned an error.' });
       return;
     }
 
@@ -81,10 +109,54 @@ const handleRecentlyPlayed = (req, res) => {
     }
 
     res.json({ items: normalizeTracks(tracks) });
-  });
+  } catch (err) {
+    console.error('Failed to fetch recent tracks', err.message);
+    res.status(500).json({ error: 'Failed to fetch recent tracks.' });
+  }
 };
 
 app.get(['/recently-played', '/api/recently-played', '/recently'], handleRecentlyPlayed);
+
+// ---- Stock/News Ticker ----
+
+const TICKER_SYMBOLS = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'SPY', 'TSLA'];
+const TICKER_TTL_MS = 4 * 60 * 1000;
+let tickerCache = { at: 0, data: null };
+
+app.get(['/ticker', '/api/ticker'], async (req, res) => {
+  if (!FINNHUB_API_KEY) {
+    return res.status(500).json({ error: 'Ticker is not configured.' });
+  }
+  if (tickerCache.data && Date.now() - tickerCache.at < TICKER_TTL_MS) {
+    return res.json(tickerCache.data);
+  }
+  try {
+    const [newsRes, ...quoteResults] = await Promise.all([
+      fetch(`https://finnhub.io/api/v1/news?category=general&token=${FINNHUB_API_KEY}`),
+      ...TICKER_SYMBOLS.map((s) =>
+        fetch(`https://finnhub.io/api/v1/quote?symbol=${s}&token=${FINNHUB_API_KEY}`)
+      )
+    ]);
+    if (!newsRes.ok) throw new Error(`Finnhub news returned ${newsRes.status}`);
+    const news = await newsRes.json();
+    const quotes = await Promise.all(
+      quoteResults.map((r) => (r.ok ? r.json() : Promise.resolve(null)))
+    );
+    const data = {
+      news: (Array.isArray(news) ? news : []).slice(0, 15).map((n) => ({ headline: n.headline })),
+      quotes: TICKER_SYMBOLS.map((symbol, i) => ({
+        symbol,
+        c: quotes[i] ? quotes[i].c : null,
+        dp: quotes[i] ? quotes[i].dp : null
+      }))
+    };
+    tickerCache = { at: Date.now(), data };
+    res.json(data);
+  } catch (err) {
+    console.error('Ticker error:', err.message);
+    res.status(500).json({ error: 'Failed to fetch ticker data.' });
+  }
+});
 
 // ---- Drink Horoscope ----
 
@@ -163,10 +235,18 @@ const fetchCocktail = async (name) => {
   };
 };
 
+// Cache one pairing per sign per day — repeated requests must not each hit the Anthropic API.
+const horoscopeCache = new Map();
+
 app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
   const sign = (req.query.sign || '').toLowerCase().trim();
   if (!VALID_SIGNS.includes(sign)) {
     return res.status(400).json({ error: `Invalid sign. Must be one of: ${VALID_SIGNS.join(', ')}` });
+  }
+  const cacheKey = `${sign}:${new Date().toISOString().slice(0, 10)}`;
+  const cached = horoscopeCache.get(cacheKey);
+  if (cached) {
+    return res.json(cached);
   }
   try {
     // 1. Get horoscope text from free API
@@ -218,7 +298,10 @@ app.get(['/horoscope', '/api/horoscope'], async (req, res) => {
       console.error('CocktailDB fallback:', err.message);
     }
 
-    res.json({ sign, horoscope, cocktail, flavorProfile });
+    const payload = { sign, horoscope, cocktail, flavorProfile };
+    if (horoscopeCache.size > 48) horoscopeCache.clear();
+    horoscopeCache.set(cacheKey, payload);
+    res.json(payload);
   } catch (err) {
     console.error('Horoscope error:', err.message);
     res.status(500).json({ error: 'Failed to fetch horoscope. Please try again.' });
@@ -511,8 +594,38 @@ const buildStaticMapUrl = (routeGeometry, waypoints) => {
   // Pin markers for waypoints
   const pins = waypoints.map(wp => `pin-s+FF6B35(${wp.lon.toFixed(4)},${wp.lat.toFixed(4)})`).join(',');
   const overlays = pins ? `${pathOverlay},${pins}` : pathOverlay;
-  return `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/${overlays}/auto/800x400@2x?access_token=${MAPBOX_ACCESS_TOKEN}&padding=50`;
+  // Same-origin proxy URL — the Mapbox token must never reach the browser.
+  return `/api/route-map?o=${encodeURIComponent(overlays)}`;
 };
+
+// Overlays contain only polyline/pin syntax; anything else could smuggle path or
+// query segments into the upstream Mapbox URL.
+const OVERLAY_PATTERN = /^[A-Za-z0-9%+.,()!*'~_-]+$/;
+
+app.get(['/route-map', '/api/route-map'], async (req, res) => {
+  if (!MAPBOX_ACCESS_TOKEN) {
+    return res.status(500).json({ error: 'Map is not configured.' });
+  }
+  const overlays = String(req.query.o || '');
+  if (!overlays || overlays.length > 8000 || !OVERLAY_PATTERN.test(overlays)) {
+    return res.status(400).json({ error: 'Invalid map parameters.' });
+  }
+  try {
+    const url = `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/${overlays}/auto/800x400@2x?access_token=${MAPBOX_ACCESS_TOKEN}&padding=50`;
+    const imgRes = await fetch(url);
+    if (!imgRes.ok) {
+      console.error('Mapbox static map error:', imgRes.status);
+      return res.status(502).json({ error: 'Failed to load map image.' });
+    }
+    const buffer = Buffer.from(await imgRes.arrayBuffer());
+    res.set('Content-Type', imgRes.headers.get('content-type') || 'image/png');
+    res.set('Cache-Control', 'public, max-age=3600');
+    res.send(buffer);
+  } catch (err) {
+    console.error('Route map error:', err.message);
+    res.status(502).json({ error: 'Failed to load map image.' });
+  }
+});
 
 app.get(['/city-suggest', '/api/city-suggest'], async (req, res) => {
   const q = (req.query.q || '').trim();
@@ -664,7 +777,7 @@ app.get(['/route-weather', '/api/route-weather'], async (req, res) => {
     res.json(response);
   } catch (err) {
     console.error('Route weather error:', err.message);
-    res.status(500).json({ error: err.message || 'Failed to compute route weather.' });
+    res.status(500).json({ error: 'Failed to compute route weather. Please try again.' });
   }
 });
 

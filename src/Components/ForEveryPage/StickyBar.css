@@ -19,6 +19,16 @@
   background-color: var(--sticky-bg-scrolled); /* Background color when scrolled */
 }
 
+/* The <nav> landmark wraps the links; it reproduces the header's flex layout
+   so the rendered result is unchanged. */
+.nav-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
+}
+
 .nav-btn {
   border: 2px solid transparent;
   width: 100px;
@@ -93,6 +103,9 @@
     height: 30px;
     font-size: 10px;
     border-radius: 8px;
+  }
+  .nav-links {
+    gap: 8px;
   }
   #sticky-header {
     width: 260px;

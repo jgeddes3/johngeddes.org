@@ -39,37 +39,39 @@ const FriendsPage = () => {
           />
           </Link>
         </div>
+        {/* These categories have no pages yet — rendered as non-links until routes exist,
+            so visitors don't dead-end on the 404 page. Restore <Link to="/philN"> when adding each page. */}
         <div className="Phil-item">
-          <Link to="/phil2" className="Phil-button main-content">
-          <Phil2 
-            headerText="Neuro-Ethical Philosophy" 
-            contentText="For all philosophy about the brain." 
+          <div className="Phil-button main-content" aria-disabled="true">
+          <Phil2
+            headerText="Neuro-Ethical Philosophy"
+            contentText="For all philosophy about the brain. Coming soon."
           />
-          </Link>
+          </div>
         </div>
         <div className="Phil-item">
-          <Link to="/phil3" className="Phil-button main-content">
-          <Phil3 
-            headerText="Modern Philosophy" 
-            contentText="For Philosophy involving tech" 
+          <div className="Phil-button main-content" aria-disabled="true">
+          <Phil3
+            headerText="Modern Philosophy"
+            contentText="For Philosophy involving tech. Coming soon."
           />
-          </Link>
+          </div>
         </div>
         <div className="Phil-item">
-          <Link to="/phil4" className="Phil-button main-content">
-          <Phil4 
-            headerText="Political Philosophy" 
-            contentText="For the rare event I write about politics" 
+          <div className="Phil-button main-content" aria-disabled="true">
+          <Phil4
+            headerText="Political Philosophy"
+            contentText="For the rare event I write about politics. Coming soon."
           />
-          </Link>
+          </div>
         </div>
           <div className="Phil-item">
-          <Link to="/phil5" className="Phil-button main-content">
-          <Phil5 
-            headerText="World Events" 
-            contentText="For the similarly rare event like political philosophy I write about world events" 
+          <div className="Phil-button main-content" aria-disabled="true">
+          <Phil5
+            headerText="World Events"
+            contentText="For the similarly rare event like political philosophy I write about world events. Coming soon."
           />
-          </Link>
+          </div>
         </div>
         </div>
       

@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { MotionConfig } from 'framer-motion';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './ThemeContext';
 import StickyBar from './Components/ForEveryPage/Stickybar';
@@ -59,10 +60,13 @@ function App() {
   return (
     <HelmetProvider>
     <ThemeProvider>
+    <MotionConfig reducedMotion="user">
     <Router>
       <ScrollToTop />
       <div className="App">
+        <a className="skip-link" href="#main">Skip to content</a>
         <StickyBar />
+        <main id="main">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -117,9 +121,11 @@ function App() {
           <Route path="/CrockPotChilli" element={<CrockPotChilli/>} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        </main>
       </div>
     </Router>
     <SpeedInsights />
+    </MotionConfig>
     </ThemeProvider>
     </HelmetProvider>
   );

@@ -108,21 +108,19 @@ const ContractsPage = () => {
         <div className={`navigation-buttons-left ${showButtons ? 'visible' : ''}`}>
           {currentSlide > 0 && (
             <>
-              <div
+              <button
+                type="button"
                 className="previous-button"
                 onClick={previousSlide}
-                role="button"
-                tabIndex={0}
                 aria-label="Previous slide"
-              ></div>
+              ></button>
               {currentSlide === SLIDES.length - 1 && (
-                <div
+                <button
+                  type="button"
                   className="previous-button first"
                   onClick={firstSlide}
-                  role="button"
-                  tabIndex={0}
                   aria-label="First slide"
-                ></div>
+                ></button>
               )}
             </>
           )}
@@ -131,21 +129,19 @@ const ContractsPage = () => {
         <div className={`navigation-buttons-right ${showButtons ? 'visible' : ''}`}>
           {currentSlide < SLIDES.length - 1 && (
             <>
-              <div
+              <button
+                type="button"
                 className="next-button"
                 onClick={nextSlide}
-                role="button"
-                tabIndex={0}
                 aria-label="Next slide"
-              ></div>
+              ></button>
               {currentSlide === 0 && (
-                <div
+                <button
+                  type="button"
                   className="next-button last"
                   onClick={lastSlide}
-                  role="button"
-                  tabIndex={0}
                   aria-label="Last slide"
-                ></div>
+                ></button>
               )}
             </>
           )}

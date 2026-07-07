@@ -1,5 +1,6 @@
 /* Project Carousel Button */
 .proj-carousel {
+  display: inline-block;
   width: 519px;
   height: 548px;
   flex-shrink: 0;
@@ -10,13 +11,19 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border: none;
-  outline: none;
+  text-decoration: none;
   margin-bottom: 28px;
 }
 
 .proj-carousel:hover {
   height: 557px;
   background: #2a82b0;
+}
+
+/* Keyboard focus indicator */
+.proj-carousel:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
 /* Inner rectangle (top-right label) */

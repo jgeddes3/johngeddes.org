@@ -80,6 +80,15 @@
   top: 0;
   left: 0;
   z-index: 1; /* Keep it on top */
+  /* Button reset — the cover is a real <button> for keyboard access,
+     but must look identical to the old div */
+  background: none;
+  border: none;
+  box-sizing: content-box; /* Match the old div geometry (buttons default to border-box) */
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  cursor: pointer;
 }
 /* Left-aligned text */
 .resume-text {
