@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
 import SEO from '../../ForEveryPage/SEO';
@@ -9,33 +9,84 @@ import ManagerIcon from './RecruiterImages/Manager.png';
 import WebDevITIcon from './RecruiterImages/WebDevIT.png';
 import './Recruiters.css';
 
-// Served from public/ at a stable URL that survives every deploy — bundling the PDF
-// gave it a content-hashed path that broke stale tabs and externally shared links.
-const Resume = '/Geddes_Resume_26.pdf';
+// Served from public/ at stable URLs that survive every deploy — bundling the
+// PDFs gave them content-hashed paths that broke stale tabs and shared links.
+// /Geddes_Resume_26.pdf is kept as a copy of the AV version so links already
+// out in the world still resolve to a current resume.
+const TRACKS = [
+  {
+    slug: 'av',
+    label: 'Audio Visual Engineer',
+    icon: AudioVisualIcon,
+    file: '/resumes/Geddes_AV_Engineer.pdf',
+    download: 'Geddes_AV_Engineer.pdf',
+    body: [
+      `Five years of AV work, and the last four of them in enterprises where a failed call costs somebody real money. I started at Loyola running events on analog gear, mixers and Crestron, moved to Kirkland and Ellis configuring Cisco and Crestron rooms for client meetings at a firm that bills by the hour, then to Abbott and Discover on Biamp, Q-SYS, Shure and QSC.`,
+      `At TAG I lead the modernisation of the company's AV estate onto a Logitech ecosystem, deploying Q-SYS, Crestron, Biamp and Shure to bring failing rooms back into service. I am also the senior technical lead on that team — I set priorities, coordinate the project work, and train the junior engineers on escalation and standards.`,
+      `The through line is that I have done every part of this job, from carrying speakers across a campus quad to designing the room standard an enterprise deploys against.`,
+    ],
+  },
+  {
+    slug: 'executive',
+    label: 'Executive Technician',
+    icon: ExecutiveITIcon,
+    file: '/resumes/Geddes_Executive_Technician.pdf',
+    download: 'Geddes_Executive_Technician.pdf',
+    body: [
+      `I am the technical support for a full C-Suite. When a board meeting will not connect, I am the person who fixes it while the room waits, which is a different job from fixing it correctly with an afternoon to spare.`,
+      `That work sits on top of real enterprise administration rather than beside it. I manage endpoints and devices across JAMF, ServiceNow, Microsoft Intune and Azure Active Directory, so provisioning and compliance stay consistent whether the laptop belongs to an executive or a field technician.`,
+      `Kirkland and Ellis taught me the discretion half of it — coordinating conference rooms for client meetings at a firm where you are in the room for conversations you do not repeat. The technical part can be learned. Being trusted on that floor takes longer.`,
+    ],
+  },
+  {
+    slug: 'manager',
+    label: 'Manager',
+    icon: ManagerIcon,
+    file: '/resumes/Geddes_Manager.pdf',
+    download: 'Geddes_Manager.pdf',
+    body: [
+      `I led a team of five Level 1 technicians at Discover, setting troubleshooting practice and guiding the system optimisation work. At TAG I am the senior technical lead on the AV engineering team: I own priorities, coordinate project execution across sites, and mentor the junior engineers on escalation and system standards.`,
+      `What I bring to managing technical people is that I still do the work. I can tell whether an estimate is honest, whether a problem is genuinely hard, and when somebody is stuck rather than slow — because I have been all three.`,
+      `I also keep building the tooling my own teams run on. At Discover that was a room-check app and an inventory tool in Power Apps and Power BI; at TAG it is the asset platform that replaced a spreadsheet the IT team had been maintaining by hand.`,
+    ],
+  },
+  {
+    slug: 'web',
+    label: 'Web Developer',
+    icon: WebDevITIcon,
+    file: '/resumes/Geddes_Web_Developer.pdf',
+    download: 'Geddes_Web_Developer.pdf',
+    body: [
+      `Computer Science degree from Loyola, and I have been shipping software the whole time. I interned at Brag House on the front end of their iOS app in React Native and Figma, and at TLC MilliMeter Wave Products, where I moved the company off an on-site code repository onto Bitbucket and trained the staff on git so the migration actually held.`,
+      `The work I would rather be judged on is what I have built since. Cipher Tracker is a React Native habit tracker where every entry is encrypted on the device before it reaches the server, with no password reset by design and 548 passing tests. Rambler Registrar started as my senior practicum on Python and MongoDB and has since been rebuilt on React Native and Firestore around a real constraint solver that scores every conflict-free timetable it can build.`,
+      `At TAG I built the internal device platform: a React and TypeScript front end, an Express gateway adding single sign-on and a pooled service-token layer, and a PostgreSQL service that reconciles eleven vendor APIs into one record per machine. This site is mine too, including the serverless API behind it.`,
+    ],
+  },
+];
 
 const RecruitersPage = () => {
-  const [activeButton, setActiveButton] = useState(null);
-  const recruiterImages = [AudioVisualIcon, ExecutiveITIcon, ManagerIcon, WebDevITIcon];
-  const resumes = [Resume, Resume, Resume, Resume];
-  const uniqueTexts = [
-    "With over five years of hands-on experience in Audio Visual engineering, I have designed, deployed, and supported enterprise AV solutions across corporate, legal, healthcare, and higher education environments. My career began at Loyola University of Chicago, where I managed AV operations across fifteen multipurpose spaces, mastering both analog and digital systems. From there I moved to Kirkland and Ellis, where I installed and configured Cisco and Crestron systems across over two hundred conference rooms, delivering white-glove service to some of the nation's most prominent attorneys. At Abbott Laboratories and Discover Financial, I deepened my expertise in Biamp, Q-SYS, and Shure platforms while leading break-fix operations and mentoring junior technicians. Now at The Aspen Group, I serve as a Senior AV Executive Support Engineer, spearheading the comprehensive modernization of the company's entire AV infrastructure within a Logitech ecosystem and providing dedicated technical support to the full C-Suite. This progression from campus technician to senior enterprise engineer has given me the end-to-end systems knowledge and executive-facing professionalism to deliver seamless AV experiences in any high-stakes environment.",
-    "Throughout my career, I have consistently operated at the intersection of technology and executive leadership, providing high-touch, white-glove technical support to C-Suite executives and senior professionals at major enterprises. At The Aspen Group, I serve as a trusted technology partner to the full executive leadership team, rapidly resolving AV, endpoint, and connectivity issues to ensure uninterrupted operations across critical business functions. My responsibilities extend well beyond traditional support — I administer and maintain endpoint management across JAMF, ServiceNow, Microsoft Intune, and Azure Active Directory, ensuring compliance and seamless provisioning across the entire enterprise environment. At Kirkland and Ellis, I honed this executive-facing approach by coordinating over two hundred conference room setups for high-profile client meetings, where discretion and technical precision were paramount. I also developed over fifty VBA macros to automate data workflows, demonstrating my commitment to proactive problem-solving and operational efficiency. This combination of executive-level interpersonal skills and deep technical expertise allows me to anticipate needs, minimize downtime, and deliver the seamless technology experiences that senior leadership demands.",
-    "My career in technology has been defined by a natural progression from hands-on technical work into leadership, team mentorship, and strategic project coordination. At Discover Financial, I led and mentored a team of five Level 1 technicians, providing strategic guidance on system optimization, best practices, and technical troubleshooting while managing comprehensive break-fix support across the enterprise. This leadership experience prepared me for my current role at The Aspen Group, where I serve as a senior technical lead within the AV engineering team, guiding priorities, coordinating project execution, and mentoring junior staff on escalation procedures and system standards. Beyond team management, I have consistently driven process improvement — from developing custom corporate tools with Microsoft Power Apps and Power BI at Discover to designing a full-stack IT asset management application using React.js and Express.js at TAG. My management philosophy centers on empowering team members through clear communication and hands-on guidance while maintaining the technical depth to make informed decisions. With a strong foundation in both technology and people leadership, I am confident in my ability to manage teams and deliver results in any enterprise environment.",
-    "As a web developer with a Computer Science degree from Loyola University of Chicago, I bring a strong foundation in both front-end and full-stack development to every project I take on. My journey began at The Brag House, where I collaborated with a development team using React.js, React Native, CSS, and HTML to enhance the front-end experience for their iOS app and website, and utilized Figma to deliver the modern design the company envisioned. At TLC Precision Wafer Technology, I transitioned the company from an on-site code repository to a cloud-based solution using Bitbucket, training personnel on Git workflows along the way. My senior practicum project, Rambler Registrar, challenged me to engineer a full mobile application using React Native with a Python back-end and MongoDB database hosted on AWS. Most recently at The Aspen Group, I designed and developed a full-stack IT asset management application using React.js and Vite.js with an Express.js backend, built on top of Snipe-IT to streamline inventory workflows and reporting. Of course, the website you are on right now is also built and maintained by me, and serves as a living portfolio of my development capabilities. With experience spanning front-end design, back-end architecture, and cloud deployment, I am well-equipped to build and maintain web solutions that deliver real business value."
-  ];
+  // Which panel is open lives in the URL, not in component state, so a
+  // recruiter can be sent straight to one track: /recruiters?role=web
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeButton = TRACKS.findIndex((t) => t.slug === searchParams.get('role'));
 
   const toggleButton = (buttonIndex) => {
+    const next = new URLSearchParams(searchParams);
     if (activeButton === buttonIndex) {
-      setActiveButton(null); // Collapse if already active
+      next.delete('role');
     } else {
-      setActiveButton(buttonIndex); // Expand the clicked button
+      next.set('role', TRACKS[buttonIndex].slug);
     }
+    // replace, not push — opening and closing panels should not fill the back
+    // button with steps a visitor has to click through to leave the page.
+    setSearchParams(next, { replace: true });
   };
+
   return (
     <>
       <SEO
         title="Recruiters"
-        description="John Geddes — resumes and experience for AV Engineer, Executive Technician, Manager, and Web Developer roles."
+        description="John Geddes — role-specific resumes for AV Engineer, Executive Technician, Manager and Web Developer positions."
         path="/recruiters"
       />
       <Background />
@@ -43,42 +94,55 @@ const RecruitersPage = () => {
         <h1>Welcome Recruiters!</h1>
       </div>
       <div className="projects-description-container">
-      <p className="projects-description main-content">
-          Hello! I am an Audio Visual Engineer currently working Chicago. Well, my official title is Senior Executive Audio Visual Desktop Engineer, but that is just a mouthful and will not fit on my business cards. For my education, I graduated Loyola Chicago with a Bachelor's Degree in Computer Science and a minor in Philosophy. Over the past five years of my working career, I have gained very valuable experience in Programming, Data Analytics, IT Support, AV Technologies, and of course, Web development. In the most recent months I have been experimenting with AI and programming and the best applications to reduce and remove inefficiencies in my working life. With being a jack of all trades, it has allowed me to excel in the roles I have had. As I continue to learn, I will continue to excel in all of my technical and leadership roles to come.
+        <p className="projects-description main-content">
+          I am an AV engineer and a developer, currently at The Aspen Group in Chicago as a
+          Senior Executive Desktop Support Engineer. I graduated from Loyola Chicago with a
+          Bachelor's in Computer Science and a minor in Philosophy, and the five years since
+          have been split between enterprise AV work and building software — sometimes for
+          the same employer in the same week. Pick whichever track you are hiring for below;
+          each one has its own resume rather than the same document under four names.
         </p>
       </div>
       <div className="button-container main-content">
-        {['Audio Visual Engineer Resume', 'Executive Technician Resume', 'Manager Resume', 'Web Developer Resume'].map((label, index) => (
+        {TRACKS.map((track, index) => (
           <div
-            key={index}
+            key={track.label}
             className={`collapsible-button ${activeButton === index ? 'expanded' : ''}`}
           >
-            <button
-              type="button"
-              className="button-cover"
-              aria-expanded={activeButton === index}
-              aria-controls={`resume-panel-${index}`}
-              onClick={() => toggleButton(index)}
-            >
-              <span className="resume-text">{label}</span>
-              <div className="ellipsis">
-                <img loading="lazy" decoding="async" src={recruiterImages[index]} alt="" className="recruiter-img" />
-              </div>
-            </button>
+            {/* The heading wraps the control rather than sitting beside it, so
+                the four tracks show up in a screen reader's heading list and
+                the button keeps its disclosure semantics. */}
+            <h2 className="resume-heading">
+              <button
+                type="button"
+                className="button-cover"
+                aria-expanded={activeButton === index}
+                aria-controls={`resume-panel-${index}`}
+                onClick={() => toggleButton(index)}
+              >
+                <span className="resume-text">{track.label} Resume</span>
+                <span className="ellipsis">
+                  <img loading="lazy" decoding="async" src={track.icon} alt="" className="recruiter-img" />
+                </span>
+              </button>
+            </h2>
             {activeButton === index && (
               <div id={`resume-panel-${index}`} className="text-pdf-container">
                 <div className="unique-text">
-                  <p>{uniqueTexts[index]}</p>
+                  {track.body.map((paragraph) => (
+                    <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+                  ))}
                 </div>
                 <div className="pdf-viewer-container">
                   <iframe
-                    src={resumes[index]}
-                    title={`Resume PDF ${index + 1}`}
+                    src={track.file}
+                    title={`${track.label} resume`}
+                    loading="lazy"
                     className="resume-viewer"
                   ></iframe>
                   <a
-                    href={resumes[index]}
-                    download="Geddes_Resume.pdf"
+                    href={track.file}
+                    download={track.download}
                     className="download-btn"
                   >
                     Download Resume
@@ -89,7 +153,6 @@ const RecruitersPage = () => {
           </div>
         ))}
       </div>
-      {/* Add the button at the end linking to Contacts.js */}
       <div className="contract-button-container">
         <Link to="/contracts" className="contract-button">
           Contracts Page

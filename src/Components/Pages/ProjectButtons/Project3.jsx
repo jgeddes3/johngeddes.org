@@ -7,11 +7,11 @@ const Project3 = () => {
     <div className="project-container3">
       <div className="text-container3">
         <h1>Cipher Tracker</h1>
-        <p>A private habit tracking app with end-to-end encryption</p>
+        <p>Twelve habit trackers, encrypted on your phone</p>
       </div>
       <div className="ProjectPhoto3">
         <div className="ProjPhotoRectangle3">
-          <img loading="lazy" decoding="async" src={Photo3} alt="Project 3" className="projphoto3" />
+          <img loading="lazy" decoding="async" src={Photo3} alt="Cipher Tracker app icon" className="projphoto3" />
         </div>
       </div>
     </div>

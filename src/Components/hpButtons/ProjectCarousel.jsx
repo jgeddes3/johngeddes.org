@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom';
 import './ProjectCarousel.css';
 
-import RegistrarIcon from '../Pages/ProjectButtons/ProjectButtonImages/RegistrarIcon.png';
+import RegistrarIcon from '../Pages/ProjectButtons/ProjectButtonImages/RamblerIcon.webp';
 import ExcelIcon from '../Pages/ProjectButtons/ProjectButtonImages/ExcelIcon.png';
 import SnipeITIcon from '../Pages/ProjectButtons/ProjectButtonImages/SnipeITIcon.png';
 import ChessIcon from '../Pages/ProjectButtons/ProjectButtonImages/ChessIcon.png';

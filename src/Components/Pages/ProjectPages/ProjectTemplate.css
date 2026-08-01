@@ -66,6 +66,15 @@
   color: #ffffff;
 }
 
+/* Where a project actually stands — neither of these apps has shipped, and the
+   page should say so plainly rather than let the tense imply otherwise. */
+.proj-status {
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  color: var(--color-accent-caption);
+  margin: 0;
+}
+
 /* --- Hero Screenshot --- */
 .proj-hero-screenshot {
   width: 100%;
@@ -124,11 +133,39 @@
   margin-bottom: 12px;
 }
 
+/* Cards that use a drawn glyph put it on the same line as the heading, so the
+   icon reads as part of the title rather than as decoration above it. Scoped to
+   this wrapper: the older project pages still set their own icon block. */
+.proj-feature-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.proj-feature-head .proj-feature-icon {
+  flex-shrink: 0;
+  display: flex;
+  margin: 2px 0 0;
+  color: var(--color-accent);
+}
+
+/* Long card copy is hard to read ragged-on-both-sides, so glyph cards run left
+   even though the page around them is centred. */
+.proj-feature-head + p {
+  text-align: left;
+}
+
 .proj-feature-card h3 {
   font-family: 'Galgine', serif;
   font-size: 20px;
   color: var(--color-accent);
   margin-bottom: 8px;
+}
+
+.proj-feature-head h3 {
+  margin: 0;
 }
 
 .proj-feature-card p {
@@ -172,6 +209,78 @@
   color: var(--color-accent-caption);
   margin-top: 6px;
   text-align: center;
+}
+
+/* --- Figure Ledger ---
+   Both of these projects are mostly numbers underneath, so the counts get a
+   ledger of their own instead of being buried in a paragraph. Hairline rules
+   rather than stat cards: the page already has enough boxes. */
+.proj-ledger {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 40px;
+  border-top: 1px solid var(--color-accent);
+  margin-bottom: 40px;
+}
+
+.proj-ledger-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-grey-accent);
+}
+
+.proj-ledger-label {
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  color: var(--color-accent-medium);
+}
+
+.proj-ledger-value {
+  font-family: 'Galgine', serif;
+  font-size: 22px;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.proj-ledger-caption {
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+  color: var(--color-accent-caption);
+  text-align: center;
+  margin: -28px 0 40px;
+}
+
+/* --- Companion Repository ---
+   Each app ships alongside a second codebase (its marketing site). It gets a
+   band of its own so the page does not pretend the app is the whole project. */
+.proj-companion {
+  background-color: var(--bg-container);
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 40px;
+}
+
+.proj-companion h2 {
+  font-family: 'Galgine', serif;
+  font-size: 24px;
+  color: var(--color-accent);
+  margin: 0 0 12px;
+}
+
+.proj-companion p {
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--color-accent-medium);
+  margin: 0 0 12px;
+}
+
+.proj-companion p:last-child {
+  margin-bottom: 0;
 }
 
 /* --- Card Fan (Cipher Tracker) --- */
@@ -294,6 +403,23 @@
     grid-template-columns: 1fr;
   }
 
+  .proj-ledger {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+
+  .proj-companion {
+    padding: 20px;
+  }
+
+  .proj-companion h2 {
+    font-size: 21px;
+  }
+
+  .proj-companion p {
+    font-size: 16px;
+  }
+
   .proj-feature-card h3 {
     font-size: 18px;
   }
@@ -343,6 +469,14 @@
 
   .proj-feature-card p {
     font-size: 15px;
+  }
+
+  .proj-ledger-label {
+    font-size: 15px;
+  }
+
+  .proj-ledger-value {
+    font-size: 19px;
   }
 
   .proj-stub-logo {

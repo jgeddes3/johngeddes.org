@@ -55,17 +55,29 @@
   font-family: 'EB Garamond', serif;
   cursor: pointer;
   font-size: 24px;
-  transition: height 0.3s ease, background-color 0.5s ease;
+  /* Only background-color transitions. Height cannot animate to or from `auto`
+     anyway, and animating it forces layout on every frame. */
+  transition: background-color 0.5s ease;
   border-radius: 10px;
   position: relative;
   overflow: hidden;
   border: none;
 }
 
-/* Expanded state with color transition */
+/* Expanded state with color transition. Height is content-driven — the old
+   fixed 800px both clipped the copy and left dead space under short panels. */
 .collapsible-button.expanded {
-  height: 800px;
+  height: auto;
+  padding-bottom: 30px;
   background-color: var(--color-accent); /* New color when expanded */
+}
+
+/* The heading is a semantic wrapper only — the button inside it is absolutely
+   positioned, so this element contributes no box of its own. */
+.resume-heading {
+  margin: 0;
+  font: inherit;
+  color: inherit;
 }
 
 /* Button cover content remains at the top */
@@ -123,18 +135,41 @@
   align-items: flex-start;
   width: 100%;
   padding-top: 100px; /* Ensures the content appears below the button */
+  /* Compositor-only entrance, replacing the old height transition. The global
+     prefers-reduced-motion rule in index.css collapses this to nothing. */
+  animation: resume-panel-in 240ms ease-out both;
+}
+
+@keyframes resume-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .unique-text {
   flex: 1;
-  margin: 30px;
+  min-width: 0;
+  margin: 20px 30px 30px;
   color: white;
-  margin-top: 20px;
-  font-size: 22px;
+  font-size: 20px;
   font-family: 'EB Garamond', serif;
   text-align: left;
-  max-height: 620px;
-  overflow-y: auto;
+  line-height: 1.5;
+}
+
+/* No max-height: the copy used to be clipped mid-sentence inside a scroll
+   region with no visible affordance, which just read as broken text. */
+.unique-text p {
+  margin: 0 0 14px;
+}
+
+.unique-text p:last-child {
+  margin-bottom: 0;
 }
 
 .pdf-viewer-container {
@@ -262,7 +297,7 @@
 
   .collapsible-button.expanded {
     height: auto;
-    min-height: 600px;
+    padding-bottom: 24px;
   }
 
   .resume-text {
@@ -283,8 +318,6 @@
   .unique-text {
     font-size: 18px;
     margin: 20px;
-    max-height: 400px;
-    overflow-y: auto;
   }
 
   .resume-viewer {
@@ -342,7 +375,7 @@
 
   .collapsible-button.expanded {
     height: auto;
-    min-height: 500px;
+    padding-bottom: 24px;
   }
 
   .text-pdf-container {
@@ -352,8 +385,6 @@
   .unique-text {
     font-size: 16px;
     margin: 15px;
-    max-height: 350px;
-    overflow-y: auto;
   }
 
   .resume-viewer {
@@ -410,7 +441,7 @@
 
   .collapsible-button.expanded {
     height: auto;
-    min-height: 450px;
+    padding-bottom: 24px;
   }
 
   .text-pdf-container {
@@ -420,8 +451,6 @@
   .unique-text {
     font-size: 14px;
     margin: 10px;
-    max-height: 300px;
-    overflow-y: auto;
   }
 
   .resume-viewer {
