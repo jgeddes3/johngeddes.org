@@ -163,6 +163,9 @@ const RamblerRegistrar = () => {
             <span className="proj-pill">TypeScript</span>
           </div>
           <div className="proj-actions">
+            <a href="https://www.ramblerregistrar.com/" target="_blank" rel="noopener noreferrer" className="proj-action-link">
+              ramblerregistrar.com
+            </a>
             <a href="https://github.com/jgeddes3/RamblerRegistrar" target="_blank" rel="noopener noreferrer" className="proj-action-link">
               GitHub
             </a>

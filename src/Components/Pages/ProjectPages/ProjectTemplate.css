@@ -46,6 +46,10 @@
 .proj-actions {
   display: flex;
   justify-content: center;
+  /* Wraps because a page can carry more than one action: two pills side by side
+     run off a 320px screen, and the row was clipping the second rather than
+     stacking it. */
+  flex-wrap: wrap;
   gap: 16px;
   margin-bottom: 24px;
 }
