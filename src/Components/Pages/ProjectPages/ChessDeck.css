@@ -197,8 +197,35 @@
 }
 
 /* --- Square --- */
+/* Squares and cards are <button> elements now, so the user-agent styling has to
+   go — and a visible focus ring has to come back, because keyboard play depends
+   entirely on being able to see where you are. */
+.cd-square,
+.cd-card {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  margin: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+}
+
+.cd-square:focus-visible,
+.cd-card:focus-visible {
+  outline: 3px solid #ffd76a;
+  outline-offset: -3px;
+  z-index: 3;
+}
+
+.cd-card:focus-visible {
+  outline-offset: 2px;
+}
+
 .cd-square {
   position: relative;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -404,19 +431,34 @@
   cursor: not-allowed;
 }
 
-/* TODO: replace with card art */
 .cd-card-art {
   height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  /* The band crops art rather than squashing it: the card's aspect drifts
+     between breakpoints, and a stretched silhouette reads worse than a tight
+     crop. Paired with object-fit: cover on the art itself. */
+  overflow: hidden;
 }
 
-.cd-card-art-placeholder {
+/* --cd-art-ink is set per card in Card.jsx from the field's luminance, so a
+   monogram or silhouette stays legible on both Sinkhole's near-black and Holy
+   Ground's cream. The fallback only applies if a card loses its artColor. */
+.cd-card-art-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  color: var(--cd-art-ink, rgba(20, 25, 40, 0.82));
+}
+
+/* Shown until a card has art. Deliberate-looking, unlike the ? it replaced. */
+.cd-card-art-monogram {
   font-family: 'Galgine', serif;
-  font-size: 28px;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: 30px;
+  letter-spacing: 1px;
+  color: var(--cd-art-ink, rgba(20, 25, 40, 0.66));
 }
 
 .cd-card-body {
@@ -684,8 +726,15 @@
 
 /* --- Responsive: Phone (480px) --- */
 @media (max-width: 480px) {
+  /* The container has horizontal padding, so a flat 98vw made the board wider
+     than the box holding it — and index.css clips overflow-x, so the outer
+     files were cut off and unreachable. Bound it by the container as well. */
+  .cd-game-container {
+    padding: 20px 8px;
+  }
+
   .cd-board-wrapper {
-    width: 98vw;
+    width: min(100%, 98vw);
   }
 
   .cd-piece-modifiers {
@@ -708,7 +757,7 @@
     max-width: 110px;
   }
 
-  .cd-card-art-placeholder {
+  .cd-card-art-monogram {
     font-size: clamp(14px, 4vw, 22px);
   }
 
@@ -933,12 +982,23 @@
 }
 
 .cd-online-disconnect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   font-family: 'EB Garamond', serif;
   font-size: 16px;
   color: #cc4444;
   text-align: center;
-  padding: 8px 0;
+  padding: 12px 0;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.cd-online-disconnect-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }
 
 .cd-online-color-indicator {
@@ -947,4 +1007,56 @@
   color: #f5e6c8;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
   text-align: center;
+}
+
+/* Fallback notice when the clipboard API is unavailable or refused. */
+.cd-waiting-copy-note {
+  min-height: 20px;
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+  color: #f0c674;
+  text-align: center;
+}
+
+/* --- Pass / Resign --- */
+.cd-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cd-control-button {
+  font-family: 'EB Garamond', serif;
+  font-size: 14px;
+  /* 44px tall: the rest of the game's touch targets are ~33px, which is under
+     every platform minimum. These are new, so they start at the right size. */
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(245, 230, 200, 0.35);
+  background-color: rgba(0, 0, 0, 0.45);
+  color: #f5e6c8;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.cd-control-button:hover:not(:disabled) {
+  border-color: #d4af37;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.cd-control-button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.cd-control-button:focus-visible {
+  outline: 3px solid #ffd76a;
+  outline-offset: 2px;
+}
+
+.cd-control-danger:hover:not(:disabled) {
+  border-color: #c1554b;
+  color: #ffb4ab;
 }

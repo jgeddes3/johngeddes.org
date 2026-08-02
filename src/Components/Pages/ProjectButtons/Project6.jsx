@@ -7,11 +7,11 @@ const Project6 = () => {
     <div className="project-container3">
       <div className="text-container3">
         <h1>Chess Deck</h1>
-        <p>A Chess Game</p>
+        <p>Chess crossed with a card game, playable here</p>
       </div>
       <div className="ProjectPhoto3">
         <div className="ProjPhotoRectangle3">
-          <img loading="lazy" decoding="async" src={Photo6} alt="Project 3" className="projphoto3" />
+          <img loading="lazy" decoding="async" src={Photo6} alt="Chess Deck board and cards" className="projphoto3" />
         </div>
       </div>
     </div>

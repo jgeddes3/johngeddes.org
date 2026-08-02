@@ -7,11 +7,11 @@ const Project7 = () => {
     <div className="project-container1">
       <div className="text-container1">
         <h1>Route Weather</h1>
-        <p>Calculate the weather for your upcoming trips</p>
+        <p>The weather along your route, hour by hour</p>
       </div>
       <div className="ProjectPhoto1">
         <div className="ProjPhotoEllipse1">
-          <img loading="lazy" decoding="async" src={Photo7} alt="Project 1" className="projphoto1" />
+          <img loading="lazy" decoding="async" src={Photo7} alt="Route Weather icon" className="projphoto1" />
         </div>
       </div>
     </div>

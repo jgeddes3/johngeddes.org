@@ -124,3 +124,11 @@
       grid-row: span 1;
     }
   }
+
+/* Keyboard focus for the project cards — the grid previously had hover only,
+   so keyboard users had no indication of position across nine tiles. */
+.project-button:focus-visible,
+.project-button-long:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 4px;
+}

@@ -31,6 +31,10 @@ const ChessDeckOnline = () => {
   const [connected, setConnected] = useState(false);
   const [disconnected, setDisconnected] = useState(false);
   const [error, setError] = useState(null);
+  // Bumping this re-runs the connection effect. Without it the only way to
+  // retry was a full page reload, which re-downloaded the bundle and every
+  // board image.
+  const [retryKey, setRetryKey] = useState(0);
   const [hostRoomId, setHostRoomId] = useState(null);
 
   const sendRef = useRef(null);
@@ -76,6 +80,11 @@ const ChessDeckOnline = () => {
         },
         () => {
           if (!cancelled) setDisconnected(true);
+        },
+        // Firebase unreachable, blocked or rules-denied. Without this the host
+        // sat in the waiting room indefinitely with nothing to act on.
+        (err) => {
+          if (!cancelled) setError(err?.message || 'Could not reach the game server.');
         }
       );
 
@@ -122,7 +131,21 @@ const ChessDeckOnline = () => {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [retryKey]);
+
+  // Tear down whatever room we were in and start the host flow again, in place.
+  const handleRetry = () => {
+    if (cleanupRef.current) cleanupRef.current();
+    cleanupRef.current = null;
+    sendRef.current = null;
+    isHost.current = false;
+    setConnected(false);
+    setDisconnected(false);
+    setError(null);
+    setHostRoomId(null);
+    navigate('/ChessDeck/online', { replace: true });
+    setRetryKey((k) => k + 1);
+  };
 
   // Cleanup on unmount
   useEffect(() => {
@@ -189,7 +212,9 @@ const ChessDeckOnline = () => {
     return () => clearTimeout(timer);
   }, [state.phase, state.currentPlayer, state.hands, connected, myColor, onlineDispatch]);
 
-  const isMyTurn = connected && state.currentPlayer === myColor;
+  // Once the opponent is gone the board is frozen — moves made after that
+  // point were being written to a room nobody was reading.
+  const isMyTurn = connected && !disconnected && state.currentPlayer === myColor;
   const activeDispatch = isMyTurn ? onlineDispatch : noopDispatch;
 
   const seo = (
@@ -215,7 +240,7 @@ const ChessDeckOnline = () => {
             <div className="cd-waiting-status" style={{ color: '#ff6b6b' }}>{error}</div>
             <button
               className="cd-action-btn"
-              onClick={() => window.location.href = '/ChessDeck/online'}
+              onClick={handleRetry}
               style={{ marginTop: '1rem' }}
             >
               Try Again
@@ -223,7 +248,7 @@ const ChessDeckOnline = () => {
           </div>
         </div>
         <div className="proj-nav-buttons">
-          <Link to="/ChessDeck" className="proj-nav-button">
+          <Link to="/ChessDeck/play" className="proj-nav-button">
             Back to Menu
           </Link>
         </div>
@@ -247,7 +272,7 @@ const ChessDeckOnline = () => {
           <WaitingRoom link={link} />
         </div>
         <div className="proj-nav-buttons">
-          <Link to="/ChessDeck" className="proj-nav-button">
+          <Link to="/ChessDeck/play" className="proj-nav-button">
             Back to Menu
           </Link>
         </div>
@@ -280,7 +305,7 @@ const ChessDeckOnline = () => {
           )}
         </div>
         <div className="proj-nav-buttons">
-          <Link to="/ChessDeck" className="proj-nav-button">
+          <Link to="/ChessDeck/play" className="proj-nav-button">
             Back to Menu
           </Link>
         </div>
@@ -308,8 +333,20 @@ const ChessDeckOnline = () => {
             {!isMyTurn && state.phase !== PHASE_GAME_OVER && ' — Waiting for opponent...'}
           </div>
 
+          {/* A dead game used to stay fully interactive, still writing moves to
+              a room the opponent had left. Say so, and offer a way out. */}
           {disconnected && (
-            <div className="cd-online-disconnect">Opponent disconnected</div>
+            <div className="cd-online-disconnect" role="status">
+              <span>Opponent disconnected — this game is over.</span>
+              <span className="cd-online-disconnect-actions">
+                <button type="button" className="cd-action-btn" onClick={handleRetry}>
+                  New Game
+                </button>
+                <Link to="/ChessDeck/play" className="cd-action-btn">
+                  Back to Menu
+                </Link>
+              </span>
+            </div>
           )}
 
           <OpponentHand state={state} perspective={myColor} />
@@ -357,7 +394,7 @@ const ChessDeckOnline = () => {
       </div>
 
       <div className="proj-nav-buttons">
-        <Link to="/ChessDeck" className="proj-nav-button">
+        <Link to="/ChessDeck/play" className="proj-nav-button">
           Back to Menu
         </Link>
         <Link to="/projects" className="proj-nav-button">

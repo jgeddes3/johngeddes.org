@@ -1,12 +1,17 @@
 import React from 'react';
-import { PIECE_IMAGES, PAWN } from '../constants';
+import { PAWN } from '../constants.js';
+import { PIECE_IMAGES } from '../pieceAssets.js';
+import ModGlyph from './ModGlyph.jsx';
 
-const MODIFIER_ICONS = {
-  shield: '\u{1F6E1}',
-  petrified: '\u{1F9CA}',
-  knightMovement: '\u{1F40E}',
-  bounty: '\u{1F4B0}',
-  bodyguard: '\u{1F6E1}',
+// Spoken labels for the badges. The emoji these replaced were silent to screen
+// readers and, worse, shield and bodyguard shared a glyph — two different
+// states that looked identical on the board.
+const MODIFIER_LABELS = {
+  shield: 'shielded',
+  petrified: 'frozen in place',
+  knightMovement: 'moves like a knight',
+  bounty: 'bounty marked',
+  vigil: 'under vigil',
 };
 
 const Piece = ({ piece, fogged }) => {
@@ -21,11 +26,11 @@ const Piece = ({ piece, fogged }) => {
   if (!fogged) {
     const seen = new Set();
     for (const mod of piece.modifiers) {
-      if (MODIFIER_ICONS[mod] && !seen.has(mod)) {
+      if (MODIFIER_LABELS[mod] && !seen.has(mod)) {
         seen.add(mod);
         modIcons.push(
-          <span key={mod} className="cd-piece-modifier" title={mod}>
-            {MODIFIER_ICONS[mod]}
+          <span key={mod} className="cd-piece-modifier" title={MODIFIER_LABELS[mod]}>
+            <ModGlyph name={mod} label={MODIFIER_LABELS[mod]} />
           </span>
         );
       }

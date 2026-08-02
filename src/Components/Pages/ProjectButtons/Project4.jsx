@@ -7,11 +7,11 @@ const Project4 = () => {
     <div className="project-container1">
       <div className="text-container1">
         <h1>Snipe IT</h1>
-        <p>A front end addition to Snipe-IT asset management</p>
+        <p>A device census reconciling eleven vendor APIs</p>
       </div>
       <div className="ProjectPhoto1">
         <div className="ProjPhotoEllipse1">
-          <img loading="lazy" decoding="async" src={Photo4} alt="Project 1" className="projphoto1" />
+          <img loading="lazy" decoding="async" src={Photo4} alt="Snipe IT app icon" className="projphoto1" />
         </div>
       </div>
     </div>

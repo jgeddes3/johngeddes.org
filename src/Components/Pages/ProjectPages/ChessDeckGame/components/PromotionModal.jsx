@@ -1,5 +1,6 @@
 import React from 'react';
-import { QUEEN, ROOK, BISHOP, KNIGHT, PIECE_IMAGES } from '../constants';
+import { QUEEN, ROOK, BISHOP, KNIGHT } from '../constants.js';
+import { PIECE_IMAGES } from '../pieceAssets.js';
 
 const PROMO_OPTIONS = [QUEEN, ROOK, BISHOP, KNIGHT];
 

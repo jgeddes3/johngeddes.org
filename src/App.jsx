@@ -20,6 +20,7 @@ import SocialPage from './Components/Pages/HomePages/Social';
 import RecruitersPage from './Components/Pages/HomePages/Recruiters';
 import ATourismApp from './Components/Pages/ProjectPages/ATourismApp';
 import ChessDeckMenu from './Components/Pages/ProjectPages/ChessDeckMenu';
+import ChessDeckCase from './Components/Pages/ProjectPages/ChessDeckCase';
 import ChessDeck from './Components/Pages/ProjectPages/ChessDeck';
 import ChessDeckComputer from './Components/Pages/ProjectPages/ChessDeckComputer';
 import ChessDeckOnline from './Components/Pages/ProjectPages/ChessDeckOnline';
@@ -79,7 +80,8 @@ function App() {
           <Route path="/recruiters" element={<RecruitersPage />} />
            {/* Projects Page*/}
           <Route path="/ATourismApp" element={<ATourismApp />} />
-          <Route path="/ChessDeck" element={<ChessDeckMenu />} />
+          <Route path="/ChessDeck" element={<ChessDeckCase />} />
+          <Route path="/ChessDeck/play" element={<ChessDeckMenu />} />
           <Route path="/ChessDeck/local" element={<ChessDeck />} />
           <Route path="/ChessDeck/computer" element={<ChessDeckComputer />} />
           <Route path="/ChessDeck/online/:peerId?" element={<ChessDeckOnline />} />

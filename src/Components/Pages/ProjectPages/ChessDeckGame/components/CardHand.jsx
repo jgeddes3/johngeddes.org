@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Card from './Card';
-import { PHASE_MOVE } from '../constants';
-import { CARDS } from '../cardDefinitions';
-import { canPlayCard } from '../cardLogic';
+import Card from './Card.jsx';
+import { PHASE_MOVE } from '../constants.js';
+import { CARDS } from '../cardDefinitions.js';
+import { canPlayCard } from '../cardLogic.js';
 
 const CardHand = ({ state, dispatch, perspective }) => {
   const { hands, currentPlayer, phase, activeCard, cardPlayedThisTurn } = state;

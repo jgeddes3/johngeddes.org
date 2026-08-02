@@ -1,5 +1,5 @@
 import React from 'react';
-import { PHASE_DRAW, PHASE_MOVE, PHASE_GAME_OVER } from '../constants';
+import { PHASE_DRAW, PHASE_MOVE, PHASE_GAME_OVER } from '../constants.js';
 
 const PHASES = [
   { key: PHASE_DRAW, label: 'Draw' },

@@ -16,7 +16,11 @@
 //             range 1.4-2.2 per context — normalised to 1.8 here so one page
 //             does not mix three weights.
 //
-// The one exception is `ramblerRoute`, drawn for this page: the app's walk-time
+//   chess* — drawn for the Chess Deck page. Chess Deck ships no icon kit to
+//            borrow from, so these are built from the game's own vocabulary
+//            (the board, a card, the knight's profile) on the same grid.
+//
+// The other exception is `ramblerRoute`, drawn for this page: the app's walk-time
 // feature is illustrated on its own site by a full-height serpentine campus
 // route (RamblerRegistrarWeb/src/components/journey/journeys.tsx TEASER_JOURNEY),
 // which has no small-glyph equivalent. This distils that route to 24x24.
@@ -31,6 +35,17 @@ export const GLYPH_PATHS = {
   cipherLock:    { d: 'M7 11 L7 8 A5 5 0 0 1 17 8 L17 11 M5 11 L19 11 L19 21 L5 21 Z M12 15 L12 18' },
   cipherPhone:   { d: 'M7 3 L17 3 L17 21 L7 21 Z M10.5 18.2 L13.5 18.2' },
   cipherTarget:  { d: 'M12 21 A9 9 0 1 1 12 3 A9 9 0 0 1 12 21 Z M12 17 A5 5 0 1 1 12 7 A5 5 0 0 1 12 17 Z M12 13.2 A1.2 1.2 0 1 1 12 10.8 A1.2 1.2 0 0 1 12 13.2 Z' },
+
+  // ---- Chess Deck (drawn for this page) ----
+  // Chess Deck has no icon kit of its own to borrow from — it is a game, and its
+  // only vocabulary is the board and the cards. These six are built from that
+  // vocabulary on the same grid and weight as the rest.
+  chessBoard:    { d: 'M3.5 3.5 H20.5 V20.5 H3.5 Z M8 3.5 V20.5 M12 3.5 V20.5 M16 3.5 V20.5 M3.5 8 H20.5 M3.5 12 H20.5 M3.5 16 H20.5' },
+  chessCard:     { d: 'M6.5 2.8 H15 A1.8 1.8 0 0 1 16.8 4.6 V19.4 A1.8 1.8 0 0 1 15 21.2 H6.5 A1.8 1.8 0 0 1 4.7 19.4 V4.6 A1.8 1.8 0 0 1 6.5 2.8 Z M19.4 6.4 A1.8 1.8 0 0 1 20.6 8.1 V17.6 M8.2 7.4 H13.3 M8.2 10.6 H13.3' },
+  chessClock:    { d: 'M12 21 A9 9 0 1 1 12 3 A9 9 0 0 1 12 21 Z M12 7.2 V12 L15.4 14.2' },
+  chessCpu:      { d: 'M8 8 H16 V16 H8 Z M5 5 H19 V19 H5 Z M9.5 2.6 V5 M14.5 2.6 V5 M9.5 19 V21.4 M14.5 19 V21.4 M2.6 9.5 H5 M2.6 14.5 H5 M19 9.5 H21.4 M19 14.5 H21.4' },
+  chessKnight:   { d: 'M8 20.6 H18.2 C18.2 15.4 17.4 11.6 14.6 8.8 L15.6 5.6 L12.9 6.6 L11.4 3.4 L9.9 7 C7.6 8.2 6 9.9 5.4 12.2 L8.4 13.4 L10.2 11 L11.6 12.2 C9.4 14.2 8 16.8 8 20.6 Z' },
+  chessLink:     { d: 'M10.2 13.8 A3.4 3.4 0 0 0 15 13.8 L17.8 11 A3.4 3.4 0 0 0 13 6.2 L11.6 7.6 M13.8 10.2 A3.4 3.4 0 0 0 9 10.2 L6.2 13 A3.4 3.4 0 0 0 11 17.8 L12.4 16.4' },
 
   // ---- Rambler (from RamblerRegistrarWeb) ----
   // SeatsAndProfs.tsx BellIcon — the seat-open watch alert.

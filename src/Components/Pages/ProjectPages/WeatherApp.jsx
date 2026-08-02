@@ -55,9 +55,14 @@ const formatDistance = (meters) => {
   return `${Math.round(miles)} mi`;
 };
 
+// Rendered in the reader's own timezone, not each waypoint's. The zone
+// abbreviation is shown so a Chicago user planning a drive to Denver can see
+// that a Denver arrival is stamped Central, rather than silently misreading it.
+// Showing true local time per stop needs an IANA zone per waypoint from the API.
 const formatTime = (isoString) => {
   const d = new Date(isoString);
   return d.toLocaleString('en-US', {
+    timeZoneName: 'short',
     weekday: 'short',
     month: 'short',
     day: 'numeric',
@@ -75,7 +80,13 @@ const formatDate = (dateStr) => {
   });
 };
 
-const toDateStr = (date) => date.toISOString().slice(0, 10);
+// Local calendar date, not UTC. toISOString() rolls over at 00:00 UTC, so
+// anyone west of Greenwich lost the ability to pick "today" during their
+// evening — the date input's min jumped to tomorrow.
+const toDateStr = (date) =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
+    date.getDate()
+  ).padStart(2, '0')}`;
 
 const WeatherApp = () => {
   const [startLocation, setStartLocation] = useState('');
@@ -334,7 +345,11 @@ const WeatherApp = () => {
                 )}
                 {result.totalDuration && (
                   <span className="rw-summary-detail">
+                    {/* Flight time is derived from distance, not a schedule
+                        lookup, so it is labelled rather than stated flatly. */}
+                    {result.durationEstimated ? '~' : ''}
                     {formatDuration(result.totalDuration)} {result.mode === 'drive' ? 'drive' : 'flight'}
+                    {result.durationEstimated ? ' (est.)' : ''}
                   </span>
                 )}
                 <span className="rw-summary-detail">

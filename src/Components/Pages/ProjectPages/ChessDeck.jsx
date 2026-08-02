@@ -12,6 +12,7 @@ import { PHASE_DRAW, PHASE_PROMOTION, PHASE_GAME_OVER } from './ChessDeckGame/co
 import Board from './ChessDeckGame/components/Board';
 import GameInfo from './ChessDeckGame/components/GameInfo';
 import TurnPhaseBar from './ChessDeckGame/components/TurnPhaseBar';
+import GameControls from './ChessDeckGame/components/GameControls';
 import CardHand from './ChessDeckGame/components/CardHand';
 import OpponentHand from './ChessDeckGame/components/OpponentHand';
 import CapturedPieces from './ChessDeckGame/components/CapturedPieces';
@@ -54,6 +55,7 @@ const ChessDeck = () => {
         <div className="cd-game-container">
           <GameInfo state={state} />
           <TurnPhaseBar phase={state.phase} />
+          <GameControls state={state} dispatch={dispatch} />
 
           <OpponentHand state={state} />
 
@@ -92,7 +94,7 @@ const ChessDeck = () => {
       </div>
 
       <div className="proj-nav-buttons">
-        <Link to="/ChessDeck" className="proj-nav-button">
+        <Link to="/ChessDeck/play" className="proj-nav-button">
           Back to Menu
         </Link>
         <Link to="/projects" className="proj-nav-button">

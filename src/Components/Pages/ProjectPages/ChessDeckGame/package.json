@@ -1,0 +1,6 @@
+{
+  "//": "Marks this directory's .js files as ES modules for Node, so the pure game logic can be unit-tested with `node --test` directly from source. The repo root stays CommonJS because api/index.js is a CJS Vercel function. Vite resolves these files through its own pipeline and is unaffected.",
+  "name": "chessdeck-game",
+  "private": true,
+  "type": "module"
+}

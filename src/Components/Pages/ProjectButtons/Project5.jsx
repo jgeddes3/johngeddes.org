@@ -7,11 +7,11 @@ const Project5 = () => {
     <div className="project-container3">
       <div className="text-container3">
         <h1>A Tourism App</h1>
-        <p>An app for navigating tourist locations</p>
+        <p>A marketplace for tours led by locals — a concept</p>
       </div>
       <div className="ProjectPhoto3">
         <div className="ProjPhotoRectangle3">
-          <img loading="lazy" decoding="async" src={Photo5} alt="Project 3" className="projphoto3" />
+          <img loading="lazy" decoding="async" src={Photo5} alt="Tourism app icon" className="projphoto3" />
         </div>
       </div>
     </div>

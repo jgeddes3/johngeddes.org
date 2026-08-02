@@ -1,7 +1,7 @@
 import {
   RARITY_COMMON, RARITY_UNCOMMON, RARITY_RARE,
   TARGET_NONE, TARGET_OWN_PIECE, TARGET_ENEMY_PIECE, TARGET_SQUARE, TARGET_MULTI,
-} from './constants';
+} from './constants.js';
 
 // Each card: { id, name, description, rarity, targetType, targetSteps, targetPrompt, targetPrompts, targetFilter, replacesMove, artColor }
 
@@ -15,7 +15,7 @@ const CARD_LIST = [
     targetType: TARGET_SQUARE,
     targetFilter: 'anySquare',
     targetPrompt: 'Select a square to fortify around',
-    artColor: '#6B8E23', /* TODO: replace with card art */
+    artColor: '#6B8E23',
   },
   {
     id: '2',
@@ -23,15 +23,15 @@ const CARD_LIST = [
     description: "For your opponent's next turn, all your pieces display as pawns.",
     rarity: RARITY_RARE,
     targetType: TARGET_NONE,
-    artColor: '#708090', /* TODO: replace with card art */
+    artColor: '#708090',
   },
   {
     id: '3',
     name: 'Double Time',
-    description: 'Make two moves this turn instead of one.',
+    description: 'Make two moves this turn instead of one. If your first move gives check, your turn ends.',
     rarity: RARITY_RARE,
     targetType: TARGET_NONE,
-    artColor: '#DAA520', /* TODO: replace with card art */
+    artColor: '#DAA520',
   },
   {
     id: '4',
@@ -39,19 +39,19 @@ const CARD_LIST = [
     description: 'Your opponent discards a random card.',
     rarity: RARITY_COMMON,
     targetType: TARGET_NONE,
-    artColor: '#8B0000', /* TODO: replace with card art */
+    artColor: '#8B0000',
   },
 
   // ── Target-Piece Cards ─────────────────────────────────────────────
   {
     id: '5',
     name: 'Stallion Spirit',
-    description: 'One of your non-knight pieces can also move like a knight for 3 turns.',
+    description: 'One of your pieces, except a knight or your king, can also move like a knight for 3 turns.',
     rarity: RARITY_UNCOMMON,
     targetType: TARGET_OWN_PIECE,
     targetFilter: 'ownNonKnight',
-    targetPrompt: 'Select one of your non-knight pieces',
-    artColor: '#8B4513', /* TODO: replace with card art */
+    targetPrompt: 'Select one of your pieces (not a knight, not your king)',
+    artColor: '#8B4513',
   },
   {
     id: '6',
@@ -61,7 +61,7 @@ const CARD_LIST = [
     targetType: TARGET_ENEMY_PIECE,
     targetFilter: 'enemyNonKing',
     targetPrompt: "Select an opponent's non-king piece to freeze",
-    artColor: '#696969', /* TODO: replace with card art */
+    artColor: '#696969',
   },
   {
     id: '7',
@@ -71,7 +71,7 @@ const CARD_LIST = [
     targetType: TARGET_OWN_PIECE,
     targetFilter: 'ownPawn',
     targetPrompt: 'Select one of your pawns to promote',
-    artColor: '#FFD700', /* TODO: replace with card art */
+    artColor: '#FFD700',
   },
   {
     id: '8',
@@ -81,17 +81,21 @@ const CARD_LIST = [
     targetType: TARGET_ENEMY_PIECE,
     targetFilter: 'enemyNonKing',
     targetPrompt: 'Select an enemy piece to place a bounty on',
-    artColor: '#B8860B', /* TODO: replace with card art */
+    artColor: '#B8860B',
   },
   {
+    // Replaced Bodyguard, which was never wired into the capture path and so
+    // did nothing at all — while the AI scored it +30 and kept casting it.
+    // Vigil answers the card layer instead of the board, which the deck had no
+    // defence against, and reuses the same targeting the old card used.
     id: '9',
-    name: 'Bodyguard',
-    description: 'Select one of your pieces. For 2 turns, if an adjacent friendly piece would be captured, this piece is captured instead.',
+    name: 'Vigil',
+    description: "Select one of your pieces. For 3 turns it cannot be chosen as the target of an opponent's card.",
     rarity: RARITY_UNCOMMON,
     targetType: TARGET_OWN_PIECE,
     targetFilter: 'ownNonKing',
-    targetPrompt: 'Select one of your non-king pieces as bodyguard',
-    artColor: '#2F4F4F', /* TODO: replace with card art */
+    targetPrompt: 'Select one of your non-king pieces to keep vigil over',
+    artColor: '#2F4F4F',
   },
   {
     id: '10',
@@ -101,7 +105,7 @@ const CARD_LIST = [
     targetType: TARGET_ENEMY_PIECE,
     targetFilter: 'enemyNonKingNonPawn',
     targetPrompt: "Select an opponent's piece to demote to pawn",
-    artColor: '#4B0082', /* TODO: replace with card art */
+    artColor: '#4B0082',
   },
 
   // ── Target-Square Cards ────────────────────────────────────────────
@@ -113,27 +117,27 @@ const CARD_LIST = [
     targetType: TARGET_SQUARE,
     targetFilter: 'emptySquare',
     targetPrompt: 'Select an empty square for the rock',
-    artColor: '#808080', /* TODO: replace with card art */
+    artColor: '#808080',
   },
   {
     id: '12',
     name: 'Holy Ground',
-    description: 'Bless an empty square. For 4 turns, your pieces on it cannot be captured.',
+    description: 'Bless an empty square. For 4 turns, your pieces on it cannot be captured. Does not protect your king.',
     rarity: RARITY_UNCOMMON,
     targetType: TARGET_SQUARE,
     targetFilter: 'emptySquare',
     targetPrompt: 'Select an empty square to bless',
-    artColor: '#FFFACD', /* TODO: replace with card art */
+    artColor: '#FFFACD',
   },
   {
     id: '13',
     name: 'Sinkhole',
-    description: 'If an enemy piece is on the chosen square, capture it. If empty, the next piece to land on it is captured.',
+    description: 'Choose an enemy piece to capture it, or an empty square to trap the next piece that lands there.',
     rarity: RARITY_RARE,
     targetType: TARGET_SQUARE,
     targetFilter: 'anyNonKingSquare',
     targetPrompt: 'Select a square for the sinkhole',
-    artColor: '#3B2F2F', /* TODO: replace with card art */
+    artColor: '#3B2F2F',
   },
   {
     id: '14',
@@ -143,7 +147,7 @@ const CARD_LIST = [
     targetType: TARGET_SQUARE,
     targetFilter: 'emptySquare',
     targetPrompt: 'Select an empty square for the watchtower',
-    artColor: '#D2691E', /* TODO: replace with card art */
+    artColor: '#D2691E',
   },
   {
     id: '15',
@@ -153,7 +157,7 @@ const CARD_LIST = [
     targetType: TARGET_SQUARE,
     targetFilter: 'ownSecondRankEmpty',
     targetPrompt: 'Select an empty square on your second rank',
-    artColor: '#556B2F', /* TODO: replace with card art */
+    artColor: '#556B2F',
   },
 
   // ── Complex Cards (multi-step targeting) ───────────────────────────
@@ -166,7 +170,7 @@ const CARD_LIST = [
     targetSteps: 2,
     targetPrompts: ['Select one of your rooks', 'Select the enemy piece to catapult at'],
     replacesMove: true,
-    artColor: '#A0522D', /* TODO: replace with card art */
+    artColor: '#A0522D',
   },
   {
     id: '17',
@@ -176,7 +180,7 @@ const CARD_LIST = [
     targetType: TARGET_MULTI,
     targetSteps: 2,
     targetPrompts: ['Select first piece to swap', 'Select second piece to swap'],
-    artColor: '#9370DB', /* TODO: replace with card art */
+    artColor: '#9370DB',
   },
   {
     id: '18',
@@ -187,7 +191,7 @@ const CARD_LIST = [
     targetSteps: 2,
     targetPrompts: ['Select your piece to sacrifice', 'Select enemy piece to capture'],
     replacesMove: true,
-    artColor: '#DC143C', /* TODO: replace with card art */
+    artColor: '#DC143C',
   },
   {
     id: '19',
@@ -197,7 +201,7 @@ const CARD_LIST = [
     targetType: TARGET_MULTI,
     targetSteps: 2,
     targetPrompts: ['Select one of your pieces to recall', 'Select an empty back-rank square'],
-    artColor: '#4682B4', /* TODO: replace with card art */
+    artColor: '#4682B4',
   },
   {
     id: '20',
@@ -207,7 +211,7 @@ const CARD_LIST = [
     targetType: TARGET_SQUARE,
     targetFilter: 'kingAdjacentSafe',
     targetPrompt: 'Select an adjacent safe square for your king',
-    artColor: '#5F9EA0', /* TODO: replace with card art */
+    artColor: '#5F9EA0',
   },
   {
     id: '21',
@@ -216,7 +220,7 @@ const CARD_LIST = [
     rarity: RARITY_RARE,
     targetType: TARGET_NONE,
     isPassive: true,
-    artColor: '#FFD700', /* TODO: replace with card art */
+    artColor: '#F0E6C8',
   },
 ];
 
