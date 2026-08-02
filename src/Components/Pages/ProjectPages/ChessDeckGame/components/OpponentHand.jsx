@@ -1,6 +1,6 @@
 import React from 'react';
 import CardBack from '../../ProjectPageImages/ChessDeck/Card.webp';
-import { WHITE, BLACK } from '../constants';
+import { WHITE, BLACK } from '../constants.js';
 
 const OpponentHand = ({ state, perspective }) => {
   const opponentColor = perspective

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PIECE_IMAGES } from '../constants';
+import { PIECE_IMAGES } from '../pieceAssets.js';
 
 const CapturedPieces = ({ pieces, label }) => {
   if (!pieces || pieces.length === 0) {

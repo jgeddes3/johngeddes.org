@@ -1,19 +1,19 @@
 import {
   WHITE, BLACK, KING,
   PHASE_DRAW, PHASE_MOVE, PHASE_PROMOTION, PHASE_GAME_OVER,
-  createInitialBoard, createDeck, MAX_HAND_SIZE, STARTING_HAND_SIZE, shuffleArray,
-} from './constants';
+  createInitialBoard, createDeck, MAX_HAND_SIZE, STARTING_HAND_SIZE, shuffleArray, PAWN,
+} from './constants.js';
 import {
   getValidMoves, getGameStatus, executeMove, executePromotion, deepCloneBoard,
-  findSafeSquareForKing,
-} from './gameLogic';
-import { CARDS } from './cardDefinitions';
-import { applyCardEffect, getValidCardTargets, canPlayCard, processTemporaryEffects } from './cardLogic';
+  findSafeSquareForKing, isKingInCheck, isInsufficientMaterial, positionKey,
+} from './gameLogic.js';
+import { CARDS, CARD_LIST } from './cardDefinitions.js';
+import { applyCardEffect, getValidCardTargets, canPlayCard, processTemporaryEffects } from './cardLogic.js';
 
 // ── Initial state builder ────────────────────────────────────────────
 
 export function createInitialState(startingColor = WHITE) {
-  const deck = createDeck();
+  const deck = createDeck(CARD_LIST);
   const whiteHand = deck.splice(0, STARTING_HAND_SIZE);
   const blackHand = deck.splice(0, STARTING_HAND_SIZE);
 
@@ -36,6 +36,8 @@ export function createInitialState(startingColor = WHITE) {
     temporaryEffects: [],
     capturedPieces: { white: [], black: [] },
     movesRemainingThisTurn: 1,
+    halfmoveClock: 0,
+    positionCounts: {},
     lastMove: null,
     promotionSquare: null,
     gameResult: null,
@@ -79,10 +81,12 @@ function trySecondChance(state, kingColor) {
   const board = deepCloneBoard(state.board);
 
   // Remove the existing king from the board
+  let theKing = null;
   for (let r = 0; r < 8; r++) {
     for (let c = 0; c < 8; c++) {
       const p = board[r][c];
       if (p && p.type === KING && p.color === kingColor) {
+        theKing = p;
         board[r][c] = null;
       }
     }
@@ -91,8 +95,12 @@ function trySecondChance(state, kingColor) {
   const safeSquare = findSafeSquareForKing(board, kingColor, state.squareModifiers);
   if (!safeSquare) return null;
 
+  // Keep the king's id and modifiers: it is the same piece teleporting, and
+  // rebuilding it from scratch orphaned any effect that named it.
   board[safeSquare.row][safeSquare.col] = {
-    type: KING, color: kingColor, hasMoved: true, modifiers: [],
+    ...(theKing || {}),
+    type: KING, color: kingColor, hasMoved: true,
+    modifiers: theKing ? [...theKing.modifiers] : [],
   };
 
   const newHand = hand.filter((_, i) => i !== idx);
@@ -103,6 +111,94 @@ function trySecondChance(state, kingColor) {
     discardPile: [...state.discardPile, '21'],
     message: 'Second Chance! The king escapes to safety!',
   };
+}
+
+// ── Card legality ────────────────────────────────────────────────────
+
+/**
+ * A card may never leave your own king attacked.
+ *
+ * applyCardEffect writes straight to the board, and the reducer only ever ran
+ * getGameStatus for the *opponent*. So Switcheroo, Recall, Catapult, Gambit,
+ * Sinkhole and Hasty Retreat could each move or delete a pinned piece and pass
+ * the turn with your own king under attack — which is the whole reason a
+ * "king captured" branch had to exist downstream.
+ *
+ * Rejecting rather than merely warning also closes a soft-lock: without a move
+ * that resolves the self-inflicted check, and with no way to pass, the game
+ * simply stops.
+ */
+function leavesOwnKingInCheck(result, state) {
+  return isKingInCheck(
+    result.board || state.board,
+    state.currentPlayer,
+    result.squareModifiers || state.squareModifiers
+  );
+}
+
+function refuseCard(state, card) {
+  return {
+    ...state,
+    activeCard: null,
+    cardTargets: [],
+    cardTargetStep: 0,
+    message: `${card.name} would leave your king in check.`,
+  };
+}
+
+/**
+ * Settle a turn that has become unplayable.
+ *
+ * A player with no legal move is checkmated or stalemated by definition — but
+ * nothing ever asked. getGameStatus was only ever run for the *opponent*, so a
+ * player who stranded themselves mid-turn (Immovable Rock on their king's last
+ * escape square, or a Double Time whose second move has nowhere to go) sat in
+ * the move phase with nothing on the board clickable and no way forward.
+ *
+ * Answering it here is what lets the interface have no Pass button: a turn
+ * always costs a move, and if it cannot, the game is already over.
+ */
+function settleIfStranded(state) {
+  const status = getGameStatus(
+    state.board, state.currentPlayer, state.enPassantTarget,
+    state.squareModifiers, state.temporaryEffects
+  );
+  if (status.isCheckmate) {
+    const opponent = state.currentPlayer === WHITE ? BLACK : WHITE;
+    const reprieve = trySecondChance(state, state.currentPlayer);
+    if (reprieve) {
+      return { ...state, board: reprieve.board, hands: reprieve.hands, discardPile: reprieve.discardPile, message: reprieve.message };
+    }
+    return {
+      ...state,
+      phase: PHASE_GAME_OVER,
+      gameResult: { winner: opponent, reason: 'checkmate' },
+      message: 'Checkmate!',
+    };
+  }
+  if (status.isStalemate) {
+    return {
+      ...state,
+      phase: PHASE_GAME_OVER,
+      gameResult: { winner: null, reason: 'stalemate' },
+      message: 'Stalemate!',
+    };
+  }
+  return state;
+}
+
+/**
+ * A pawn parked on the last rank by a card rather than by a move. Switcheroo
+ * can swap a pawn onto the eighth rank, which used to leave it sitting there as
+ * a pawn forever because only executeMove ever looked for promotions.
+ */
+function pendingPromotion(board, color) {
+  const rank = color === WHITE ? 0 : 7;
+  for (let c = 0; c < 8; c++) {
+    const p = board[rank][c];
+    if (p && p.type === 'pawn' && p.color === color) return { row: rank, col: c };
+  }
+  return null;
 }
 
 // ── Reducer ──────────────────────────────────────────────────────────
@@ -141,6 +237,7 @@ export function gameReducer(state, action) {
       // Instant cards (no target needed)
       if (card.targetType === 'none') {
         const result = applyCardEffect(card, state, []);
+        if (leavesOwnKingInCheck(result, state)) return refuseCard(state, card);
         const newHand = state.hands[state.currentPlayer].filter((_, i) => i !== action.handIndex);
 
         // If card replaces move, go straight to end-of-turn check
@@ -184,7 +281,7 @@ export function gameReducer(state, action) {
           return endTurn(baseEndState, status.isCheck);
         }
 
-        return {
+        return settleIfStranded({
           ...result,
           hands: { ...result.hands, [state.currentPlayer]: newHand },
           discardPile: [...result.discardPile, cardId],
@@ -194,7 +291,7 @@ export function gameReducer(state, action) {
           cardPlayedThisTurn: true,
           phase: PHASE_MOVE,
           message: `${card.name} played!`,
-        };
+        });
       }
 
       // Cards needing targets — enter targeting mode (still PHASE_MOVE)
@@ -235,6 +332,7 @@ export function gameReducer(state, action) {
 
       // All targets collected — apply effect
       const result = applyCardEffect(card, state, newTargets);
+      if (leavesOwnKingInCheck(result, state)) return refuseCard(state, card);
       const newHand = state.hands[state.currentPlayer].filter((_, i) => i !== handIndex);
 
       // If the card replaces the move, end the turn
@@ -279,9 +377,14 @@ export function gameReducer(state, action) {
       }
 
       const effectPhase = result.phase || PHASE_MOVE;
-      const isPromotion = effectPhase === PHASE_PROMOTION;
+      // Promotion Decree sets the phase itself; the sweep catches a pawn a card
+      // *moved* onto the last rank, which nothing else was looking for.
+      const swept = effectPhase === PHASE_PROMOTION
+        ? null
+        : pendingPromotion(result.board || state.board, state.currentPlayer);
+      const isPromotion = effectPhase === PHASE_PROMOTION || Boolean(swept);
 
-      return {
+      const afterCard = {
         ...result,
         hands: { ...result.hands, [state.currentPlayer]: newHand },
         discardPile: [...(result.discardPile || state.discardPile), cardId],
@@ -290,7 +393,43 @@ export function gameReducer(state, action) {
         cardTargetStep: 0,
         cardPlayedThisTurn: true,
         phase: isPromotion ? PHASE_PROMOTION : PHASE_MOVE,
+        promotionSquare: swept || result.promotionSquare || state.promotionSquare,
         message: isPromotion ? 'Choose promotion piece' : `${card.name} played! Now make your move.`,
+      };
+      // The card may have taken away your own last legal move.
+      return isPromotion ? afterCard : settleIfStranded(afterCard);
+    }
+
+    // A turn can reach zero legal moves without being mate or stalemate: play
+    // Immovable Rock on your king's only escape square, sinkhole your last
+    // mobile piece, or spend the first half of a Double Time and find the
+    // second has nowhere to go. With no way to end a turn, the game simply
+    // stopped — phase stuck on move, player stuck on you, nothing clickable.
+    case 'PASS_TURN': {
+      if (state.phase !== PHASE_MOVE) return state;
+      const opp = state.currentPlayer === WHITE ? BLACK : WHITE;
+      const status = getGameStatus(
+        state.board, opp, state.enPassantTarget, state.squareModifiers, state.temporaryEffects
+      );
+      if (status.isCheckmate) {
+        return {
+          ...state,
+          phase: PHASE_GAME_OVER,
+          gameResult: { winner: state.currentPlayer, reason: 'checkmate' },
+          message: 'Checkmate!',
+        };
+      }
+      return endTurn({ ...state, movesRemainingThisTurn: 0, selectedSquare: null, validMoves: [] }, status.isCheck);
+    }
+
+    case 'RESIGN': {
+      if (state.phase === PHASE_GAME_OVER) return state;
+      const winner = state.currentPlayer === WHITE ? BLACK : WHITE;
+      return {
+        ...state,
+        phase: PHASE_GAME_OVER,
+        gameResult: { winner, reason: 'resignation' },
+        message: `${state.currentPlayer === WHITE ? 'White' : 'Black'} resigned.`,
       };
     }
 
@@ -345,6 +484,7 @@ export function gameReducer(state, action) {
       const moveInfo = state.validMoves.find(m => m.row === row && m.col === col);
       if (!moveInfo) return state;
 
+      const movingPiece = state.board[from.row][from.col];
       const { newBoard, captured, enPassantTarget, promotionNeeded, shieldBroken } =
         executeMove(state.board, from, { row, col }, moveInfo);
 
@@ -450,17 +590,19 @@ export function gameReducer(state, action) {
         newCaptured[oppColor] = [...newCaptured[oppColor], extraCaptured];
       }
 
-      // Bounty bonus draws
+      // Bounty bonus draws. Matched against the captured piece's id, not the
+      // square it died on: the mark travels with the piece, which is what the
+      // card says and what the badge drawn on it implies.
       let bonusDraws = 0;
       if (captured) {
-        const bountyEffects = state.temporaryEffects.filter(
+        const claimed = state.temporaryEffects.some(
           e => e.type === 'bounty' &&
-               e.targetRow === row && e.targetCol === col &&
-               e.color === state.currentPlayer
+               e.color === state.currentPlayer &&
+               (e.pieceId != null
+                 ? e.pieceId === captured.id
+                 : e.targetRow === row && e.targetCol === col)
         );
-        if (bountyEffects.length > 0) {
-          bonusDraws = 2;
-        }
+        if (claimed) bonusDraws = 2;
       }
 
       const movesLeft = state.movesRemainingThisTurn - 1;
@@ -483,6 +625,10 @@ export function gameReducer(state, action) {
         };
       }
 
+      // The fifty-move counter: reset by a pawn move or any capture, since
+      // either makes the position unrepeatable and restarts progress.
+      const irreversible = Boolean(captured) || movingPiece?.type === PAWN;
+
       let tempState = {
         ...state,
         board: boardAfterSinkhole,
@@ -494,6 +640,8 @@ export function gameReducer(state, action) {
         lastMove: { from, to: { row, col } },
         movesRemainingThisTurn: movesLeft,
         cardPlayedThisTurn: true,
+        halfmoveClock: irreversible ? 0 : (state.halfmoveClock || 0) + 1,
+        positionCounts: irreversible ? {} : state.positionCounts,
       };
 
       if (bonusDraws > 0) {
@@ -501,9 +649,20 @@ export function gameReducer(state, action) {
         tempState = { ...tempState, ...drawn };
       }
 
-      // If more moves remain (Double Time), stay in MOVE phase
+      // If more moves remain (Double Time), stay in MOVE phase — unless the
+      // first move gave check.
+      //
+      // Two unanswered moves plus a king that can be captured was an available
+      // instant win in most middlegames: check with the first, take the king
+      // with the second. Forfeiting the second move on check keeps the card
+      // strong for development and attack while removing the one line that
+      // ended games outright. The opponent still has to answer the check.
       if (movesLeft > 0) {
-        return { ...tempState, phase: PHASE_MOVE, message: `${movesLeft} move(s) remaining` };
+        const opponent = state.currentPlayer === WHITE ? BLACK : WHITE;
+        if (isKingInCheck(boardAfterSinkhole, opponent, sqMods)) {
+          return endTurn({ ...tempState, movesRemainingThisTurn: 0 }, true);
+        }
+        return settleIfStranded({ ...tempState, phase: PHASE_MOVE, message: `${movesLeft} move(s) remaining` });
       }
 
       // Check game status for the opponent
@@ -630,7 +789,16 @@ function endTurn(state, isCheck) {
     fogActive = null;
   }
 
-  return {
+  // Draws by rule. Without them a dead ending never ends — in self-play a third
+  // of games ran to the move cap with two bare kings shuffling. Checkmate and
+  // stalemate are already resolved by the callers; these three are the ones
+  // that need history, so this is the one place that can see them.
+  const key = positionKey(board, nextPlayer, state.enPassantTarget);
+  const positionCounts = { ...(state.positionCounts || {}) };
+  positionCounts[key] = (positionCounts[key] || 0) + 1;
+  const halfmoveClock = state.halfmoveClock || 0;
+
+  const base = {
     ...state,
     board,
     currentPlayer: nextPlayer,
@@ -644,7 +812,26 @@ function endTurn(state, isCheck) {
     temporaryEffects,
     squareModifiers,
     movesRemainingThisTurn: 1,
+    positionCounts,
     fogActive,
     message: isCheck ? 'Check!' : null,
   };
+
+  // Deliberately cheap: none of these need move generation, so the expensive
+  // getGameStatus call the callers already made is not repeated here.
+  let drawReason = null;
+  if (isInsufficientMaterial(board)) drawReason = 'insufficient material';
+  else if (halfmoveClock >= 100) drawReason = 'fifty-move rule';
+  else if (positionCounts[key] >= 3) drawReason = 'threefold repetition';
+
+  if (drawReason) {
+    return {
+      ...base,
+      phase: PHASE_GAME_OVER,
+      gameResult: { winner: null, reason: drawReason },
+      message: `Draw — ${drawReason}.`,
+    };
+  }
+
+  return base;
 }

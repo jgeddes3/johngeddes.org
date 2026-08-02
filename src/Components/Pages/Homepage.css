@@ -91,8 +91,14 @@
     gap: 40px;
   }
 
+  /* Stacking the row leaves it with no intrinsic width, and its children size
+     themselves as a percentage of it — circular, so the whole row collapsed to
+     ~12px and the project carousel rendered 11px wide between 721 and 900px.
+     Give the column an explicit width and centre the cards in it. */
   .button-row {
     flex-direction: column;
+    align-items: center;
+    width: 100%;
     gap: 20px;
   }
 

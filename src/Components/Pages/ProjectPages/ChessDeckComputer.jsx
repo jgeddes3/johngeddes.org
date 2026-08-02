@@ -14,6 +14,7 @@ import { CARDS } from './ChessDeckGame/cardDefinitions';
 import Board from './ChessDeckGame/components/Board';
 import GameInfo from './ChessDeckGame/components/GameInfo';
 import TurnPhaseBar from './ChessDeckGame/components/TurnPhaseBar';
+import GameControls from './ChessDeckGame/components/GameControls';
 import CardHand from './ChessDeckGame/components/CardHand';
 import OpponentHand from './ChessDeckGame/components/OpponentHand';
 import CapturedPieces from './ChessDeckGame/components/CapturedPieces';
@@ -131,14 +132,30 @@ const ChessDeckComputer = () => {
           return;
         }
 
-        // Make a move using the latest state
-        const bestMove = chooseBestMove(currentState);
-        if (bestMove) {
+        // Move, then keep moving while the turn still owes moves. Double Time
+        // leaves movesRemainingThisTurn at 2 and MAKE_MOVE returns with the
+        // same player and the same phase, so nothing in the dependency list
+        // changed and this effect never re-ran — the AI stopped mid-turn with
+        // input still disabled and the game was dead. Looping here rather than
+        // relying on a re-render keeps the continuation explicit.
+        let guard = 0;
+        while (!aborted && guard++ < 4) {
+          currentState = stateRef.current;
+          if (currentState.currentPlayer !== aiColor || currentState.phase !== PHASE_MOVE) break;
+
+          const bestMove = chooseBestMove(currentState);
+          if (!bestMove) {
+            // No legal move and not mate — pass rather than stall forever on
+            // "Computer is thinking...".
+            dispatch({ type: 'PASS_TURN' });
+            break;
+          }
+
           dispatch({ type: 'SELECT_PIECE', row: bestMove.from.row, col: bestMove.from.col });
           await delay(500);
           if (aborted) return;
-
           dispatch({ type: 'MAKE_MOVE', row: bestMove.to.row, col: bestMove.to.col });
+          await delay(400);
         }
       } finally {
         aiRunning.current = false;
@@ -150,7 +167,7 @@ const ChessDeckComputer = () => {
     // Only abort on unmount, not on state changes from the AI's own dispatches
     return () => { aborted = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.currentPlayer, state.phase, aiColor]);
+  }, [state.currentPlayer, state.phase, state.movesRemainingThisTurn, aiColor]);
 
   // AI promotion phase
   useEffect(() => {
@@ -177,6 +194,7 @@ const ChessDeckComputer = () => {
         <div className="cd-game-container">
           <GameInfo state={state} />
           <TurnPhaseBar phase={state.phase} />
+          <GameControls state={state} dispatch={dispatch} />
 
           {isAiTurn && <div className="cd-ai-thinking">Computer is thinking...</div>}
 
@@ -225,7 +243,7 @@ const ChessDeckComputer = () => {
       </div>
 
       <div className="proj-nav-buttons">
-        <Link to="/ChessDeck" className="proj-nav-button">
+        <Link to="/ChessDeck/play" className="proj-nav-button">
           Back to Menu
         </Link>
         <Link to="/projects" className="proj-nav-button">

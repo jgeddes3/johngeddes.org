@@ -4,13 +4,13 @@ import './ProjectCarousel.css';
 
 import RegistrarIcon from '../Pages/ProjectButtons/ProjectButtonImages/RamblerIcon.webp';
 import ExcelIcon from '../Pages/ProjectButtons/ProjectButtonImages/ExcelIcon.png';
-import SnipeITIcon from '../Pages/ProjectButtons/ProjectButtonImages/SnipeITIcon.png';
-import ChessIcon from '../Pages/ProjectButtons/ProjectButtonImages/ChessIcon.png';
+import SnipeITIcon from '../Pages/ProjectButtons/ProjectButtonImages/SnipeITIcon.webp';
+import ChessIcon from '../Pages/ProjectButtons/ProjectButtonImages/ChessIcon.webp';
 import TourismIcon from '../Pages/ProjectButtons/ProjectButtonImages/TourismIcon.png';
 import CipherIcon from '../Pages/ProjectButtons/ProjectButtonImages/CipherIcon.png';
 import WeatherIcon from '../Pages/ProjectButtons/ProjectButtonImages/Weathericon.png';
 import HoroscopeIcon from '../Pages/ProjectButtons/ProjectButtonImages/HoroscopeIcon.png';
-import CreditCardIcon from '../Pages/ProjectButtons/ProjectButtonImages/CreditCardIcon.png';
+import CreditCardIcon from '../Pages/ProjectButtons/ProjectButtonImages/CreditCardIcon.webp';
 
 const allProjects = [
   { name: 'Registrar', route: '/RamblerRegistrar', icon: RegistrarIcon },

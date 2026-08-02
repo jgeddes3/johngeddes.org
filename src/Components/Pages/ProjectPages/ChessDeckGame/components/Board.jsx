@@ -1,8 +1,8 @@
 import React from 'react';
-import Square from './Square';
-import { WHITE, BLACK, PHASE_MOVE } from '../constants';
-import { findKing, isKingInCheck } from '../gameLogic';
-import { getValidCardTargets } from '../cardLogic';
+import Square from './Square.jsx';
+import { WHITE, BLACK, PHASE_MOVE } from '../constants.js';
+import { findKing, isKingInCheck } from '../gameLogic.js';
+import { getValidCardTargets } from '../cardLogic.js';
 import BoardBg from '../../ProjectPageImages/ChessDeck/ChessBoardtopdown.webp';
 
 const Board = ({ state, dispatch, perspective }) => {
@@ -61,6 +61,46 @@ const Board = ({ state, dispatch, perspective }) => {
     }
   };
 
+  // Keyboard navigation. The board is a grid of buttons with a single tab stop;
+  // arrows walk it, Enter or Space activates. Coordinates here are *visual*, so
+  // "up" is up on screen regardless of which side the board is flipped to.
+  const [cursor, setCursor] = React.useState({ vi: 7, vj: 4 });
+  const focusRef = React.useRef(null);
+  const shouldRefocus = React.useRef(false);
+
+  React.useEffect(() => {
+    if (shouldRefocus.current && focusRef.current) {
+      focusRef.current.focus();
+      shouldRefocus.current = false;
+    }
+  }, [cursor]);
+
+  const handleKeyDown = (event, vi, vj) => {
+    const deltas = {
+      ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1],
+    };
+    if (deltas[event.key]) {
+      event.preventDefault();
+      const [dv, dh] = deltas[event.key];
+      shouldRefocus.current = true;
+      setCursor({
+        vi: Math.min(7, Math.max(0, vi + dv)),
+        vj: Math.min(7, Math.max(0, vj + dh)),
+      });
+      return;
+    }
+    if (event.key === 'Home' || event.key === 'End') {
+      event.preventDefault();
+      shouldRefocus.current = true;
+      setCursor({ vi, vj: event.key === 'Home' ? 0 : 7 });
+      return;
+    }
+    if (event.key === 'Escape' && selectedSquare) {
+      event.preventDefault();
+      dispatch({ type: 'DESELECT_PIECE' });
+    }
+  };
+
   const squares = [];
   for (let vi = 0; vi < 8; vi++) {
     for (let vj = 0; vj < 8; vj++) {
@@ -94,6 +134,9 @@ const Board = ({ state, dispatch, perspective }) => {
           col={c}
           piece={piece}
           onClick={() => handleSquareClick(r, c)}
+          onKeyDown={(e) => handleKeyDown(e, vi, vj)}
+          isFocusTarget={cursor.vi === vi && cursor.vj === vj}
+          focusRef={focusRef}
           isSelected={isSelected}
           isValidMove={isValidMove}
           isValidCapture={isValidCapture}
@@ -110,7 +153,9 @@ const Board = ({ state, dispatch, perspective }) => {
 
   return (
     <div className="cd-board-wrapper" style={{ backgroundImage: `url(${BoardBg})` }}>
-      <div className="cd-board">
+      {/* A labelled grid rather than a bag of divs, so the board announces
+          itself and can be walked with the arrow keys. */}
+      <div className="cd-board" role="grid" aria-label="Chess board">
         {squares}
       </div>
     </div>

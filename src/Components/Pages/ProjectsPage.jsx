@@ -26,7 +26,10 @@ const ProjectsPage = () => {
       <Background />
       <div id="centerpiece2" className='main-content'>
         <h1>Projects.</h1>
-        <p className="projects-description">This is where you can find all my amazing projects. Stay tuned for more updates!</p>
+        <p className="projects-description">
+          Shipped apps, a couple of things you can play with right here in the browser, and
+          three ideas I have not built yet. Each one says which it is.
+        </p>
       </div>
       <div className="projects-container main-content">
         <Link to="/RamblerRegistrar" className="project-button">

@@ -1,7 +1,7 @@
 import {
   WHITE, BLACK, KING, PAWN, KNIGHT, ROOK,
-} from './constants';
-import { deepCloneBoard, isSquareAttacked, findKing } from './gameLogic';
+} from './constants.js';
+import { deepCloneBoard, isSquareAttacked, findKing } from './gameLogic.js';
 
 // ── Can a card be played? ────────────────────────────────────────────
 
@@ -9,7 +9,6 @@ export function canPlayCard(card, state) {
   // Passive cards can't be actively played
   if (card.isPassive) return false;
 
-  const targets = getValidCardTargets(card, state, 0);
   // For instant cards, always playable (unless Sabotage with no opponent cards)
   if (card.targetType === 'none') {
     if (card.id === '4') { // Sabotage
@@ -18,7 +17,26 @@ export function canPlayCard(card, state) {
     }
     return true;
   }
-  return targets.length > 0;
+  return hasCompletableTargets(card, state);
+}
+
+/**
+ * Can this card actually be seen through to its last step?
+ *
+ * Only step 0 used to be checked, so a multi-step card could advertise itself
+ * as playable and then dead-end with nothing highlighted — at the opening,
+ * Recall offered every piece and then zero back-rank squares, leaving the
+ * player stuck in targeting mode with the Cancel button below the fold.
+ *
+ * Step-0 lists are bounded by piece count rather than by squares, so walking
+ * them is cheap.
+ */
+function hasCompletableTargets(card, state, step = 0, chosen = []) {
+  const steps = card.targetSteps || 1;
+  const targets = getValidCardTargets(card, { ...state, cardTargets: chosen }, step);
+  if (targets.length === 0) return false;
+  if (step + 1 >= steps) return true;
+  return targets.some(t => hasCompletableTargets(card, state, step + 1, [...chosen, t]));
 }
 
 // ── Get valid targets for a card at a given step ─────────────────────
@@ -26,6 +44,17 @@ export function canPlayCard(card, state) {
 export function getValidCardTargets(card, state, step = 0) {
   const { board, currentPlayer, squareModifiers } = state;
   const opp = currentPlayer === WHITE ? BLACK : WHITE;
+
+  // Is this enemy piece shielded from being chosen as a card target?
+  // Covers Watchtower (protects an area) and Vigil (protects one piece), so
+  // every enemy-targeting card honours both without repeating the check.
+  function isCardProtected(r, c) {
+    const piece = board[r][c];
+    if (piece && piece.color !== currentPlayer && (piece.modifiers || []).includes('vigil')) {
+      return true;
+    }
+    return isProtectedByWatchtower(r, c);
+  }
 
   // Check watchtower protection for enemy piece targeting
   function isProtectedByWatchtower(r, c) {
@@ -86,7 +115,7 @@ export function getValidCardTargets(card, state, step = 0) {
       for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
           const p = board[r][c];
-          if (p && p.color === opp && p.type !== KING && !isProtectedByWatchtower(r, c)) {
+          if (p && p.color === opp && p.type !== KING && !isCardProtected(r, c)) {
             targets.push({ row: r, col: c });
           }
         }
@@ -112,7 +141,7 @@ export function getValidCardTargets(card, state, step = 0) {
       for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
           const p = board[r][c];
-          if (p && p.color === opp && p.type !== KING && !isProtectedByWatchtower(r, c)) {
+          if (p && p.color === opp && p.type !== KING && !isCardProtected(r, c)) {
             targets.push({ row: r, col: c });
           }
         }
@@ -120,7 +149,7 @@ export function getValidCardTargets(card, state, step = 0) {
       break;
     }
 
-    // Bodyguard: own non-king
+    // Vigil: own non-king
     case '9': {
       for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
@@ -138,7 +167,7 @@ export function getValidCardTargets(card, state, step = 0) {
       for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
           const p = board[r][c];
-          if (p && p.color === opp && p.type !== KING && p.type !== PAWN && !isProtectedByWatchtower(r, c)) {
+          if (p && p.color === opp && p.type !== KING && p.type !== PAWN && !isCardProtected(r, c)) {
             targets.push({ row: r, col: c });
           }
         }
@@ -171,11 +200,17 @@ export function getValidCardTargets(card, state, step = 0) {
     }
 
     // Sinkhole: any square without a king
+    // Sinkhole: an empty square to arm as a trap, or an enemy piece to swallow
+    // now. It used to accept any non-king square, so you could feed it your own
+    // pieces, and it was one of the three removal cards that ignored Watchtower
+    // entirely — the card that most needed to respect it.
     case '13': {
       for (let r = 0; r < 8; r++) {
         for (let c = 0; c < 8; c++) {
           const p = board[r][c];
-          if (!p || p.type !== KING) {
+          if (!p) {
+            targets.push({ row: r, col: c });
+          } else if (p.color === opp && p.type !== KING && !isCardProtected(r, c)) {
             targets.push({ row: r, col: c });
           }
         }
@@ -218,32 +253,33 @@ export function getValidCardTargets(card, state, step = 0) {
           }
         }
       } else {
-        // From the rook, find valid catapult targets
+        // "Your rook jumps over one adjacent friendly piece and captures the
+        // first enemy piece beyond." The old scan matched none of that: the hop
+        // piece could be any distance away, an enemy standing before it was
+        // silently jumped, and `dist >= 3` excluded the first enemy beyond —
+        // which is the only one the card is about. The canonical case (rook,
+        // own pawn next to it, enemy behind the pawn) produced zero targets, so
+        // the card was usually unplayable.
         const rookPos = state.cardTargets[0];
         if (rookPos) {
-          const dirs = [[0,1],[0,-1],[1,0],[-1,0]];
-          for (const [dr, dc] of dirs) {
-            let r = rookPos.row + dr;
-            let c = rookPos.col + dc;
-            let foundFriendly = false;
-            let dist = 1;
+          for (const [dr, dc] of [[0, 1], [0, -1], [1, 0], [-1, 0]]) {
+            const hop = board[rookPos.row + dr]?.[rookPos.col + dc];
+            if (!hop || hop.color !== currentPlayer) continue; // must be adjacent and friendly
+
+            let r = rookPos.row + 2 * dr;
+            let c = rookPos.col + 2 * dc;
             while (r >= 0 && r < 8 && c >= 0 && c < 8) {
+              if (hasSquareMod(squareModifiers, r, c, 'rock')) break;
               const p = board[r][c];
-              if (!foundFriendly) {
-                if (p && p.color === currentPlayer) {
-                  foundFriendly = true;
+              if (p) {
+                // The first piece beyond the hop, and only if it is a takeable enemy.
+                if (p.color === opp && p.type !== KING && !isCardProtected(r, c)) {
+                  targets.push({ row: r, col: c });
                 }
-              } else {
-                if (p) {
-                  if (p.color === opp && dist >= 3) {
-                    targets.push({ row: r, col: c });
-                  }
-                  break;
-                }
+                break;
               }
               r += dr;
               c += dc;
-              dist++;
             }
           }
         }
@@ -292,7 +328,7 @@ export function getValidCardTargets(card, state, step = 0) {
         for (let r = 0; r < 8; r++) {
           for (let c = 0; c < 8; c++) {
             const p = board[r][c];
-            if (p && p.color === opp && p.type !== KING) {
+            if (p && p.color === opp && p.type !== KING && !isCardProtected(r, c)) {
               targets.push({ row: r, col: c });
             }
           }
@@ -327,6 +363,13 @@ export function getValidCardTargets(card, state, step = 0) {
     case '20': {
       const kingPos = findKing(board, currentPlayer);
       if (kingPos) {
+        // Test safety on a board with the king lifted off. Standing on its own
+        // square, the king blocks the very ray it is fleeing along, so sliding
+        // back one square down a checking rook's file measured as "safe" —
+        // the king's own body was the blocker.
+        const lifted = deepCloneBoard(board);
+        lifted[kingPos.row][kingPos.col] = null;
+
         for (let dr = -1; dr <= 1; dr++) {
           for (let dc = -1; dc <= 1; dc++) {
             if (dr === 0 && dc === 0) continue;
@@ -334,8 +377,8 @@ export function getValidCardTargets(card, state, step = 0) {
             const c = kingPos.col + dc;
             if (r < 0 || r > 7 || c < 0 || c > 7) continue;
             if (board[r][c]) continue;
-            // Check safety
-            if (!isSquareAttacked(board, r, c, opp, squareModifiers)) {
+            if (hasSquareMod(squareModifiers, r, c, 'rock')) continue;
+            if (!isSquareAttacked(lifted, r, c, opp, squareModifiers)) {
               targets.push({ row: r, col: c });
             }
           }
@@ -415,6 +458,7 @@ export function applyCardEffect(card, state, targets) {
         board[t.row][t.col] = { ...p, modifiers: [...p.modifiers, 'knightMovement'] };
         tempEffects.push({
           type: 'knightMovement',
+          pieceId: p.id,
           row: t.row, col: t.col,
           color: currentPlayer,
           turnsLeft: 6, // 3 of each player's turns = 6 half-turns
@@ -431,6 +475,7 @@ export function applyCardEffect(card, state, targets) {
         board[t.row][t.col] = { ...p, modifiers: [...p.modifiers, 'petrified'] };
         tempEffects.push({
           type: 'petrified',
+          pieceId: p.id,
           row: t.row, col: t.col,
           color: opp,
           turnsLeft: 4, // 2 of opponent's turns = 4 half-turns
@@ -450,30 +495,33 @@ export function applyCardEffect(card, state, targets) {
       break;
     }
 
-    // Bounty
+    // Bounty — "Mark an enemy piece". The mark used to be recorded against the
+    // square, so it died the moment the piece moved off it, and capturing an
+    // unrelated piece that later stood there paid out instead.
     case '8': {
       const t = targets[0];
-      tempEffects.push({
-        type: 'bounty',
-        targetRow: t.row, targetCol: t.col,
-        color: currentPlayer,
-        turnsLeft: 6, // 3 turns = 6 half-turns
-      });
       const p = board[t.row][t.col];
       if (p) {
         board[t.row][t.col] = { ...p, modifiers: [...p.modifiers, 'bounty'] };
+        tempEffects.push({
+          type: 'bounty',
+          pieceId: p.id,
+          color: currentPlayer, // who collects the reward
+          turnsLeft: 6, // 3 turns = 6 half-turns
+        });
       }
       break;
     }
 
-    // Bodyguard
+    // Vigil
     case '9': {
       const t = targets[0];
       const p = board[t.row][t.col];
       if (p) {
-        board[t.row][t.col] = { ...p, modifiers: [...p.modifiers, 'bodyguard'] };
+        board[t.row][t.col] = { ...p, modifiers: [...p.modifiers, 'vigil'] };
         tempEffects.push({
-          type: 'bodyguard',
+          type: 'vigil',
+          pieceId: p.id,
           row: t.row, col: t.col,
           color: currentPlayer,
           turnsLeft: 4,
@@ -645,8 +693,8 @@ export function processTemporaryEffects(effects, boardIn, squareModsIn, currentP
       removeEffectFromBoard(effect, board, squareMods);
     } else {
       remaining.push({ ...effect, turnsLeft: newTurns });
-      // Update tracking for moved pieces (bounty, bodyguard)
-      // Bounty and bodyguard track by position, which may have changed
+      // Update tracking for moved pieces (bounty, vigil)
+      // Bounty and vigil track by position, which may have changed
     }
   }
 
@@ -658,54 +706,45 @@ export function processTemporaryEffects(effects, boardIn, squareModsIn, currentP
   return { temporaryEffects: remaining, board, squareModifiers: squareMods };
 }
 
+/**
+ * Strip a piece modifier when its effect expires — from the one piece the
+ * effect was cast on, found by id.
+ *
+ * This used to scan the board and clear the modifier from every piece of that
+ * colour, which meant two copies of the same card cancelled each other: a
+ * second Petrify expiring unfroze the first victim early and left a phantom
+ * effect ticking. With two copies of every card in the deck it fired routinely.
+ */
+function removePieceModifier(effect, board, modifier) {
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const p = board[r][c];
+      if (!p || !p.modifiers.includes(modifier)) continue;
+      // Fall back to the old colour-wide sweep only for effects saved before
+      // pieces had ids, so a game in progress still expires cleanly.
+      const matches = effect.pieceId != null ? p.id === effect.pieceId : p.color === effect.color;
+      if (matches) {
+        board[r][c] = { ...p, modifiers: p.modifiers.filter(m => m !== modifier) };
+        if (effect.pieceId != null) return;
+      }
+    }
+  }
+}
+
 function removeEffectFromBoard(effect, board, squareMods) {
   switch (effect.type) {
-    case 'knightMovement': {
-      // Find piece at tracked position and remove modifier
-      // Piece may have moved, so scan the board
-      for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-          const p = board[r][c];
-          if (p && p.color === effect.color && p.modifiers.includes('knightMovement')) {
-            board[r][c] = { ...p, modifiers: p.modifiers.filter(m => m !== 'knightMovement') };
-          }
-        }
-      }
+    case 'knightMovement':
+      removePieceModifier(effect, board, 'knightMovement');
       break;
-    }
-    case 'petrified': {
-      for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-          const p = board[r][c];
-          if (p && p.color === effect.color && p.modifiers.includes('petrified')) {
-            board[r][c] = { ...p, modifiers: p.modifiers.filter(m => m !== 'petrified') };
-          }
-        }
-      }
+    case 'petrified':
+      removePieceModifier(effect, board, 'petrified');
       break;
-    }
-    case 'bounty': {
-      for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-          const p = board[r][c];
-          if (p && p.modifiers.includes('bounty')) {
-            board[r][c] = { ...p, modifiers: p.modifiers.filter(m => m !== 'bounty') };
-          }
-        }
-      }
+    case 'bounty':
+      removePieceModifier(effect, board, 'bounty');
       break;
-    }
-    case 'bodyguard': {
-      for (let r = 0; r < 8; r++) {
-        for (let c = 0; c < 8; c++) {
-          const p = board[r][c];
-          if (p && p.color === effect.color && p.modifiers.includes('bodyguard')) {
-            board[r][c] = { ...p, modifiers: p.modifiers.filter(m => m !== 'bodyguard') };
-          }
-        }
-      }
+    case 'vigil':
+      removePieceModifier(effect, board, 'vigil');
       break;
-    }
     case 'holyGround': {
       const key = effect.squareKey;
       if (squareMods[key]) {

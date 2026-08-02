@@ -11,7 +11,7 @@ const ExcelWorkBooks = () => {
     <>
       <SEO
         title="Excel Workbooks"
-        description="Excel Workbooks by John Geddes — custom Excel spreadsheets and automation tools available for purchase."
+        description="Excel Workbooks by John Geddes — spreadsheets and automation tools, with a shop planned."
         path="/ExcelWorkBooks"
       />
       <Background />
@@ -24,6 +24,10 @@ const ExcelWorkBooks = () => {
           <p className="proj-hero-tagline">
             A collection of Excel spreadsheets built and refined over the years,
             soon available for purchase.
+          </p>
+          <p className="proj-status">
+            The workbooks exist; the shop does not yet. This page is a placeholder until
+            there is something to sell.
           </p>
         </div>
 

@@ -1,4 +1,4 @@
-import { KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN, WHITE, BLACK } from './constants';
+import { KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN, WHITE, BLACK } from './constants.js';
 
 // ── Helpers ──────────────────────────────────────────────────────────
 
@@ -23,6 +23,11 @@ function hasModifier(piece, mod) {
 function isRock(squareMods, r, c) {
   const key = `${r}-${c}`;
   return squareMods[key] && squareMods[key].some(m => m.type === 'rock');
+}
+
+function isSinkhole(squareMods, r, c) {
+  const key = `${r}-${c}`;
+  return Boolean(squareMods[key] && squareMods[key].some(m => m.type === 'sinkhole'));
 }
 
 function isHolyGround(squareMods, r, c, forColor) {
@@ -64,6 +69,42 @@ function getSlidingMoves(board, row, col, color, directions, squareMods = {}) {
   return moves;
 }
 
+// ── Attack rays (what a piece aims at, not what it may legally take) ─
+//
+// Attack detection and move generation answer different questions, and sharing
+// one generator between them is what let a king stand on Holy Ground and be
+// immune to check: getSlidingMoves omits a capture it is not *allowed* to make,
+// so the rook aimed at the king reported no attack at all.
+//
+// A square is attacked if an enemy piece is aimed at it. Whether taking the
+// occupant would be permitted — Holy Ground, a shield, Vigil — is a separate
+// question answered during move generation. Only physical blocking matters
+// here: any piece stops a ray, and a rock fills its square so nothing can be
+// attacked on or behind it.
+function getSlidingAttacks(board, row, col, directions, squareMods = {}) {
+  const attacks = [];
+  for (const [dr, dc] of directions) {
+    let r = row + dr;
+    let c = col + dc;
+    while (inBounds(r, c)) {
+      if (isRock(squareMods, r, c)) break;
+      attacks.push({ row: r, col: c });
+      if (board[r][c]) break;
+      r += dr;
+      c += dc;
+    }
+  }
+  return attacks;
+}
+
+const KNIGHT_OFFSETS = [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]];
+
+function offsetAttacks(row, col, offsets, squareMods = {}) {
+  return offsets
+    .map(([dr, dc]) => ({ row: row + dr, col: col + dc }))
+    .filter(s => inBounds(s.row, s.col) && !isRock(squareMods, s.row, s.col));
+}
+
 // ── Piece-specific move generators ───────────────────────────────────
 
 function getPawnMoves(board, row, col, color, enPassant, squareMods = {}) {
@@ -97,9 +138,16 @@ function getPawnMoves(board, row, col, color, enPassant, squareMods = {}) {
       }
     }
 
-    // En passant
-    if (enPassant && enPassant.row === cr && enPassant.col === cc) {
-      moves.push({ row: cr, col: cc, enPassant: true });
+    // En passant, but only onto a genuinely empty square and only while the
+    // pawn that double-pushed is still standing beside us. Cards move pieces
+    // after the target is set, and without these guards a stale target both
+    // duplicated an ordinary capture and let the move delete whatever happened
+    // to be on that file — including a friendly piece.
+    if (enPassant && enPassant.row === cr && enPassant.col === cc && !target) {
+      const victim = board[row][cc];
+      if (victim && victim.type === PAWN && victim.color !== color) {
+        moves.push({ row: cr, col: cc, enPassant: true });
+      }
     }
   }
 
@@ -142,6 +190,15 @@ function getKnightMoves(board, row, col, color, squareMods = {}) {
   return moves;
 }
 
+// Castling moves the rook too, so a rook that cannot move cannot castle —
+// getRawMoves already stops a petrified king, but the rook was never asked.
+function canCastleWith(rook, color) {
+  return Boolean(
+    rook && rook.type === ROOK && rook.color === color && !rook.hasMoved &&
+    !hasModifier(rook, 'petrified') && !hasModifier(rook, 'immovable')
+  );
+}
+
 function getKingMoves(board, row, col, color, squareMods = {}) {
   const moves = [];
   for (let dr = -1; dr <= 1; dr++) {
@@ -170,7 +227,7 @@ function getKingMoves(board, row, col, color, squareMods = {}) {
       // Kingside
       const kRook = board[backRank][7];
       if (
-        kRook && kRook.type === ROOK && kRook.color === color && !kRook.hasMoved &&
+        canCastleWith(kRook, color) &&
         !board[backRank][5] && !board[backRank][6] &&
         !isRock(squareMods, backRank, 5) && !isRock(squareMods, backRank, 6) &&
         !isSquareAttacked(board, backRank, 4, opponent(color), squareMods) &&
@@ -183,7 +240,7 @@ function getKingMoves(board, row, col, color, squareMods = {}) {
       // Queenside
       const qRook = board[backRank][0];
       if (
-        qRook && qRook.type === ROOK && qRook.color === color && !qRook.hasMoved &&
+        canCastleWith(qRook, color) &&
         !board[backRank][1] && !board[backRank][2] && !board[backRank][3] &&
         !isRock(squareMods, backRank, 1) && !isRock(squareMods, backRank, 2) && !isRock(squareMods, backRank, 3) &&
         !isSquareAttacked(board, backRank, 4, opponent(color), squareMods) &&
@@ -255,64 +312,45 @@ export function isSquareAttacked(board, row, col, byColor, squareMods = {}) {
       const piece = board[r][c];
       if (!piece || piece.color !== byColor) continue;
 
-      // Petrified pieces still threaten squares
+      // Petrified pieces still threaten squares — Petrify says so on the card.
       let attacks;
       switch (piece.type) {
         case PAWN: {
           const dir = byColor === WHITE ? -1 : 1;
-          const atkSquares = [
-            { row: r + dir, col: c - 1 },
-            { row: r + dir, col: c + 1 },
-          ];
-          attacks = atkSquares.filter(s => inBounds(s.row, s.col));
+          attacks = offsetAttacks(r, c, [[dir, -1], [dir, 1]], squareMods);
           break;
         }
         case ROOK:
-          attacks = getSlidingMoves(board, r, c, byColor, [[-1,0],[1,0],[0,-1],[0,1]], squareMods);
+          attacks = getSlidingAttacks(board, r, c, [[-1,0],[1,0],[0,-1],[0,1]], squareMods);
           break;
         case BISHOP:
-          attacks = getSlidingMoves(board, r, c, byColor, [[-1,-1],[-1,1],[1,-1],[1,1]], squareMods);
+          attacks = getSlidingAttacks(board, r, c, [[-1,-1],[-1,1],[1,-1],[1,1]], squareMods);
           break;
         case QUEEN:
-          attacks = getSlidingMoves(
-            board, r, c, byColor,
+          attacks = getSlidingAttacks(
+            board, r, c,
             [[-1,0],[1,0],[0,-1],[0,1],[-1,-1],[-1,1],[1,-1],[1,1]],
             squareMods
           );
           break;
-        case KNIGHT: {
-          const offsets = [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]];
-          attacks = offsets
-            .map(([dr, dc]) => ({ row: r + dr, col: c + dc }))
-            .filter(s => inBounds(s.row, s.col) && !isRock(squareMods, s.row, s.col));
+        case KNIGHT:
+          attacks = offsetAttacks(r, c, KNIGHT_OFFSETS, squareMods);
           break;
-        }
-        case KING: {
-          attacks = [];
-          for (let dr = -1; dr <= 1; dr++) {
-            for (let dc = -1; dc <= 1; dc++) {
-              if (dr === 0 && dc === 0) continue;
-              const nr = r + dr;
-              const nc = c + dc;
-              if (inBounds(nr, nc) && !isRock(squareMods, nr, nc)) {
-                attacks.push({ row: nr, col: nc });
-              }
-            }
-          }
+        case KING:
+          attacks = offsetAttacks(
+            r, c,
+            [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]],
+            squareMods
+          );
           break;
-        }
         default:
           attacks = [];
       }
 
       // Stallion Spirit on attackers
       if (piece.type !== KNIGHT && hasModifier(piece, 'knightMovement')) {
-        const knightOffsets = [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]];
-        const extra = knightOffsets
-          .map(([dr, dc]) => ({ row: r + dr, col: c + dc }))
-          .filter(s => inBounds(s.row, s.col) && !isRock(squareMods, s.row, s.col));
         const existing = new Set(attacks.map(a => `${a.row}-${a.col}`));
-        for (const e of extra) {
+        for (const e of offsetAttacks(r, c, KNIGHT_OFFSETS, squareMods)) {
           if (!existing.has(`${e.row}-${e.col}`)) attacks.push(e);
         }
       }
@@ -347,39 +385,52 @@ export function getValidMoves(board, row, col, enPassant, squareMods = {}, tempE
 
   const raw = getRawMoves(board, row, col, enPassant, squareMods, tempEffects);
 
-  // Filter: each move must not leave own king in check
+  // Each move must not leave our own king in check. The simulation runs through
+  // applyMove — the same function that commits the real move — so a move can
+  // never be judged legal under rules different from the ones it plays out
+  // under. Hand-rolling the simulation here is what made "capture the shielded
+  // rook" a legal escape from check: the test board removed the rook, the real
+  // board bounced off the shield and left the king in check.
   return raw.filter(move => {
-    const testBoard = deepCloneBoard(board);
-
-    // Execute move on test board
-    testBoard[move.row][move.col] = { ...testBoard[row][col], hasMoved: true };
-    testBoard[row][col] = null;
-
-    // En passant capture
-    if (move.enPassant) {
-      const capturedRow = piece.color === WHITE ? move.row + 1 : move.row - 1;
-      testBoard[capturedRow][move.col] = null;
-    }
-
-    // Castling: also move the rook
-    if (move.castleKingside) {
-      const backRank = move.row;
-      testBoard[backRank][5] = { ...testBoard[backRank][7], hasMoved: true };
-      testBoard[backRank][7] = null;
-    }
-    if (move.castleQueenside) {
-      const backRank = move.row;
-      testBoard[backRank][3] = { ...testBoard[backRank][0], hasMoved: true };
-      testBoard[backRank][0] = null;
-    }
-
-    return !isKingInCheck(testBoard, piece.color, squareMods);
+    const { newBoard } = applyMove(board, { row, col }, move, move);
+    return !isKingInCheck(newBoard, piece.color, squareMods);
   });
 }
 
 // ── Game status ──────────────────────────────────────────────────────
 
-export function getGameStatus(board, currentPlayer, enPassant, squareMods = {}, tempEffects = []) {
+/**
+ * Neither side has enough material to force mate.
+ *
+ * The standard set: king v king, king and a minor piece v king, and king and
+ * bishop v king and bishop with both bishops on the same colour square. Any
+ * pawn, rook or queen anywhere means mate is still possible.
+ */
+export function isInsufficientMaterial(board) {
+  const minors = { [WHITE]: [], [BLACK]: [] };
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const p = board[r][c];
+      if (!p || p.type === KING) continue;
+      if (p.type === PAWN || p.type === ROOK || p.type === QUEEN) return false;
+      minors[p.color].push({ type: p.type, square: (r + c) % 2 });
+    }
+  }
+  const w = minors[WHITE];
+  const b = minors[BLACK];
+  if (w.length + b.length === 0) return true;                  // K v K
+  if (w.length + b.length === 1) return true;                  // K+minor v K
+  if (w.length === 1 && b.length === 1 &&
+      w[0].type === BISHOP && b[0].type === BISHOP &&
+      w[0].square === b[0].square) {
+    return true;                                               // KB v KB, same colour
+  }
+  return false;
+}
+
+export function getGameStatus(
+  board, currentPlayer, enPassant, squareMods = {}, tempEffects = [], clocks = {}
+) {
   const isCheck = isKingInCheck(board, currentPlayer, squareMods);
 
   // Check if current player has any legal move
@@ -394,40 +445,82 @@ export function getGameStatus(board, currentPlayer, enPassant, squareMods = {}, 
     }
   }
 
+  const isCheckmate = isCheck && !hasLegalMove;
+  const isStalemate = !isCheck && !hasLegalMove;
+
+  // Draws by rule. Without these a dead-drawn ending simply never ends: in
+  // self-play a third of games ran to the move cap with two lone kings shuffling.
+  let drawReason = null;
+  if (isStalemate) drawReason = 'stalemate';
+  else if (!isCheckmate) {
+    if (isInsufficientMaterial(board)) drawReason = 'insufficient material';
+    else if ((clocks.halfmoveClock ?? 0) >= 100) drawReason = 'fifty-move rule';
+    else if ((clocks.repetitions ?? 0) >= 3) drawReason = 'threefold repetition';
+  }
+
   return {
     isCheck,
-    isCheckmate: isCheck && !hasLegalMove,
-    isStalemate: !isCheck && !hasLegalMove,
+    isCheckmate,
+    isStalemate,
+    isDraw: Boolean(drawReason),
+    drawReason,
   };
+}
+
+/**
+ * A compact key for repetition detection: placement, side to move, castling
+ * availability and the en passant file — the things that make two positions
+ * genuinely the same position.
+ */
+export function positionKey(board, currentPlayer, enPassant) {
+  let placement = '';
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const p = board[r][c];
+      if (!p) { placement += '.'; continue; }
+      const ch = p.type[0] === 'k' && p.type === KNIGHT ? 'n' : p.type[0];
+      placement += p.color === WHITE ? ch.toUpperCase() : ch;
+    }
+  }
+  let rights = '';
+  for (const [color, rank] of [[WHITE, 7], [BLACK, 0]]) {
+    const king = board[rank][4];
+    const canCastle = king && king.type === KING && king.color === color && !king.hasMoved;
+    for (const file of [0, 7]) {
+      const rook = board[rank][file];
+      rights += canCastle && rook && rook.type === ROOK && rook.color === color && !rook.hasMoved ? '1' : '0';
+    }
+  }
+  return `${placement}|${currentPlayer}|${rights}|${enPassant ? enPassant.col : '-'}`;
 }
 
 // ── Move execution ───────────────────────────────────────────────────
 
-export function executeMove(board, from, to, moveInfo = {}) {
+// The single place a move is written onto a board. Both the legality filter in
+// getValidMoves and the committed move in executeMove go through it, so the two
+// cannot drift apart.
+function applyMove(board, from, to, moveInfo = {}) {
   const newBoard = deepCloneBoard(board);
-  const piece = { ...newBoard[from.row][from.col], hasMoved: true, modifiers: [...newBoard[from.row][from.col].modifiers] };
+  const source = newBoard[from.row][from.col];
+  if (!source) {
+    return { newBoard, captured: null, enPassantTarget: null, promotionNeeded: false, shieldBroken: false };
+  }
+  const piece = { ...source, hasMoved: true, modifiers: [...source.modifiers] };
   let captured = null;
   let enPassantTarget = null;
   let promotionNeeded = false;
 
-  // Handle capture
   const target = newBoard[to.row][to.col];
-  if (target) {
-    // Shield check: if target has shield, break shield instead of capturing
-    if (hasModifier(target, 'shield')) {
-      const shieldedPiece = { ...target, modifiers: target.modifiers.filter(m => m !== 'shield') };
-      newBoard[to.row][to.col] = shieldedPiece;
-      // Move is blocked — piece stays where it is (shield absorbs the attack)
-      // Actually per the card description: "the shield breaks instead and the piece survives"
-      // The attacking piece doesn't move to the square; the attack just fails
-      // But that would be weird for chess — let's say the attacker stays, target keeps square
-      newBoard[from.row][from.col] = null;
-      // Wait — that loses the attacker. Let's keep attacker in place.
-      newBoard[from.row][from.col] = piece;
-      return { newBoard, captured: null, enPassantTarget: null, promotionNeeded: false, shieldBroken: true };
-    }
-    captured = target;
+
+  // A shield absorbs the attempt: the shield is spent, the defender lives, and
+  // the attacker never leaves its square. The attempt still costs the turn.
+  if (target && hasModifier(target, 'shield')) {
+    newBoard[to.row][to.col] = { ...target, modifiers: target.modifiers.filter(m => m !== 'shield') };
+    newBoard[from.row][from.col] = piece;
+    return { newBoard, captured: null, enPassantTarget: null, promotionNeeded: false, shieldBroken: true };
   }
+
+  if (target) captured = target;
 
   // En passant capture
   if (moveInfo.enPassant) {
@@ -441,14 +534,12 @@ export function executeMove(board, from, to, moveInfo = {}) {
   newBoard[from.row][from.col] = null;
 
   // Castling: move the rook
-  if (moveInfo.castleKingside) {
-    const rook = { ...newBoard[to.row][7], hasMoved: true };
-    newBoard[to.row][5] = rook;
+  if (moveInfo.castleKingside && newBoard[to.row][7]) {
+    newBoard[to.row][5] = { ...newBoard[to.row][7], hasMoved: true };
     newBoard[to.row][7] = null;
   }
-  if (moveInfo.castleQueenside) {
-    const rook = { ...newBoard[to.row][0], hasMoved: true };
-    newBoard[to.row][3] = rook;
+  if (moveInfo.castleQueenside && newBoard[to.row][0]) {
+    newBoard[to.row][3] = { ...newBoard[to.row][0], hasMoved: true };
     newBoard[to.row][0] = null;
   }
 
@@ -464,7 +555,11 @@ export function executeMove(board, from, to, moveInfo = {}) {
     promotionNeeded = true;
   }
 
-  return { newBoard, captured, enPassantTarget, promotionNeeded };
+  return { newBoard, captured, enPassantTarget, promotionNeeded, shieldBroken: false };
+}
+
+export function executeMove(board, from, to, moveInfo = {}) {
+  return applyMove(board, from, to, moveInfo);
 }
 
 // ── Find a safe square for a king (used by Second Chance card) ───────
@@ -474,9 +569,13 @@ export function findSafeSquareForKing(board, color, squareMods = {}) {
   const opp = color === WHITE ? BLACK : WHITE;
   for (let r = 0; r < 8; r++) {
     for (let c = 0; c < 8; c++) {
-      if (!board[r][c] && !isSquareAttacked(board, r, c, opp, squareMods)) {
-        safeSquares.push({ row: r, col: c });
-      }
+      // "Empty and unattacked" is not the same as safe: a rock fills the square
+      // so no piece can stand there, and a sinkhole captures the next piece to
+      // land on it — teleporting the king onto one loses the game outright.
+      if (board[r][c]) continue;
+      if (isRock(squareMods, r, c) || isSinkhole(squareMods, r, c)) continue;
+      if (isSquareAttacked(board, r, c, opp, squareMods)) continue;
+      safeSquares.push({ row: r, col: c });
     }
   }
   if (safeSquares.length === 0) return null;

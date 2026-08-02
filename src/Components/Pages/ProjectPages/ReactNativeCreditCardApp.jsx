@@ -11,7 +11,7 @@ const ReactNativeCreditCardApp = () => {
     <>
       <SEO
         title="React Native Credit Card App"
-        description="A credit card recommendation and financial education app — goal-based card matching, milestone tracking, and more."
+        description="A credit card recommendation and financial education app — a concept by John Geddes. Not yet built."
         path="/ReactNativeCreditCardApp"
       />
       <Background />
@@ -23,6 +23,9 @@ const ReactNativeCreditCardApp = () => {
           <img className="proj-stub-logo" src={Logo} alt="React Native Credit Card App" />
           <p className="proj-hero-tagline">
             Smart credit card recommendations, financial education, and goal tracking — all in one app.
+          </p>
+          <p className="proj-status">
+            A concept, not a build. Nothing is written yet; this is the shape the app would take.
           </p>
         </div>
 

@@ -1,9 +1,9 @@
 import {
   KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN, WHITE, BLACK,
-} from './constants';
-import { getValidMoves, executeMove, isKingInCheck } from './gameLogic';
-import { canPlayCard, getValidCardTargets } from './cardLogic';
-import { CARDS } from './cardDefinitions';
+} from './constants.js';
+import { getValidMoves, executeMove, isKingInCheck } from './gameLogic.js';
+import { canPlayCard, getValidCardTargets } from './cardLogic.js';
+import { CARDS } from './cardDefinitions.js';
 
 // ── Material values ─────────────────────────────────────────────────
 
@@ -102,7 +102,7 @@ function modifierBonus(piece) {
     if (mod === 'shield') bonus += 50;
     if (mod === 'petrified') bonus -= 80;
     if (mod === 'knightMovement') bonus += 40;
-    if (mod === 'bodyguard') bonus += 30;
+    if (mod === 'vigil') bonus += 12;
   }
   return bonus;
 }
@@ -191,7 +191,10 @@ function minimax(board, depth, alpha, beta, isMaximizing, enPassantTarget, squar
   if (isMaximizing) {
     let maxEval = -Infinity;
     for (const move of ordered) {
-      const { newBoard, enPassantTarget: newEP } = executeMove(board, move.from, move.to, move.to);
+      const { newBoard, enPassantTarget: newEP, promotionNeeded } = executeMove(board, move.from, move.to, move.to);
+      // Promote inside the simulation. Without this the search sees a pawn on
+      // the last rank as still a pawn and undervalues the move by ~8 points.
+      if (promotionNeeded) newBoard[move.to.row][move.to.col] = { ...newBoard[move.to.row][move.to.col], type: QUEEN };
       const evalScore = minimax(newBoard, depth - 1, alpha, beta, false, newEP, squareModifiers, temporaryEffects);
       maxEval = Math.max(maxEval, evalScore);
       alpha = Math.max(alpha, evalScore);
@@ -201,7 +204,10 @@ function minimax(board, depth, alpha, beta, isMaximizing, enPassantTarget, squar
   } else {
     let minEval = Infinity;
     for (const move of ordered) {
-      const { newBoard, enPassantTarget: newEP } = executeMove(board, move.from, move.to, move.to);
+      const { newBoard, enPassantTarget: newEP, promotionNeeded } = executeMove(board, move.from, move.to, move.to);
+      // Promote inside the simulation. Without this the search sees a pawn on
+      // the last rank as still a pawn and undervalues the move by ~8 points.
+      if (promotionNeeded) newBoard[move.to.row][move.to.col] = { ...newBoard[move.to.row][move.to.col], type: QUEEN };
       const evalScore = minimax(newBoard, depth - 1, alpha, beta, true, newEP, squareModifiers, temporaryEffects);
       minEval = Math.min(minEval, evalScore);
       beta = Math.min(beta, evalScore);
@@ -211,7 +217,7 @@ function minimax(board, depth, alpha, beta, isMaximizing, enPassantTarget, squar
   }
 }
 
-// ── Choose best move (~1100 Elo with randomness) ───────────────────
+// ── Choose best move ───────────────────────────────────────────────
 
 export function chooseBestMove(state) {
   const { board, enPassantTarget, squareModifiers, temporaryEffects, currentPlayer } = state;
@@ -222,7 +228,10 @@ export function chooseBestMove(state) {
 
   // Score all moves
   const scored = allMoves.map(move => {
-    const { newBoard, enPassantTarget: newEP } = executeMove(board, move.from, move.to, move.to);
+    const { newBoard, enPassantTarget: newEP, promotionNeeded } = executeMove(board, move.from, move.to, move.to);
+      // Promote inside the simulation. Without this the search sees a pawn on
+      // the last rank as still a pawn and undervalues the move by ~8 points.
+      if (promotionNeeded) newBoard[move.to.row][move.to.col] = { ...newBoard[move.to.row][move.to.col], type: QUEEN };
     const score = minimax(newBoard, 2, -Infinity, Infinity, !isMaximizing, newEP, squareModifiers, temporaryEffects);
     return { ...move, score };
   });
@@ -230,7 +239,9 @@ export function chooseBestMove(state) {
   // Sort by score (best for current player first)
   scored.sort((a, b) => isMaximizing ? b.score - a.score : a.score - b.score);
 
-  // ~1100 Elo randomness: 60% best, 25% 2nd best, 15% 3rd best
+  // Deliberate imprecision so the opponent is not the same every game:
+  // 60% best, 25% second best, 15% third. Playing strength has never been
+  // measured against rated opposition, so no rating is claimed anywhere.
   const rand = Math.random();
   if (scored.length >= 3 && rand > 0.85) {
     return scored[2];
@@ -283,7 +294,7 @@ export function chooseCardAction(state) {
         break;
       }
       case '9': {
-        // Bodyguard: pick highest-value own piece
+        // Vigil: pick highest-value own piece
         chosenTarget = pickHighestValueTarget(state.board, targets);
         break;
       }

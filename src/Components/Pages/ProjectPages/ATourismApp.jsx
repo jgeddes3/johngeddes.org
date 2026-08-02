@@ -11,7 +11,7 @@ const ATourismApp = () => {
     <>
       <SEO
         title="A Tourism App"
-        description="A Tourism App project by John Geddes — a travel and tourism application connecting travelers with local guides."
+        description="A Tourism App — a concept by John Geddes for a marketplace connecting travellers with local guides. Not yet built."
         path="/ATourismApp"
       />
       <Background />
@@ -24,6 +24,10 @@ const ATourismApp = () => {
           <p className="proj-hero-tagline">
             A one-stop shop for discovering and booking tours of famous areas around the world,
             powered by the people who know them best.
+          </p>
+          <p className="proj-status">
+            A concept, not a build. There is no code behind this one yet — it is written up
+            here because I keep coming back to it.
           </p>
         </div>
 

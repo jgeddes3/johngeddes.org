@@ -1,16 +1,4 @@
 // Custom piece images
-import WhiteKingImg from '../ProjectPageImages/ChessDeck/WhiteKingPiece.png';
-import WhiteQueenImg from '../ProjectPageImages/ChessDeck/WhiteQueenPiece.png';
-import WhiteBishopImg from '../ProjectPageImages/ChessDeck/WhiteBishopPiece.png';
-import WhiteKnightImg from '../ProjectPageImages/ChessDeck/WhiteKnightPiece.png';
-import WhiteRookImg from '../ProjectPageImages/ChessDeck/WhiteCastlePiece.png';
-import WhitePawnImg from '../ProjectPageImages/ChessDeck/WhitePawnPiece.png';
-import BlackKingImg from '../ProjectPageImages/ChessDeck/BlackKingPiece.png';
-import BlackQueenImg from '../ProjectPageImages/ChessDeck/BlackQueenPiece.png';
-import BlackBishopImg from '../ProjectPageImages/ChessDeck/BlackBishopPiece.png';
-import BlackKnightImg from '../ProjectPageImages/ChessDeck/BlackKnightPiece.png';
-import BlackRookImg from '../ProjectPageImages/ChessDeck/BlackCastlePiece.png';
-import BlackPawnImg from '../ProjectPageImages/ChessDeck/BlackPawnPiece.png';
 
 // Piece types
 export const KING = 'king';
@@ -52,32 +40,39 @@ export const PIECE_SYMBOLS = {
 };
 
 // Custom piece images
-export const PIECE_IMAGES = {
-  white: {
-    [KING]: WhiteKingImg,
-    [QUEEN]: WhiteQueenImg,
-    [ROOK]: WhiteRookImg,
-    [BISHOP]: WhiteBishopImg,
-    [KNIGHT]: WhiteKnightImg,
-    [PAWN]: WhitePawnImg,
-  },
-  black: {
-    [KING]: BlackKingImg,
-    [QUEEN]: BlackQueenImg,
-    [ROOK]: BlackRookImg,
-    [BISHOP]: BlackBishopImg,
-    [KNIGHT]: BlackKnightImg,
-    [PAWN]: BlackPawnImg,
-  },
-};
+
+
+// Pieces carry a stable id so a timed effect can name the piece it is attached
+// to. Without one, effects could only be tracked by square or by colour: a
+// second Petrify unfroze the first target early, and a Bounty stayed on the
+// square its victim had already walked off.
+let pieceIdSeq = 0;
 
 // Helper to create a piece object
-export function makePiece(type, color) {
-  return { type, color, hasMoved: false, modifiers: [] };
+export function makePiece(type, color, id) {
+  return { id: id ?? ++pieceIdSeq, type, color, hasMoved: false, modifiers: [] };
+}
+
+/**
+ * An id not already on the board, for pieces created mid-game (Conscription).
+ * Derived from the board rather than a counter so it cannot collide after a new
+ * game resets the sequence.
+ */
+export function nextPieceId(board) {
+  let max = 0;
+  for (const row of board) {
+    for (const piece of row) {
+      if (piece && typeof piece.id === 'number' && piece.id > max) max = piece.id;
+    }
+  }
+  return max + 1;
 }
 
 // Standard starting position
 export function createInitialBoard() {
+  // Reset first, so the 32 pieces are always ids 1-32 in the same order and two
+  // clients building the same opening agree on every piece's identity.
+  pieceIdSeq = 0;
   const board = Array.from({ length: 8 }, () => Array(8).fill(null));
 
   const backRow = [ROOK, KNIGHT, BISHOP, QUEEN, KING, BISHOP, KNIGHT, ROOK];
@@ -120,12 +115,31 @@ export const TARGET_ENEMY_PIECE = 'enemyPiece';
 export const TARGET_SQUARE = 'square';
 export const TARGET_MULTI = 'multi';
 
-// Build the full deck: 2 copies of each card ID (1-20)
-export function createDeck() {
+// How many copies of a card go in the deck, by rarity.
+//
+// The deck used to hold exactly two copies of every card regardless of rarity,
+// which made the eight rares 38% of it — a rare turned up as often as a common,
+// and rarity did nothing but tint a gem on the card face. Weighting the counts
+// is what makes the tiers mean something and lets the strong cards stay strong.
+export const COPIES_BY_RARITY = {
+  [RARITY_COMMON]: 4,
+  [RARITY_UNCOMMON]: 2,
+  [RARITY_RARE]: 1,
+};
+
+/**
+ * Build the full deck, weighted by rarity.
+ *
+ * Takes the card table as an argument rather than importing it, because
+ * cardDefinitions.js already imports this module and the cycle would leave
+ * CARD_LIST undefined at module-evaluation time.
+ */
+export function createDeck(cardList) {
   const deck = [];
-  for (let id = 1; id <= 21; id++) {
-    deck.push(String(id));
-    deck.push(String(id));
+  const cards = cardList || [];
+  for (const card of cards) {
+    const copies = COPIES_BY_RARITY[card.rarity] ?? 2;
+    for (let i = 0; i < copies; i++) deck.push(card.id);
   }
   return shuffleArray(deck);
 }

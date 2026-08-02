@@ -659,6 +659,25 @@ const encodePolyline = (coordinates) => {
   return out;
 };
 
+// Rough block-to-block flight time from great-circle distance. Cruise is taken
+// at 800 km/h — below a jet's true airspeed, since the average over a whole
+// sector includes climb and descent — plus a flat 45 minutes for taxi out,
+// departure, approach and taxi in. Short hops are floored at 50 minutes
+// because the fixed overhead dominates them. Always an estimate, never a
+// schedule: callers surface it as such.
+const estimateFlightSeconds = (from, to) => {
+  const R = 6371; // km
+  const rad = (d) => (d * Math.PI) / 180;
+  const dLat = rad(to.lat - from.lat);
+  const dLon = rad(to.lon - from.lon);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(rad(from.lat)) * Math.cos(rad(to.lat)) * Math.sin(dLon / 2) ** 2;
+  const km = 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
+  const seconds = (km / 800) * 3600 + 45 * 60;
+  return Math.max(50 * 60, Math.round(seconds / 300) * 300); // nearest 5 min
+};
+
 const buildStaticMapUrl = (routeGeometry, waypoints) => {
   if (!MAPBOX_ACCESS_TOKEN || !routeGeometry) return null;
   const coords = routeGeometry.coordinates;
@@ -840,9 +859,14 @@ app.get(['/route-weather', '/api/route-weather'], rateLimit(10, 'route-weather')
       // Build static map URL
       response.mapUrl = buildStaticMapUrl(route.geometry, waypoints);
     } else {
-      // Fly mode
-      const flightDuration = 3 * 3600; // 3 hours placeholder
+      // Fly mode. There is no flight-times API behind this, so the duration is
+      // derived from great-circle distance rather than looked up: it used to be
+      // a hardcoded 3 hours, which reported the same figure for Milwaukee and
+      // Tokyo and — because arrival weather is keyed off it — pulled the
+      // forecast for the wrong time. Flagged as an estimate so the UI can say so.
+      const flightDuration = estimateFlightSeconds(startCoords, endCoords);
       response.totalDuration = flightDuration;
+      response.durationEstimated = true;
 
       const arrivalTime = new Date(departureDatetime.getTime() + flightDuration * 1000);
 
