@@ -1,6 +1,6 @@
 import React from 'react';
 import './Misc1.css';
-import MiscPhoto1 from './MiscImages/RestaurantLogo.png';
+import MiscPhoto1 from './MiscImages/RestaurantLogo.webp';
 
 const Misc1 = ({ headerText, contentText }) => {  // Props for dynamic content
   return (

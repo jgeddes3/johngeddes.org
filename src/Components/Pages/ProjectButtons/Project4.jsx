@@ -1,6 +1,6 @@
 import React from 'react';
 import './Project1.css';
-import Photo4 from './ProjectButtonImages/SnipeITFavicon.png';
+import Photo4 from './ProjectButtonImages/SnipeITFavicon.webp';
 
 const Project4 = () => {
   return (

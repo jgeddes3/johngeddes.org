@@ -1,6 +1,6 @@
 import React from 'react';
 import './Project1.css';
-import Photo2 from './ProjectButtonImages/Excel.png';
+import Photo2 from './ProjectButtonImages/Excel.webp';
 
 const Project2 = () => {
   return (

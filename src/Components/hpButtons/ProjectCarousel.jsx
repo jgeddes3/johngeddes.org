@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom';
 import './ProjectCarousel.css';
 
 import RegistrarIcon from '../Pages/ProjectButtons/ProjectButtonImages/RamblerIcon.webp';
-import ExcelIcon from '../Pages/ProjectButtons/ProjectButtonImages/ExcelIcon.png';
+import ExcelIcon from '../Pages/ProjectButtons/ProjectButtonImages/ExcelIcon.webp';
 import SnipeITIcon from '../Pages/ProjectButtons/ProjectButtonImages/SnipeITIcon.webp';
 import ChessIcon from '../Pages/ProjectButtons/ProjectButtonImages/ChessIcon.webp';
-import TourismIcon from '../Pages/ProjectButtons/ProjectButtonImages/TourismIcon.png';
-import CipherIcon from '../Pages/ProjectButtons/ProjectButtonImages/CipherIcon.png';
-import WeatherIcon from '../Pages/ProjectButtons/ProjectButtonImages/Weathericon.png';
-import HoroscopeIcon from '../Pages/ProjectButtons/ProjectButtonImages/HoroscopeIcon.png';
+import TourismIcon from '../Pages/ProjectButtons/ProjectButtonImages/TourismIcon.webp';
+import CipherIcon from '../Pages/ProjectButtons/ProjectButtonImages/CipherIcon.webp';
+import WeatherIcon from '../Pages/ProjectButtons/ProjectButtonImages/Weathericon.webp';
+import HoroscopeIcon from '../Pages/ProjectButtons/ProjectButtonImages/HoroscopeIcon.webp';
 import CreditCardIcon from '../Pages/ProjectButtons/ProjectButtonImages/CreditCardIcon.webp';
 
 const allProjects = [

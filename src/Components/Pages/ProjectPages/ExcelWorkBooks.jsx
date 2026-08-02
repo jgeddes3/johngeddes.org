@@ -4,7 +4,7 @@ import PageFooter from '../../ForEveryPage/PageFooter';
 import SEO from '../../ForEveryPage/SEO';
 import { Link } from 'react-router-dom';
 import './ProjectTemplate.css';
-import Logo from '../ProjectButtons/ProjectButtonImages/Excel.png';
+import Logo from '../ProjectButtons/ProjectButtonImages/Excel.webp';
 
 const ExcelWorkBooks = () => {
   return (

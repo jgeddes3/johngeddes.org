@@ -1,6 +1,6 @@
 import React from 'react';
 import './Project1.css';
-import Photo8 from './ProjectButtonImages/Creditlogo.png';
+import Photo8 from './ProjectButtonImages/Creditlogo.webp';
 
 const Project8 = () => {
   return (

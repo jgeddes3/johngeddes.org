@@ -1,6 +1,6 @@
 import React from 'react';
 import './Project1.css';
-import Photo7 from './ProjectButtonImages/Weathericon.png';
+import Photo7 from './ProjectButtonImages/Weathericon.webp';
 
 const Project7 = () => {
   return (

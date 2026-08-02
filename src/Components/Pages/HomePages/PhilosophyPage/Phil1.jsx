@@ -1,6 +1,6 @@
 import React from 'react';
 import './Phil.css';
-import PhilPhoto1 from './PhilosophyImages/BookLogo.png';
+import PhilPhoto1 from './PhilosophyImages/BookLogo.webp';
 
 const Phil1 = ({ headerText, contentText }) => {  // Props for dynamic content
   return (
