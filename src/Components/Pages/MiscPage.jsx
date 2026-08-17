@@ -2,15 +2,27 @@ import React from 'react';
 import Background from '../ForEveryPage/Background';
 import PageFooter from '../ForEveryPage/PageFooter';
 import SEO from '../ForEveryPage/SEO';
-import { Link } from 'react-router-dom';
 import './MiscPage.css';
+import { books, restaurants, recipes } from '../../reviews';
+import ReviewIndex from '../../reviews/ReviewIndex';
+import BooksLogo from './MiscButtons/MiscImages/BooksLogo.webp';
+import RestaurantLogo from './MiscButtons/MiscImages/RestaurantLogo.webp';
+import RecipesLogo from './MiscButtons/MiscImages/RecipesLogo.webp';
 
-// Import individual misc components
-import Misc1 from './MiscButtons/Misc1';
-import Misc2 from './MiscButtons/Misc2';
-import Misc3 from './MiscButtons/Misc3';
+const MiscSection = ({ logo, title, children }) => (
+  <section className="misc-section">
+    <div className="misc-section-header main-content">
+      <span className="misc-section-logo">
+        <img src={logo} alt="" loading="lazy" decoding="async" />
+      </span>
+      <h2>{title}</h2>
+    </div>
+    <div className="misc-section-card main-content">{children}</div>
+  </section>
+);
 
 const MiscPage = () => {
+  const pending = books.filter((b) => b.status === 'coming-soon').length;
   return (
     <>
       <SEO
@@ -21,71 +33,25 @@ const MiscPage = () => {
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Miscellaneous</h1>
-        <p className="MiscPages-description main-content">This is for all of my thoughts, recipes, and reviews!</p>
+        <p className="MiscPages-description main-content">
+          Everything that isn't work: the books I've been reading, the places I've been eating,
+          and the recipes I actually make.
+        </p>
       </div>
       <div className="content-container">
-        <div className="misc-item">
-          
-          <Link to="/Hopleaf" className="misc-button main-content">
-          <Misc1 
-            headerText="Review of Hopleaf" 
-            contentText="A nice little Gastropub in Andersonville" 
+        <MiscSection logo={BooksLogo} title="Book Reviews">
+          <ReviewIndex
+            items={books}
+            label="Book reviews"
+            note={pending > 0 ? `"Soon" means I've read it and settled on a score — the written review is on the way.` : undefined}
           />
-          </Link>
-        </div>
-        <div className="misc-item">
-          <Link to="/AmazingBurgerRecipe" className="misc-button main-content">
-          <Misc2 
-            headerText="My amazing and intense Burger Recipe" 
-            contentText="Are you looking to impress your friends? Try this burger recipe in order to step up your game." 
-          />
-          </Link>
-        </div>
-        <div className="misc-item">
-          <Link to="/TavaFreshIndian" className="misc-button main-content">
-          <Misc1 
-            headerText="Tava Fresh Taste of India" 
-            contentText="A very good indian option in the Chicago-Land area" 
-          />
-          </Link>
-        </div>
-        <div className="misc-item">
-          <Link to="/MimosaRecipe" className="misc-button main-content">
-          <Misc2 
-            headerText="The Best Mimosa Recipe Ever" 
-            contentText="Do you not like mimosas? You may not be making them right." 
-          />
-          </Link>
-          <Link to="/CrockPotChilli" className="misc-button main-content">
-          <Misc2 
-            headerText="The Best Crock Pot Bear Chili" 
-            contentText="The best chili you've never had. " 
-          />
-          </Link>
-        </div>
-          <Link to="/WayOfKingsReview" className="misc-button main-content">
-          <Misc3 
-            headerText="The Way of Kings" 
-            contentText="My honest book review" 
-          />
-          </Link>
-        <div className="misc-item">
-          <Link to="/MythOfSisyphusReview" className="misc-button main-content">
-          <Misc3 
-            headerText="The Myth of Sisyphus" 
-            contentText="My honest book review" 
-          />
-          </Link>
-        </div>
-        <div className="misc-item">
-          <Link to="/RedRisingReview" className="misc-button main-content">
-          <Misc3 
-            headerText="Red Rising" 
-            contentText="My honest book review" 
-          />
-          </Link>
-        </div>
-       
+        </MiscSection>
+        <MiscSection logo={RestaurantLogo} title="Restaurants & Bars">
+          <ReviewIndex items={restaurants} label="Restaurant and bar reviews" />
+        </MiscSection>
+        <MiscSection logo={RecipesLogo} title="Recipes">
+          <ReviewIndex items={recipes} showBlurb label="Recipes" />
+        </MiscSection>
       </div>
       <PageFooter />
     </>

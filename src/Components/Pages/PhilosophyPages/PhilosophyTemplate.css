@@ -54,7 +54,17 @@
   font-size: 21px;
   line-height: 1.8;
   color: var(--color-text-dark);
+  text-align: left; /* the .App wrapper centers text globally */
   margin-bottom: 24px;
+}
+
+.phil-text a {
+  color: var(--color-accent-medium);
+  text-decoration: underline;
+}
+
+.phil-text a:hover {
+  color: var(--color-accent);
 }
 
 /* --- Section Heading --- */
@@ -132,6 +142,7 @@
   font-size: 21px;
   line-height: 1.8;
   color: var(--color-text-dark);
+  text-align: left;
 }
 
 .phil-image-aside-figure {

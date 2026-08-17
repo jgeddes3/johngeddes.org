@@ -33,9 +33,9 @@ const FriendsPage = () => {
         <div className="Phil-item">
           
           <Link to="/phil1" className="Phil-button main-content">
-          <Phil1 
-            headerText="General Philosophy Catagory" 
-            contentText="For General Philosophy Content." 
+          <Phil1
+            headerText="General Philosophy"
+            contentText="Open now — the first essays land here."
           />
           </Link>
         </div>
