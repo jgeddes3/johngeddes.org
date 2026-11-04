@@ -1,22 +1,280 @@
-/* Social page - larger in-progress image */
-.social-progress-img {
-  width: 350px;
-  height: 350px;
-  object-fit: contain;
-  margin-bottom: 32px;
-  border-radius: 20px;
+/* ===== Social page: live signal tiles, the "now" card, profile badges ===== */
+
+.social-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
-  .social-progress-img {
-    width: 250px;
-    height: 250px;
+.social-eyebrow {
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-accent-medium);
+  margin-bottom: 6px;
+}
+
+.social-deck {
+  font-family: 'EB Garamond', serif;
+  font-size: 22px;
+  color: var(--color-accent-medium);
+  text-align: center;
+  line-height: 1.5;
+  max-width: 640px;
+  margin: 0 auto 48px;
+}
+
+/* --- Signal tiles --- */
+.social-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 56px;
+}
+
+.social-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--color-accent);
+  border-radius: 10px;
+  padding: 16px 18px;
+  text-align: left;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+a.social-tile:hover {
+  background-color: var(--bg-hover);
+  transform: translateY(-3px);
+}
+
+a.social-tile:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.social-tile.muted .social-tile-value {
+  color: var(--color-grey-accent);
+}
+
+.social-tile-label {
+  font-family: 'EB Garamond', serif;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent-caption);
+}
+
+.social-tile-value {
+  font-family: 'Galgine', serif;
+  font-size: 34px;
+  line-height: 1.15;
+  color: var(--color-accent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.social-tile-sub {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--color-text-dark);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.social-tile-live {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-green-brand);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* --- Sections (same heading treatment as the shelves) --- */
+.social-section {
+  margin-bottom: 48px;
+}
+
+.social-section h2 {
+  font-family: 'Galgine', serif;
+  font-size: 34px;
+  font-weight: 400;
+  color: var(--color-accent);
+  margin: 0 0 6px;
+  text-align: left;
+}
+
+.social-section-date {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--color-accent-caption);
+  text-align: left;
+  margin: 0 0 18px;
+}
+
+.social-card {
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--color-accent);
+  border-radius: 10px;
+  padding: 16px 22px;
+}
+
+/* --- The "now" list: two columns of term + text --- */
+.social-now {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 28px;
+  row-gap: 14px;
+  text-align: left;
+}
+
+.social-now > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.social-now dt {
+  font-family: 'Galgine', serif;
+  font-size: 18px;
+  color: var(--color-accent);
+  line-height: 1.4;
+}
+
+.social-now dd {
+  margin: 0;
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--color-text-dark);
+}
+
+/* --- Profile badges --- */
+.social-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 22px 28px;
+  padding: 8px 0;
+}
+
+.social-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 96px;
+  text-decoration: none;
+}
+
+.social-badge-mono {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--color-accent);
+  font-family: 'Galgine', serif;
+  font-size: 24px;
+  color: var(--color-accent);
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.social-badge:hover .social-badge-mono,
+.social-badge:focus-visible .social-badge-mono {
+  background-color: var(--color-accent);
+  color: var(--bg-secondary);
+  transform: translateY(-3px);
+}
+
+.social-badge:focus-visible {
+  outline: none;
+}
+
+.social-badge-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  color: var(--color-accent);
+}
+
+.social-badge-handle {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--color-accent-caption);
+  max-width: 96px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.social-note {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 16px;
+  color: var(--color-accent-caption);
+  text-align: left;
+  margin: 14px 12px 0;
+}
+
+/* --- Bottom nav (reuses .phil-nav-button) --- */
+.social-nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px auto 70px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+  .social-tiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .social-now {
+    grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 480px) {
-  .social-progress-img {
-    width: 200px;
-    height: 200px;
+@media (max-width: 520px) {
+  .social-deck {
+    font-size: 18px;
+    margin-bottom: 32px;
+  }
+
+  .social-tiles {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .social-tile-value {
+    font-size: 26px;
+  }
+
+  .social-section h2 {
+    font-size: 26px;
+  }
+
+  .social-now dd {
+    font-size: 16px;
+  }
+
+  .social-card {
+    padding: 12px 14px;
   }
 }

@@ -97,6 +97,7 @@ const normalizeTracks = (tracks) => {
 
     return {
       isNowPlaying,
+      playedAt: track && track.date && track.date.uts ? Number(track.date.uts) * 1000 : null,
       track: {
         name: track && track.name ? track.name : 'Unknown Track',
         artists: [{ name: artistName }],
@@ -108,6 +109,31 @@ const normalizeTracks = (tracks) => {
   });
 };
 
+const RECENT_TTL_MS = 60 * 1000;
+let recentCache = { at: 0, data: null };
+let recentPending = null; // concurrent cache misses share one upstream round-trip
+
+const fetchRecentlyPlayed = async () => {
+  const response = await fetch(buildRecentTracksUrl());
+  if (!response.ok) {
+    throw new Error(`Last.fm returned ${response.status}`);
+  }
+  const body = await response.json();
+  if (body && body.error) {
+    throw new Error(body.message || 'Last.fm API returned an error.');
+  }
+  const tracks = body && body.recenttracks && body.recenttracks.track
+    ? body.recenttracks.track
+    : [];
+  if (!Array.isArray(tracks) || tracks.length === 0) {
+    return { items: [] };
+  }
+  return { items: normalizeTracks(tracks) };
+};
+
+// The footer mounts this widget on every route, so one visitor browsing five
+// pages used to mean five function invocations and five Last.fm round-trips.
+// A track is allowed to be a minute late: cache in-process and at the CDN.
 const handleRecentlyPlayed = async (req, res) => {
   if (!LASTFM_API_KEY || !LASTFM_USER) {
     res.status(500).json({
@@ -116,34 +142,29 @@ const handleRecentlyPlayed = async (req, res) => {
     return;
   }
 
+  const sendFresh = (data) => {
+    res.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
+    res.json(data);
+  };
+
+  if (recentCache.data && Date.now() - recentCache.at < RECENT_TTL_MS) {
+    sendFresh(recentCache.data);
+    return;
+  }
+  if (!recentPending) {
+    recentPending = fetchRecentlyPlayed().finally(() => { recentPending = null; });
+  }
   try {
-    const response = await fetch(buildRecentTracksUrl());
-    if (!response.ok) {
-      console.error('Failed to fetch recent tracks', response.status);
-      res.status(500).json({ error: 'Failed to fetch recent tracks.' });
-      return;
-    }
-
-    const body = await response.json();
-
-    if (body && body.error) {
-      console.error('Last.fm API error', body);
-      res.status(500).json({ error: 'Last.fm API returned an error.' });
-      return;
-    }
-
-    const tracks = body && body.recenttracks && body.recenttracks.track
-      ? body.recenttracks.track
-      : [];
-
-    if (!Array.isArray(tracks) || tracks.length === 0) {
-      res.json({ items: [] });
-      return;
-    }
-
-    res.json({ items: normalizeTracks(tracks) });
+    const data = await recentPending;
+    recentCache = { at: Date.now(), data };
+    sendFresh(data);
   } catch (err) {
     console.error('Failed to fetch recent tracks', err.message);
+    if (recentCache.data) {
+      // Upstream hiccup: a stale track beats an error in the footer.
+      res.json(recentCache.data);
+      return;
+    }
     res.status(500).json({ error: 'Failed to fetch recent tracks.' });
   }
 };
@@ -910,6 +931,169 @@ app.get(['/route-weather', '/api/route-weather'], rateLimit(10, 'route-weather')
     }
     res.status(500).json({ error: 'Failed to compute route weather. Please try again.' });
   }
+});
+
+// ---- Social page signals ----
+// One cached call feeds the live tiles on /social. Each source fails on its
+// own: a dead feed comes back null and the tile shows an empty state, rather
+// than one outage blanking the whole board.
+
+const SIGNALS_TTL_MS = 5 * 60 * 1000;
+let signalsCache = { at: 0, data: null };
+let signalsPending = null;
+const CHESS_USER = 'shyne4life';
+const GITHUB_USER = 'jgeddes3';
+const CHICAGO = { lat: 41.8781, lon: -87.6298 };
+const SITE_UA = { 'User-Agent': 'johngeddes.org (app@johngeddes.org)' };
+
+// WMO weather codes as Open-Meteo reports them.
+const WMO_TEXT = {
+  0: 'Clear', 1: 'Mostly clear', 2: 'Partly cloudy', 3: 'Overcast',
+  45: 'Fog', 48: 'Icy fog',
+  51: 'Light drizzle', 53: 'Drizzle', 55: 'Heavy drizzle', 56: 'Freezing drizzle', 57: 'Freezing drizzle',
+  61: 'Light rain', 63: 'Rain', 65: 'Heavy rain', 66: 'Freezing rain', 67: 'Freezing rain',
+  71: 'Light snow', 73: 'Snow', 75: 'Heavy snow', 77: 'Snow grains',
+  80: 'Showers', 81: 'Showers', 82: 'Heavy showers', 85: 'Snow showers', 86: 'Snow showers',
+  95: 'Thunderstorm', 96: 'Thunderstorm with hail', 99: 'Thunderstorm with hail'
+};
+
+const fetchJson = async (url, headers = {}) => {
+  const res = await fetch(url, { headers });
+  if (!res.ok) throw new Error(`${url} returned ${res.status}`);
+  return res.json();
+};
+
+const signalPlaying = async () => {
+  if (!LASTFM_API_KEY || !LASTFM_USER) return null;
+  const { items } = await fetchRecentlyPlayed();
+  const item = items[0];
+  if (!item) return null;
+  return {
+    track: item.track.name,
+    artist: item.track.artists[0].name,
+    url: item.track.external_urls.lastfm || `https://www.last.fm/user/${LASTFM_USER}`,
+    nowPlaying: item.isNowPlaying,
+    playedAt: item.playedAt
+  };
+};
+
+const CHESS_DRAWS = new Set(['agreed', 'repetition', 'stalemate', 'insufficient', '50move', 'timevsinsufficient']);
+
+const signalChess = async () => {
+  const stats = await fetchJson(`https://api.chess.com/pub/player/${CHESS_USER}/stats`, SITE_UA);
+  const modeKey = ['chess_rapid', 'chess_blitz', 'chess_bullet', 'chess_daily'].find((m) => stats[m] && stats[m].last);
+  if (!modeKey) return null;
+  const mode = modeKey.replace('chess_', '');
+  let last = null;
+  try {
+    const { archives } = await fetchJson(`https://api.chess.com/pub/player/${CHESS_USER}/games/archives`, SITE_UA);
+    if (Array.isArray(archives) && archives.length) {
+      const { games } = await fetchJson(archives[archives.length - 1], SITE_UA);
+      const g = Array.isArray(games) && games[games.length - 1];
+      if (g && g.white && g.black) {
+        const iAmWhite = (g.white.username || '').toLowerCase() === CHESS_USER;
+        const me = iAmWhite ? g.white : g.black;
+        const opponent = iAmWhite ? g.black : g.white;
+        const outcome = me.result === 'win' ? 'Won' : CHESS_DRAWS.has(me.result) ? 'Drew' : 'Lost';
+        last = { outcome, opponent: opponent.username, endTime: g.end_time ? g.end_time * 1000 : null, url: g.url };
+      }
+    }
+  } catch (err) {
+    console.error('Chess.com archive lookup failed', err.message);
+  }
+  return {
+    mode: mode.charAt(0).toUpperCase() + mode.slice(1),
+    rating: stats[modeKey].last.rating,
+    record: stats[modeKey].record || null,
+    last,
+    url: `https://www.chess.com/member/${CHESS_USER}`
+  };
+};
+
+const signalCommit = async () => {
+  const events = await fetchJson(
+    `https://api.github.com/users/${GITHUB_USER}/events/public?per_page=30`,
+    { ...SITE_UA, Accept: 'application/vnd.github+json' }
+  );
+  const push = Array.isArray(events)
+    ? events.find((e) => e.type === 'PushEvent' && e.payload && Array.isArray(e.payload.commits) && e.payload.commits.length)
+    : null;
+  if (push) {
+    const commit = push.payload.commits[push.payload.commits.length - 1];
+    const repoFull = push.repo && push.repo.name ? push.repo.name : `${GITHUB_USER}/unknown`;
+    return {
+      repo: repoFull.split('/')[1],
+      message: (commit.message || '').split('\n')[0],
+      at: push.created_at,
+      url: `https://github.com/${repoFull}/commit/${commit.sha}`
+    };
+  }
+  // The events feed is empty when GitHub activity is set to private, so fall
+  // back to the newest commit on the most recently pushed public repo.
+  const repos = await fetchJson(
+    `https://api.github.com/users/${GITHUB_USER}/repos?sort=pushed&per_page=1`,
+    { ...SITE_UA, Accept: 'application/vnd.github+json' }
+  );
+  const repo = Array.isArray(repos) && repos[0];
+  if (!repo) return null;
+  const commits = await fetchJson(
+    `https://api.github.com/repos/${repo.full_name}/commits?per_page=1`,
+    { ...SITE_UA, Accept: 'application/vnd.github+json' }
+  );
+  const c = Array.isArray(commits) && commits[0];
+  if (!c) return null;
+  return {
+    repo: repo.name,
+    message: ((c.commit && c.commit.message) || '').split('\n')[0],
+    at: (c.commit && c.commit.author && c.commit.author.date) || repo.pushed_at,
+    url: c.html_url || repo.html_url
+  };
+};
+
+const signalWeather = async () => {
+  const json = await fetchJson(
+    `https://api.open-meteo.com/v1/forecast?latitude=${CHICAGO.lat}&longitude=${CHICAGO.lon}&current=temperature_2m,weather_code,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FChicago`
+  );
+  const c = json.current;
+  if (!c || typeof c.temperature_2m !== 'number') return null;
+  return {
+    temp: Math.round(c.temperature_2m),
+    description: WMO_TEXT[c.weather_code] || 'Weather',
+    wind: Math.round(c.wind_speed_10m || 0)
+  };
+};
+
+const buildSignals = async () => {
+  const settle = (name, promise) => promise.catch((err) => {
+    console.error(`Signal "${name}" failed:`, err.message);
+    return null;
+  });
+  const [playing, chess, commit, weather] = await Promise.all([
+    settle('playing', signalPlaying()),
+    settle('chess', signalChess()),
+    settle('commit', signalCommit()),
+    settle('weather', signalWeather())
+  ]);
+  return { playing, chess, commit, weather, at: new Date().toISOString() };
+};
+
+app.get(['/signals', '/api/signals'], async (req, res) => {
+  const send = (data) => {
+    res.set('Cache-Control', 'public, s-maxage=300, stale-while-revalidate=600');
+    res.json(data);
+  };
+  if (signalsCache.data && Date.now() - signalsCache.at < SIGNALS_TTL_MS) {
+    return send(signalsCache.data);
+  }
+  if (!signalsPending) {
+    signalsPending = buildSignals().finally(() => { signalsPending = null; });
+  }
+  const data = await signalsPending;
+  // Cache when at least one source answered; a total outage is retried next request.
+  if (['playing', 'chess', 'commit', 'weather'].some((k) => data[k])) {
+    signalsCache = { at: Date.now(), data };
+  }
+  send(data);
 });
 
 module.exports = app;
