@@ -10,6 +10,30 @@
   box-sizing: border-box;
 }
 
+/* --- Header: category eyebrow above the title --- */
+.phil-eyebrow {
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-accent-medium);
+  margin-bottom: 6px;
+}
+
+/* The title inherits the site-wide #centerpiece2 h1 display style (Galgine). */
+.phil-title {
+  margin: 0;
+}
+
+/* --- Byline --- */
+.phil-byline {
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  color: var(--color-text-dark);
+  text-align: center;
+  margin: -16px 0 40px;
+}
+
 /* --- Subtitle --- */
 .phil-subtitle {
   font-family: 'EB Garamond', serif;
@@ -128,6 +152,10 @@
   margin-bottom: 32px;
 }
 
+.phil-figure {
+  margin: 0 0 24px;
+}
+
 /* --- Image Aside (text + image side by side) --- */
 .phil-image-aside {
   display: flex;
@@ -158,6 +186,10 @@
 
 .phil-image-aside-figure .phil-image-caption {
   margin-top: 8px;
+}
+
+.phil-image-aside.left .phil-image-aside-figure {
+  order: -1;
 }
 
 /* --- Navigation Buttons --- */
@@ -238,6 +270,10 @@
 
   .phil-image-aside {
     flex-direction: column;
+  }
+
+  .phil-image-aside.left .phil-image-aside-figure {
+    order: 0;
   }
 
   .phil-image-aside-text {

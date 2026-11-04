@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import Stars from './Stars';
 import './reviews.css';
 
-/* Card-catalog style list of reviews: full title, author, dotted leader,
-   rating. Rows link to the review page; rows with a `url` instead of a
+/* Card-catalog style list: full title, author, dotted leader, rating.
+   Items without a rating may carry `meta` text (essays use the date) in the
+   rating's place. Rows link to the review page; rows with a `url` instead of a
    `slug` link out (used for the not-yet-reviewed bar list). */
 
 const RowInner = ({ item, showBlurb }) => (
@@ -14,11 +15,16 @@ const RowInner = ({ item, showBlurb }) => (
       {item.author && <span className="review-index-author">{item.author}</span>}
       {showBlurb && item.blurb && <span className="review-index-blurb">{item.blurb}</span>}
     </span>
-    {(item.rating != null || item.url) && <span className="review-index-leader" aria-hidden="true" />}
+    {(item.rating != null || item.meta || item.url) && <span className="review-index-leader" aria-hidden="true" />}
     {item.rating != null ? (
       <span className="review-index-score">
         <Stars rating={item.rating} size={15} />
         <span className="review-index-number" aria-hidden="true">{item.rating}</span>
+        {item.status === 'coming-soon' && <span className="review-index-pending">soon</span>}
+      </span>
+    ) : item.meta ? (
+      <span className="review-index-score">
+        <span className="review-index-meta">{item.meta}</span>
         {item.status === 'coming-soon' && <span className="review-index-pending">soon</span>}
       </span>
     ) : item.url ? (

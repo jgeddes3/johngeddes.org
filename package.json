@@ -17,7 +17,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "new:review": "node scripts/new-review.mjs"
+    "new:review": "node scripts/new-review.mjs",
+    "new:essay": "node scripts/new-essay.mjs"
   },
   "engines": {
     "node": "22.x"

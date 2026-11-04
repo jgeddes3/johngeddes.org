@@ -31,9 +31,10 @@ import RamblerRegistrar from './Components/Pages/ProjectPages/RamblerRegistrar';
 import ReactNativeCreditCardApp from './Components/Pages/ProjectPages/ReactNativeCreditCardApp';
 import SnipeIT from './Components/Pages/ProjectPages/SnipeIT';
 import WeatherApp from './Components/Pages/ProjectPages/WeatherApp';
-import GeneralPhilosophy from './Components/Pages/PhilosophyPages/GeneralPhilosophy';
 import { reviews } from './reviews';
 import ReviewPage from './reviews/ReviewPage';
+import { essays } from './philosophy';
+import EssayPage from './philosophy/EssayPage';
 
 function App() {
   return (
@@ -74,8 +75,10 @@ function App() {
           {reviews.map((r) => (
             <Route key={r.slug} path={`/${r.slug}`} element={<ReviewPage review={r} />} />
           ))}
-          {/* Philosophy Pages */}
-          <Route path="/phil1" element={<GeneralPhilosophy />} />
+          {/* Philosophy essays — every entry in src/philosophy/entries gets a route */}
+          {essays.map((e) => (
+            <Route key={e.slug} path={`/${e.slug}`} element={<EssayPage essay={e} />} />
+          ))}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         </main>

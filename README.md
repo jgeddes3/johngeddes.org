@@ -40,5 +40,6 @@ All keys are server-side only, read by `api/index.js`. Never add
 
 - The resume PDF is served from `public/` at the stable URL
   `/Geddes_Resume_26.pdf`.
-- Starter templates for new review/recipe pages live in `templates/` — copy
-  one into `src/Components/Pages/MiscPages/` and fix the relative imports.
+- Reviews, recipes, and philosophy essays are data files (`src/reviews/entries/`,
+  `src/philosophy/entries/`). `npm run new:review` and `npm run new:essay`
+  scaffold one; see `templates/README.md`.
