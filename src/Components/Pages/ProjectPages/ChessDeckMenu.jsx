@@ -7,6 +7,9 @@ import './ProjectTemplate.css';
 import './ChessDeck.css';
 
 import TableBg from './ProjectPageImages/ChessDeck/ChessBackground2.webp';
+// The online mode loads Firebase on demand; start fetching that chunk as soon
+// as the pointer reaches the button so the waiting room opens without a pause.
+const prefetchOnline = () => { import('./ChessDeckGame/firebaseRoom'); };
 
 const ChessDeckMenu = () => {
   const navigate = useNavigate();
@@ -44,6 +47,8 @@ const ChessDeckMenu = () => {
           <button
             className="cd-menu-button"
             onClick={() => navigate('/ChessDeck/online')}
+            onMouseEnter={prefetchOnline}
+            onFocus={prefetchOnline}
           >
             <span className="cd-menu-button-icon">&#9816;</span>
             <span className="cd-menu-button-title">Send a Link</span>

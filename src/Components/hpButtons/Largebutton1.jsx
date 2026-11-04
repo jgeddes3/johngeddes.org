@@ -1,9 +1,9 @@
 import React from 'react';
 import './LargeButton.css';
 import './ComplexLayoutL.css';
-import img_1230 from './img_1230.png'; 
-import img_1231 from './img_1231.png'; 
-import img_1232 from './img_1232.png';  
+import img_1230 from './img_1230.webp'; 
+import img_1231 from './img_1231.webp'; 
+import img_1232 from './img_1232.webp';  
 
 
 const Largebutton1 = () => {
@@ -15,9 +15,9 @@ const Largebutton1 = () => {
       </div>
       <div className="rectangle1"></div>
       <div className="rectangle2">
-        <img loading="lazy" decoding="async" src={img_1230} alt="1230" className="circle-img" />
-        <img loading="lazy" decoding="async" src={img_1231} alt="1231" className="circle-img" />
-        <img loading="lazy" decoding="async" src={img_1232} alt="1232" className="circle-img" />
+        <img decoding="async" src={img_1230} alt="1230" className="circle-img" />
+        <img decoding="async" src={img_1231} alt="1231" className="circle-img" />
+        <img decoding="async" src={img_1232} alt="1232" className="circle-img" />
       </div>
       <div className="rectangle4"></div>
       <div className="rectangle3"></div>

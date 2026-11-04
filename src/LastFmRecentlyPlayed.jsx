@@ -1,24 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import './LastFmRecentlyPlayed.css';
-import LastFmLogo from './last-fm-logo-icon.png';
+import LastFmLogo from './last-fm-logo-icon.webp';
 
-const LastFmRecentlyPlayed = () => {
-  const [track, setTrack] = useState(null);
+// The widget lives in the footer, so it remounts on every route change. Keep
+// the last answer at module level: navigating between pages reuses it instead
+// of hitting the API again, and the footer renders the track immediately rather
+// than flashing "No recent track found." first.
+const TRACK_TTL_MS = 60 * 1000;
+let cachedTrack = null; // { at, track }
+let pendingTrack = null;
 
-  useEffect(() => {
-    fetch('/api/recently-played')
+const pickTrack = (data) => {
+  const items = data && Array.isArray(data.items) ? data.items : [];
+  const fallbackItem = items[0] || null;
+  const nonNowPlaying = items.find((item) => !item.isNowPlaying);
+  const selectedItem = nonNowPlaying || fallbackItem;
+  return selectedItem ? selectedItem.track : null;
+};
+
+const loadTrack = () => {
+  if (cachedTrack && Date.now() - cachedTrack.at < TRACK_TTL_MS) {
+    return Promise.resolve(cachedTrack.track);
+  }
+  if (!pendingTrack) {
+    pendingTrack = fetch('/api/recently-played')
       .then((response) => response.json())
       .then((data) => {
-        const items = data && Array.isArray(data.items) ? data.items : [];
-        const fallbackItem = items[0] || null;
-        const nonNowPlaying = items.find((item) => !item.isNowPlaying);
-        const selectedItem = nonNowPlaying || fallbackItem;
+        const track = pickTrack(data);
+        cachedTrack = { at: Date.now(), track };
+        return track;
+      })
+      .finally(() => {
+        pendingTrack = null;
+      });
+  }
+  return pendingTrack;
+};
 
-        setTrack(selectedItem ? selectedItem.track : null);
+const LastFmRecentlyPlayed = () => {
+  const [track, setTrack] = useState(() => (cachedTrack ? cachedTrack.track : null));
+
+  useEffect(() => {
+    let active = true;
+    loadTrack()
+      .then((next) => {
+        if (active) setTrack(next);
       })
       .catch((error) => {
         console.error('Error fetching recent track:', error);
       });
+    return () => {
+      active = false;
+    };
   }, []);
 
   const truncateText = (text, maxLength) => {

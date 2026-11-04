@@ -13,7 +13,7 @@ import Golf2 from './FriendsImages/Golf2.webp';
 import Chess from './FriendsImages/Chess.webp';
 import RockClimb1 from './FriendsImages/RockClimb1.jpg';
 import RockClimb2 from './FriendsImages/RockClimb2.jpg';
-import Mongolia from './FriendsImages/Mongolia.png';
+import Mongolia from './FriendsImages/Mongolia.webp';
 
 const BARS_TO_TRY = [
   { title: 'Dearly Beloved', url: 'https://www.yelp.com/biz/dearly-beloved-chicago' },

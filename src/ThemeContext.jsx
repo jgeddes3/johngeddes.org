@@ -19,9 +19,13 @@ export function ThemeProvider({ children }) {
     return () => clearInterval(interval);
   }, []);
 
-  // Apply data-theme attribute to documentElement
+  // Apply data-theme attribute to documentElement (index.html sets it once
+  // before first paint; this keeps it in sync after the toggle) and keep the
+  // browser chrome colour matching the page background.
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', preference);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', preference === 'dark' ? '#30343F' : '#EAE0D5');
   }, [preference]);
 
   // Toggle simply flips light <-> dark

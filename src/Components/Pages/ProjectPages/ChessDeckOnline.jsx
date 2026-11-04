@@ -8,7 +8,9 @@ import './ChessDeck.css';
 
 import { gameReducer, createInitialState } from './ChessDeckGame/gameReducer';
 import { WHITE, BLACK, PHASE_DRAW, PHASE_PROMOTION, PHASE_GAME_OVER } from './ChessDeckGame/constants';
-import { createRoom, joinRoom } from './ChessDeckGame/firebaseRoom';
+// Firebase (~220 KB of JS) is only needed on this route, so it is loaded on
+// demand instead of shipping in the bundle every visitor downloads.
+const loadFirebaseRoom = () => import('./ChessDeckGame/firebaseRoom');
 
 import Board from './ChessDeckGame/components/Board';
 import GameInfo from './ChessDeckGame/components/GameInfo';
@@ -54,78 +56,86 @@ const ChessDeckOnline = () => {
   useEffect(() => {
     let cancelled = false;
 
-    if (!roomId) {
-      // I'm the host — create a room and redirect
-      const { roomId: newRoomId, cleanup } = createRoom(
-        (sendState, onReceiveState) => {
-          if (cancelled) return;
-          sendRef.current = sendState;
-          cleanupRef.current = cleanup;
-          setConnected(true);
-          isHost.current = true;
-          setMyColor(WHITE);
+    loadFirebaseRoom()
+      .then(({ createRoom, joinRoom }) => {
+        if (cancelled) return;
 
-          // Send initial state to guest; ignore the onValue echo
-          ignoreNextUpdate.current = true;
-          sendState(stateRef.current);
+      if (!roomId) {
+        // I'm the host — create a room and redirect
+        const { roomId: newRoomId, cleanup } = createRoom(
+          (sendState, onReceiveState) => {
+            if (cancelled) return;
+            sendRef.current = sendState;
+            cleanupRef.current = cleanup;
+            setConnected(true);
+            isHost.current = true;
+            setMyColor(WHITE);
 
-          onReceiveState((newState) => {
-            if (ignoreNextUpdate.current) {
-              ignoreNextUpdate.current = false;
-              return;
-            }
-            restoreModifiers(newState);
-            dispatch({ type: 'REPLACE_STATE', state: newState });
-          });
-        },
-        () => {
-          if (!cancelled) setDisconnected(true);
-        },
-        // Firebase unreachable, blocked or rules-denied. Without this the host
-        // sat in the waiting room indefinitely with nothing to act on.
-        (err) => {
-          if (!cancelled) setError(err?.message || 'Could not reach the game server.');
-        }
-      );
+            // Send initial state to guest; ignore the onValue echo
+            ignoreNextUpdate.current = true;
+            sendState(stateRef.current);
 
-      cleanupRef.current = cleanup;
-      setHostRoomId(newRoomId);
-      navigate(`/ChessDeck/online/${newRoomId}`, { replace: true });
-    } else {
-      // Check if we're the host coming back or a joiner
-      if (hostRoomId === roomId) {
-        return;
-      }
-
-      // We're a joiner
-      setMyColor(BLACK);
-
-      joinRoom(roomId)
-        .then(({ sendState, onReceiveState, listenForHostLeave, cleanup }) => {
-          if (cancelled) return;
-          sendRef.current = sendState;
-          cleanupRef.current = cleanup;
-          setConnected(true);
-
-          onReceiveState((newState) => {
-            if (ignoreNextUpdate.current) {
-              ignoreNextUpdate.current = false;
-              return;
-            }
-            restoreModifiers(newState);
-            dispatch({ type: 'REPLACE_STATE', state: newState });
-          });
-
-          listenForHostLeave(() => {
+            onReceiveState((newState) => {
+              if (ignoreNextUpdate.current) {
+                ignoreNextUpdate.current = false;
+                return;
+              }
+              restoreModifiers(newState);
+              dispatch({ type: 'REPLACE_STATE', state: newState });
+            });
+          },
+          () => {
             if (!cancelled) setDisconnected(true);
+          },
+          // Firebase unreachable, blocked or rules-denied. Without this the host
+          // sat in the waiting room indefinitely with nothing to act on.
+          (err) => {
+            if (!cancelled) setError(err?.message || 'Could not reach the game server.');
+          }
+        );
+
+        cleanupRef.current = cleanup;
+        setHostRoomId(newRoomId);
+        navigate(`/ChessDeck/online/${newRoomId}`, { replace: true });
+      } else {
+        // Check if we're the host coming back or a joiner
+        if (hostRoomId === roomId) {
+          return;
+        }
+
+        // We're a joiner
+        setMyColor(BLACK);
+
+        joinRoom(roomId)
+          .then(({ sendState, onReceiveState, listenForHostLeave, cleanup }) => {
+            if (cancelled) return;
+            sendRef.current = sendState;
+            cleanupRef.current = cleanup;
+            setConnected(true);
+
+            onReceiveState((newState) => {
+              if (ignoreNextUpdate.current) {
+                ignoreNextUpdate.current = false;
+                return;
+              }
+              restoreModifiers(newState);
+              dispatch({ type: 'REPLACE_STATE', state: newState });
+            });
+
+            listenForHostLeave(() => {
+              if (!cancelled) setDisconnected(true);
+            });
+          })
+          .catch((err) => {
+            if (cancelled) return;
+            console.error('Failed to join room:', err);
+            setError('Could not connect — the host may have left or the link expired.');
           });
-        })
-        .catch((err) => {
-          if (cancelled) return;
-          console.error('Failed to join room:', err);
-          setError('Could not connect — the host may have left or the link expired.');
-        });
-    }
+      }
+      })
+      .catch((err) => {
+        if (!cancelled) setError(err?.message || 'Could not reach the game server.');
+      });
 
     return () => {
       cancelled = true;

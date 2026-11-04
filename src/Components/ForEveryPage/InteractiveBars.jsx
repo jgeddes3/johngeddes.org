@@ -1,7 +1,7 @@
 import React, { useRef, useCallback, useEffect, useState } from 'react';
 import { useTheme } from '../../ThemeContext';
 import './InteractiveBars.css';
-import SunIcon from './sunicon.png';
+import SunIcon from './sunicon.webp';
 
 const BAR_COUNT = 24;
 const RESTING_HEIGHT = 20;

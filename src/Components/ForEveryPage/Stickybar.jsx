@@ -31,19 +31,22 @@ const StickyBar = () => {
   };
 
   useEffect(() => {
+    // The nav is static, so look the nodes up once; and only touch classes
+    // when the scrolled state actually flips, not on every scroll event.
+    const header = document.getElementById('sticky-header');
+    const buttons = Array.from(document.querySelectorAll('.nav-btn'));
+    let scrolled = null;
+
     const scrollFunc = () => {
-      const header = document.getElementById('sticky-header');
-      const buttons = document.querySelectorAll('.nav-btn');
-      if (window.scrollY >= 80) {
-        header.classList.add('scrolled');
-        buttons.forEach((btn) => btn.classList.add('scrolled'));
-      } else {
-        header.classList.remove('scrolled');
-        buttons.forEach((btn) => btn.classList.remove('scrolled'));
-      }
+      const next = window.scrollY >= 80;
+      if (next === scrolled) return;
+      scrolled = next;
+      header.classList.toggle('scrolled', next);
+      buttons.forEach((btn) => btn.classList.toggle('scrolled', next));
     };
 
-    window.addEventListener('scroll', scrollFunc);
+    scrollFunc();
+    window.addEventListener('scroll', scrollFunc, { passive: true });
     return () => window.removeEventListener('scroll', scrollFunc);
   }, []);
 

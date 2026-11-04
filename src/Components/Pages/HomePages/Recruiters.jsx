@@ -3,10 +3,10 @@ import { Link, useSearchParams } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
 import SEO from '../../ForEveryPage/SEO';
-import AudioVisualIcon from './RecruiterImages/AudioVisual.png';
-import ExecutiveITIcon from './RecruiterImages/ExecutiveIT.png';
-import ManagerIcon from './RecruiterImages/Manager.png';
-import WebDevITIcon from './RecruiterImages/WebDevIT.png';
+import AudioVisualIcon from './RecruiterImages/AudioVisual.webp';
+import ExecutiveITIcon from './RecruiterImages/ExecutiveIT.webp';
+import ManagerIcon from './RecruiterImages/Manager.webp';
+import WebDevITIcon from './RecruiterImages/WebDevIT.webp';
 import './Recruiters.css';
 
 // Served from public/ at stable URLs that survive every deploy — bundling the

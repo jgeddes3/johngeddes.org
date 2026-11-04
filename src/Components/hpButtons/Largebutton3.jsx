@@ -1,6 +1,6 @@
 import React from 'react';
 import './LargeButton.css';
-import img_1237 from './img_1237.png';
+import img_1237 from './img_1237.webp';
 import img_1238 from './img_1238.png';
 
 const Largebutton3 = () => {

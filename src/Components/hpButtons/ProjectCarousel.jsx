@@ -172,7 +172,6 @@ const ProjectCarousel = () => {
           <span className="proj-carousel-name">{current.name}</span>
         </div>
         <img
-          loading="lazy"
           decoding="async"
           src={current.icon}
           alt={current.name}
@@ -180,7 +179,6 @@ const ProjectCarousel = () => {
         />
         <div className="proj-carousel-img-container">
           <img
-            loading="lazy"
             decoding="async"
             src={current.icon}
             alt={current.name}
