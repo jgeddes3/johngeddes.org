@@ -26,7 +26,7 @@ John Geddes is a Senior Audio Visual Engineer and Software Developer based in Ch
 - Weather App: Weather forecasting application
 - Drink Decider: Beverage recommendation app
 - Excel Workbooks: Custom Excel automation solutions
-- A Tourism App: Travel and tourism application
+- Hike Away Tours: Operated multi-day walking-tour platform on US rail-trail corridors (Firebase, Node; Next.js and Expo surfaces planned). Booking engine, data model and Firestore rules built and tested; pre-launch, private repo
 
 ## Content
 - Book reviews (written): The Way of Kings, The Myth of Sisyphus

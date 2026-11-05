@@ -5,7 +5,7 @@ import { MotionConfig } from 'framer-motion';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './ThemeContext';
 import StickyBar from './Components/ForEveryPage/Stickybar';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import ScrollToTop from './Components/ForEveryPage/ScrollToTop';
 
 import HomePage from './Components/Pages/Homepage';
@@ -18,7 +18,7 @@ import FriendsPage from './Components/Pages/HomePages/Friends';
 import PhilosophyPage from './Components/Pages/HomePages/Philosophy';
 import SocialPage from './Components/Pages/HomePages/Social';
 import RecruitersPage from './Components/Pages/HomePages/Recruiters';
-import ATourismApp from './Components/Pages/ProjectPages/ATourismApp';
+import HikeAwayTours from './Components/Pages/ProjectPages/HikeAwayTours';
 import ChessDeckMenu from './Components/Pages/ProjectPages/ChessDeckMenu';
 import ChessDeckCase from './Components/Pages/ProjectPages/ChessDeckCase';
 import ChessDeck from './Components/Pages/ProjectPages/ChessDeck';
@@ -58,7 +58,8 @@ function App() {
           <Route path="/social" element={<SocialPage />} />
           <Route path="/recruiters" element={<RecruitersPage />} />
            {/* Projects Page*/}
-          <Route path="/ATourismApp" element={<ATourismApp />} />
+          <Route path="/HikeAwayTours" element={<HikeAwayTours />} />
+          <Route path="/ATourismApp" element={<Navigate to="/HikeAwayTours" replace />} />
           <Route path="/ChessDeck" element={<ChessDeckCase />} />
           <Route path="/ChessDeck/play" element={<ChessDeckMenu />} />
           <Route path="/ChessDeck/local" element={<ChessDeck />} />

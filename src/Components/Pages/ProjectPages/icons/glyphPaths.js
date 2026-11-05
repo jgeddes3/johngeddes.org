@@ -47,6 +47,18 @@ export const GLYPH_PATHS = {
   chessKnight:   { d: 'M8 20.6 H18.2 C18.2 15.4 17.4 11.6 14.6 8.8 L15.6 5.6 L12.9 6.6 L11.4 3.4 L9.9 7 C7.6 8.2 6 9.9 5.4 12.2 L8.4 13.4 L10.2 11 L11.6 12.2 C9.4 14.2 8 16.8 8 20.6 Z' },
   chessLink:     { d: 'M10.2 13.8 A3.4 3.4 0 0 0 15 13.8 L17.8 11 A3.4 3.4 0 0 0 13 6.2 L11.6 7.6 M13.8 10.2 A3.4 3.4 0 0 0 9 10.2 L6.2 13 A3.4 3.4 0 0 0 11 17.8 L12.4 16.4' },
 
+  // ---- Hike Away Tours (drawn for this page) ----
+  // The repo is headless so far — logic, rules, and a store, no UI and no icon
+  // kit to borrow from. These six are built from the product's own vocabulary
+  // (the booking calendar, the driver's van, the offline map pin, the ops chat,
+  // the pipeline board, a pure module) on the same grid and weight as the rest.
+  hikeBoard:     { d: 'M3 4 H8 V20 H3 Z M9.5 4 H14.5 V20 H9.5 Z M16 4 H21 V20 H16 Z M4.6 7.2 H6.4 M4.6 10.2 H6.4 M11.1 7.2 H12.9 M17.6 7.2 H19.4 M17.6 10.2 H19.4 M17.6 13.2 H19.4' },
+  hikeChat:      { d: 'M4 4.5 H20 A1.5 1.5 0 0 1 21.5 6 V15 A1.5 1.5 0 0 1 20 16.5 H9 L4.5 20.5 V16.5 H4 A1.5 1.5 0 0 1 2.5 15 V6 A1.5 1.5 0 0 1 4 4.5 Z M8.6 10.6 L11 13 L15.6 8.4' },
+  hikeCore:      { d: 'M12 2.8 L20 7.4 V16.6 L12 21.2 L4 16.6 V7.4 Z M12 12 L20 7.4 M12 12 V21.2 M12 12 L4 7.4' },
+  hikeLanes:     { d: 'M4 5 H20 A1.5 1.5 0 0 1 21.5 6.5 V19.5 A1.5 1.5 0 0 1 20 21 H4 A1.5 1.5 0 0 1 2.5 19.5 V6.5 A1.5 1.5 0 0 1 4 5 Z M2.5 9.8 H21.5 M8 3 V7 M16 3 V7 M8.4 15 L11 17.6 L15.8 12.8' },
+  hikeMap:       { d: 'M12 21.2 C12 21.2 5.5 14.6 5.5 9.6 A6.5 6.5 0 0 1 18.5 9.6 C18.5 14.6 12 21.2 12 21.2 Z M12 12.1 A2.5 2.5 0 1 1 12 7.1 A2.5 2.5 0 0 1 12 12.1 Z' },
+  hikeVan:       { d: 'M2.5 16.5 V8.5 A1.5 1.5 0 0 1 4 7 H14 V16.5 M14 10 H17.8 L21.5 13.8 V16.5 H14 M2.5 16.5 H4.2 M8.8 16.5 H15.2 M19.8 16.5 H21.5 M8.8 17 A2.3 2.3 0 1 1 4.2 17 A2.3 2.3 0 0 1 8.8 17 Z M19.8 17 A2.3 2.3 0 1 1 15.2 17 A2.3 2.3 0 0 1 19.8 17 Z' },
+
   // ---- Rambler (from RamblerRegistrarWeb) ----
   // SeatsAndProfs.tsx BellIcon — the seat-open watch alert.
   ramblerBell:   { d: 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.94 1.94 0 0 0 3.4 0' },

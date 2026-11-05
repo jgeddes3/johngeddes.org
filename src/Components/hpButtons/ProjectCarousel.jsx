@@ -17,7 +17,7 @@ const allProjects = [
   { name: 'Excel', route: '/ExcelWorkBooks', icon: ExcelIcon },
   { name: 'Snipe IT', route: '/SnipeIT', icon: SnipeITIcon },
   { name: 'Chess', route: '/ChessDeck', icon: ChessIcon },
-  { name: 'Tourism', route: '/ATourismApp', icon: TourismIcon },
+  { name: 'Hike Away', route: '/HikeAwayTours', icon: TourismIcon },
   { name: 'Cipher', route: '/CipherTracker', icon: CipherIcon },
   { name: 'Weather', route: '/WeatherApp', icon: WeatherIcon },
   { name: 'Horoscope', route: '/DrinkDecider', icon: HoroscopeIcon },

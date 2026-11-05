@@ -27,8 +27,9 @@ const ProjectsPage = () => {
       <div id="centerpiece2" className='main-content'>
         <h1>Projects.</h1>
         <p className="projects-description">
-          Shipped apps, a couple of things you can play with right here in the browser, and
-          three ideas I have not built yet. Each one says which it is.
+          Shipped apps, a couple of things you can play with right here in the browser, one
+          platform under construction, and two ideas I have not built yet. Each one says
+          which it is.
         </p>
       </div>
       <div className="projects-container main-content">
@@ -44,7 +45,7 @@ const ProjectsPage = () => {
         <Link to="/SnipeIT" className="project-button">
           <Project4 />
         </Link>
-        <Link to="/ATourismApp" className="project-button-long">
+        <Link to="/HikeAwayTours" className="project-button-long">
           <Project5 />
         </Link>
         <Link to="/ChessDeck" className="project-button-long">
