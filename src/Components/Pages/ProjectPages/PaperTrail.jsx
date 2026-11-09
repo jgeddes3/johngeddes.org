@@ -181,26 +181,6 @@ const PaperTrail = () => {
           Read from the repository at its last commit, 9 November 2026.
         </p>
 
-        <div className="proj-companion">
-          <h2>What a malicious file can do</h2>
-          <p>
-            Session files and backups are the only inputs that carry structured ledger data,
-            so they are the only way a crafted file could reach the store. Decryption proves
-            the passphrase, never the contents. Every decrypted payload is rebuilt from a
-            whitelist of typed, capped fields; rows that do not fit are dropped and counted;
-            lists over a quarter million entries and files over sixty-four megabytes are
-            refused before any work starts. No regular expression is ever taken from a file. A
-            rule's pattern is rebuilt from its merchant key as the exact literal the app
-            writes itself, so a pathological pattern cannot hang the tab.
-          </p>
-          <p>
-            If a screen still throws, an error boundary catches it with two exits that need no
-            app state: lock and reopen, or erase this device. Bad data can make a session
-            annoying; it cannot make the ledger unreachable. The one way out of the page is the
-            "look up" link beside each charge, an ordinary link you click that opens a web
-            search for that one charge's text in a new tab, with no referrer sent.
-          </p>
-        </div>
 
         <div className="proj-about">
           <p>
