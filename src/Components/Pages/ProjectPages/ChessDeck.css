@@ -627,10 +627,15 @@
 
 /* --- Responsive: Tablet (900px) --- */
 @media (max-width: 900px) {
+  /* Full width, not shrink-wrapped: the game container centres its children
+     instead of stretching them, so without this the column took the width of
+     its narrowest child (the captures bar) and the board, sized as a
+     percentage of it, collapsed to about 126px on a phone. */
   .cd-play-area {
     flex-direction: column;
     align-items: center;
     gap: 12px;
+    width: 100%;
   }
 
   .cd-captured {
@@ -667,22 +672,26 @@
     font-size: 18px;
   }
 
+  /* Cards keep a readable size and wrap into rows instead of all five
+     squeezing into one line: at a phone width that left 69px cards with 7px
+     text, the same collapse the board had. Five cards is the hand limit, so
+     this is at most two rows. */
   .cd-hand-cards {
     min-height: 0;
-    gap: 6px;
+    gap: 8px;
     overflow-x: visible;
     justify-content: center;
+    flex-wrap: wrap;
     padding: 5px 10px;
   }
 
   .cd-hand-card-wrapper {
-    flex-shrink: 1;
-    min-width: 0;
+    flex: 0 0 auto;
   }
 
   .cd-card {
-    width: 100%;
-    max-width: 120px;
+    width: 120px;
+    max-width: none;
     height: auto;
     aspect-ratio: 11 / 16;
   }
@@ -693,11 +702,11 @@
   }
 
   .cd-card-name {
-    font-size: clamp(9px, 2vw, 12px);
+    font-size: 12px;
   }
 
   .cd-card-desc {
-    font-size: clamp(8px, 1.6vw, 10px);
+    font-size: 10px;
   }
 
   .cd-phase-step {
@@ -733,8 +742,23 @@
     padding: 20px 8px;
   }
 
+  /* Phones get the squares, not the frame. The table photo carries a wooden
+     border that costs 12.82% a side; at 374px that leaves 35px squares, under
+     any comfortable tap size. Scaling the photo up by 1.28 and clipping shows
+     a thin sliver of frame and 8 squares of about 45px across the full width. */
   .cd-board-wrapper {
-    width: min(100%, 98vw);
+    width: 100%;
+    background-size: 128% 128%;
+    overflow: hidden;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  }
+
+  .cd-board {
+    top: 2.4%;
+    left: 2.4%;
+    right: 2.4%;
+    bottom: 2.4%;
   }
 
   .cd-piece-modifiers {
@@ -745,34 +769,35 @@
     font-size: calc(95vw / 48);
   }
 
+  /* 3 x 108px + 2 x 6px = 336px, so three fit a 360px screen in one row. */
   .cd-hand-cards {
-    gap: 4px;
+    gap: 6px;
     overflow-x: visible;
     justify-content: center;
-    padding: 5px 6px;
+    flex-wrap: wrap;
+    padding: 5px 0;
     min-height: 0;
   }
 
   .cd-card {
-    max-width: 110px;
+    width: 108px;
   }
 
   .cd-card-art-monogram {
-    font-size: clamp(14px, 4vw, 22px);
+    font-size: 20px;
   }
 
   .cd-card-body {
-    padding: 3px 5px;
+    padding: 4px 6px;
     gap: 2px;
   }
 
   .cd-card-name {
-    font-size: clamp(8px, 2vw, 11px);
+    font-size: 11.5px;
   }
 
   .cd-card-desc {
-    font-size: clamp(7px, 1.5vw, 9.5px);
-    -webkit-line-clamp: 4;
+    font-size: 9.5px;
   }
 
   .cd-turn-text {
