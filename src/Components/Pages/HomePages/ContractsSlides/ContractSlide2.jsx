@@ -52,7 +52,7 @@ const ContractSlide2 = ({ active }) => {
       >
         <h2 className="cs2-heading">CONTACT</h2>
         <p className="cs2-body">
-          To get a custom quote, email me with your project details — features,
+          To get a custom quote, email me with your project details: features,
           design preferences, and timeline.
         </p>
         <button

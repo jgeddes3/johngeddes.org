@@ -8,7 +8,7 @@
 export const SITE = {
   name: 'John Geddes',
   url: 'https://www.johngeddes.org',
-  homeTitle: 'John Geddes — AV & Software Engineer in Chicago',
+  homeTitle: 'John Geddes · AV & Software Engineer in Chicago',
   description:
     'John Geddes is a Senior Audio Visual Engineer and software developer in Chicago. Projects and case studies, book and restaurant reviews, recipes, essays, and how to reach him.',
   locale: 'en_US',
@@ -76,7 +76,7 @@ export const PAGES = {
   '/projects': {
     title: 'Projects',
     description:
-      'Projects by John Geddes — shipped apps, browser games, and case studies: Chess Deck, Rambler Registrar, Cipher Tracker, Snipe IT, Hike Away Tours, and more.',
+      'Projects by John Geddes: shipped apps, browser games, and case studies. Chess Deck, Rambler Registrar, Cipher Tracker, Snipe IT, Hike Away Tours, and more.',
     priority: 0.9,
     changefreq: 'monthly',
   },
@@ -114,14 +114,14 @@ export const PAGES = {
     // React's first render; this page ships its own head with the app shell.
     body: false,
     description:
-      'What John Geddes is up to right now — live signals from Last.fm, Chess.com, and GitHub, plus where to find him online.',
+      'What John Geddes is up to right now: live signals from Last.fm, Chess.com, and GitHub, plus where to find him online.',
     priority: 0.5,
     changefreq: 'weekly',
   },
   '/recruiters': {
     title: 'Recruiters',
     description:
-      'John Geddes — role-specific resumes for AV Engineer, Executive Technician, Manager, and Web Developer positions.',
+      "John Geddes' role-specific resumes for AV Engineer, Executive Technician, Manager, and Web Developer positions.",
     priority: 0.6,
     changefreq: 'monthly',
   },
@@ -131,7 +131,7 @@ export const PAGES = {
     cardImage: '/src/Components/Pages/ProjectPages/ProjectPageImages/HikeAwayTours/hikeaway-hero.webp',
     title: 'Hike Away Tours',
     description:
-      'Hike Away Tours — an operated multi-day walking-tour platform on US rail-trail corridors, by John Geddes. Booking engine, data model and Firestore rules built and tested; customer and ops surfaces to follow.',
+      'Hike Away Tours is an operated multi-day walking-tour platform on US rail-trail corridors, by John Geddes. Booking engine, data model and Firestore rules built and tested; customer and ops surfaces to follow.',
     parent: PROJECTS,
     priority: 0.7,
     changefreq: 'monthly',
@@ -140,7 +140,7 @@ export const PAGES = {
     cardImage: '/src/Components/Pages/ProjectPages/ProjectPageImages/ChessDeck/case-hero.webp',
     title: 'Chess Deck',
     description:
-      'Chess Deck — a card-based chess variant by John Geddes. Full legal chess move generation verified by perft, twenty-one cards that bend the rules, and a computer opponent, playable in the browser.',
+      'Chess Deck is a card-based chess variant by John Geddes. Full legal chess move generation verified by perft, twenty-one cards that bend the rules, and a computer opponent, playable in the browser.',
     parent: PROJECTS,
     project: {
       name: 'Chess Deck',
@@ -162,26 +162,26 @@ export const PAGES = {
   },
   '/ChessDeck/local': {
     body: false, // the board deals a random hand on load
-    title: 'Chess Deck — Local Play',
+    title: 'Chess Deck · Local Play',
     description:
-      'Chess Deck local multiplayer — a card-based chess game by John Geddes. Play with a friend on the same device.',
+      'Chess Deck local multiplayer, a card-based chess game by John Geddes. Play with a friend on the same device.',
     parent: CHESS,
     priority: 0.4,
     changefreq: 'yearly',
   },
   '/ChessDeck/computer': {
     body: false, // the board deals a random hand on load
-    title: 'Chess Deck — vs Computer',
+    title: 'Chess Deck · vs Computer',
     description:
-      'Chess Deck vs computer — a card-based chess game by John Geddes. Battle an AI opponent that draws and plays cards to bend the rules of chess.',
+      'Chess Deck vs computer, a card-based chess game by John Geddes. Battle an AI opponent that draws and plays cards to bend the rules of chess.',
     parent: CHESS,
     priority: 0.4,
     changefreq: 'yearly',
   },
   '/ChessDeck/online': {
-    title: 'Chess Deck — Online Play',
+    title: 'Chess Deck · Online Play',
     description:
-      'Chess Deck online multiplayer — a card-based chess game by John Geddes. Create a room, share the link, and play a friend in real time from anywhere.',
+      'Chess Deck online multiplayer, a card-based chess game by John Geddes. Create a room, share the link, and play a friend in real time from anywhere.',
     parent: CHESS,
     // Opening this page creates a room, so it is neither prerendered nor listed.
     prerender: false,
@@ -205,7 +205,7 @@ export const PAGES = {
   '/ExcelWorkBooks': {
     title: 'Excel Workbooks',
     description:
-      'Excel Workbooks by John Geddes — spreadsheets and automation tools, with a shop planned.',
+      'Excel Workbooks by John Geddes: spreadsheets and automation tools, with a shop planned.',
     parent: PROJECTS,
     priority: 0.4,
     changefreq: 'yearly',
@@ -214,7 +214,7 @@ export const PAGES = {
     cardImage: '/src/Components/Pages/ProjectPages/ProjectPageImages/CipherTracker/cipher-site-hero.webp',
     title: 'Cipher Tracker',
     description:
-      'Cipher Tracker — a React Native habit tracker for iOS and Android that encrypts every entry on the device, and the Next.js site that markets it. By John Geddes.',
+      'Cipher Tracker is a React Native habit tracker for iOS and Android that encrypts every entry on the device, and the Next.js site that markets it. By John Geddes.',
     parent: PROJECTS,
     project: {
       name: 'Cipher Tracker',
@@ -230,7 +230,7 @@ export const PAGES = {
     cardImage: '/src/Components/Pages/ProjectPages/ProjectPageImages/RamblerRegistrar/rambler-site-hero.webp',
     title: 'Rambler Registrar',
     description:
-      'Rambler Registrar — a React Native course scheduling app for Loyola University Chicago students that generates and scores schedules from live catalog data, plus the Vite marketing site that launches it. By John Geddes.',
+      'Rambler Registrar is a React Native course scheduling app for Loyola University Chicago students that generates and scores schedules from live catalog data, plus the Vite marketing site that launches it. By John Geddes.',
     parent: PROJECTS,
     project: {
       name: 'Rambler Registrar',
@@ -245,7 +245,7 @@ export const PAGES = {
   '/ReactNativeCreditCardApp': {
     title: 'React Native Credit Card App',
     description:
-      'A credit card recommendation and financial education app — a concept by John Geddes. Not yet built.',
+      'A credit card recommendation and financial education app, a concept by John Geddes. Not yet built.',
     parent: PROJECTS,
     priority: 0.3,
     changefreq: 'yearly',
@@ -253,7 +253,7 @@ export const PAGES = {
   '/SnipeIT': {
     title: 'Snipe IT',
     description:
-      'A device lifecycle console built on the Snipe-IT REST API — Entra ID single sign-on, a pooled service-token layer, and a Postgres census that reconciles eleven vendor sources into one record per machine. By John Geddes.',
+      'A device lifecycle console built on the Snipe-IT REST API: Entra ID single sign-on, a pooled service-token layer, and a Postgres census that reconciles eleven vendor sources into one record per machine. By John Geddes.',
     parent: PROJECTS,
     project: {
       name: 'Snipe IT Tag',
@@ -282,7 +282,7 @@ export const PAGES = {
 
   /* The 404 page. Prerendered to 404.html, never indexed or listed. */
   '/404': {
-    title: '404 – Page Not Found',
+    title: '404: Page Not Found',
     description: 'That page does not exist on johngeddes.org.',
     noindex: true,
     sitemap: false,

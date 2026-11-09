@@ -46,7 +46,7 @@ export function website() {
     '@type': 'WebSite',
     '@id': `${SITE.url}/#website`,
     name: SITE.name,
-    alternateName: ['johngeddes.org', 'John Geddes — AV & Software Engineer'],
+    alternateName: ['johngeddes.org', 'John Geddes · AV & Software Engineer'],
     url: `${SITE.url}/`,
     description: SITE.description,
     inLanguage: 'en',

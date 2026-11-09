@@ -49,8 +49,8 @@ const Block = ({ block }) => {
 const ComingSoon = () => (
   <div className="phil-body">
     <p className="phil-text">
-      This one is still being written. I'd rather post nothing than filler, so check back —
-      the <Link to="/philosophy">Philosophy page</Link> lists what is finished.
+      This one is still being written. I'd rather post nothing than filler, so check back.
+      The <Link to="/philosophy">Philosophy page</Link> lists what is finished.
     </p>
   </div>
 );

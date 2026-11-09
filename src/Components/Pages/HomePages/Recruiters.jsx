@@ -22,7 +22,7 @@ const TRACKS = [
     download: 'Geddes_AV_Engineer.pdf',
     body: [
       `Five years of AV work, and the last four of them in enterprises where a failed call costs somebody real money. I started at Loyola running events on analog gear, mixers and Crestron, moved to Kirkland and Ellis configuring Cisco and Crestron rooms for client meetings at a firm that bills by the hour, then to Abbott and Discover on Biamp, Q-SYS, Shure and QSC.`,
-      `At TAG I lead the modernisation of the company's AV estate onto a Logitech ecosystem, deploying Q-SYS, Crestron, Biamp and Shure to bring failing rooms back into service. I am also the senior technical lead on that team — I set priorities, coordinate the project work, and train the junior engineers on escalation and standards.`,
+      `At TAG I lead the modernisation of the company's AV estate onto a Logitech ecosystem, deploying Q-SYS, Crestron, Biamp and Shure to bring failing rooms back into service. I am also the senior technical lead on that team: I set priorities, coordinate the project work, and train the junior engineers on escalation and standards.`,
       `The through line is that I have done every part of this job, from carrying speakers across a campus quad to designing the room standard an enterprise deploys against.`,
     ],
   },
@@ -35,7 +35,7 @@ const TRACKS = [
     body: [
       `I am the technical support for a full C-Suite. When a board meeting will not connect, I am the person who fixes it while the room waits, which is a different job from fixing it correctly with an afternoon to spare.`,
       `That work sits on top of real enterprise administration rather than beside it. I manage endpoints and devices across JAMF, ServiceNow, Microsoft Intune and Azure Active Directory, so provisioning and compliance stay consistent whether the laptop belongs to an executive or a field technician.`,
-      `Kirkland and Ellis taught me the discretion half of it — coordinating conference rooms for client meetings at a firm where you are in the room for conversations you do not repeat. The technical part can be learned. Being trusted on that floor takes longer.`,
+      `Kirkland and Ellis taught me the discretion half of it: coordinating conference rooms for client meetings at a firm where you are in the room for conversations you do not repeat. The technical part can be learned. Being trusted on that floor takes longer.`,
     ],
   },
   {
@@ -46,7 +46,7 @@ const TRACKS = [
     download: 'Geddes_Manager.pdf',
     body: [
       `I led a team of five Level 1 technicians at Discover, setting troubleshooting practice and guiding the system optimisation work. At TAG I am the senior technical lead on the AV engineering team: I own priorities, coordinate project execution across sites, and mentor the junior engineers on escalation and system standards.`,
-      `What I bring to managing technical people is that I still do the work. I can tell whether an estimate is honest, whether a problem is genuinely hard, and when somebody is stuck rather than slow — because I have been all three.`,
+      `What I bring to managing technical people is that I still do the work. I can tell whether an estimate is honest, whether a problem is genuinely hard, and when somebody is stuck rather than slow, because I have been all three.`,
       `I also keep building the tooling my own teams run on. At Discover that was a room-check app and an inventory tool in Power Apps and Power BI; at TAG it is the asset platform that replaced a spreadsheet the IT team had been maintaining by hand.`,
     ],
   },
@@ -94,7 +94,7 @@ const RecruitersPage = () => {
           I am an AV engineer and a developer, currently at The Aspen Group in Chicago as a
           Senior Executive Desktop Support Engineer. I graduated from Loyola Chicago with a
           Bachelor's in Computer Science and a minor in Philosophy, and the five years since
-          have been split between enterprise AV work and building software — sometimes for
+          have been split between enterprise AV work and building software, sometimes for
           the same employer in the same week. Pick whichever track you are hiring for below;
           each one has its own resume rather than the same document under four names.
         </p>

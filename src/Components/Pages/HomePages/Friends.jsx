@@ -34,10 +34,10 @@ const FriendsPage = () => {
       </div>
       <div className="friends-description-container">
         <p className="projects-description main-content">
-        This page is everything I'm passionate about — rock climbing, reading, chess, golf, and
+        This page is everything I'm passionate about: rock climbing, reading, chess, golf, and
         the places I eat and drink around Chicago. I'm not the best at any of them; they're what
         keep me sane. If you're trying to get a read on my character, this is the right page.
-        Philosophy gets its own corner of the site — the link is at the bottom.
+        Philosophy gets its own corner of the site. The link is at the bottom.
         </p>
       </div>
       {/* Fantasy Football - commented out for now
@@ -74,15 +74,15 @@ const FriendsPage = () => {
             out on one of the oldest mediums we have.) My reading gravitates toward fantasy, sci-fi,
             and historical fiction, with philosophy and the classics mixed in when I have the mental
             capacity. In fantasy I have a habit of falling for authors who can't finish a series to
-            save their lives — The Name of the Wind, The Lies of Locke Lamora, A Game of Thrones.
+            save their lives: The Name of the Wind, The Lies of Locke Lamora, A Game of Thrones.
             For series that actually get finished, there's The Stormlight Archive, the Licanius
             Trilogy, and the Poppy War trilogy. On the sci-fi side it's the Red Rising series above
             all, The Will of the Many more recently, and one-offs like Artemis by Andy Weir and
             Recursion by Blake Crouch.</p>
             <p className="books-friends-description">
-            Every book on the right links to a review — or at least a score while the written
+            Every book on the right links to a review, or at least a score while the written
             review is on its way. I'm no professional critic, so take the scores with a grain of
-            salt. And if you know a book that's right up my alley, send it to app@johngeddes.org —
+            salt. And if you know a book that's right up my alley, send it to app@johngeddes.org.
             I read the suggestions.
             </p>
           </div>
@@ -94,7 +94,7 @@ const FriendsPage = () => {
                 items={books}
                 compact
                 label="Book reviews"
-                note={`"Soon" means I've read it and settled on a score — the written review is on the way.`}
+                note={`"Soon" means I've read it and settled on a score. The written review is on the way.`}
               />
             </div>
           </div>
@@ -124,7 +124,7 @@ const FriendsPage = () => {
           </div>
         </div>
         <div className="golf-container2 main-content">
-          <p className="golf-description">I love golf. I'm not good at it by any means, but the older I get the more fun it becomes. I took lessons all through grade school and spent a short stint on my high school's team, but it never stuck — not until my sister and her boyfriend found some cheap clubs and sold them to me. I've been playing whenever I can since.</p>
+          <p className="golf-description">I love golf. I'm not good at it by any means, but the older I get the more fun it becomes. I took lessons all through grade school and spent a short stint on my high school's team, but it never stuck, not until my sister and her boyfriend found some cheap clubs and sold them to me. I've been playing whenever I can since.</p>
           </div>
 
       {/* 5. Chess */}
@@ -135,7 +135,7 @@ const FriendsPage = () => {
            <img loading="lazy" decoding="async" src={Chess} alt="Chess" className="chess-image" />
         </div>
         <div className="chess-container2 main-content">
-          <p className="chess-description">I'm not good at chess by any means, but that doesn't stop me from playing every day. My rating fluctuates, and I love playing random new people regardless of how good they are. Whether I lose gracefully or crush someone new to the game, it's always fun. If you're up for a match, challenge me at <a href="https://www.chess.com/member/shyne4life" target="_blank" rel="noopener noreferrer">Shyne4life</a> on chess.com — or we can play the chess variant I invented, <Link to="/ChessDeck">Chess Deck</Link>, over on my projects page.</p>
+          <p className="chess-description">I'm not good at chess by any means, but that doesn't stop me from playing every day. My rating fluctuates, and I love playing random new people regardless of how good they are. Whether I lose gracefully or crush someone new to the game, it's always fun. If you're up for a match, challenge me at <a href="https://www.chess.com/member/shyne4life" target="_blank" rel="noopener noreferrer">Shyne4life</a> on chess.com, or we can play the chess variant I invented, <Link to="/ChessDeck">Chess Deck</Link>, over on my projects page.</p>
           </div>
 
       {/* 6. Bars and Restaurants */}
@@ -145,7 +145,7 @@ const FriendsPage = () => {
        <div className="friends-description-container">
         <p className="projects-description main-content">
         On the left, the places I've been and reviewed. On the right, the running list of bars and
-        restaurants I want to try next — those links open Yelp until I've been and written them up.
+        restaurants I want to try next. Those links open Yelp until I've been and written them up.
         </p>
       </div>
 

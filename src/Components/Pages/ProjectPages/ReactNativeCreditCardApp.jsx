@@ -18,7 +18,7 @@ const ReactNativeCreditCardApp = () => {
         <div className="proj-hero">
           <img className="proj-stub-logo" src={Logo} alt="React Native Credit Card App" />
           <p className="proj-hero-tagline">
-            Smart credit card recommendations, financial education, and goal tracking — all in one app.
+            Credit card recommendations, financial education, and goal tracking in one app.
           </p>
           <p className="proj-status">
             A concept, not a build. Nothing is written yet; this is the shape the app would take.
@@ -28,17 +28,16 @@ const ReactNativeCreditCardApp = () => {
         <div className="proj-about">
           <h2 className="proj-section-heading">The Idea</h2>
           <p>
-            Think of it as The Points Guy meets NerdWallet, but taken a step further. This app will
-            recommend credit cards tailored to your spending habits and financial goals, just like those
-            platforms do — but it won't stop there.
+            The Points Guy and NerdWallet recommend cards. This app would do that, matched to your
+            spending habits and financial goals, and then keep going.
           </p>
           <p>
             Beyond recommendations, the app will offer built-in financial education, goal tracking, and
             milestone systems designed to actually get you where you want to go. Set a goal like
             "I want to travel more," and the app will map out a path: which cards to apply for, how to
             maximize sign-up bonuses, which rewards categories to target, and milestones to hit along the way.
-            Whether your goal is travel, cash back, building credit, or earning premium perks, the app
-            builds a personalized roadmap and keeps you on track.
+            Travel, cash back, building credit, premium perks: the app builds the plan for whichever
+            you pick and tracks it.
           </p>
         </div>
 
@@ -47,13 +46,13 @@ const ReactNativeCreditCardApp = () => {
             <h3>Card Recommendations</h3>
             <p>
               Personalized credit card suggestions based on your spending patterns, credit score, and
-              what you actually care about — not just generic "best cards" lists.
+              what you actually care about, rather than a generic best-cards list.
             </p>
           </div>
           <div className="proj-feature-card">
             <h3>Goal-Based Planning</h3>
             <p>
-              Tell the app what you want — more travel, better cash back, premium lounge access — and
+              Tell the app what you want (more travel, better cash back, premium lounge access) and
               it will recommend the right cards and strategy to get you there.
             </p>
           </div>
@@ -76,8 +75,7 @@ const ReactNativeCreditCardApp = () => {
         <div className="proj-about">
           <h2 className="proj-section-heading">Status</h2>
           <p>
-            This project is currently in the concept and early design phase. Stay tuned for updates
-            as development progresses.
+            Concept and early design only. Nothing has been built.
           </p>
         </div>
       </div>

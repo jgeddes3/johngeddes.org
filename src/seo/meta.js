@@ -54,7 +54,7 @@ export function metaForPath(path) {
 function staticMeta(path, page) {
   const title = page.title;
   const fullTitle = fullTitleFor(path, title);
-  const image = shareImage(path, `${title || SITE.name} — ${SITE.name}`);
+  const image = shareImage(path, `${title || SITE.name} · ${SITE.name}`);
   const jsonLd = [];
   if (path === '/') {
     jsonLd.push(ld.website(), ld.person(true));
@@ -81,7 +81,7 @@ function staticMeta(path, page) {
 
 function reviewMeta(path, review) {
   const title = reviewTitle(review);
-  const image = shareImage(path, `${title} — ${SITE.name}`);
+  const image = shareImage(path, `${title} · ${SITE.name}`);
   const section = SECTIONS.review;
   const modified = lastModified(path);
   const jsonLd = [
@@ -110,7 +110,7 @@ function reviewMeta(path, review) {
 
 function essayMeta(path, essay) {
   const title = essay.title;
-  const image = shareImage(path, `${title} — ${SITE.name}`);
+  const image = shareImage(path, `${title} · ${SITE.name}`);
   const section = SECTIONS.essay;
   const jsonLd = [
     ld.breadcrumbs([section, { name: title, path }]),

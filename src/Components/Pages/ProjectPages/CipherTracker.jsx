@@ -177,8 +177,8 @@ const CipherTracker = () => {
         <div className="proj-about">
           <p>
             Cipher is a health and habit tracker for iOS and Android, built in React Native
-            and Expo. It tracks twelve things — drinking, sleep, calories, cycles, screen
-            time, workouts and the rest — and the whole product is arranged around one
+            and Expo. It tracks twelve things (drinking, sleep, calories, cycles, screen
+            time, workouts and the rest), and the whole product is arranged around one
             promise: the entries are encrypted on the phone before they reach the cloud, so
             the server holds ciphertext and nothing else.
           </p>
@@ -243,12 +243,12 @@ const CipherTracker = () => {
           <p>
             cipher-app.org is the second half of the project: a Next.js 16 and React 19 site
             in TypeScript, with a scroll-pinned vault door drawn in raw Canvas 2D and the
-            theme toggle repurposed as the demo — light is plaintext, dark is ciphertext.
+            theme toggle repurposed as the demo: light is plaintext, dark is ciphertext.
           </p>
           <p>
             Its useful trick is that the marketing claims are testable. Rather than restate
-            the app's data in prose, the site mirrors it as typed constants — the tracker
-            registry, the design tokens, the literal shape of the stored ciphertext envelope —
+            the app's data in prose, the site mirrors it as typed constants (the tracker
+            registry, the design tokens, the literal shape of the stored ciphertext envelope),
             and 75 unit tests assert the copy against them. If the app changes its blob format,
             the website's test suite fails. A build script fails the build over a per-route
             gzip budget, which is what killed the previous hero: eighty decoded WebP frames
@@ -260,7 +260,7 @@ const CipherTracker = () => {
           <p>
             The engineering discipline is the part worth pointing at. 548 unit tests run on
             the Node test runner with no framework, including a gate that fails the build if
-            an emoji appears anywhere in the rendered UI — which is why the app ships a
+            an emoji appears anywhere in the rendered UI, which is why the app ships a
             26-glyph SVG icon set of its own, the set the icons on this page are drawn from.
             Firebase connections are certificate-pinned across three Google domains with
             backup pins so a rotation cannot lock anyone out, and decryption still walks four

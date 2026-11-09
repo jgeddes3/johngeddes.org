@@ -23,7 +23,7 @@ export default {
         alt: 'The Myth of Sisyphus book cover',
         caption: 'The Myth of Sisyphus and Other Essays by Albert Camus',
       },
-      text: "In The Myth of Sisyphus, Albert Camus takes up the ancient Greek myth of Sisyphus, the man the gods condemned to roll a boulder up a hill for eternity, only to watch it roll back down every time he reaches the top. That endless, futile task becomes his symbol for human life, which Camus argues is inherently devoid of meaning — and yet we keep looking for purpose in a world that offers none. What makes the myth tragic, Camus suggests, is that Sisyphus is fully aware of his situation. That consciousness both burdens and frees him. “If this myth is tragic, it is because the hero is conscious,” Camus writes. Sisyphus knows his task is futile, yet he keeps at it, and in that perseverance we find resilience and defiance.",
+      text: "In The Myth of Sisyphus, Albert Camus takes up the ancient Greek myth of Sisyphus, the man the gods condemned to roll a boulder up a hill for eternity, only to watch it roll back down every time he reaches the top. That endless, futile task becomes his symbol for human life, which Camus argues is inherently devoid of meaning, and yet we keep looking for purpose in a world that offers none. What makes the myth tragic, Camus suggests, is that Sisyphus is fully aware of his situation. That consciousness both burdens and frees him. “If this myth is tragic, it is because the hero is conscious,” Camus writes. Sisyphus knows his task is futile, yet he keeps at it, and in that perseverance we find resilience and defiance.",
     },
     {
       kind: 'paragraph',
@@ -35,7 +35,7 @@ export default {
     },
     {
       kind: 'paragraph',
-      text: "Reading it through my own lens, I found that catharsis too. In my own endless round of labor and searching for meaning, it feels better knowing there are others — others laboring with no end in sight. I don't know if that was Camus' intention, but it makes me feel less alone.",
+      text: "Reading it through my own lens, I found that catharsis too. In my own endless round of labor and searching for meaning, it feels better knowing there are others, others laboring with no end in sight. I don't know if that was Camus' intention, but it makes me feel less alone.",
     },
   ],
 };

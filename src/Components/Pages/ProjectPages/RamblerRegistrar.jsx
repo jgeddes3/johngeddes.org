@@ -44,7 +44,7 @@ const FEATURES = [
   {
     glyph: 'ramblerRoute',
     title: 'The transfers that do not work',
-    body: `Walk times come from real building coordinates — haversine distance, a 1.3 factor
+    body: `Walk times come from real building coordinates: haversine distance, a 1.3 factor
       for streets that do not run diagonally, at eighty metres a minute. A ten-minute passing
       period against a fifteen-minute walk is flagged as tight and costs schedule points.
       The two campuses are about eight miles apart, so a transfer between them is called
@@ -196,7 +196,7 @@ const RamblerRegistrar = () => {
           <p>
             It never asks for a LOCUS password. Everything it reads is the same public course
             catalog any student can open, and completed coursework is whatever the student
-            types in. You still enter your own class numbers when registration opens — the app
+            types in. You still enter your own class numbers when registration opens. The app
             is there to tell you which ones to enter.
           </p>
         </div>
@@ -254,8 +254,8 @@ const RamblerRegistrar = () => {
           <p>
             The waitlist site is its own codebase: React 18 and Vite 6 in TypeScript, plain
             CSS modules, no router and no component library. It ships eight static routes as a
-            multi-page app, and each of the app's real features gets a scroll-driven set piece
-            — a pinned hero that resolves a chaotic week into a scored schedule, a gauge that
+            multi-page app, and each of the app's real features gets a scroll-driven set piece:
+            a pinned hero that resolves a chaotic week into a scored schedule, a gauge that
             counts up while a receipt itemises every penalty, a seven-stop walk across campus.
           </p>
           <p>

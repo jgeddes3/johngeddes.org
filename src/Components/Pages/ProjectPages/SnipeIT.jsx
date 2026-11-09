@@ -40,7 +40,7 @@ const FEATURES = [
     glyph: 'snipeAlert',
     title: 'Reconciliation that polices itself',
     body: `A recon job compares what the sources say against what the asset record claims and
-      raises eight kinds of flag — a device nobody has seen in weeks, an owner that
+      raises eight kinds of flag: a device nobody has seen in weeks, an owner that
       disagrees with the directory, hardware that fell off endpoint security. Flags resolve
       themselves when the underlying fact changes, and each check is gated on how fresh its
       source is, so a connector that has never run disables its own checks instead of
@@ -119,8 +119,8 @@ const SnipeIT = () => {
           <p>
             Snipe-IT is a good asset database with an API and a web interface that was never
             meant for a technician standing in a supply room with a phone. This started as a
-            separate front end for it — a React app and an Express gateway adding single
-            sign-on, roles and rate-limit headroom — and grew into the operations console for
+            separate front end for it (a React app and an Express gateway adding single
+            sign-on, roles and rate-limit headroom) and grew into the operations console for
             a hardware fleet: audits, repairs, disposals, transfers, shipments and reports.
           </p>
           <p>
@@ -182,8 +182,8 @@ const SnipeIT = () => {
             hundred. A five-minute cache fronts the read-heavy routes and every write clears it.
           </p>
           <p>
-            In production the Express process serves the compiled React app as static files —
-            one process, one port — behind an nginx reverse proxy that terminates TLS, with a
+            In production the Express process serves the compiled React app as static files,
+            one process on one port, behind an nginx reverse proxy that terminates TLS, with a
             multi-stage Docker image running as a non-root user as the alternative target.
             Helmet sets the content security policy and a year of HSTS, request bodies are
             capped at 10kb, nine browser APIs are denied outright, and inbound traffic is
@@ -194,7 +194,7 @@ const SnipeIT = () => {
         <div className="proj-about">
           <p>
             The interface was rebuilt in 2026 over five documented phases onto a token-based
-            design system — CSS variables for every surface and text colour so light and dark
+            design system: CSS variables for every surface and text colour so light and dark
             derive from one source, about nineteen shared primitives, skeletons instead of
             spinners, and toasts instead of blocking alerts.
           </p>

@@ -39,7 +39,7 @@ const MiscPage = () => {
           <ReviewIndex
             items={books}
             label="Book reviews"
-            note={pending > 0 ? `"Soon" means I've read it and settled on a score — the written review is on the way.` : undefined}
+            note={pending > 0 ? `"Soon" means I've read it and settled on a score. The written review is on the way.` : undefined}
           />
         </MiscSection>
         <MiscSection logo={RestaurantLogo} title="Restaurants & Bars">

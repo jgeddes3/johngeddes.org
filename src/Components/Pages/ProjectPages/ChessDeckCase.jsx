@@ -13,8 +13,8 @@ const FEATURES = [
     title: 'Chess first, cards second',
     body: `The engine generates every legal move before a card is ever considered: castling
       rights, en passant, promotion, pins, discovered check, checkmate and stalemate. That
-      layer is verified by perft — an exhaustive node count against published reference
-      values — matching exactly to depth four from the opening position, 197,281 positions,
+      layer is verified by perft, an exhaustive node count against published reference
+      values, matching exactly to depth four from the opening position, 197,281 positions,
       and 97,862 from Kiwipete, the standard test position for castling and en passant.
       With no cards in play the game is ordinary chess, and the tests prove it rather than
       assume it.`,
@@ -25,7 +25,7 @@ const FEATURES = [
     body: `Every card is data: a rarity, a target type drawn from five values, an optional
       filter, and the number of steps its targeting takes. The board becomes a filtered
       picker driven by that declaration, so a card that captures an enemy piece and a card
-      that blesses an empty square use the same machinery. The constraint was deliberate —
+      that blesses an empty square use the same machinery. The constraint was deliberate:
       no card gets bespoke UI code, because twenty-one bespoke paths is twenty-one places
       for the rules to drift.`,
   },
@@ -33,7 +33,7 @@ const FEATURES = [
     glyph: 'chessClock',
     title: 'Effects that outlive the turn',
     body: `Nine states can linger after the card that created them is discarded: five on
-      pieces — shielded, frozen, moving like a knight, bounty-marked, under vigil — and four
+      pieces (shielded, frozen, moving like a knight, bounty-marked, under vigil) and four
       on squares. Each carries its own expiry and the id of the piece it was cast on, so two
       copies of the same card cannot cancel one another. They used to: a second Petrify
       expiring unfroze the first victim early, which with duplicates in the deck happened
@@ -43,7 +43,7 @@ const FEATURES = [
     glyph: 'chessCpu',
     title: 'An opponent that plays eight of the twenty-one',
     body: `The computer searches with alpha-beta minimax over material values and
-      per-piece-square tables, and it plays cards — but only the eight whose effects it can
+      per-piece-square tables, and it plays cards, but only the eight whose effects it can
       evaluate. The rest it holds rather than playing badly. That is a limit worth stating
       plainly: a card-aware search would need to score board states that the evaluation
       function has no vocabulary for, like a square that will swallow the next piece to
@@ -54,14 +54,14 @@ const FEATURES = [
     title: 'Online without a server of my own',
     body: `Two-player games run over Firebase Realtime Database rooms with onDisconnect
       presence, so a room cleans itself up when a player closes the tab. There is no backend
-      process to deploy or keep awake — you get a link, you send it, the game starts. An
+      process to deploy or keep awake: you get a link, you send it, the game starts. An
       earlier peer-to-peer WebRTC implementation was abandoned and its dead module deleted
       rather than left in the tree to imply an architecture the game does not use.`,
   },
   {
     glyph: 'chessKnight',
     title: 'One reducer, five phases',
-    body: `Draw, card, move, promotion, game over — the whole game is one reducer of fourteen
+    body: `Draw, card, move, promotion, game over: the whole game is one reducer of fourteen
       actions with no state outside it, which is what makes the engine testable in Node with
       no browser and no framework. The same reducer drives hot-seat, computer and online
       play; the modes differ only in who dispatches.`,
@@ -107,7 +107,7 @@ const ChessDeckCase = () => (
           shared link. Two things are worth knowing before you start. The computer opponent
           plays eight of the twenty-one cards and holds the rest, because scoring the other
           thirteen needs an evaluation vocabulary it does not have. And the card art is a set
-          of drawn silhouettes rather than illustration — a floor I could reach and verify at
+          of drawn silhouettes rather than illustration, a floor I could reach and verify at
           the size cards actually render, not a finished ceiling.
         </p>
       </div>
@@ -127,7 +127,7 @@ const ChessDeckCase = () => (
           play one, and then move. The cards do things chess does not allow: freeze a piece
           where it stands, drop a rock on a square nothing can cross, mark a piece with a
           bounty, swap two of your own pieces, teleport your king out of a mating net. The
-          chess underneath stays real — the cards bend it, and the engine's job is to make
+          chess underneath stays real. The cards bend it, and the engine's job is to make
           sure they never quietly break it.
         </p>
         <p>

@@ -36,9 +36,8 @@ const ExcelWorkBooks = () => {
             your own use.
           </p>
           <p>
-            Whether you need a ready-made template to streamline your workflow or a more advanced
-            workbook with macros and formulas already wired up, there will be something here for you.
-            Check back soon for the full catalog.
+            Some are plain templates, some have macros and formulas already wired up. The catalog
+            goes up when the shop does.
           </p>
         </div>
       </div>

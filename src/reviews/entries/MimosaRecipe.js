@@ -27,7 +27,7 @@ export default {
   hero: {
     src: mimosas,
     alt: 'Mimosas in champagne flutes',
-    caption: 'Mimosas — stock photo until I make the next batch.',
+    caption: 'Mimosas. Stock photo until I make the next batch.',
   },
   blocks: [
     {
@@ -36,7 +36,7 @@ export default {
     },
     {
       kind: 'paragraph',
-      text: "Start with one of the two key ingredients in a classic mimosa: orange juice. People assume any orange juice will do since it's getting mixed with alcohol. It won't. I compare it to sushi — you can get decent sushi at Whole Foods, but it's not going to match Nobu. Same goes for mimosas. Ideally, squeeze your own with a juicer. If that's not an option, Whole Foods and most local grocery stores sell freshly squeezed orange juice, which is a good alternative.",
+      text: "Start with one of the two key ingredients in a classic mimosa: orange juice. People assume any orange juice will do since it's getting mixed with alcohol. It won't. I compare it to sushi: you can get decent sushi at Whole Foods, but it's not going to match Nobu. Same goes for mimosas. Ideally, squeeze your own with a juicer. If that's not an option, Whole Foods and most local grocery stores sell freshly squeezed orange juice, which is a good alternative.",
     },
     {
       kind: 'figure',
@@ -60,7 +60,7 @@ export default {
     },
     {
       kind: 'paragraph',
-      text: "Cava is a Spanish sparkling wine you can find at pretty much any liquor store. It's cheap, but it's actually good — made the same way as champagne, so you get those nice small bubbles, and it doesn't overpower the orange juice the way some proseccos can. You can also swap in other juices if you want to get creative: grapefruit, cranberry, whatever you're into. It's light enough that you can have a few at brunch without feeling like you need a nap. Let's get into the recipe.",
+      text: "Cava is a Spanish sparkling wine you can find at pretty much any liquor store. It's cheap, but it's actually good. It's made the same way as champagne, so you get those nice small bubbles, and it doesn't overpower the orange juice the way some proseccos can. You can also swap in other juices if you want to get creative: grapefruit, cranberry, whatever you're into. It's light enough that you can have a few at brunch without feeling like you need a nap. On to the recipe.",
     },
     {
       kind: 'card',

@@ -45,12 +45,12 @@ const ComingSoon = ({ review }) => {
     <div className="review-coming-soon review-body">
       {review.rating != null ? (
         <p>
-          {verb} and landed on {review.rating}/10 — the written review just isn't done yet.
+          {verb} and landed on {review.rating}/10. The written review just isn't done yet.
           I'd rather post nothing than filler, so check back.
         </p>
       ) : (
         <p>
-          This page is on the way — I'd rather post nothing than filler, so check back.
+          This page is on the way. I'd rather post nothing than filler, so check back.
         </p>
       )}
       <p>

@@ -7,7 +7,7 @@ const Project2 = () => {
     <div className="project-container1">
       <div className="text-container1">
         <h1>Excel Workbooks</h1>
-        <p>A shop of spreadsheets — not built yet</p>
+        <p>A shop of spreadsheets (not built yet)</p>
       </div>
       <div className="ProjectPhoto1">
         <div className="ProjPhotoEllipse1">

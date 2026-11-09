@@ -7,7 +7,7 @@ const Project8 = () => {
     <div className="project-container1">
       <div className="text-container1">
         <h1>React Native Credit Card App</h1>
-        <p>Card picks matched to your goals — a concept</p>
+        <p>Card picks matched to your goals (a concept)</p>
       </div>
       <div className="ProjectPhoto1">
         <div className="ProjPhotoEllipse1">

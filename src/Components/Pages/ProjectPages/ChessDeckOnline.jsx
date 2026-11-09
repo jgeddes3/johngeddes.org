@@ -129,7 +129,7 @@ const ChessDeckOnline = () => {
           .catch((err) => {
             if (cancelled) return;
             console.error('Failed to join room:', err);
-            setError('Could not connect — the host may have left or the link expired.');
+            setError('Could not connect. The host may have left or the link expired.');
           });
       }
       })
@@ -336,14 +336,14 @@ const ChessDeckOnline = () => {
 
           <div className="cd-online-color-indicator">
             You are playing as {myColor === WHITE ? 'White' : 'Black'}
-            {!isMyTurn && state.phase !== PHASE_GAME_OVER && ' — Waiting for opponent...'}
+            {!isMyTurn && state.phase !== PHASE_GAME_OVER && '. Waiting for opponent...'}
           </div>
 
           {/* A dead game used to stay fully interactive, still writing moves to
               a room the opponent had left. Say so, and offer a way out. */}
           {disconnected && (
             <div className="cd-online-disconnect" role="status">
-              <span>Opponent disconnected — this game is over.</span>
+              <span>Opponent disconnected. This game is over.</span>
               <span className="cd-online-disconnect-actions">
                 <button type="button" className="cd-action-btn" onClick={handleRetry}>
                   New Game

@@ -8,9 +8,9 @@ export default {
   title: 'Crock Pot Beer Chili',
   rating: null,
   status: 'published',
-  blurb: 'Slow-cooker chili with a half cup of stout — the leftovers beat same-day every time.',
+  blurb: 'Slow-cooker chili with a half cup of stout. The leftovers beat same-day every time.',
   seoDescription:
-    'Crock pot chili made with stout beer — chipotle-seasoned ground beef, beans, tomato puree, and a 6-8 hour low cook. Serves 12.',
+    'Crock pot chili made with stout beer: chipotle-seasoned ground beef, beans, tomato puree, and a 6-8 hour low cook. Serves 12.',
   links: [],
   recipe: {
     yield: "12 servings",
@@ -52,12 +52,12 @@ export default {
   hero: {
     src: chiliBowl,
     alt: 'A bowl of chili',
-    caption: 'Chili — stand-in photo until I make the next pot.',
+    caption: 'Chili. Stand-in photo until I make the next pot.',
   },
   blocks: [
     {
       kind: 'paragraph',
-      text: "The biggest thing with this chili is seasoning the meat before it goes anywhere near the crock pot. Hit two pounds of ground beef with chipotle garlic barbecue seasoning, garlic powder, steak seasoning, salt, and pepper while you brown it. The chipotle brings heat and smokiness, and the steak seasoning rounds it out. The meat should taste good on its own before it hits the pot — that's what makes the finished chili so much better.",
+      text: "The biggest thing with this chili is seasoning the meat before it goes anywhere near the crock pot. Hit two pounds of ground beef with chipotle garlic barbecue seasoning, garlic powder, steak seasoning, salt, and pepper while you brown it. The chipotle brings heat and smokiness, and the steak seasoning rounds it out. The meat should taste good on its own before it hits the pot. That's what makes the finished chili so much better.",
     },
     {
       kind: 'figure',
@@ -67,11 +67,11 @@ export default {
         alt: 'A bowl of chili topped with cheese',
         caption: 'Another stand-in bowl until the next batch.',
       },
-      text: "Now the stout — this is the move that makes people ask you for the recipe. It sounds weird if you haven't done it before, but the beer adds a dark, almost malty taste that works really well against the tomato and onion, with a slight bitterness that keeps the chili from being one-note.",
+      text: "Now the stout. This is the move that makes people ask you for the recipe. It sounds weird if you haven't done it before, but the beer adds a dark, almost malty taste that works really well against the tomato and onion, with a slight bitterness that keeps the chili from being one-note.",
     },
     {
       kind: 'paragraph',
-      text: "You're only using half a cup, plus half a cup of beef broth alongside it, so it's not overpowering — it just ties everything together.",
+      text: "You're only using half a cup, plus half a cup of beef broth alongside it, so it's not overpowering. It just ties everything together.",
     },
     {
       kind: 'figure',
@@ -81,15 +81,15 @@ export default {
         alt: 'A pint of stout beer',
         caption: 'A nice stout',
       },
-      text: "The crock pot does the rest. Set it on low and let it go for 6-8 hours. By hour three or four your place is going to smell incredible and you're going to want to eat early — don't. Let it go the full time. The beans soak up everything and the beef gets super tender.",
+      text: "The crock pot does the rest. Set it on low and let it go for 6-8 hours. By hour three or four your place is going to smell incredible and you're going to want to eat early. Don't. Let it go the full time. The beans soak up everything and the beef gets super tender.",
     },
     {
       kind: 'paragraph',
-      text: 'Every spoonful hits a little different — sometimes you get the chipotle, sometimes the garlic, sometimes just the beef.',
+      text: 'Every spoonful hits a little different: sometimes you get the chipotle, sometimes the garlic, sometimes just the beef.',
     },
     {
       kind: 'paragraph',
-      text: "Serve this with sourdough bread, shredded cheese, and cilantro — that's non-negotiable. The sourdough is great for dipping, and its tang works well against how rich the chili is. Cheese on top melts right in, and cilantro adds some freshness (assuming you don't have that gene where it tastes like soap). One more thing: leftover chili is always better than same-day chili.",
+      text: "Serve this with sourdough bread, shredded cheese, and cilantro. That's non-negotiable. The sourdough is great for dipping, and its tang works well against how rich the chili is. Cheese on top melts right in, and cilantro adds some freshness (assuming you don't have that gene where it tastes like soap). One more thing: leftover chili is always better than same-day chili.",
     },
     {
       kind: 'card',
