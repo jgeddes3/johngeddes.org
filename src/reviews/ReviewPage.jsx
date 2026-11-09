@@ -69,11 +69,7 @@ const ReviewPage = ({ review }) => {
 
   return (
     <>
-      <SEO
-        title={type === 'recipe' ? title : `${title} Review`}
-        description={review.seoDescription}
-        path={`/${review.slug}`}
-      />
+      <SEO path={`/${review.slug}`} />
       <Background />
       <div id="centerpiece2" className="main-content">
         <p className="review-eyebrow">{TYPE_LABEL[type]}</p>

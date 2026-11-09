@@ -9,11 +9,7 @@ import Logo from '../ProjectButtons/ProjectButtonImages/Excel.webp';
 const ExcelWorkBooks = () => {
   return (
     <>
-      <SEO
-        title="Excel Workbooks"
-        description="Excel Workbooks by John Geddes — spreadsheets and automation tools, with a shop planned."
-        path="/ExcelWorkBooks"
-      />
+      <SEO path="/ExcelWorkBooks" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Excel Work Books</h1>

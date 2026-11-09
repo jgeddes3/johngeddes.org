@@ -63,3 +63,27 @@ from `/api/signals` and need no editing.
 
 - `AaTemplate.jsx` — generic page skeleton. Copy into `src/Components/Pages/...`
   and fix the relative imports.
+
+## SEO: titles, share images, and dates
+
+Every page's title, description, canonical URL, share image, and structured data
+come from `src/seo/`:
+
+- `src/seo/site.js` — the static pages table (`PAGES`) and the facts about John.
+  A new static page needs an entry here with a `title`, `description`, and
+  `parent` (its breadcrumb), and `<SEO path="/its-path" />` in the component.
+- Reviews and essays need nothing extra: `src/seo/meta.js` reads the registries.
+  Recipes get schema.org Recipe data from the entry's `recipe` block (see
+  `TemplateReviewEntry.js`).
+
+The build (`npm run build`) prerenders every route to static HTML in `build/`
+with its own head tags, and writes `sitemap.xml` and `llms.txt` there. Two
+things are generated locally and committed because they need a Chrome:
+
+    npm run seo        # both of the below
+    npm run seo:dates  # src/seo/lastmod.json, from git: when each page last changed
+    npm run seo:images # public/og/<page>.png share cards + src/seo/og-keys.json
+
+Run `npm run seo` after adding or renaming a page, review, or essay, or changing a
+title, then commit the results. A page without a generated card falls back to
+`public/og-image.png`.

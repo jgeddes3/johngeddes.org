@@ -4,9 +4,20 @@ import { useLocation } from 'react-router-dom';
 const ScrollToTop = ({ children }) => {
   const { pathname } = useLocation();
   const observerRef = useRef(null);
+  const firstRunRef = useRef(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    // On a prerendered page the content is already on screen when React
+    // starts, with the snapshot's data-animated marks in place. Re-running
+    // the entrance animation then would dip it out and slide it back in, so
+    // the first run on such a page leaves marked elements alone. Navigation
+    // between pages animates exactly as before.
+    const keepPrerendered = firstRunRef.current
+      && !!document.getElementById('root')
+      && document.getElementById('root').hasAttribute('data-prerendered');
+    firstRunRef.current = false;
 
     const animateMainContent = () => {
       const mainContent = document.querySelectorAll('.main-content');
@@ -30,9 +41,11 @@ const ScrollToTop = ({ children }) => {
       return animated;
     };
 
-    document.querySelectorAll('.main-content').forEach((element) => {
-      delete element.dataset.animated;
-    });
+    if (!keepPrerendered) {
+      document.querySelectorAll('.main-content').forEach((element) => {
+        delete element.dataset.animated;
+      });
+    }
 
     animateMainContent();
 

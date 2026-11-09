@@ -40,11 +40,7 @@ const Shelf = ({ category }) => {
 const PhilosophyPage = () => {
   return (
     <>
-      <SEO
-        title="Philosophy"
-        description="Explore John Geddes' philosophy writings covering general, neuro-ethical, modern, political philosophy, and world events."
-        path="/philosophy"
-      />
+      <SEO path="/philosophy" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Philosophy</h1>

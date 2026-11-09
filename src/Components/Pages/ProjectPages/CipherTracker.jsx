@@ -139,11 +139,7 @@ const CipherTracker = () => {
 
   return (
     <>
-      <SEO
-        title="Cipher Tracker"
-        description="Cipher Tracker — a React Native habit tracker for iOS and Android that encrypts every entry on the device, and the Next.js site that markets it. By John Geddes."
-        path="/CipherTracker"
-      />
+      <SEO path="/CipherTracker" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Cipher Tracker</h1>

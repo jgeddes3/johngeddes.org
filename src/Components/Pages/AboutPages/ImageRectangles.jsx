@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import img1 from './Lilys.webp';
 import img2 from './Lisbon, Portugal.webp';
 import img3 from './Minneapolis, MN.webp';
@@ -26,6 +26,7 @@ import img24 from './Duluth, Minnesota.webp';
 import img25 from './Fort Lauderdale, Florida.webp';
 import img26 from './Galway, Ireland.webp';
 
+import { isPrerendering } from '../../../seo/prerendering';
 import './ImageRectangles.css';
 
 const ALL_IMAGES = [
@@ -61,6 +62,9 @@ const ImageRectangles = () => {
   const [randomImages, setRandomImages] = useState([]);
 
   useEffect(() => {
+    // The static snapshot keeps the empty rectangles so hydration matches;
+    // the random pair arrives after mount, as it always has.
+    if (isPrerendering()) return;
     const getRandomImages = () => {
       let randomIndexes = [];
       while (randomIndexes.length < 2) {

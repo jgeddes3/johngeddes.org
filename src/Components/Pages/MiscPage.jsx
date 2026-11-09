@@ -25,11 +25,7 @@ const MiscPage = () => {
   const pending = books.filter((b) => b.status === 'coming-soon').length;
   return (
     <>
-      <SEO
-        title="Miscellaneous"
-        description="Book reviews, restaurant reviews, recipes, and other thoughts by John Geddes."
-        path="/misc"
-      />
+      <SEO path="/misc" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Miscellaneous</h1>

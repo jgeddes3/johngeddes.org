@@ -27,6 +27,19 @@ export default {
     // restaurants: Tripadvisor/Yelp profile links (copy from an existing entry)
   ],
 
+  // Recipes only: structured facts for search engines (schema.org Recipe), in
+  // addition to the Ingredients/Directions cards the page shows. Times are ISO
+  // 8601 durations: PT35M, PT1H30M. Copy the ingredient and step lines from the cards.
+  // recipe: {
+  //   yield: '8 servings',
+  //   prepTime: 'PT30M',
+  //   cookTime: 'PT15M',
+  //   category: 'Main course',   // or 'Drink', 'Dessert', ...
+  //   cuisine: 'American',
+  //   ingredients: ['2 lb ground beef', '1 egg'],
+  //   steps: ['Mix everything.', 'Grill 7 minutes a side.'],
+  // },
+
   // Optional full-width photo under the byline (restaurants/recipes usually have one):
   // hero: { src: hero, alt: 'What the photo shows', caption: 'Caption with photo credit' },
 

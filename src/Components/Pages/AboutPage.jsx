@@ -12,11 +12,7 @@ import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed';
 const AboutPage = () => {
   return (
     <>
-      <SEO
-        title="About"
-        description="About John Geddes — Senior Audio Visual Engineer and software developer. Background, skills, and interests."
-        path="/about"
-      />
+      <SEO path="/about" />
       <Background />
       <div id="centerpieceAbout" className='main-content'>
         <h1>I'm John.</h1>

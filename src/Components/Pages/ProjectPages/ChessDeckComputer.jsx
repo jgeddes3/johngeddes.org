@@ -180,11 +180,7 @@ const ChessDeckComputer = () => {
 
   return (
     <>
-      <SEO
-        title="Chess Deck — vs Computer"
-        description="Chess Deck vs computer — a card-based chess game by John Geddes. Battle an AI opponent that draws and plays cards to bend the rules of chess."
-        path="/ChessDeck/computer"
-      />
+      <SEO path="/ChessDeck/computer" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Chess Deck</h1>

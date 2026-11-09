@@ -138,11 +138,7 @@ const RamblerRegistrar = () => {
 
   return (
     <>
-      <SEO
-        title="Rambler Registrar"
-        description="Rambler Registrar — a React Native course scheduling app for Loyola University Chicago students that generates and scores schedules from live catalog data, plus the Vite marketing site that launches it. By John Geddes."
-        path="/RamblerRegistrar"
-      />
+      <SEO path="/RamblerRegistrar" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Rambler Registrar</h1>

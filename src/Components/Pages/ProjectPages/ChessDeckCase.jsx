@@ -79,11 +79,7 @@ const LEDGER = [
 
 const ChessDeckCase = () => (
   <>
-    <SEO
-      title="Chess Deck"
-      description="Chess Deck — a card-based chess variant by John Geddes. Full legal chess move generation verified by perft, twenty-one cards that bend the rules, and a computer opponent, playable in the browser."
-      path="/ChessDeck"
-    />
+    <SEO path="/ChessDeck" />
     <Background />
     <div id="centerpiece2" className="main-content">
       <h1>Chess Deck</h1>

@@ -16,11 +16,7 @@ const ChessDeckMenu = () => {
 
   return (
     <>
-      <SEO
-        title="Chess Deck"
-        description="Chess Deck — a chess card game. Play pass-and-play, challenge the AI, or play online with a friend."
-        path="/ChessDeck"
-      />
+      <SEO path="/ChessDeck/play" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Chess Deck</h1>

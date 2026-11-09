@@ -18,11 +18,7 @@ import Project9 from './ProjectButtons/Project9';
 const ProjectsPage = () => {
   return (
     <>
-      <SEO
-        title="Projects"
-        description="Projects by John Geddes — web apps, tools, games, and more. Chess Deck, Rambler Registrar, Cipher Tracker, and others."
-        path="/projects"
-      />
+      <SEO path="/projects" />
       <Background />
       <div id="centerpiece2" className='main-content'>
         <h1>Projects.</h1>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import './ProjectCarousel.css';
 
@@ -37,7 +37,13 @@ const ROTATION_INTERVAL = 12000;
 const TRANSITION_DURATION = 400;
 
 const ProjectCarousel = () => {
-  const projects = useMemo(() => shuffle(allProjects), []);
+  // The first slide is always the first project so the prerendered HTML and
+  // the first client render agree (hydration); the rest of the order is
+  // shuffled after mount, which nobody sees because only slide 0 is showing.
+  const [projects, setProjects] = useState(allProjects);
+  useEffect(() => {
+    setProjects([allProjects[0], ...shuffle(allProjects.slice(1))]);
+  }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [displayIndex, setDisplayIndex] = useState(0);
   const [exitingIndex, setExitingIndex] = useState(null);

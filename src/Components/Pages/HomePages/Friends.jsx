@@ -27,11 +27,7 @@ const BARS_TO_TRY = [
 const FriendsPage = () => {
   return (
     <>
-      <SEO
-        title="Friends & Interests"
-        description="John Geddes' personal interests including rock climbing, book reviews, restaurant reviews, chess, golf, and foreign affairs."
-        path="/friends"
-      />
+      <SEO path="/friends" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Hello Friends!</h1>

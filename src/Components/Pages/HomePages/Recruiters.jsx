@@ -84,11 +84,7 @@ const RecruitersPage = () => {
 
   return (
     <>
-      <SEO
-        title="Recruiters"
-        description="John Geddes — role-specific resumes for AV Engineer, Executive Technician, Manager and Web Developer positions."
-        path="/recruiters"
-      />
+      <SEO path="/recruiters" />
       <Background />
       <div id="centerpiece2" className='main-content'>
         <h1>Welcome Recruiters!</h1>

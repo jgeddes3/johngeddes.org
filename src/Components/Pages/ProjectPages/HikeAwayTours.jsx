@@ -81,11 +81,7 @@ const LEDGER = [
 const HikeAwayTours = () => {
   return (
     <>
-      <SEO
-        title="Hike Away Tours"
-        description="Hike Away Tours — an operated multi-day walking-tour platform on US rail-trail corridors, by John Geddes. Booking engine, data model and Firestore rules built and tested; customer and ops surfaces to follow."
-        path="/HikeAwayTours"
-      />
+      <SEO path="/HikeAwayTours" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Hike Away Tours</h1>

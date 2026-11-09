@@ -1,16 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import SEO from './ForEveryPage/SEO';
 import './NotFoundPage.css';  // Add some custom styles for the 404 page
 import Background from './ForEveryPage/Background';
 
 const NotFoundPage = () => {
   return (
     <>
-    <Helmet>
-      <title>404 – Page Not Found | John Geddes</title>
-      <meta name="robots" content="noindex" />
-    </Helmet>
+    <SEO path="/404" />
     <Background />
     <div className="not-found-container">
       <h1>404 - Page Not Found</h1>

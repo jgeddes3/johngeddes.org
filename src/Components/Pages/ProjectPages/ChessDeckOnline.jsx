@@ -228,11 +228,7 @@ const ChessDeckOnline = () => {
   const activeDispatch = isMyTurn ? onlineDispatch : noopDispatch;
 
   const seo = (
-    <SEO
-      title="Chess Deck — Online Play"
-      description="Chess Deck online multiplayer — a card-based chess game by John Geddes. Create a room, share the link, and play a friend in real time from anywhere."
-      path="/ChessDeck/online"
-    />
+    <SEO path="/ChessDeck/online" />
   );
 
   // Error state

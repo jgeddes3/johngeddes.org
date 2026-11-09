@@ -158,11 +158,7 @@ const SocialPage = () => {
 
   return (
     <>
-      <SEO
-        title="Social"
-        description="What John Geddes is up to right now — live signals from Last.fm, Chess.com, and GitHub, plus where to find him."
-        path="/social"
-      />
+      <SEO path="/social" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <p className="social-eyebrow">Signals · live</p>

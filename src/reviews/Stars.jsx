@@ -1,4 +1,4 @@
-import React, { useId } from 'react';
+import React from 'react';
 
 /* Ratings are out of 10 site-wide; stars display as five with half-steps.
    SVG + currentColor so the same component works on the cream background,
@@ -7,7 +7,9 @@ import React, { useId } from 'react';
 const STAR_PATH = 'M12 2l2.95 6.32 6.65.62-5.02 4.55 1.47 6.68L12 16.9l-6.05 3.27 1.47-6.68L2.4 8.94l6.65-.62L12 2z';
 
 const StarIcon = ({ fillLevel, size }) => {
-  const id = useId();
+  // A deterministic id (not useId) so prerendered markup hydrates cleanly.
+  // Two stars with the same fill share one id, and one identical clip rect.
+  const id = `star-clip-${Math.round(fillLevel * 100)}`;
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false">
       {fillLevel > 0 && fillLevel < 1 && (

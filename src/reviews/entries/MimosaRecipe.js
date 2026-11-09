@@ -12,6 +12,18 @@ export default {
   seoDescription:
     'How to make the best mimosas: chilled Spanish Cava and freshly squeezed orange juice, poured half and half in a flute. Serves 8, 15 minutes of prep.',
   links: [],
+  recipe: {
+    yield: "8 servings",
+    prepTime: "PT15M",
+    category: "Drink",
+    ingredients: [
+      "One bottle (750 ml) freshly squeezed orange juice",
+      "One bottle (750 ml) Cava, chilled",
+    ],
+    steps: [
+      "Fill a champagne flute half with orange juice and half with Cava, and enjoy.",
+    ],
+  },
   hero: {
     src: mimosas,
     alt: 'Mimosas in champagne flutes',

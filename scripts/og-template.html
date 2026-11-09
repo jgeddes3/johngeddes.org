@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Share card</title>
+  <style>
+    @font-face {
+      font-family: 'Galgine';
+      src: url('/fonts/Galgine.woff2') format('woff2');
+      font-display: block;
+    }
+    @font-face {
+      font-family: 'EB Garamond';
+      font-style: normal;
+      font-weight: 400 600;
+      font-display: block;
+      src: url('/fonts/EBGaramond-latin.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'EB Garamond';
+      font-style: italic;
+      font-weight: 400;
+      font-display: block;
+      src: url('/fonts/EBGaramond-Italic-latin.woff2') format('woff2');
+    }
+    * { box-sizing: border-box; margin: 0; }
+    html, body { width: 1200px; height: 630px; overflow: hidden; }
+    body {
+      background: #EAE0D5;
+      color: #333;
+      font-family: 'EB Garamond', Georgia, serif;
+      position: relative;
+    }
+    /* The soft orbs the site's background uses, frozen. */
+    .orb { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55; }
+    .orb1 { width: 520px; height: 420px; left: -160px; top: -140px; background: rgba(84, 190, 127, 0.5); }
+    .orb2 { width: 520px; height: 420px; right: -140px; bottom: -200px; background: rgba(213, 172, 78, 0.5); }
+    .orb3 { width: 360px; height: 300px; right: 260px; top: -180px; background: rgba(188, 71, 73, 0.35); }
+    .card {
+      position: absolute; inset: 0;
+      display: flex;
+      padding: 64px 72px 56px;
+      gap: 48px;
+    }
+    .text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+    .eyebrow {
+      font-size: 24px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #720000;
+      margin-bottom: 22px;
+    }
+    .title {
+      font-family: 'Galgine', serif;
+      font-weight: 400;
+      color: #A30000;
+      line-height: 1.02;
+      font-size: 88px;
+      overflow-wrap: anywhere;
+    }
+    .title.long { font-size: 68px; }
+    .title.longer { font-size: 54px; }
+    .desc {
+      margin-top: 26px;
+      font-size: 30px;
+      line-height: 1.35;
+      color: #333;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .foot {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 26px;
+      color: #5e0000;
+    }
+    .foot img { width: 52px; height: 52px; border-radius: 14px; }
+    .foot .dot { opacity: 0.6; }
+    .hero {
+      flex: 0 0 420px;
+      height: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 3px solid #A30000;
+      background: #FFF6ED;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
+    }
+    .hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mark {
+      flex: 0 0 300px;
+      align-self: center;
+      height: 300px;
+      border-radius: 50%;
+      background: #FFF6ED;
+      border: 3px solid #A30000;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .mark img { width: 210px; height: 210px; border-radius: 40px; }
+    .rating {
+      display: inline-block;
+      margin-left: 14px;
+      padding: 2px 14px;
+      border: 2px solid #A30000;
+      border-radius: 999px;
+      color: #A30000;
+      letter-spacing: 0;
+      text-transform: none;
+      font-size: 24px;
+      vertical-align: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="card">
+    <div class="text">
+      <div class="eyebrow">{{eyebrow}}</div>
+      <h1 class="title {{titleClass}}">{{title}}</h1>
+      <p class="desc">{{description}}</p>
+      <div class="foot">
+        <img src="/apple-touch-icon.png" alt="">
+        <span>John Geddes</span><span class="dot">·</span><span>johngeddes.org</span>
+      </div>
+    </div>
+    {{aside}}
+  </div>
+</body>
+</html>

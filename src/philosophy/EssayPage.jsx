@@ -59,7 +59,7 @@ const EssayPage = ({ essay }) => {
   const { slug, category, title, deck, date, status, epigraph, blocks = [] } = essay;
   return (
     <>
-      <SEO title={title} description={essay.seoDescription} path={`/${slug}`} />
+      <SEO path={`/${slug}`} />
       <Background />
       <div id="centerpiece2" className="main-content">
         <p className="phil-eyebrow">{categoryTitle(category)}</p>

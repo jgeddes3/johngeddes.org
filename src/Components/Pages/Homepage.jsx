@@ -14,10 +14,7 @@ import { Link } from 'react-router-dom';
 const HomePage = () => {
   return (
     <>
-      <SEO
-        description="The portfolio of John Geddes, Audio Visual Engineer and Developer."
-        path="/"
-      />
+      <SEO path="/" />
       <Background />
       <div id="centerpiece" className='main-content'>
         <h1>

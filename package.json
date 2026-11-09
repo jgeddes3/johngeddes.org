@@ -16,7 +16,12 @@
     "start": "vite",
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "node scripts/prerender.mjs",
     "preview": "vite preview",
+    "preview:static": "node scripts/preview-static.mjs",
+    "seo": "node scripts/seo-dates.mjs && node scripts/og-images.mjs",
+    "seo:dates": "node scripts/seo-dates.mjs",
+    "seo:images": "node scripts/og-images.mjs",
     "new:review": "node scripts/new-review.mjs",
     "new:essay": "node scripts/new-essay.mjs"
   },
@@ -24,7 +29,9 @@
     "node": "22.x"
   },
   "devDependencies": {
+    "@sparticuz/chromium": "^141.0.0",
     "@vitejs/plugin-react": "^4.7.0",
+    "puppeteer-core": "^24.43.1",
     "vite": "^6.4.1"
   }
 }

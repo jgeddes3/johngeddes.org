@@ -85,11 +85,7 @@ const LEDGER = [
 const SnipeIT = () => {
   return (
     <>
-      <SEO
-        title="Snipe IT"
-        description="A device lifecycle console built on the Snipe-IT REST API — Entra ID single sign-on, a pooled service-token layer, and a Postgres census that reconciles eleven vendor sources into one record per machine. By John Geddes."
-        path="/SnipeIT"
-      />
+      <SEO path="/SnipeIT" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Snipe IT</h1>

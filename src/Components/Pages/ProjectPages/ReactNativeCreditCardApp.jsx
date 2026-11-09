@@ -9,11 +9,7 @@ import Logo from '../ProjectButtons/ProjectButtonImages/Creditlogo.webp';
 const ReactNativeCreditCardApp = () => {
   return (
     <>
-      <SEO
-        title="React Native Credit Card App"
-        description="A credit card recommendation and financial education app — a concept by John Geddes. Not yet built."
-        path="/ReactNativeCreditCardApp"
-      />
+      <SEO path="/ReactNativeCreditCardApp" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>React Native Credit Card App</h1>

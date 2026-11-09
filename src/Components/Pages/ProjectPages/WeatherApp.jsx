@@ -193,11 +193,7 @@ const WeatherApp = () => {
 
   return (
     <>
-      <SEO
-        title="Route Weather"
-        description="Plan your trip with weather forecasts along your driving route and at your destination."
-        path="/WeatherApp"
-      />
+      <SEO path="/WeatherApp" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Route Weather</h1>

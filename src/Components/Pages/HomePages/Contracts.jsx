@@ -66,11 +66,7 @@ const ContractsPage = () => {
 
   return (
     <>
-      <SEO
-        title="Contracts"
-        description="Explore John Geddes' contract services, skills, rates, and previous projects as an AV and Software Engineer."
-        path="/contracts"
-      />
+      <SEO path="/contracts" />
       <Background />
       <div id="centerpiece2" className="main-content">
         <h1>Looking to Contract?</h1>

@@ -248,11 +248,7 @@ const DrinkDecider = () => {
 
   return (
     <>
-      <SEO
-        title="Drink Horoscope"
-        description="Get a cocktail paired to your zodiac horoscope reading."
-        path="/DrinkDecider"
-      />
+      <SEO path="/DrinkDecider" />
       <div className="drink-horoscope">
         {/* Hero — orbs visible behind */}
         <Background />
