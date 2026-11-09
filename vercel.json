@@ -20,8 +20,8 @@
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index.js" },
-    { "source": "/ChessDeck/online/(.*)", "destination": "/ChessDeck/online.html" },
-    { "source": "/((?!api/|assets/).*)", "destination": "/404.html" }
+    { "source": "/ChessDeck/online/(.*)", "destination": "/ChessDeck/online" },
+    { "source": "/((?!api/|assets/).*)", "destination": "/404" }
   ],
   "headers": [
     {
