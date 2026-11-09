@@ -59,6 +59,14 @@ export const GLYPH_PATHS = {
   hikeMap:       { d: 'M12 21.2 C12 21.2 5.5 14.6 5.5 9.6 A6.5 6.5 0 0 1 18.5 9.6 C18.5 14.6 12 21.2 12 21.2 Z M12 12.1 A2.5 2.5 0 1 1 12 7.1 A2.5 2.5 0 0 1 12 12.1 Z' },
   hikeVan:       { d: 'M2.5 16.5 V8.5 A1.5 1.5 0 0 1 4 7 H14 V16.5 M14 10 H17.8 L21.5 13.8 V16.5 H14 M2.5 16.5 H4.2 M8.8 16.5 H15.2 M19.8 16.5 H21.5 M8.8 17 A2.3 2.3 0 1 1 4.2 17 A2.3 2.3 0 0 1 8.8 17 Z M19.8 17 A2.3 2.3 0 1 1 15.2 17 A2.3 2.3 0 0 1 19.8 17 Z' },
 
+  // ---- Paper Trail ----
+  paperFile:     { d: 'M6 3 H14 L19 8 V21 H6 Z M14 3 V8 H19 M12 11 V17.5 M9.5 15 L12 17.5 L14.5 15' },
+  paperRepeat:   { d: 'M4 12 A8 8 0 0 1 18.3 7.2 M20 3.5 V8 H15.5 M20 12 A8 8 0 0 1 5.7 16.8 M4 20.5 V16 H8.5' },
+  paperFlag:     { d: 'M5.5 21 V3.5 M5.5 4 H18.5 L15.5 8.5 L18.5 13 H5.5' },
+  paperSplit:    { d: 'M12 3 A9 9 0 1 1 11.99 3 Z M12 3 V12 L18.4 18.4 M12 12 L5.6 18.4' },
+  paperLock:     { d: 'M7.5 11 V8 A4.5 4.5 0 0 1 16.5 8 V11 M5 11 H19 V21 H5 Z M12 14.5 V17.5' },
+  paperShield:   { d: 'M12 3 L19 6 V11 C19 16 15.5 19.5 12 21 C8.5 19.5 5 16 5 11 V6 Z M9 12 L11 14 L15 10' },
+
   // ---- Rambler (from RamblerRegistrarWeb) ----
   // SeatsAndProfs.tsx BellIcon — the seat-open watch alert.
   ramblerBell:   { d: 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.94 1.94 0 0 0 3.4 0' },

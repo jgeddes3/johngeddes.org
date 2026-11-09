@@ -10,7 +10,7 @@ import TourismIcon from '../Pages/ProjectButtons/ProjectButtonImages/TourismIcon
 import CipherIcon from '../Pages/ProjectButtons/ProjectButtonImages/CipherIcon.webp';
 import WeatherIcon from '../Pages/ProjectButtons/ProjectButtonImages/Weathericon.webp';
 import HoroscopeIcon from '../Pages/ProjectButtons/ProjectButtonImages/HoroscopeIcon.webp';
-import CreditCardIcon from '../Pages/ProjectButtons/ProjectButtonImages/CreditCardIcon.webp';
+import PaperTrailIcon from '../Pages/ProjectButtons/ProjectButtonImages/PaperTrailIcon.webp';
 
 const allProjects = [
   { name: 'Registrar', route: '/RamblerRegistrar', icon: RegistrarIcon },
@@ -21,7 +21,7 @@ const allProjects = [
   { name: 'Cipher', route: '/CipherTracker', icon: CipherIcon },
   { name: 'Weather', route: '/WeatherApp', icon: WeatherIcon },
   { name: 'Horoscope', route: '/DrinkDecider', icon: HoroscopeIcon },
-  { name: 'Credit Card', route: '/ReactNativeCreditCardApp', icon: CreditCardIcon },
+  { name: 'Paper Trail', route: '/PaperTrail', icon: PaperTrailIcon },
 ];
 
 function shuffle(arr) {

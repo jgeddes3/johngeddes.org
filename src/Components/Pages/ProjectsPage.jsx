@@ -24,7 +24,7 @@ const ProjectsPage = () => {
         <h1>Projects.</h1>
         <p className="projects-description">
           Shipped apps, a couple of things you can play with right here in the browser, one
-          platform under construction, and two ideas I have not built yet. Each one says
+          platform under construction, and one idea I have not built yet. Each one says
           which it is.
         </p>
       </div>
@@ -50,7 +50,7 @@ const ProjectsPage = () => {
         <Link to="/WeatherApp" className="project-button">
           <Project7 />
         </Link>
-        <Link to="/ReactNativeCreditCardApp" className="project-button">
+        <Link to="/PaperTrail" className="project-button">
           <Project8 />
         </Link>
         <Link to="/DrinkDecider" className="project-button">

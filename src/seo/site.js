@@ -242,13 +242,21 @@ export const PAGES = {
     priority: 0.8,
     changefreq: 'monthly',
   },
-  '/ReactNativeCreditCardApp': {
-    title: 'React Native Credit Card App',
+  '/PaperTrail': {
+    cardImage: '/src/Components/Pages/ProjectPages/ProjectPageImages/PaperTrail/papertrail-card.webp',
+    title: 'Paper Trail',
     description:
-      'A credit card recommendation and financial education app, a concept by John Geddes. Not yet built.',
+      'Paper Trail by John Geddes: upload your card statements and it finds the subscriptions, flags the excess, and splits the month between two people, entirely in the browser. No account, no server, and a content security policy that forbids the page from phoning home.',
     parent: PROJECTS,
-    priority: 0.3,
-    changefreq: 'yearly',
+    project: {
+      name: 'Paper Trail',
+      category: 'FinanceApplication',
+      os: 'Web browser',
+      summary: 'A local-only budgeting tool that reads card statements, finds subscriptions and excess, and splits spending between two people, with nothing leaving the browser.',
+      url: 'https://papertrail.company',
+    },
+    priority: 0.8,
+    changefreq: 'monthly',
   },
   '/SnipeIT': {
     title: 'Snipe IT',

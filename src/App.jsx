@@ -28,7 +28,7 @@ import DrinkDecider from './Components/Pages/ProjectPages/DrinkDecider';
 import ExcelWorkBooks from './Components/Pages/ProjectPages/ExcelWorkBooks';
 import CipherTracker from './Components/Pages/ProjectPages/CipherTracker';
 import RamblerRegistrar from './Components/Pages/ProjectPages/RamblerRegistrar';
-import ReactNativeCreditCardApp from './Components/Pages/ProjectPages/ReactNativeCreditCardApp';
+import PaperTrail from './Components/Pages/ProjectPages/PaperTrail';
 import SnipeIT from './Components/Pages/ProjectPages/SnipeIT';
 import WeatherApp from './Components/Pages/ProjectPages/WeatherApp';
 import { reviews } from './reviews';
@@ -69,7 +69,7 @@ function App() {
           <Route path="/ExcelWorkBooks" element={<ExcelWorkBooks />} />
           <Route path="/CipherTracker" element={<CipherTracker />} />
           <Route path="/RamblerRegistrar" element={<RamblerRegistrar />} />
-          <Route path="/ReactNativeCreditCardApp" element={<ReactNativeCreditCardApp />} />
+          <Route path="/PaperTrail" element={<PaperTrail />} />
           <Route path="/SnipeIT" element={<SnipeIT />} />
           <Route path="/WeatherApp" element={<WeatherApp />} />
           {/* Reviews & recipes — every entry in src/reviews/entries gets a route */}

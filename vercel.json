@@ -16,7 +16,8 @@
     }
   ],
   "redirects": [
-    { "source": "/ATourismApp", "destination": "/HikeAwayTours", "permanent": true }
+    { "source": "/ATourismApp", "destination": "/HikeAwayTours", "permanent": true },
+    { "source": "/ReactNativeCreditCardApp", "destination": "/PaperTrail", "permanent": true }
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index.js" },
