@@ -78,7 +78,7 @@ export const PAGES = {
   '/projects': {
     title: 'Projects',
     description:
-      'Projects by John Geddes: shipped apps, browser games, and case studies. Chess Deck, Rambler Registrar, Cipher Tracker, Snipe IT, Hike Away Tours, and more.',
+      'Projects by John Geddes: shipped apps, browser games, and case studies. Chess Deck, Rambler Registrar, Cipher Tracker, Census, Hike Away Tours, and more.',
     priority: 0.9,
     changefreq: 'monthly',
   },
@@ -204,13 +204,14 @@ export const PAGES = {
     priority: 0.5,
     changefreq: 'yearly',
   },
-  '/ExcelWorkBooks': {
-    title: 'Excel Workbooks',
+  '/GateKeep': {
+    cardImage: '/src/Components/Pages/ProjectPages/ProjectPageImages/GateKeep/gatekeep-artist.webp',
+    title: 'GateKeep',
     description:
-      'Excel Workbooks by John Geddes: spreadsheets and automation tools, with a shop planned.',
+      "GateKeep is a planned marketplace for one city's live music, by John Geddes: reviewed musician and venue profiles, gig booking with a held deposit, ticketing, and fan discovery. Pre-launch; the page describes the plan and its screens are mockups.",
     parent: PROJECTS,
-    priority: 0.4,
-    changefreq: 'yearly',
+    priority: 0.5,
+    changefreq: 'monthly',
   },
   '/CipherTracker': {
     cardImage: '/src/Components/Pages/ProjectPages/ProjectPageImages/CipherTracker/cipher-site-hero.webp',
@@ -263,16 +264,17 @@ export const PAGES = {
     priority: 0.8,
     changefreq: 'monthly',
   },
-  '/SnipeIT': {
-    title: 'Snipe IT',
+  '/Census': {
+    title: 'Census',
+    cardImage: '/src/Components/Pages/ProjectPages/ProjectPageImages/Census/census-card.webp',
     description:
-      'A device lifecycle console built on the Snipe-IT REST API: Entra ID single sign-on, a pooled service-token layer, and a Postgres census that reconciles eleven vendor sources into one record per machine. By John Geddes.',
+      'Aspen Census by John Geddes: the console the IT asset team works in, on top of Snipe-IT. React 19 and TypeScript, an Express gateway with Entra ID sign-in, SQL reads against the Snipe-IT database, and nightly jobs that reconcile 14 outside systems: Intune, Jamf, CrowdStrike, ServiceNow, FedEx, SHI and more.',
     parent: PROJECTS,
     project: {
-      name: 'Snipe IT Tag',
+      name: 'Aspen Census',
       category: 'BusinessApplication',
       os: 'Web browser',
-      summary: 'A device census reconciling eleven vendor APIs into one record per machine, on top of Snipe-IT.',
+      summary: 'The asset team console: onboarding, shipping, chargebacks and nightly checks against 14 outside systems, on top of Snipe-IT.',
     },
     priority: 0.7,
     changefreq: 'monthly',

@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import './ProjectCarousel.css';
 
 import RegistrarIcon from '../Pages/ProjectButtons/ProjectButtonImages/RamblerIcon.webp';
-import ExcelIcon from '../Pages/ProjectButtons/ProjectButtonImages/ExcelIcon.webp';
-import SnipeITIcon from '../Pages/ProjectButtons/ProjectButtonImages/SnipeITIcon.webp';
+import GateKeepIcon from '../Pages/ProjectButtons/ProjectButtonImages/GateKeepIcon.webp';
+import CensusIcon from '../Pages/ProjectButtons/ProjectButtonImages/CensusIcon.webp';
 import ChessIcon from '../Pages/ProjectButtons/ProjectButtonImages/ChessIcon.webp';
 import TourismIcon from '../Pages/ProjectButtons/ProjectButtonImages/TourismIcon.webp';
 import CipherIcon from '../Pages/ProjectButtons/ProjectButtonImages/CipherIcon.webp';
@@ -14,8 +14,8 @@ import PaperTrailIcon from '../Pages/ProjectButtons/ProjectButtonImages/PaperTra
 
 const allProjects = [
   { name: 'Registrar', route: '/RamblerRegistrar', icon: RegistrarIcon },
-  { name: 'Excel', route: '/ExcelWorkBooks', icon: ExcelIcon },
-  { name: 'Snipe IT', route: '/SnipeIT', icon: SnipeITIcon },
+  { name: 'GateKeep', route: '/GateKeep', icon: GateKeepIcon },
+  { name: 'Census', route: '/Census', icon: CensusIcon },
   { name: 'Chess', route: '/ChessDeck', icon: ChessIcon },
   { name: 'Hike Away', route: '/HikeAwayTours', icon: TourismIcon },
   { name: 'Cipher', route: '/CipherTracker', icon: CipherIcon },

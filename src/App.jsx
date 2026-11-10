@@ -25,11 +25,11 @@ import ChessDeck from './Components/Pages/ProjectPages/ChessDeck';
 import ChessDeckComputer from './Components/Pages/ProjectPages/ChessDeckComputer';
 import ChessDeckOnline from './Components/Pages/ProjectPages/ChessDeckOnline';
 import DrinkDecider from './Components/Pages/ProjectPages/DrinkDecider';
-import ExcelWorkBooks from './Components/Pages/ProjectPages/ExcelWorkBooks';
+import GateKeep from './Components/Pages/ProjectPages/GateKeep';
 import CipherTracker from './Components/Pages/ProjectPages/CipherTracker';
 import RamblerRegistrar from './Components/Pages/ProjectPages/RamblerRegistrar';
 import PaperTrail from './Components/Pages/ProjectPages/PaperTrail';
-import SnipeIT from './Components/Pages/ProjectPages/SnipeIT';
+import Census from './Components/Pages/ProjectPages/Census';
 import WeatherApp from './Components/Pages/ProjectPages/WeatherApp';
 import { reviews } from './reviews';
 import ReviewPage from './reviews/ReviewPage';
@@ -66,11 +66,13 @@ function App() {
           <Route path="/ChessDeck/computer" element={<ChessDeckComputer />} />
           <Route path="/ChessDeck/online/:peerId?" element={<ChessDeckOnline />} />
           <Route path="/DrinkDecider" element={<DrinkDecider />} />
-          <Route path="/ExcelWorkBooks" element={<ExcelWorkBooks />} />
+          <Route path="/GateKeep" element={<GateKeep />} />
+          <Route path="/ExcelWorkBooks" element={<Navigate to="/projects" replace />} />
           <Route path="/CipherTracker" element={<CipherTracker />} />
           <Route path="/RamblerRegistrar" element={<RamblerRegistrar />} />
           <Route path="/PaperTrail" element={<PaperTrail />} />
-          <Route path="/SnipeIT" element={<SnipeIT />} />
+          <Route path="/Census" element={<Census />} />
+          <Route path="/SnipeIT" element={<Navigate to="/Census" replace />} />
           <Route path="/WeatherApp" element={<WeatherApp />} />
           {/* Reviews & recipes — every entry in src/reviews/entries gets a route */}
           {reviews.map((r) => (

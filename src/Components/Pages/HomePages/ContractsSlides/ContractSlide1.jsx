@@ -6,13 +6,13 @@ import './ContractSlide1.css';
 
 const SKILLS = [
   { name: 'React / React Native', proof: 'Cipher Tracker, Rambler, Chess Deck' },
-  { name: 'TypeScript',           proof: 'Snipe IT end-to-end' },
-  { name: 'Node.js / Express',    proof: 'Rambler and Snipe IT backends' },
+  { name: 'TypeScript',           proof: 'Census end-to-end' },
+  { name: 'Node.js / Express',    proof: 'Rambler and Census backends' },
   { name: 'SQLite / Firebase',    proof: 'Courses DB, Chess Deck rooms' },
-  { name: 'REST / GraphQL',       proof: 'Snipe IT gateway, RMP ratings feed' },
+  { name: 'REST / GraphQL',       proof: 'Census gateway, RMP ratings feed' },
   { name: 'Puppeteer Scraping',   proof: 'Daily LOCUS harvest at 10 AM' },
   { name: 'AES-256 / PBKDF2',     proof: 'Cipher Tracker on-device crypto' },
-  { name: 'Tailwind / Vite',      proof: 'This site and Snipe IT' },
+  { name: 'Tailwind / Vite',      proof: 'This site and Census' },
   { name: 'HTML / CSS',           proof: 'Every page, every project' },
 ];
 

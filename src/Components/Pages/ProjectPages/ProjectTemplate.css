@@ -502,3 +502,141 @@
     font-size: 16px;
   }
 }
+
+/* --- Census: charts and the systems list ---
+   The charts are inline SVG so they take the page's own type and colours in
+   both themes; one accent per chart, on the point or bar the caption names. */
+.proj-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.proj-chart {
+  background-color: var(--bg-container);
+  border-radius: 12px;
+  padding: 20px 20px 14px;
+}
+
+.proj-chart-wide {
+  grid-column: 1 / -1;
+}
+
+.proj-chart h3 {
+  font-family: 'Galgine', serif;
+  font-size: 18px;
+  color: var(--color-accent);
+  margin: 0 0 4px;
+  text-align: left;
+}
+
+.proj-chart-sub {
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  color: var(--color-accent-caption);
+  margin: 0 0 12px;
+  text-align: left;
+}
+
+.proj-chart svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.proj-chart-text {
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  fill: var(--color-accent-medium);
+}
+
+.proj-chart-label {
+  font-family: 'Galgine', serif;
+  font-size: 14px;
+  fill: var(--color-accent);
+}
+
+.proj-chart-grid {
+  stroke: var(--color-grey-accent);
+  stroke-opacity: 0.35;
+  stroke-width: 1;
+}
+
+.proj-chart-line {
+  stroke: var(--color-accent-medium);
+  stroke-width: 2.25;
+  fill: none;
+  stroke-linejoin: round;
+}
+
+.proj-chart-dot {
+  fill: var(--bg-container);
+  stroke: var(--color-accent-medium);
+  stroke-width: 2;
+}
+
+.proj-chart-dot-accent {
+  fill: var(--color-accent);
+  stroke: var(--color-accent);
+}
+
+.proj-chart-bar {
+  fill: var(--color-accent-medium);
+}
+
+.proj-chart-bar-accent {
+  fill: var(--color-accent);
+}
+
+.proj-systems {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 40px;
+  border-top: 1px solid var(--color-accent);
+  margin-bottom: 12px;
+}
+
+.proj-system {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 12px;
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-grey-accent);
+  text-align: left;
+}
+
+.proj-system-name {
+  font-family: 'Galgine', serif;
+  font-size: 16px;
+  color: var(--color-accent);
+}
+
+.proj-system-what {
+  font-family: 'EB Garamond', serif;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--color-accent-medium);
+}
+
+.proj-system-what em {
+  font-style: normal;
+  color: var(--color-accent-caption);
+}
+
+@media (max-width: 768px) {
+  .proj-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .proj-systems {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+  }
+
+  .proj-system {
+    grid-template-columns: 120px 1fr;
+  }
+}

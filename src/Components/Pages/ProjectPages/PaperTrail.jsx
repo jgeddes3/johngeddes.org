@@ -206,14 +206,14 @@ const PaperTrail = () => {
       </div>
 
       <div className="proj-nav-buttons">
-        <Link to="/WeatherApp" className="proj-nav-button">
-          Route Weather
+        <Link to="/RamblerRegistrar" className="proj-nav-button">
+          Rambler Registrar
         </Link>
         <Link to="/projects" className="proj-nav-button proj-nav-button-blue">
           Projects Page
         </Link>
-        <Link to="/DrinkDecider" className="proj-nav-button">
-          Horoscope
+        <Link to="/Census" className="proj-nav-button">
+          Census
         </Link>
       </div>
       <PageFooter />

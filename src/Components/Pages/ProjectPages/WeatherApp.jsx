@@ -957,8 +957,8 @@ const WeatherApp = () => {
       </div>
 
       <div className="proj-nav-buttons">
-        <Link to="/PaperTrail" className="proj-nav-button">
-          Paper Trail
+        <Link to="/GateKeep" className="proj-nav-button">
+          GateKeep
         </Link>
         <Link to="/projects" className="proj-nav-button proj-nav-button-blue">
           Projects Page

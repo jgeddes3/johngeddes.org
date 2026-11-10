@@ -34,8 +34,8 @@ const ROLES = {
       'Built and shipped an internal asset-management platform that replaced a manual spreadsheet process for the IT team.',
     ],
     dev: [
-      'Designed and built an internal device-lifecycle platform on top of the Snipe-IT REST API: a React 19 and TypeScript front end, an Express gateway adding Entra ID single sign-on, role-based access and a pooled service-token layer, and a PostgreSQL service that reconciles eleven vendor APIs into one record per machine.',
-      'Added a reconciliation engine that raises and auto-closes flags where systems disagree, with every check gated on how recently its source last synced.',
+      'Designed and built Aspen Census, the console the IT asset team works in, on top of Snipe-IT: a React 19 and TypeScript front end, an Express gateway with Entra ID sign-in and per-person Snipe-IT writes, SQL-first reads against the Snipe-IT database on Cloud SQL, and scheduled jobs on Cloud Run that reconcile 14 outside systems (Intune, Jamf, CrowdStrike, ServiceNow, FedEx, SHI, Dell, Lenovo, Apple Business Manager and more) into one record per device.',
+      'Added nightly reconciliation that raises, routes and auto-closes flags where systems disagree (8,573 raised and 2,409 self-closed in its first two weeks), plus FedEx label creation from the checkout, SHI order onboarding and monthly chargebacks, in daily use by about 40 people.',
       'Administer JAMF, ServiceNow, Microsoft Intune and Azure Active Directory across the enterprise.',
     ],
   },
