@@ -466,6 +466,111 @@
   border-radius: 4px;
 }
 
+/* --- Forecast playback --- */
+
+.rw-play {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rw-map-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 900 / 480;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--rw-panel);
+}
+
+.rw-map-stage img,
+.rw-map-forecast,
+.rw-map-marks {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.rw-map-stage img {
+  object-fit: cover;
+}
+
+.rw-map-forecast,
+.rw-map-marks {
+  pointer-events: none;
+}
+
+.rw-map-forecast {
+  /* The canvas is a quarter of the map's size; the browser's upscale plus a
+     touch of blur turns grid cells into soft bands. */
+  filter: blur(3px);
+}
+
+.rw-dot {
+  fill: var(--color-accent);
+  stroke: #fff;
+  stroke-width: 2.5;
+}
+
+.rw-dot-ring {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2;
+  opacity: 0.5;
+}
+
+.rw-play-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.rw-play-button {
+  font-family: 'Galgine', serif;
+  font-size: 15px;
+  min-width: 84px;
+  color: #fff;
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 30px;
+  padding: 7px 18px;
+  cursor: pointer;
+}
+
+.rw-play-button:hover {
+  background: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+}
+
+.rw-play-button:focus-visible {
+  outline: 3px solid rgba(163, 0, 0, 0.35);
+  outline-offset: 2px;
+}
+
+.rw-play-controls input[type='range'] {
+  flex: 1;
+  min-width: 160px;
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.rw-play-readout {
+  width: 100%;
+  font-size: 16px;
+  min-height: 1.4em;
+}
+
+.rw-legend-swatch.rw-wx-forecast-rain {
+  background: linear-gradient(90deg, rgba(62, 120, 176, 0.25), rgba(62, 120, 176, 0.85));
+}
+
+.rw-legend-swatch.rw-wx-forecast-snow {
+  background: linear-gradient(90deg, rgba(110, 79, 163, 0.25), rgba(110, 79, 163, 0.85));
+}
+
 /* --- Strip --- */
 
 .rw-strip {
@@ -529,16 +634,42 @@
 }
 
 .rw-window {
-  display: grid;
-  grid-template-columns: 12px 1fr;
-  gap: 14px;
-  padding: 12px 14px;
   border-radius: 10px;
   background: var(--rw-panel);
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease;
 }
 
 .rw-window-hazard {
   background: var(--rw-hazard-bg);
+}
+
+.rw-window-current {
+  border-color: var(--color-accent);
+}
+
+.rw-window-button {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+}
+
+button.rw-window-button {
+  cursor: pointer;
+}
+
+button.rw-window-button:focus-visible {
+  outline: 3px solid rgba(163, 0, 0, 0.35);
+  outline-offset: 2px;
 }
 
 .rw-window-mark {
@@ -585,6 +716,7 @@
 
 .rw-window-place,
 .rw-window-detail {
+  display: block;
   margin: 0;
   font-size: 16px;
   line-height: 1.4;

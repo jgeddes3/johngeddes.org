@@ -44,7 +44,10 @@ if (mock) {
       return jsonResponse({ features: [] });
     }
     if (u.includes('api.mapbox.com/styles/')) {
-      return new Response('no map without a Mapbox token', { status: 404 });
+      // A blank stand-in at the real size, so the page's overlays can be seen.
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="960"><rect width="100%" height="100%" fill="#ece9e3"/>' +
+        '<text x="24" y="48" font-family="sans-serif" font-size="28" fill="#9a948c">map stand-in (no Mapbox token)</text></svg>';
+      return new Response(svg, { status: 200, headers: { 'content-type': 'image/svg+xml' } });
     }
     return realFetch(url, opts);
   };

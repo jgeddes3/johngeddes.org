@@ -568,9 +568,44 @@ const getRoutes = async (start, end) => {
       coords,
       times: times.map((t) => t * tScale),
       dists: dists.map((d) => d * dScale),
+      bbox: bboxOf(coords),
       summary: route.legs.map((leg) => leg.summary).filter(Boolean).join(', ') || null
     };
   });
+};
+
+const bboxOf = (coords) => {
+  const box = { west: Infinity, south: Infinity, east: -Infinity, north: -Infinity };
+  for (const [lon, lat] of coords) {
+    if (lon < box.west) box.west = lon;
+    if (lon > box.east) box.east = lon;
+    if (lat < box.south) box.south = lat;
+    if (lat > box.north) box.north = lat;
+  }
+  return box;
+};
+
+const unionBbox = (boxes) => ({
+  west: Math.min(...boxes.map((b) => b.west)),
+  south: Math.min(...boxes.map((b) => b.south)),
+  east: Math.max(...boxes.map((b) => b.east)),
+  north: Math.max(...boxes.map((b) => b.north))
+});
+
+// A thinned copy of the geometry with elapsed seconds, so the page can put a
+// dot on the road at any minute of the playback without the full polyline.
+const TRACK_POINTS = 160;
+const routeTrack = (route) => {
+  const n = route.coords.length;
+  const step = Math.max(1, (n - 1) / (TRACK_POINTS - 1));
+  const out = [];
+  for (let k = 0; k < TRACK_POINTS; k++) {
+    const i = Math.min(n - 1, Math.round(k * step));
+    const [lon, lat] = route.coords[i];
+    out.push([round5(lon), round5(lat), Math.round(route.times[i])]);
+    if (i === n - 1) break;
+  }
+  return out;
 };
 
 // Largest index whose cumulative time is at or before `t`.
@@ -801,6 +836,82 @@ const getOpenMeteoDailyForecast = async (lat, lon, startDate, numDays) => {
   }
 };
 
+// ---- Forecast grid: hourly precipitation on a grid of points covering the
+// routes, for the hours of the drive, so the page can play the forecast
+// across the map while the dot moves. One multi-location call; GMT times so
+// no local-time padding is needed.
+
+const GRID_TARGET = 96;
+
+// The lat/lon rectangle a map view shows, so the grid covers the whole image
+// rather than just the route's own bounding box.
+const viewBounds = (view) => {
+  const scale = 512 * Math.pow(2, view.zoom);
+  const halfLon = ((view.width / 2) / scale) * 360;
+  const halfMerc = ((view.height / 2) / scale) * 2 * Math.PI;
+  const unmercLat = (m) => ((2 * Math.atan(Math.exp(m)) - Math.PI / 2) * 180) / Math.PI;
+  return {
+    west: view.lon - halfLon,
+    east: view.lon + halfLon,
+    south: Math.max(-85, unmercLat(mercY(view.lat) - halfMerc)),
+    north: Math.min(85, unmercLat(mercY(view.lat) + halfMerc))
+  };
+};
+
+const buildGrid = (bounds) => {
+  const lonSpan = bounds.east - bounds.west;
+  const latSpan = bounds.north - bounds.south;
+  const midLat = ((bounds.north + bounds.south) / 2) * (Math.PI / 180);
+  const aspect = (lonSpan * Math.cos(midLat)) / latSpan;
+  let cols = Math.min(24, Math.max(4, Math.round(Math.sqrt(GRID_TARGET * aspect))));
+  let rows = Math.min(24, Math.max(4, Math.round(GRID_TARGET / cols)));
+  while (cols * rows > 120) { if (cols >= rows) cols--; else rows--; }
+  const points = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      points.push({
+        lat: round5(bounds.south + ((r + 0.5) * latSpan) / rows),
+        lon: round5(bounds.west + ((c + 0.5) * lonSpan) / cols)
+      });
+    }
+  }
+  return { bounds, cols, rows, points };
+};
+
+const fetchForecastGrid = async (bounds, startMs, endMs, nowMs) => {
+  if ((endMs - nowMs) / DAY_MS > FORECAST_HORIZON_DAYS) return null;
+  const grid = buildGrid(bounds);
+  const windowStart = Math.max(Math.floor(startMs / HOUR_MS) * HOUR_MS - HOUR_MS, nowMs - 12 * HOUR_MS);
+  const windowEnd = Math.min(Math.ceil(endMs / HOUR_MS) * HOUR_MS + HOUR_MS, nowMs + 16 * DAY_MS - 2 * HOUR_MS);
+  if (windowEnd <= windowStart) return null;
+  const lat = grid.points.map((p) => p.lat).join(',');
+  const lon = grid.points.map((p) => p.lon).join(',');
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=precipitation,snowfall&precipitation_unit=inch&timezone=GMT&start_hour=${naiveUtcHour(windowStart)}&end_hour=${naiveUtcHour(windowEnd)}`;
+  try {
+    const locations = await fetchOpenMeteo(url);
+    const first = locations[0];
+    if (!first || !first.hourly || !Array.isArray(first.hourly.time)) return null;
+    const times = first.hourly.time.map((t) => `${t}:00Z`);
+    const layer = (key) => times.map((_, t) =>
+      locations.map((loc) => {
+        const v = loc && loc.hourly && loc.hourly[key] ? loc.hourly[key][t] : null;
+        return v == null ? 0 : Math.round(v * 1000) / 1000;
+      })
+    );
+    return {
+      bounds: grid.bounds,
+      cols: grid.cols,
+      rows: grid.rows,
+      times,
+      precipitation: layer('precipitation'),
+      snowfall: layer('snowfall')
+    };
+  } catch (err) {
+    console.error('Open-Meteo grid error:', err.message);
+    return null;
+  }
+};
+
 // ---- Labels: a handful of samples per route get a town name. Departure and
 // arrival already have one from the forward geocode.
 
@@ -870,6 +981,24 @@ const MAP_PATH_BUDGET = 110;
 
 const mapColorFor = (category) => MAP_COLORS[category] || MAP_COLORS.dry;
 
+// The static image is requested at an explicit centre and zoom rather than
+// auto-fit, so the page can place forecast cells and the moving dot on it
+// with plain Web Mercator maths. Mapbox renders static images on 512px tiles.
+const MAP_W = 900;
+const MAP_H = 480;
+const MAP_PAD = 0.09;
+const mercY = (lat) => Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360));
+const computeView = (bbox) => {
+  const lonSpan = Math.max(bbox.east - bbox.west, 0.02);
+  const mSpan = Math.max(mercY(bbox.north) - mercY(bbox.south), 0.0003);
+  const zoomX = Math.log2(((MAP_W * (1 - 2 * MAP_PAD)) / 512) * (360 / lonSpan));
+  const zoomY = Math.log2(((MAP_H * (1 - 2 * MAP_PAD)) / 512) * ((2 * Math.PI) / mSpan));
+  const zoom = Math.max(1, Math.min(zoomX, zoomY, 15));
+  const midMerc = (mercY(bbox.north) + mercY(bbox.south)) / 2;
+  const lat = ((2 * Math.atan(Math.exp(midMerc)) - Math.PI / 2) * 180) / Math.PI;
+  return { lon: round5((bbox.west + bbox.east) / 2), lat: round5(lat), zoom: Math.round(zoom * 100) / 100, width: MAP_W, height: MAP_H };
+};
+
 const thinCoords = (coords, budget) => {
   if (coords.length <= budget) return coords;
   const out = [];
@@ -878,7 +1007,7 @@ const thinCoords = (coords, budget) => {
   return out;
 };
 
-const buildStaticMapUrl = (route, samples, weather) => {
+const buildStaticMapUrl = (route, samples, weather, view) => {
   if (!MAPBOX_ACCESS_TOKEN || !route || samples.length < 2) return null;
   // One stretch per pair of samples, coloured by the worse of its two ends,
   // then adjacent stretches of the same colour merged into one path.
@@ -908,7 +1037,7 @@ const buildStaticMapUrl = (route, samples, weather) => {
     `pin-s-b+${PIN_COLOR}(${last.lon.toFixed(4)},${last.lat.toFixed(4)})`
   ];
   // Same-origin proxy URL; the Mapbox token never reaches the browser.
-  return `/api/route-map?o=${encodeURIComponent([...paths, ...pins].join(','))}`;
+  return `/api/route-map?o=${encodeURIComponent([...paths, ...pins].join(','))}&v=${view.lon},${view.lat},${view.zoom}`;
 };
 
 // The o param must be exactly what buildStaticMapUrl produces: coloured path
@@ -947,16 +1076,28 @@ const parseMapOverlays = (raw) => {
   return out.length > 0 ? out.join(',') : null;
 };
 
+// "lon,lat,zoom", rebuilt from parsed numbers like the overlays above.
+const parseMapView = (raw) => {
+  const m = /^(-?\d{1,3}(?:\.\d{1,5})?),(-?\d{1,2}(?:\.\d{1,5})?),(\d{1,2}(?:\.\d{1,2})?)$/.exec(raw);
+  if (!m) return null;
+  const lon = Number(m[1]);
+  const lat = Number(m[2]);
+  const zoom = Number(m[3]);
+  if (Math.abs(lon) > 180 || Math.abs(lat) > 85 || zoom < 0 || zoom > 20) return null;
+  return `${lon},${lat},${zoom}`;
+};
+
 app.get(['/route-map', '/api/route-map'], async (req, res) => {
   if (!MAPBOX_ACCESS_TOKEN) {
     return res.status(500).json({ error: 'Map is not configured.' });
   }
   const overlays = parseMapOverlays(String(req.query.o || ''));
-  if (!overlays) {
+  const view = parseMapView(String(req.query.v || ''));
+  if (!overlays || !view) {
     return res.status(400).json({ error: 'Invalid map parameters.' });
   }
   try {
-    const url = `https://api.mapbox.com/styles/v1/mapbox/light-v11/static/${overlays}/auto/900x480@2x?access_token=${MAPBOX_ACCESS_TOKEN}&padding=48,40,56,40`;
+    const url = `https://api.mapbox.com/styles/v1/mapbox/light-v11/static/${overlays}/${view}/${MAP_W}x${MAP_H}@2x?access_token=${MAPBOX_ACCESS_TOKEN}`;
     const imgRes = await fetch(url);
     if (!imgRes.ok) {
       console.error('Mapbox static map error:', imgRes.status);
@@ -1061,23 +1202,32 @@ app.get(['/route-weather', '/api/route-weather'], rateLimit(10, 'route-weather')
 
     if (travelMode === 'drive') {
       const routes = await getRoutes(start, end);
-      response.routes = await Promise.all(routes.map(async (route, index) => {
-        const samples = sampleRoute(route, departureMs);
-        const [weather, labels] = await Promise.all([
-          fetchSampleWeather(samples, nowMs),
-          labelSamples(samples, start, end)
-        ]);
-        return {
-          index,
-          summary: route.summary,
-          duration: route.duration,
-          distance: route.distance,
-          estimated: false,
-          arrival: new Date(departureMs + route.duration * 1000).toISOString(),
-          samples: assemble(samples, weather, labels),
-          mapUrl: buildStaticMapUrl(route, samples, weather)
-        };
-      }));
+      const longest = Math.max(...routes.map((r) => r.duration));
+      const [built, grid] = await Promise.all([
+        Promise.all(routes.map(async (route, index) => {
+          const samples = sampleRoute(route, departureMs);
+          const view = computeView(route.bbox);
+          const [weather, labels] = await Promise.all([
+            fetchSampleWeather(samples, nowMs),
+            labelSamples(samples, start, end)
+          ]);
+          return {
+            index,
+            summary: route.summary,
+            duration: route.duration,
+            distance: route.distance,
+            estimated: false,
+            arrival: new Date(departureMs + route.duration * 1000).toISOString(),
+            samples: assemble(samples, weather, labels),
+            track: routeTrack(route),
+            view,
+            mapUrl: buildStaticMapUrl(route, samples, weather, view)
+          };
+        })),
+        fetchForecastGrid(unionBbox(routes.map((r) => viewBounds(computeView(r.bbox)))), departureMs, departureMs + longest * 1000, nowMs)
+      ]);
+      response.routes = built;
+      response.forecastGrid = grid;
     } else {
       // No flight-times API behind this: the duration comes from great-circle
       // distance and is flagged so the page can say "about".

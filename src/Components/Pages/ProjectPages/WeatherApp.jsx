@@ -285,9 +285,13 @@ const RouteChooser = ({ routes, selected, onSelect, fastest, driest }) => (
   </div>
 );
 
-const Legend = ({ route }) => {
+const Legend = ({ route, hasGrid }) => {
   const present = new Set(route.samples.map((s) => categoryOf(s.weather)));
   const items = [];
+  if (hasGrid) {
+    items.push({ key: 'forecast-rain', label: 'Forecast rain' });
+    items.push({ key: 'forecast-snow', label: 'Forecast snow' });
+  }
   if (['clear', 'partly', 'cloud'].some((c) => present.has(c))) items.push({ key: 'dry', label: 'Dry' });
   Object.keys(CATEGORIES)
     .filter((c) => CATEGORIES[c].hazard && present.has(c))
@@ -306,18 +310,23 @@ const Legend = ({ route }) => {
   );
 };
 
-const Windows = ({ route, end }) => {
+// With a playback above, each stretch is a button that jumps the map to its
+// start, and the stretch under the dot is marked.
+const Windows = ({ route, end, currentElapsed, onJump }) => {
   const windows = useMemo(() => windowsFor(route), [route]);
   return (
     <ol className="rw-windows">
       {windows.map((w, i) => {
         const hazard = w.kind !== 'dry' && w.kind !== 'unknown';
+        const current =
+          currentElapsed != null && currentElapsed >= w.from.elapsed && (currentElapsed < w.from.elapsed + w.seconds || i === windows.length - 1);
         const markClass = `rw-window-mark rw-wx-${w.kind === 'dry' ? 'dry' : w.category}`;
-        return (
-          <li key={i} className={hazard ? 'rw-window rw-window-hazard' : 'rw-window'}>
+        const className = `rw-window${hazard ? ' rw-window-hazard' : ''}${current ? ' rw-window-current' : ''}`;
+        const body = (
+          <>
             <span className={markClass} />
-            <div className="rw-window-body">
-              <div className="rw-window-head">
+            <span className="rw-window-body">
+              <span className="rw-window-head">
                 <span className="rw-window-glyph">
                   <Glyph name={glyphFor(route.samples[w.start].weather)} size={22} />
                 </span>
@@ -326,10 +335,21 @@ const Windows = ({ route, end }) => {
                   {formatClock(w.from.eta, w.from.zone)} to {formatClock(w.to.eta, w.to.zone)}
                   <span className="rw-window-length"> ({formatDuration(w.seconds)})</span>
                 </span>
-              </div>
-              <p className="rw-window-place">{placeText(w, end)}</p>
-              {detailText(w) && <p className="rw-window-detail">{detailText(w)}</p>}
-            </div>
+              </span>
+              <span className="rw-window-place">{placeText(w, end)}</span>
+              {detailText(w) && <span className="rw-window-detail">{detailText(w)}</span>}
+            </span>
+          </>
+        );
+        return (
+          <li key={i} className={className}>
+            {onJump ? (
+              <button type="button" className="rw-window-button" onClick={() => onJump(w.from.elapsed)} aria-current={current ? 'true' : undefined}>
+                {body}
+              </button>
+            ) : (
+              <span className="rw-window-button">{body}</span>
+            )}
           </li>
         );
       })}
@@ -487,6 +507,193 @@ const PlaceField = ({ id, label, value, onChange, placeholder }) => {
   );
 };
 
+/* ---- Forecast playback ----
+   The static map is requested at a known centre and zoom, so lat/lon can be
+   projected onto it with Web Mercator maths. The API's forecast grid (hourly
+   precipitation on a grid of points covering the view) is painted onto a
+   low-resolution canvas that CSS stretches over the map, and a dot follows
+   the route's track as the clock advances a quarter hour per frame. */
+
+const PLAY_STEP = 900; // seconds of driving per frame
+const PLAY_INTERVAL_MS = 320;
+const CANVAS_W = 225;
+const CANVAS_H = 120;
+const RAIN_RGB = [62, 120, 176];
+const SNOW_RGB = [110, 79, 163];
+
+const mercY = (lat) => Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360));
+const unmercLat = (m) => ((2 * Math.atan(Math.exp(m)) - Math.PI / 2) * 180) / Math.PI;
+
+const project = (lon, lat, view) => {
+  const scale = 512 * Math.pow(2, view.zoom);
+  return [
+    view.width / 2 + ((lon - view.lon) / 360) * scale,
+    view.height / 2 + ((mercY(view.lat) - mercY(lat)) / (2 * Math.PI)) * scale
+  ];
+};
+
+const unproject = (x, y, view) => {
+  const scale = 512 * Math.pow(2, view.zoom);
+  return [
+    view.lon + ((x - view.width / 2) / scale) * 360,
+    unmercLat(mercY(view.lat) - ((y - view.height / 2) / scale) * 2 * Math.PI)
+  ];
+};
+
+// Opacity for an hourly rate in inches: a trace is faint, a downpour is solid.
+const rainAlpha = (inches) => (inches < 0.004 ? 0 : Math.min(0.82, 0.2 + Math.log10(inches / 0.004) * 0.3));
+
+const bilinear = (layer, cols, rows, gc, gr) => {
+  const c0 = Math.max(0, Math.min(cols - 1, Math.floor(gc)));
+  const r0 = Math.max(0, Math.min(rows - 1, Math.floor(gr)));
+  const c1 = Math.min(cols - 1, c0 + 1);
+  const r1 = Math.min(rows - 1, r0 + 1);
+  const fc = Math.max(0, Math.min(1, gc - c0));
+  const fr = Math.max(0, Math.min(1, gr - r0));
+  const v = (r, c) => layer[r * cols + c] || 0;
+  return (v(r0, c0) * (1 - fc) + v(r0, c1) * fc) * (1 - fr) + (v(r1, c0) * (1 - fc) + v(r1, c1) * fc) * fr;
+};
+
+const paintFrame = (canvas, grid, view, frameMs) => {
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+  const image = ctx.createImageData(W, H);
+  const n = grid.times.length;
+  const tIdx = (frameMs - Date.parse(grid.times[0])) / 3600000;
+  if (n > 0 && tIdx >= -0.5 && tIdx <= n - 0.5) {
+    const i0 = Math.max(0, Math.min(n - 1, Math.floor(tIdx)));
+    const i1 = Math.min(n - 1, i0 + 1);
+    const w1 = Math.max(0, Math.min(1, tIdx - i0));
+    const w0 = 1 - w1;
+    const { bounds, cols, rows } = grid;
+    const lonSpan = bounds.east - bounds.west;
+    const latSpan = bounds.north - bounds.south;
+    const rain0 = grid.precipitation[i0];
+    const rain1 = grid.precipitation[i1];
+    const snow0 = grid.snowfall[i0];
+    const snow1 = grid.snowfall[i1];
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        const [lon, lat] = unproject(((x + 0.5) * view.width) / W, ((y + 0.5) * view.height) / H, view);
+        const gc = ((lon - bounds.west) / lonSpan) * cols - 0.5;
+        const gr = ((lat - bounds.south) / latSpan) * rows - 0.5;
+        if (gc < -0.5 || gc > cols - 0.5 || gr < -0.5 || gr > rows - 0.5) continue;
+        const rain = w0 * bilinear(rain0, cols, rows, gc, gr) + w1 * bilinear(rain1, cols, rows, gc, gr);
+        const alpha = rainAlpha(rain);
+        if (alpha <= 0) continue;
+        const snow = w0 * bilinear(snow0, cols, rows, gc, gr) + w1 * bilinear(snow1, cols, rows, gc, gr);
+        // Snowfall is depth; a tenth of it is roughly the liquid it holds.
+        const rgb = snow > 0.02 && snow / 10 >= rain / 2 ? SNOW_RGB : RAIN_RGB;
+        const o = (y * W + x) * 4;
+        image.data[o] = rgb[0];
+        image.data[o + 1] = rgb[1];
+        image.data[o + 2] = rgb[2];
+        image.data[o + 3] = Math.round(alpha * 255);
+      }
+    }
+  }
+  ctx.putImageData(image, 0, 0);
+};
+
+const trackPosition = (track, elapsed) => {
+  if (!track || track.length === 0) return null;
+  if (elapsed <= track[0][2]) return [track[0][0], track[0][1]];
+  for (let i = 1; i < track.length; i++) {
+    if (track[i][2] >= elapsed) {
+      const [lon0, lat0, t0] = track[i - 1];
+      const [lon1, lat1, t1] = track[i];
+      const f = t1 > t0 ? (elapsed - t0) / (t1 - t0) : 0;
+      return [lon0 + (lon1 - lon0) * f, lat0 + (lat1 - lat0) * f];
+    }
+  }
+  const last = track[track.length - 1];
+  return [last[0], last[1]];
+};
+
+const Playback = ({ route, grid, departure, frame, setFrame, playing, setPlaying, alt, onImageError }) => {
+  const canvasRef = useRef(null);
+  const { view, samples } = route;
+  const frames = Math.ceil(route.duration / PLAY_STEP) + 1;
+  const elapsed = Math.min(route.duration, frame * PLAY_STEP);
+  const frameMs = Date.parse(departure) + elapsed * 1000;
+
+  useEffect(() => {
+    if (canvasRef.current) paintFrame(canvasRef.current, grid, view, frameMs);
+  }, [grid, view, frameMs]);
+
+  useEffect(() => {
+    if (!playing) return undefined;
+    const id = setInterval(() => {
+      setFrame((f) => {
+        if (f + 1 >= frames) {
+          setPlaying(false);
+          return f;
+        }
+        return f + 1;
+      });
+    }, PLAY_INTERVAL_MS);
+    return () => clearInterval(id);
+  }, [playing, frames, setFrame, setPlaying]);
+
+  const pos = trackPosition(route.track, elapsed);
+  const dot = pos ? project(pos[0], pos[1], view) : null;
+  const nearestIndex = samples.reduce(
+    (best, s, i) => (Math.abs(s.elapsed - elapsed) < Math.abs(samples[best].elapsed - elapsed) ? i : best),
+    0
+  );
+  const nearest = samples[nearestIndex];
+  const place = nearestLabel(samples, nearestIndex);
+  const closeEnough = Math.abs(nearest.elapsed - elapsed) <= PLAY_STEP / 2;
+  const placeText = place ? `${place.exact && closeEnough ? '' : 'near '}${place.name}` : '';
+  const frameIso = new Date(frameMs).toISOString();
+  const readout = `${formatClock(frameIso, nearest.zone)}${placeText ? `, ${placeText}` : ''}. ${describe(nearest.weather)}${
+    nearest.weather && nearest.weather.temp != null ? `, ${nearest.weather.temp}°F` : ''
+  }.`;
+
+  const togglePlay = () => {
+    if (!playing && frame >= frames - 1) setFrame(0);
+    setPlaying(!playing);
+  };
+
+  return (
+    <div className="rw-play">
+      <div className="rw-map-stage">
+        <img src={route.mapUrl} alt={alt} width={view.width} height={view.height} onError={onImageError} />
+        <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H} className="rw-map-forecast" aria-hidden="true" />
+        <svg className="rw-map-marks" viewBox={`0 0 ${view.width} ${view.height}`} aria-hidden="true">
+          {dot && (
+            <>
+              <circle className="rw-dot-ring" cx={dot[0]} cy={dot[1]} r="12" />
+              <circle className="rw-dot" cx={dot[0]} cy={dot[1]} r="6" />
+            </>
+          )}
+        </svg>
+      </div>
+      <div className="rw-play-controls">
+        <button type="button" className="rw-play-button" onClick={togglePlay} aria-pressed={playing}>
+          {playing ? 'Pause' : 'Play'}
+        </button>
+        <input
+          type="range"
+          min="0"
+          max={frames - 1}
+          value={Math.min(frame, frames - 1)}
+          onChange={(e) => {
+            setPlaying(false);
+            setFrame(Number(e.target.value));
+          }}
+          aria-label="Time into the drive"
+          aria-valuetext={readout}
+        />
+        <span className="rw-play-readout" aria-live={playing ? 'off' : 'polite'}>
+          {readout}
+        </span>
+      </div>
+    </div>
+  );
+};
+
 /* ---- Page ---- */
 
 const WeatherApp = () => {
@@ -512,6 +719,8 @@ const WeatherApp = () => {
   // A map that fails to load (Mapbox hiccup) is dropped rather than left as a
   // box of alt text; the strip and the list below carry the same information.
   const [mapFailed, setMapFailed] = useState({});
+  const [frame, setFrame] = useState(0);
+  const [playing, setPlaying] = useState(false);
 
   const routes = result ? result.routes : [];
   const fastest = useMemo(
@@ -528,6 +737,12 @@ const WeatherApp = () => {
   // Default to the driest route when one stands out, else the fastest.
   const selected = chosenRoute != null && chosenRoute < routes.length ? chosenRoute : driest !== -1 ? driest : Math.max(0, fastest);
   const route = routes[selected];
+
+  // The playback starts over for a new trip or a different route.
+  useEffect(() => {
+    setFrame(0);
+    setPlaying(false);
+  }, [result, selected]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -560,6 +775,10 @@ const WeatherApp = () => {
   const historical = result && routes.some((r) => r.samples.some((s) => s.weather && s.weather.isHistorical));
   const verdict = route ? verdictFor(route) : null;
   const lastSample = route ? route.samples[route.samples.length - 1] : null;
+  const grid = result ? result.forecastGrid : null;
+  const hasPlayback = Boolean(grid && route && route.view && route.track && grid.times.length > 0);
+  const gridCellMiles = hasPlayback ? Math.max(1, Math.round(((grid.bounds.north - grid.bounds.south) / grid.rows) * 69)) : 0;
+  const mapAlt = result ? `Map of the route from ${result.start.short} to ${result.end.short}, coloured by the weather on each stretch` : '';
 
   return (
     <>
@@ -666,20 +885,47 @@ const WeatherApp = () => {
                 <section className="rw-section">
                   <p className={verdict.hazard ? 'rw-verdict rw-verdict-hazard' : 'rw-verdict'}>{verdict.text}</p>
                   {route.mapUrl && !mapFailed[route.mapUrl] && (
-                    <figure className="rw-map">
-                      <img
+                    hasPlayback ? (
+                      <Playback
                         key={route.mapUrl}
-                        src={route.mapUrl}
-                        alt={`Map of the route from ${result.start.short} to ${result.end.short}, coloured by the weather on each stretch`}
-                        width="900"
-                        height="480"
-                        onError={() => setMapFailed((m) => ({ ...m, [route.mapUrl]: true }))}
+                        route={route}
+                        grid={result.forecastGrid}
+                        departure={result.departure}
+                        frame={frame}
+                        setFrame={setFrame}
+                        playing={playing}
+                        setPlaying={setPlaying}
+                        alt={mapAlt}
+                        onImageError={() => setMapFailed((m) => ({ ...m, [route.mapUrl]: true }))}
                       />
-                    </figure>
+                    ) : (
+                      <figure className="rw-map">
+                        <img
+                          key={route.mapUrl}
+                          src={route.mapUrl}
+                          alt={mapAlt}
+                          width="900"
+                          height="480"
+                          onError={() => setMapFailed((m) => ({ ...m, [route.mapUrl]: true }))}
+                        />
+                      </figure>
+                    )
                   )}
-                  <Legend route={route} />
+                  <Legend route={route} hasGrid={hasPlayback} />
+                  {hasPlayback && (
+                    <p className="rw-fine">
+                      Press play, or drag the slider, to watch the hourly forecast move across the map
+                      while the dot drives the route. Each cell of the forecast is about{' '}
+                      {gridCellMiles} miles across: this is the weather model, not radar.
+                    </p>
+                  )}
                   <Strip route={route} />
-                  <Windows route={route} end={result.end} />
+                  <Windows
+                    route={route}
+                    end={result.end}
+                    currentElapsed={hasPlayback ? Math.min(route.duration, frame * PLAY_STEP) : null}
+                    onJump={hasPlayback ? (elapsed) => { setPlaying(false); setFrame(Math.round(elapsed / PLAY_STEP)); } : null}
+                  />
                   <Hours route={route} startZone={result.departureZone} />
                 </section>
               </>
