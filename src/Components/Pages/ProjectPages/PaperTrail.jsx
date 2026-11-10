@@ -101,10 +101,14 @@ const PaperTrail = () => {
             <span className="proj-pill">Puppeteer</span>
             <span className="proj-pill">GitHub Actions</span>
           </div>
+          <div className="proj-actions">
+            <a href="https://papertrail.company/" target="_blank" rel="noopener noreferrer" className="proj-action-link">
+              papertrail.company
+            </a>
+          </div>
           <p className="proj-status">
-            Working build, run locally against real statements. The hosted copy will live at{' '}
-            <a href="https://papertrail.company" rel="noopener noreferrer">papertrail.company</a>{' '}
-            when the repository goes public.
+            Live and free to use, with no account to make and nothing to install. The
+            repository is not public yet.
           </p>
         </div>
 
@@ -192,9 +196,9 @@ const PaperTrail = () => {
             Mono for every number, and Phosphor icons.
           </p>
           <p>
-            Next is the public release: the repository opens, the hosted build goes up at
-            papertrail.company, and the merchant rules ship as a data package anyone can
-            improve. The statement coverage will grow the same way the first layouts did,
+            The hosted build is up at papertrail.company. Next the repository opens, and
+            the merchant rules ship as a data package anyone can improve. The statement
+            coverage will grow the same way the first layouts did,
             from real files that did not parse, with the command-line checker reporting what
             was off and nothing else.
           </p>
