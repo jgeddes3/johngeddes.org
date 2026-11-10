@@ -490,10 +490,18 @@ const PlaceField = ({ id, label, value, onChange, placeholder }) => {
 /* ---- Page ---- */
 
 const WeatherApp = () => {
-  const today = toDateStr(new Date());
+  // The page is prerendered at build time on a UTC machine, and React keeps
+  // the server's attributes on hydration, so "today" must be worked out in the
+  // visitor's browser after mount or the date field rejects their own today.
+  const [today, setToday] = useState('');
   const [startLocation, setStartLocation] = useState('');
   const [endLocation, setEndLocation] = useState('');
-  const [departureDate, setDepartureDate] = useState(today);
+  const [departureDate, setDepartureDate] = useState('');
+  useEffect(() => {
+    const now = toDateStr(new Date());
+    setToday(now);
+    setDepartureDate((d) => d || now);
+  }, []);
   const [departureTime, setDepartureTime] = useState('08:00');
   const [stayDays, setStayDays] = useState(2);
   const [mode, setMode] = useState('drive');
@@ -574,7 +582,7 @@ const WeatherApp = () => {
                 <PlaceField id="rw-to" label="To" value={endLocation} onChange={setEndLocation} placeholder="City or address" />
                 <div className="rw-field">
                   <label htmlFor="rw-date">Leaving on</label>
-                  <input id="rw-date" type="date" value={departureDate} min={today} onChange={(e) => setDepartureDate(e.target.value)} />
+                  <input id="rw-date" type="date" value={departureDate} min={today || undefined} onChange={(e) => setDepartureDate(e.target.value)} />
                 </div>
                 <div className="rw-field">
                   <label htmlFor="rw-time">At</label>
