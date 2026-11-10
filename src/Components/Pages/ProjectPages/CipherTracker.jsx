@@ -206,7 +206,7 @@ const CipherTracker = () => {
         </div>
 
         <div className="proj-hero-screenshot">
-          <img loading="lazy" decoding="async" src={SiteHero} alt="The cipher-app.org home page, showing the Cipher sigil inside a vault door drawn in falling binary" />
+          <img loading="lazy" decoding="async" src={SiteHero} alt="The cipher-app.org home page in light mode: the Cipher sigil inside the open vault door, the CIPHER title, and the Get in touch and How it works buttons" />
         </div>
 
         <div className="proj-about">
