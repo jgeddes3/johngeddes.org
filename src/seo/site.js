@@ -51,7 +51,9 @@ export const PERSON = {
      parent       the breadcrumb above this page: { path, name }
      project      SoftwareApplication facts for built apps; omit for concepts and write-ups
      cardImage    a photo for the share card, as a dev-server path under /src (optional)
-     noindex      true keeps crawlers from indexing (the 404 page)
+     noindex      true keeps the page out of search: a robots noindex tag, no canonical,
+                  no structured data, and no entry in the sitemap or llms.txt. The page
+                  is still built and linked from the site (Paper Trail, the 404 page)
      sitemap      false leaves the page out of the sitemap (play URLs, the 404)
      prerender    false skips static HTML for this route (pages with side effects on load)
      body         false writes the page's head with the plain app shell instead of rendered markup
@@ -242,7 +244,10 @@ export const PAGES = {
     priority: 0.8,
     changefreq: 'monthly',
   },
+  /* Reachable from the Projects grid and the home carousel, but kept out of
+     search engines on purpose, the same as papertrail.company itself. */
   '/PaperTrail': {
+    noindex: true,
     cardImage: '/src/Components/Pages/ProjectPages/ProjectPageImages/PaperTrail/papertrail-card.webp',
     title: 'Paper Trail',
     description:

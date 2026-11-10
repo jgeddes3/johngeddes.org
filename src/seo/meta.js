@@ -136,10 +136,12 @@ const staticPaths = () => Object.keys(PAGES);
 const reviewPaths = () => reviews.map((r) => `/${r.slug}`);
 const essayPaths = () => essays.map((e) => `/${e.slug}`);
 
-/* Every route that gets its own static HTML file with rendered markup. */
+/* Every route that gets its own static HTML file with rendered markup. A
+   noindex page is included: it needs its own file so the noindex tag is in the
+   HTML a crawler receives, and so the URL does not fall through to the 404. */
 export function prerenderRoutes() {
   return [
-    ...staticPaths().filter((p) => PAGES[p].prerender !== false && PAGES[p].body !== false && !PAGES[p].noindex),
+    ...staticPaths().filter((p) => PAGES[p].prerender !== false && PAGES[p].body !== false),
     ...reviewPaths(),
     ...essayPaths(),
   ];
@@ -179,7 +181,7 @@ export function llmsText() {
   const url = (path) => absoluteUrl(path);
   const line = (path, text) => `- [${path === '/' ? 'Home' : (PAGES[path] && PAGES[path].title) || path}](${url(path)}): ${text}`;
 
-  const projectPaths = staticPaths().filter((p) => PAGES[p].parent && PAGES[p].parent.path === '/projects');
+  const projectPaths = staticPaths().filter((p) => PAGES[p].parent && PAGES[p].parent.path === '/projects' && !PAGES[p].noindex);
   const books = reviews.filter((r) => r.type === 'book');
   const restaurants = reviews.filter((r) => r.type === 'restaurant');
   const recipes = reviews.filter((r) => r.type === 'recipe');
