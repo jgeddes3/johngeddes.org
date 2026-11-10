@@ -829,11 +829,6 @@
     font-size: 12px;
   }
 
-  /* Half the ticks fit a phone; the rest stay in the hour-by-hour list. */
-  .rw-strip-tick-odd {
-    display: none;
-  }
-
   .rw-days {
     grid-template-columns: 1fr 1fr;
   }
