@@ -280,14 +280,14 @@ export const PAGES = {
   '/WeatherApp': {
     title: 'Route Weather',
     description:
-      'Route Weather by John Geddes: hour-by-hour forecasts along a driving route and at the destination, so you know what the drive will look like before you leave.',
+      'Route Weather by John Geddes: the forecast for where you will actually be along a drive, every quarter hour or so, with the wet stretches marked on the map, up to three routes to choose between, and the days at the destination.',
     parent: PROJECTS,
     project: {
       name: 'Route Weather',
       category: 'TravelApplication',
       os: 'Web browser',
       url: '/WeatherApp',
-      summary: 'The weather along your route, hour by hour.',
+      summary: 'The weather where you will be on the road, when you will be there.',
     },
     priority: 0.5,
     changefreq: 'yearly',

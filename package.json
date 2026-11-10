@@ -15,6 +15,7 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
+    "dev:api": "node --env-file-if-exists=.env.local scripts/dev-api.cjs",
     "build": "vite build",
     "postbuild": "node scripts/prerender.mjs",
     "preview": "vite preview",

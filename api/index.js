@@ -406,8 +406,102 @@ app.get(['/horoscope', '/api/horoscope'], rateLimit(10, 'horoscope'), async (req
 });
 
 // ---- Route Weather ----
+//
+// A drive is sampled at a fixed cadence (15 to 60 minutes, depending on
+// length) along the route geometry using the per-segment durations Mapbox
+// returns, so each sample is where the car actually is at that minute. The
+// old approach walked turn-by-turn steps and reported the step's starting
+// point with the time at its end, which put "Des Plaines" three hours into a
+// Chicago departure. One Open-Meteo call then returns the hour-matched
+// forecast for every sample of a route. Times stay UTC on the server; each
+// sample carries its IANA zone so the page can print the local clock time.
 
 const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_ACCESS_TOKEN;
+const MAX_ROUTES = 3;
+const MAX_SAMPLES = 24;
+const LABELLED_SAMPLES = 8;
+const FORECAST_HORIZON_DAYS = 15;
+const WINDOW_PAD_MS = 14 * 3600 * 1000; // covers any zone offset when the hourly window is local time
+const HOUR_MS = 3600 * 1000;
+const DAY_MS = 24 * HOUR_MS;
+
+const pad2 = (n) => String(n).padStart(2, '0');
+const round5 = (n) => Math.round(n * 1e5) / 1e5;
+const roundOrNull = (v) => (v == null ? null : Math.round(v));
+
+// WMO weather codes grouped into the categories the page colours by. The
+// client holds the labels and colours; this is the single source of grouping.
+const weatherCategory = (code) => {
+  if (code == null) return 'unknown';
+  if (code === 0) return 'clear';
+  if (code === 1 || code === 2) return 'partly';
+  if (code === 3) return 'cloud';
+  if (code === 45 || code === 48) return 'fog';
+  if (code === 51 || code === 53 || code === 80) return 'drizzle';
+  if (code === 55 || code === 61 || code === 63 || code === 81) return 'rain';
+  if (code === 65 || code === 82) return 'heavy';
+  if (code === 56 || code === 57 || code === 66 || code === 67) return 'freezing';
+  if ((code >= 71 && code <= 77) || code === 85 || code === 86) return 'snow';
+  if (code >= 95) return 'storm';
+  return 'unknown';
+};
+
+const CATEGORY_SEVERITY = {
+  unknown: 0, clear: 0, partly: 0, cloud: 0, fog: 2, drizzle: 2, rain: 3, heavy: 4, snow: 4, freezing: 5, storm: 5
+};
+
+// ---- Time zones. Node's Intl has full ICU, so wall-clock conversions use the
+// IANA zone Open-Meteo reports for a point rather than the browser's offset.
+
+const zoneParts = (ms, zone) => {
+  const fmt = new Intl.DateTimeFormat('en-US', {
+    timeZone: zone, hourCycle: 'h23',
+    year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'
+  });
+  const parts = {};
+  for (const p of fmt.formatToParts(new Date(ms))) parts[p.type] = p.value;
+  return {
+    y: Number(parts.year), mo: Number(parts.month), d: Number(parts.day),
+    h: Number(parts.hour) % 24, mi: Number(parts.minute)
+  };
+};
+
+const isValidZone = (zone) => {
+  try { new Intl.DateTimeFormat('en-US', { timeZone: zone }); return true; } catch { return false; }
+};
+
+// Offset (ms) of `zone` from UTC at the instant `ms`.
+const zoneOffsetMs = (ms, zone) => {
+  const p = zoneParts(ms, zone);
+  const minute = ms - (ms % 60000);
+  return Date.UTC(p.y, p.mo - 1, p.d, p.h, p.mi) - minute;
+};
+
+// Wall-clock parts (expressed as a Date.UTC value) in `zone` to a UTC instant.
+// The second pass settles times that sit on a daylight-saving boundary.
+const localToUtcMs = (naiveMs, zone) => {
+  const guess = naiveMs - zoneOffsetMs(naiveMs, zone);
+  return naiveMs - zoneOffsetMs(guess, zone);
+};
+
+const localHourKey = (ms, zone) => {
+  const p = zoneParts(ms, zone);
+  return `${p.y}-${pad2(p.mo)}-${pad2(p.d)}T${pad2(p.h)}:00`;
+};
+
+const naiveUtcHour = (ms) => new Date(ms).toISOString().slice(0, 13) + ':00';
+const naiveUtcDate = (ms) => new Date(ms).toISOString().slice(0, 10);
+
+// ---- Mapbox
+
+const shortPlaceName = (feature, fallback) => {
+  const props = feature.properties || {};
+  const ctx = props.context || {};
+  const place = (ctx.place && ctx.place.name) || (ctx.locality && ctx.locality.name) || props.name;
+  const regionCode = ctx.region && (ctx.region.region_code || ctx.region.name);
+  if (place && regionCode) return `${place}, ${regionCode}`;
+  return place || props.name || fallback;
+};
 
 const geocodeLocation = async (query) => {
   const url = `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(query)}&access_token=${MAPBOX_ACCESS_TOKEN}&limit=1`;
@@ -418,22 +512,7 @@ const geocodeLocation = async (query) => {
   const feature = json.features[0];
   const [lon, lat] = feature.geometry.coordinates;
   const name = feature.properties.full_address || feature.properties.name || query;
-  return { lat, lon, name };
-};
-
-const getRoute = async (startCoords, endCoords) => {
-  const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${startCoords.lon},${startCoords.lat};${endCoords.lon},${endCoords.lat}?access_token=${MAPBOX_ACCESS_TOKEN}&overview=full&geometries=geojson&steps=true`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Mapbox directions returned ${res.status}`);
-  const json = await res.json();
-  if (!json.routes || json.routes.length === 0) throw new Error('No route found');
-  const route = json.routes[0];
-  return {
-    duration: route.duration,
-    distance: route.distance,
-    geometry: route.geometry,
-    legs: route.legs
-  };
+  return { lat, lon, name, short: shortPlaceName(feature, name) };
 };
 
 const reverseGeocode = async (lat, lon) => {
@@ -447,7 +526,7 @@ const reverseGeocode = async (lat, lon) => {
     const city = feature.properties.name;
     const region = feature.properties.context && feature.properties.context.region;
     const stateCode = region && (region.region_code_full || region.region_code || region.name);
-    // Format as "City, ST" — strip country prefix from region_code_full (e.g. "US-MN" → "MN")
+    // "City, ST": region_code_full arrives as "US-MN".
     const abbr = stateCode ? stateCode.replace(/^[A-Z]{2}-/, '') : null;
     if (city && abbr) return `${city}, ${abbr}`;
     return city || feature.properties.full_address || null;
@@ -456,183 +535,254 @@ const reverseGeocode = async (lat, lon) => {
   }
 };
 
-const extractWaypoints = (route, departureDatetime, numWaypoints) => {
-  const totalDuration = route.duration;
-  const steps = route.legs[0].steps;
-
-  const waypoints = [];
-
-  if (numWaypoints > 0) {
-    // Place waypoints at evenly spaced time intervals
-    const interval = totalDuration / (numWaypoints + 1);
-    const targets = [];
-    for (let i = 1; i <= numWaypoints; i++) {
-      targets.push(interval * i);
+// Up to three routes, each with cumulative time and distance per geometry
+// coordinate so a position can be read off at any elapsed second.
+const getRoutes = async (start, end) => {
+  const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start.lon},${start.lat};${end.lon},${end.lat}?access_token=${MAPBOX_ACCESS_TOKEN}&alternatives=true&overview=full&geometries=geojson&annotations=duration,distance`;
+  const res = await fetch(url);
+  const json = await res.json().catch(() => null);
+  // Mapbox answers an undrivable pair with NoRoute or NoSegment, sometimes on
+  // a 4xx status; both mean the same thing to the reader.
+  if (json && /^No(Route|Segment)$/.test(json.code || '')) throw new Error('No route found');
+  if (!res.ok || !json) throw new Error(`Mapbox directions returned ${res.status}`);
+  if (!json.routes || json.routes.length === 0) throw new Error('No route found');
+  return json.routes.slice(0, MAX_ROUTES).map((route) => {
+    const coords = route.geometry.coordinates;
+    const segDurations = route.legs.flatMap((leg) => (leg.annotation && leg.annotation.duration) || []);
+    const segDistances = route.legs.flatMap((leg) => (leg.annotation && leg.annotation.distance) || []);
+    const times = [0];
+    const dists = [0];
+    for (let i = 0; i < coords.length - 1; i++) {
+      times.push(times[i] + (segDurations[i] || 0));
+      dists.push(dists[i] + (segDistances[i] || 0));
     }
+    // Annotation sums drift a little from the headline figures; scale so the
+    // last coordinate lands exactly on arrival.
+    const tLast = times[times.length - 1];
+    const dLast = dists[dists.length - 1];
+    const tScale = tLast > 0 ? route.duration / tLast : 1;
+    const dScale = dLast > 0 ? route.distance / dLast : 1;
+    return {
+      duration: route.duration,
+      distance: route.distance,
+      coords,
+      times: times.map((t) => t * tScale),
+      dists: dists.map((d) => d * dScale),
+      summary: route.legs.map((leg) => leg.summary).filter(Boolean).join(', ') || null
+    };
+  });
+};
 
-    let accumulatedTime = 0;
-    let targetIdx = 0;
-    for (const step of steps) {
-      accumulatedTime += step.duration;
-      if (targetIdx < targets.length && accumulatedTime >= targets[targetIdx]) {
-        const coord = step.maneuver.location; // [lon, lat]
-        const eta = new Date(departureDatetime.getTime() + accumulatedTime * 1000);
-        waypoints.push({
-          lat: coord[1],
-          lon: coord[0],
-          eta: eta.toISOString(),
-          label: null // will be filled by reverse geocoding
-        });
-        targetIdx++;
+// Largest index whose cumulative time is at or before `t`.
+const indexAtTime = (times, t) => {
+  let lo = 0;
+  let hi = times.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if (times[mid] <= t) lo = mid; else hi = mid - 1;
+  }
+  return lo;
+};
+
+const pointAtTime = (route, t) => {
+  const last = route.coords.length - 1;
+  const i = indexAtTime(route.times, t);
+  if (i >= last) {
+    return { lon: route.coords[last][0], lat: route.coords[last][1], distance: route.distance, index: last };
+  }
+  const span = route.times[i + 1] - route.times[i];
+  const f = span > 0 ? Math.min(1, Math.max(0, (t - route.times[i]) / span)) : 0;
+  const [lon0, lat0] = route.coords[i];
+  const [lon1, lat1] = route.coords[i + 1];
+  return {
+    lon: lon0 + (lon1 - lon0) * f,
+    lat: lat0 + (lat1 - lat0) * f,
+    distance: route.dists[i] + (route.dists[i + 1] - route.dists[i]) * f,
+    index: i
+  };
+};
+
+// 15-minute steps for short drives, widening so a long one stays under
+// MAX_SAMPLES points. Always includes departure and arrival.
+const sampleStep = (duration) => Math.max(900, Math.ceil(duration / MAX_SAMPLES / 900) * 900);
+
+const sampleRoute = (route, departureMs) => {
+  const step = sampleStep(route.duration);
+  const elapsed = [];
+  for (let t = 0; t < route.duration - step / 3; t += step) elapsed.push(t);
+  elapsed.push(route.duration);
+  return elapsed.map((t) => {
+    const p = pointAtTime(route, t);
+    return {
+      elapsed: Math.round(t),
+      eta: new Date(departureMs + t * 1000).toISOString(),
+      lat: round5(p.lat),
+      lon: round5(p.lon),
+      distance: Math.round(p.distance),
+      geomIndex: p.index
+    };
+  });
+};
+
+// ---- Open-Meteo
+
+const HOURLY_VARS = 'temperature_2m,precipitation,precipitation_probability,weather_code,wind_speed_10m,snowfall,is_day';
+const ARCHIVE_VARS = 'temperature_2m,precipitation,weather_code,wind_speed_10m,snowfall';
+const OM_UNITS = 'temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch';
+
+const lookupZone = async (lat, lon) => {
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&timezone=auto&forecast_days=1&daily=weather_code`;
+    const res = await fetch(url);
+    if (!res.ok) return 'UTC';
+    const json = await res.json();
+    return json.timezone && isValidZone(json.timezone) ? json.timezone : 'UTC';
+  } catch {
+    return 'UTC';
+  }
+};
+
+const fetchOpenMeteo = async (url) => {
+  const res = await fetch(url);
+  const json = await res.json().catch(() => null);
+  if (!res.ok || !json || json.error) {
+    throw new Error((json && json.reason) || `Open-Meteo returned ${res.status}`);
+  }
+  return Array.isArray(json) ? json : [json];
+};
+
+// Hour-matched weather for every sample in one request. Beyond the forecast
+// horizon it reads the same dates last year from the archive and flags it.
+const fetchSampleWeather = async (samples, nowMs) => {
+  if (samples.length === 0) return [];
+  const firstMs = Date.parse(samples[0].eta);
+  const lastMs = Date.parse(samples[samples.length - 1].eta);
+  const historical = (lastMs - nowMs) / DAY_MS > FORECAST_HORIZON_DAYS;
+  const lat = samples.map((s) => s.lat).join(',');
+  const lon = samples.map((s) => s.lon).join(',');
+  const yearBack = (ms) => { const d = new Date(ms); d.setUTCFullYear(d.getUTCFullYear() - 1); return d.getTime(); };
+
+  let locations;
+  try {
+    if (historical) {
+      const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${naiveUtcDate(yearBack(firstMs) - WINDOW_PAD_MS)}&end_date=${naiveUtcDate(yearBack(lastMs) + WINDOW_PAD_MS)}&hourly=${ARCHIVE_VARS}&${OM_UNITS}&timezone=auto`;
+      locations = await fetchOpenMeteo(url);
+    } else {
+      // The hourly window is in each point's local time, so pad it by the
+      // widest zone offset. Clamped to what the forecast API will serve.
+      const windowStart = Math.max(firstMs - WINDOW_PAD_MS, nowMs - 12 * HOUR_MS);
+      const windowEnd = Math.min(lastMs + WINDOW_PAD_MS, nowMs + 16 * DAY_MS - 2 * HOUR_MS);
+      const base = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=${HOURLY_VARS}&${OM_UNITS}&timezone=auto`;
+      try {
+        locations = await fetchOpenMeteo(`${base}&start_hour=${naiveUtcHour(windowStart)}&end_hour=${naiveUtcHour(windowEnd)}`);
+      } catch (err) {
+        console.error('Open-Meteo window rejected, retrying full range:', err.message);
+        locations = await fetchOpenMeteo(`${base}&forecast_days=16`);
       }
     }
+  } catch (err) {
+    console.error('Open-Meteo route weather error:', err.message);
+    return samples.map(() => null);
   }
 
-  // Add final destination
-  const lastStep = steps[steps.length - 1];
-  const finalCoord = lastStep.maneuver.location;
-  const arrivalEta = new Date(departureDatetime.getTime() + totalDuration * 1000);
-  waypoints.push({
-    lat: finalCoord[1],
-    lon: finalCoord[0],
-    eta: arrivalEta.toISOString(),
-    label: 'Destination'
+  return samples.map((sample, i) => {
+    const loc = locations[i];
+    if (!loc || !loc.hourly || !Array.isArray(loc.hourly.time)) return null;
+    const zone = loc.timezone && isValidZone(loc.timezone) ? loc.timezone : 'UTC';
+    let etaMs = Date.parse(sample.eta);
+    if (historical) etaMs = yearBack(etaMs);
+    const nearestHour = Math.round(etaMs / HOUR_MS) * HOUR_MS;
+    const idx = loc.hourly.time.indexOf(localHourKey(nearestHour, zone));
+    if (idx === -1) return { zone, weather: null };
+    const h = loc.hourly;
+    const pick = (arr) => (Array.isArray(arr) && arr[idx] != null ? arr[idx] : null);
+    const code = pick(h.weather_code);
+    return {
+      zone,
+      weather: {
+        temp: roundOrNull(pick(h.temperature_2m)),
+        precipitation: pick(h.precipitation),
+        precipProbability: pick(h.precipitation_probability),
+        snowfall: pick(h.snowfall),
+        weatherCode: code,
+        category: weatherCategory(code),
+        windSpeed: roundOrNull(pick(h.wind_speed_10m)),
+        isDay: h.is_day ? pick(h.is_day) === 1 : null,
+        isHistorical: historical
+      }
+    };
   });
-
-  return waypoints;
-};
-
-const getOpenMeteoWeather = async (lat, lon, datetime) => {
-  const now = new Date();
-  const diffDays = (datetime - now) / (1000 * 60 * 60 * 24);
-
-  if (diffDays > 14) {
-    return getHistoricalClimate(lat, lon, datetime);
-  }
-
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,precipitation,weather_code,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&forecast_days=16`;
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return null;
-    const json = await res.json();
-    const times = json.hourly.time;
-    const targetISO = datetime.toISOString().slice(0, 13); // match to hour
-    let idx = times.findIndex(t => t.startsWith(targetISO));
-    if (idx === -1) {
-      // Find closest hour
-      const targetMs = datetime.getTime();
-      let minDiff = Infinity;
-      times.forEach((t, i) => {
-        const diff = Math.abs(new Date(t).getTime() - targetMs);
-        if (diff < minDiff) { minDiff = diff; idx = i; }
-      });
-    }
-    if (idx === -1) return null;
-    return {
-      temp: Math.round(json.hourly.temperature_2m[idx]),
-      precipitation: json.hourly.precipitation[idx],
-      weatherCode: json.hourly.weather_code[idx],
-      windSpeed: Math.round(json.hourly.wind_speed_10m[idx]),
-      isHistorical: false
-    };
-  } catch (err) {
-    console.error('Open-Meteo forecast error:', err.message);
-    return null;
-  }
-};
-
-const getHistoricalClimate = async (lat, lon, datetime) => {
-  const lastYear = new Date(datetime);
-  lastYear.setFullYear(lastYear.getFullYear() - 1);
-  const dateStr = lastYear.toISOString().slice(0, 10);
-  const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${dateStr}&end_date=${dateStr}&hourly=temperature_2m,precipitation&temperature_unit=fahrenheit`;
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return null;
-    const json = await res.json();
-    const times = json.hourly.time;
-    const targetHour = datetime.getUTCHours();
-    let idx = times.findIndex(t => new Date(t).getUTCHours() === targetHour);
-    if (idx === -1) idx = 0;
-    return {
-      temp: Math.round(json.hourly.temperature_2m[idx]),
-      precipitation: json.hourly.precipitation[idx],
-      weatherCode: null,
-      windSpeed: null,
-      isHistorical: true
-    };
-  } catch (err) {
-    console.error('Open-Meteo historical error:', err.message);
-    return null;
-  }
 };
 
 const getHistoricalDaily = async (lat, lon, dates) => {
-  // Fetch last year's data for the given dates as historical estimates
+  // Last year's figures for the same dates, as an estimate.
   if (dates.length === 0) return [];
-  const firstDate = new Date(dates[0] + 'T12:00:00');
-  const lastDate = new Date(dates[dates.length - 1] + 'T12:00:00');
-  const lyFirst = new Date(firstDate); lyFirst.setFullYear(lyFirst.getFullYear() - 1);
-  const lyLast = new Date(lastDate); lyLast.setFullYear(lyLast.getFullYear() - 1);
-  const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${lyFirst.toISOString().slice(0, 10)}&end_date=${lyLast.toISOString().slice(0, 10)}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&temperature_unit=fahrenheit`;
+  const shift = (dateStr) => {
+    const d = new Date(dateStr + 'T12:00:00Z');
+    d.setUTCFullYear(d.getUTCFullYear() - 1);
+    return d.toISOString().slice(0, 10);
+  };
+  const url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=${shift(dates[0])}&end_date=${shift(dates[dates.length - 1])}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code,wind_speed_10m_max&${OM_UNITS}&timezone=auto`;
   try {
     const res = await fetch(url);
-    if (!res.ok) return dates.map(d => ({ date: d, weather: null }));
+    if (!res.ok) return dates.map((d) => ({ date: d, weather: null }));
     const json = await res.json();
-    if (!json.daily || !json.daily.time) return dates.map(d => ({ date: d, weather: null }));
+    if (!json.daily || !json.daily.time) return dates.map((d) => ({ date: d, weather: null }));
     return dates.map((date, i) => {
       const idx = i < json.daily.time.length ? i : json.daily.time.length - 1;
+      const code = json.daily.weather_code ? json.daily.weather_code[idx] : null;
       return {
         date,
         weather: {
-          tempHigh: Math.round(json.daily.temperature_2m_max[idx]),
-          tempLow: Math.round(json.daily.temperature_2m_min[idx]),
+          tempHigh: roundOrNull(json.daily.temperature_2m_max[idx]),
+          tempLow: roundOrNull(json.daily.temperature_2m_min[idx]),
           precipitation: json.daily.precipitation_sum[idx],
-          weatherCode: null,
-          windSpeed: null,
+          precipProbability: null,
+          weatherCode: code,
+          category: weatherCategory(code),
+          windSpeed: json.daily.wind_speed_10m_max ? roundOrNull(json.daily.wind_speed_10m_max[idx]) : null,
           isHistorical: true
         }
       };
     });
   } catch (err) {
     console.error('Historical daily error:', err.message);
-    return dates.map(d => ({ date: d, weather: null }));
+    return dates.map((d) => ({ date: d, weather: null }));
   }
 };
 
 const getOpenMeteoDailyForecast = async (lat, lon, startDate, numDays) => {
-  // Build the list of dates we need
   const allDates = [];
-  const start = new Date(startDate + 'T12:00:00');
+  const start = new Date(startDate + 'T12:00:00Z');
   for (let i = 0; i < numDays; i++) {
     const d = new Date(start);
-    d.setDate(d.getDate() + i);
+    d.setUTCDate(d.getUTCDate() + i);
     allDates.push(d.toISOString().slice(0, 10));
   }
 
   try {
-    // Fetch the 16-day forecast
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code,wind_speed_10m_max&temperature_unit=fahrenheit&wind_speed_unit=mph&forecast_days=16`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,weather_code,wind_speed_10m_max&${OM_UNITS}&timezone=auto&forecast_days=16`;
     const res = await fetch(url);
     if (!res.ok) return await getHistoricalDaily(lat, lon, allDates);
     const json = await res.json();
     if (!json.daily || !json.daily.time) return await getHistoricalDaily(lat, lon, allDates);
 
-    const forecastDates = new Set(json.daily.time);
     const forecastDays = [];
     const historicalDates = [];
-
     for (const date of allDates) {
       const idx = json.daily.time.indexOf(date);
       if (idx !== -1) {
+        const code = json.daily.weather_code[idx];
         forecastDays.push({
           date,
           weather: {
-            tempHigh: Math.round(json.daily.temperature_2m_max[idx]),
-            tempLow: Math.round(json.daily.temperature_2m_min[idx]),
+            tempHigh: roundOrNull(json.daily.temperature_2m_max[idx]),
+            tempLow: roundOrNull(json.daily.temperature_2m_min[idx]),
             precipitation: json.daily.precipitation_sum[idx],
-            weatherCode: json.daily.weather_code[idx],
-            windSpeed: Math.round(json.daily.wind_speed_10m_max[idx]),
+            precipProbability: json.daily.precipitation_probability_max ? json.daily.precipitation_probability_max[idx] : null,
+            weatherCode: code,
+            category: weatherCategory(code),
+            windSpeed: roundOrNull(json.daily.wind_speed_10m_max[idx]),
             isHistorical: false
           }
         });
@@ -641,10 +791,7 @@ const getOpenMeteoDailyForecast = async (lat, lon, startDate, numDays) => {
       }
     }
 
-    // Fetch historical data for any dates beyond the forecast range
     const historicalDays = await getHistoricalDaily(lat, lon, historicalDates);
-
-    // Merge and sort by date
     const allDays = [...forecastDays, ...historicalDays];
     allDays.sort((a, b) => a.date.localeCompare(b.date));
     return allDays;
@@ -653,6 +800,31 @@ const getOpenMeteoDailyForecast = async (lat, lon, startDate, numDays) => {
     return null;
   }
 };
+
+// ---- Labels: a handful of samples per route get a town name. Departure and
+// arrival already have one from the forward geocode.
+
+const labelIndices = (count) => {
+  const set = new Set();
+  for (let k = 1; k <= LABELLED_SAMPLES; k++) {
+    const idx = Math.round((k * (count - 1)) / (LABELLED_SAMPLES + 1));
+    if (idx > 0 && idx < count - 1) set.add(idx);
+  }
+  return [...set];
+};
+
+const labelSamples = async (samples, start, end) => {
+  const labels = samples.map(() => null);
+  if (samples.length === 0) return labels;
+  labels[0] = start.short;
+  labels[samples.length - 1] = end.short;
+  const indices = labelIndices(samples.length);
+  const names = await Promise.all(indices.map((i) => reverseGeocode(samples[i].lat, samples[i].lon)));
+  indices.forEach((i, k) => { labels[i] = names[k]; });
+  return labels;
+};
+
+// ---- Static map, coloured by the weather on each stretch.
 
 const encodePolyline = (coordinates) => {
   if (!coordinates.length) return '';
@@ -671,7 +843,7 @@ const encodePolyline = (coordinates) => {
     out += String.fromCharCode(coord + 63);
     return out;
   };
-  // Polyline expects [lat, lon] but input is [lon, lat]
+  // Polyline wants [lat, lon]; input is [lon, lat].
   let out = enc(coordinates[0][1], 0) + enc(coordinates[0][0], 0);
   for (let i = 1; i < coordinates.length; i++) {
     out += enc(coordinates[i][1], coordinates[i - 1][1]);
@@ -680,80 +852,111 @@ const encodePolyline = (coordinates) => {
   return out;
 };
 
-// Rough block-to-block flight time from great-circle distance. Cruise is taken
-// at 800 km/h — below a jet's true airspeed, since the average over a whole
-// sector includes climb and descent — plus a flat 45 minutes for taxi out,
-// departure, approach and taxi in. Short hops are floored at 50 minutes
-// because the fixed overhead dominates them. Always an estimate, never a
-// schedule: callers surface it as such.
-const estimateFlightSeconds = (from, to) => {
-  const R = 6371; // km
-  const rad = (d) => (d * Math.PI) / 180;
-  const dLat = rad(to.lat - from.lat);
-  const dLon = rad(to.lon - from.lon);
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(rad(from.lat)) * Math.cos(rad(to.lat)) * Math.sin(dLon / 2) ** 2;
-  const km = 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
-  const seconds = (km / 800) * 3600 + 45 * 60;
-  return Math.max(50 * 60, Math.round(seconds / 300) * 300); // nearest 5 min
+// Six-digit hex, no hash, as the Static Images API wants. Dry stretches take
+// a warm neutral that reads as "road"; wet ones step through blues; frozen and
+// stormy ones go violet so they stand apart from rain at a glance.
+const MAP_COLORS = {
+  dry: '8C7B6B',
+  fog: '9AA0A6',
+  drizzle: '6FA0CC',
+  rain: '3E78B0',
+  heavy: '244F84',
+  snow: '7F93CF',
+  freezing: '6E4FA3',
+  storm: '3B2466'
+};
+const PIN_COLOR = 'A30000';
+const MAP_PATH_BUDGET = 110;
+
+const mapColorFor = (category) => MAP_COLORS[category] || MAP_COLORS.dry;
+
+const thinCoords = (coords, budget) => {
+  if (coords.length <= budget) return coords;
+  const out = [];
+  const step = (coords.length - 1) / (budget - 1);
+  for (let k = 0; k < budget; k++) out.push(coords[Math.round(k * step)]);
+  return out;
 };
 
-const buildStaticMapUrl = (routeGeometry, waypoints) => {
-  if (!MAPBOX_ACCESS_TOKEN || !routeGeometry) return null;
-  const coords = routeGeometry.coordinates;
-  // Simplify to ~100 points to keep URL manageable
-  const step = Math.max(1, Math.floor(coords.length / 100));
-  const simplified = coords.filter((_, i) => i % step === 0 || i === coords.length - 1);
-  const encoded = encodePolyline(simplified);
-  const pathOverlay = `path-4+4882F5-0.6(${encodeURIComponent(encoded)})`;
-  // Pin markers for waypoints
-  const pins = waypoints.map(wp => `pin-s+FF6B35(${wp.lon.toFixed(4)},${wp.lat.toFixed(4)})`).join(',');
-  const overlays = pins ? `${pathOverlay},${pins}` : pathOverlay;
-  // Same-origin proxy URL — the Mapbox token must never reach the browser.
-  return `/api/route-map?o=${encodeURIComponent(overlays)}`;
+const buildStaticMapUrl = (route, samples, weather) => {
+  if (!MAPBOX_ACCESS_TOKEN || !route || samples.length < 2) return null;
+  // One stretch per pair of samples, coloured by the worse of its two ends,
+  // then adjacent stretches of the same colour merged into one path.
+  const stretches = [];
+  for (let i = 0; i < samples.length - 1; i++) {
+    const a = weather[i] && weather[i].weather ? weather[i].weather.category : 'unknown';
+    const b = weather[i + 1] && weather[i + 1].weather ? weather[i + 1].weather.category : 'unknown';
+    const worse = CATEGORY_SEVERITY[a] >= CATEGORY_SEVERITY[b] ? a : b;
+    const color = mapColorFor(worse);
+    const from = samples[i];
+    const to = samples[i + 1];
+    const inner = route.coords.slice(from.geomIndex + 1, to.geomIndex + 1);
+    const pts = [[from.lon, from.lat], ...inner, [to.lon, to.lat]];
+    const prev = stretches[stretches.length - 1];
+    if (prev && prev.color === color) prev.pts.push(...pts.slice(1));
+    else stretches.push({ color, pts });
+  }
+  const totalPts = stretches.reduce((n, s) => n + s.pts.length, 0);
+  const paths = stretches.map((s) => {
+    const budget = Math.max(2, Math.round((s.pts.length / totalPts) * MAP_PATH_BUDGET));
+    return `path-5+${s.color}-0.9(${encodeURIComponent(encodePolyline(thinCoords(s.pts, budget)))})`;
+  });
+  const first = samples[0];
+  const last = samples[samples.length - 1];
+  const pins = [
+    `pin-s-a+${PIN_COLOR}(${first.lon.toFixed(4)},${first.lat.toFixed(4)})`,
+    `pin-s-b+${PIN_COLOR}(${last.lon.toFixed(4)},${last.lat.toFixed(4)})`
+  ];
+  // Same-origin proxy URL; the Mapbox token never reaches the browser.
+  return `/api/route-map?o=${encodeURIComponent([...paths, ...pins].join(','))}`;
 };
 
-// The o param must be exactly what buildStaticMapUrl produces: one path overlay
-// with a percent-encoded polyline, then zero or more pin overlays. It is parsed
-// structurally and the upstream overlay string is REBUILT from the parsed pieces —
-// nothing from the request is forwarded verbatim, so double-encoded metacharacters
-// cannot smuggle path/query segments into the token-bearing Mapbox URL.
-const ROUTE_MAP_PATTERN = /^path-4\+4882F5-0\.6\(([A-Za-z0-9%!*'~._-]+)\)((?:,pin-s\+FF6B35\(-?\d{1,3}\.\d{4},-?\d{1,3}\.\d{4}\))*)$/;
-const PIN_PATTERN = /pin-s\+FF6B35\((-?\d{1,3}\.\d{4}),(-?\d{1,3}\.\d{4})\)/g;
+// The o param must be exactly what buildStaticMapUrl produces: coloured path
+// overlays then two pins. It is parsed structurally and the upstream overlay
+// string is REBUILT from the parsed pieces, so nothing from the request is
+// forwarded verbatim and double-encoded metacharacters cannot smuggle path or
+// query segments into the token-bearing Mapbox URL.
+const MAP_HEX = new Set([...Object.values(MAP_COLORS), PIN_COLOR]);
+const OVERLAY_TOKEN = /(path-5\+([0-9A-F]{6})-0\.9\(([A-Za-z0-9%!*'~._-]+)\)|pin-s-([ab])\+([0-9A-F]{6})\((-?\d{1,3}\.\d{4}),(-?\d{1,3}\.\d{4})\))(?:,|$)/y;
+
+const parseMapOverlays = (raw) => {
+  if (raw.length > 8000) return null;
+  const out = [];
+  OVERLAY_TOKEN.lastIndex = 0;
+  let pos = 0;
+  while (pos < raw.length) {
+    const m = OVERLAY_TOKEN.exec(raw);
+    if (!m || m.index !== pos) return null;
+    if (m[2]) {
+      if (!MAP_HEX.has(m[2])) return null;
+      let polyline;
+      try { polyline = decodeURIComponent(m[3]); } catch { return null; }
+      // Encoded polylines use only ASCII 63-126.
+      if (!polyline || !/^[?-~]+$/.test(polyline)) return null;
+      out.push(`path-5+${m[2]}-0.9(${encodeURIComponent(polyline)})`);
+    } else {
+      if (!MAP_HEX.has(m[5])) return null;
+      const lon = Number(m[6]);
+      const lat = Number(m[7]);
+      if (Math.abs(lon) > 180 || Math.abs(lat) > 90) return null;
+      out.push(`pin-s-${m[4]}+${m[5]}(${lon.toFixed(4)},${lat.toFixed(4)})`);
+    }
+    pos = OVERLAY_TOKEN.lastIndex;
+    if (out.length > 40) return null;
+  }
+  return out.length > 0 ? out.join(',') : null;
+};
 
 app.get(['/route-map', '/api/route-map'], async (req, res) => {
   if (!MAPBOX_ACCESS_TOKEN) {
     return res.status(500).json({ error: 'Map is not configured.' });
   }
-  const raw = String(req.query.o || '');
-  const match = raw.length <= 8000 ? ROUTE_MAP_PATTERN.exec(raw) : null;
-  if (!match) {
+  const overlays = parseMapOverlays(String(req.query.o || ''));
+  if (!overlays) {
     return res.status(400).json({ error: 'Invalid map parameters.' });
-  }
-  let polyline;
-  try {
-    polyline = decodeURIComponent(match[1]);
-  } catch {
-    return res.status(400).json({ error: 'Invalid map parameters.' });
-  }
-  // Encoded polylines use only ASCII 63-126.
-  if (!polyline || !/^[?-~]+$/.test(polyline)) {
-    return res.status(400).json({ error: 'Invalid map parameters.' });
-  }
-  let overlays = `path-4+4882F5-0.6(${encodeURIComponent(polyline)})`;
-  PIN_PATTERN.lastIndex = 0;
-  let pin;
-  while ((pin = PIN_PATTERN.exec(match[2])) !== null) {
-    const lon = Number(pin[1]);
-    const lat = Number(pin[2]);
-    if (Math.abs(lon) > 180 || Math.abs(lat) > 90) {
-      return res.status(400).json({ error: 'Invalid map parameters.' });
-    }
-    overlays += `,pin-s+FF6B35(${lon.toFixed(4)},${lat.toFixed(4)})`;
   }
   try {
-    const url = `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/${overlays}/auto/800x400@2x?access_token=${MAPBOX_ACCESS_TOKEN}&padding=50`;
+    const url = `https://api.mapbox.com/styles/v1/mapbox/light-v11/static/${overlays}/auto/900x480@2x?access_token=${MAPBOX_ACCESS_TOKEN}&padding=48,40,56,40`;
     const imgRes = await fetch(url);
     if (!imgRes.ok) {
       console.error('Mapbox static map error:', imgRes.status);
@@ -777,7 +980,7 @@ app.get(['/city-suggest', '/api/city-suggest'], async (req, res) => {
     const response = await fetch(url);
     if (!response.ok) return res.json([]);
     const json = await response.json();
-    const suggestions = (json.features || []).map(f => {
+    const suggestions = (json.features || []).map((f) => {
       const [lon, lat] = f.geometry.coordinates;
       return { name: f.properties.full_address || f.properties.name, lat, lon };
     });
@@ -788,144 +991,128 @@ app.get(['/city-suggest', '/api/city-suggest'], async (req, res) => {
   }
 });
 
+// Rough block-to-block flight time from great-circle distance. Cruise is taken
+// at 800 km/h, below a jet's true airspeed since the average over a whole
+// sector includes climb and descent, plus a flat 45 minutes for taxi out,
+// departure, approach and taxi in. Short hops are floored at 50 minutes
+// because the fixed overhead dominates them. Always an estimate, never a
+// schedule: callers surface it as such.
+const estimateFlightSeconds = (from, to) => {
+  const R = 6371; // km
+  const rad = (d) => (d * Math.PI) / 180;
+  const dLat = rad(to.lat - from.lat);
+  const dLon = rad(to.lon - from.lon);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(rad(from.lat)) * Math.cos(rad(to.lat)) * Math.sin(dLon / 2) ** 2;
+  const km = 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
+  const seconds = (km / 800) * 3600 + 45 * 60;
+  return Math.max(50 * 60, Math.round(seconds / 300) * 300); // nearest 5 min
+};
+
+const stripInternal = ({ geomIndex, ...sample }) => sample;
+
 app.get(['/route-weather', '/api/route-weather'], rateLimit(10, 'route-weather'), async (req, res) => {
-  const { startLocation, endLocation, departureDate, departureTime, stayDays, mode, numWaypoints: numWaypointsParam, tzOffset: tzOffsetParam } = req.query;
+  const { startLocation, endLocation, departureDate, departureTime, stayDays, mode } = req.query;
 
   if (!startLocation || !endLocation || !departureDate || !departureTime) {
     return res.status(400).json({ error: 'Missing required parameters: startLocation, endLocation, departureDate, departureTime' });
   }
+  const dateMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(departureDate));
+  const timeMatch = /^(\d{2}):(\d{2})$/.exec(String(departureTime));
+  if (!dateMatch || !timeMatch) {
+    return res.status(400).json({ error: 'Departure date must be YYYY-MM-DD and time HH:MM.' });
+  }
 
-  const numStayDays = parseInt(stayDays, 10) || 1;
+  const numStayDays = Math.min(Math.max(parseInt(stayDays, 10) || 1, 1), 14);
   const travelMode = mode === 'fly' ? 'fly' : 'drive';
-  const requestedWaypoints = Math.min(Math.max(parseInt(numWaypointsParam, 10) || 3, 0), 10);
-  const tzOffset = parseInt(tzOffsetParam, 10) || 0; // minutes from UTC (e.g. 300 for CDT)
+  const nowMs = Date.now();
 
   try {
-    // Geocode both locations
-    const startCoords = await geocodeLocation(startLocation);
-    if (!startCoords) return res.status(400).json({ error: `Could not find location: ${startLocation}` });
+    const [start, end] = await Promise.all([geocodeLocation(startLocation), geocodeLocation(endLocation)]);
+    if (!start) return res.status(400).json({ error: `Could not find location: ${startLocation}` });
+    if (!end) return res.status(400).json({ error: `Could not find location: ${endLocation}` });
 
-    const endCoords = await geocodeLocation(endLocation);
-    if (!endCoords) return res.status(400).json({ error: `Could not find location: ${endLocation}` });
-
-    // Create departure datetime in UTC, accounting for user's timezone
-    const departureDatetime = new Date(`${departureDate}T${departureTime}:00`);
-    departureDatetime.setMinutes(departureDatetime.getMinutes() + tzOffset);
+    // The departure time is wall-clock time at the starting point, whatever
+    // zone the reader's browser is in.
+    const startZone = await lookupZone(start.lat, start.lon);
+    const naiveMs = Date.UTC(
+      Number(dateMatch[1]), Number(dateMatch[2]) - 1, Number(dateMatch[3]),
+      Number(timeMatch[1]), Number(timeMatch[2])
+    );
+    const departureMs = localToUtcMs(naiveMs, startZone);
 
     const response = {
-      start: startCoords,
-      end: endCoords,
       mode: travelMode,
-      departureTime: departureDatetime.toISOString(),
-      totalDuration: null,
-      totalDistance: null,
-      waypoints: [],
-      destination: {
-        arrival: null,
-        stayDays: numStayDays,
-        days: []
-      }
+      start,
+      end,
+      departure: new Date(departureMs).toISOString(),
+      departureZone: startZone,
+      routes: [],
+      destination: { arrival: null, zone: null, stayDays: numStayDays, days: [] }
     };
 
+    const assemble = (samples, weather, labels) => samples.map((s, i) => ({
+      ...stripInternal(s),
+      label: labels[i],
+      zone: (weather[i] && weather[i].zone) || startZone,
+      weather: weather[i] ? weather[i].weather : null
+    }));
+
     if (travelMode === 'drive') {
-      const route = await getRoute(startCoords, endCoords);
-      response.totalDuration = route.duration;
-      response.totalDistance = route.distance;
-
-      // Start with departure point
-      const departureWaypoint = {
-        lat: startCoords.lat,
-        lon: startCoords.lon,
-        eta: departureDatetime.toISOString(),
-        label: `Departure: ${startCoords.name}`
-      };
-
-      const waypoints = extractWaypoints(route, departureDatetime, requestedWaypoints);
-
-      // Fetch location names first (Mapbox can handle parallel), then weather in batches
-      const allWaypoints = [departureWaypoint, ...waypoints];
-
-      // Step 1: Reverse geocode all waypoints that need it (parallel is fine for Mapbox)
-      const locationNames = await Promise.all(
-        allWaypoints.map(wp => {
-          const skip = wp.label === 'Destination' || (wp.label && wp.label.startsWith('Departure:'));
-          return skip ? Promise.resolve(null) : reverseGeocode(wp.lat, wp.lon);
-        })
-      );
-
-      // Apply labels
-      const labeledWaypoints = allWaypoints.map((wp, i) => ({
-        ...wp,
-        label: wp.label || locationNames[i] || 'Waypoint'
+      const routes = await getRoutes(start, end);
+      response.routes = await Promise.all(routes.map(async (route, index) => {
+        const samples = sampleRoute(route, departureMs);
+        const [weather, labels] = await Promise.all([
+          fetchSampleWeather(samples, nowMs),
+          labelSamples(samples, start, end)
+        ]);
+        return {
+          index,
+          summary: route.summary,
+          duration: route.duration,
+          distance: route.distance,
+          estimated: false,
+          arrival: new Date(departureMs + route.duration * 1000).toISOString(),
+          samples: assemble(samples, weather, labels),
+          mapUrl: buildStaticMapUrl(route, samples, weather)
+        };
       }));
-
-      // Step 2: Fetch weather in batches of 3 to avoid rate limiting
-      const BATCH_SIZE = 3;
-      const waypointWeather = [];
-      for (let i = 0; i < labeledWaypoints.length; i += BATCH_SIZE) {
-        const batch = labeledWaypoints.slice(i, i + BATCH_SIZE);
-        const results = await Promise.all(
-          batch.map(async (wp) => {
-            const weather = await getOpenMeteoWeather(wp.lat, wp.lon, new Date(wp.eta));
-            return { ...wp, weather };
-          })
-        );
-        waypointWeather.push(...results);
-      }
-      response.waypoints = waypointWeather;
-
-      const arrivalTime = new Date(departureDatetime.getTime() + route.duration * 1000);
-      response.destination.arrival = arrivalTime.toISOString();
-
-      // Build static map URL
-      response.mapUrl = buildStaticMapUrl(route.geometry, waypoints);
     } else {
-      // Fly mode. There is no flight-times API behind this, so the duration is
-      // derived from great-circle distance rather than looked up: it used to be
-      // a hardcoded 3 hours, which reported the same figure for Milwaukee and
-      // Tokyo and — because arrival weather is keyed off it — pulled the
-      // forecast for the wrong time. Flagged as an estimate so the UI can say so.
-      const flightDuration = estimateFlightSeconds(startCoords, endCoords);
-      response.totalDuration = flightDuration;
-      response.durationEstimated = true;
-
-      const arrivalTime = new Date(departureDatetime.getTime() + flightDuration * 1000);
-
-      // Get departure and arrival weather in parallel
-      const [departureWeather, arrivalWeather] = await Promise.all([
-        getOpenMeteoWeather(startCoords.lat, startCoords.lon, departureDatetime),
-        getOpenMeteoWeather(endCoords.lat, endCoords.lon, arrivalTime)
-      ]);
-      response.waypoints = [
-        {
-          label: `Departure: ${startCoords.name}`,
-          lat: startCoords.lat,
-          lon: startCoords.lon,
-          eta: departureDatetime.toISOString(),
-          weather: departureWeather
-        },
-        {
-          label: `Arrival: ${endCoords.name}`,
-          lat: endCoords.lat,
-          lon: endCoords.lon,
-          eta: arrivalTime.toISOString(),
-          weather: arrivalWeather
-        }
+      // No flight-times API behind this: the duration comes from great-circle
+      // distance and is flagged so the page can say "about".
+      const duration = estimateFlightSeconds(start, end);
+      const samples = [
+        { elapsed: 0, eta: new Date(departureMs).toISOString(), lat: start.lat, lon: start.lon, distance: 0 },
+        { elapsed: duration, eta: new Date(departureMs + duration * 1000).toISOString(), lat: end.lat, lon: end.lon, distance: null }
       ];
-      response.destination.arrival = arrivalTime.toISOString();
+      const weather = await fetchSampleWeather(samples, nowMs);
+      response.routes = [{
+        index: 0,
+        summary: 'Flight',
+        duration,
+        distance: null,
+        estimated: true,
+        arrival: new Date(departureMs + duration * 1000).toISOString(),
+        samples: assemble(samples, weather, [start.short, end.short]),
+        mapUrl: null
+      }];
     }
 
-    // Get destination weather for each stay day using Open-Meteo daily forecast
-    const arrivalDate = new Date(response.destination.arrival);
-    const arrivalDateStr = arrivalDate.toISOString().slice(0, 10);
-    const dailyForecast = await getOpenMeteoDailyForecast(endCoords.lat, endCoords.lon, arrivalDateStr, numStayDays);
-    response.destination.days = dailyForecast || [];
+    const primary = response.routes[0];
+    const arrivalMs = Date.parse(primary.arrival);
+    const lastSample = primary.samples[primary.samples.length - 1];
+    const destZone = (lastSample && lastSample.zone) || 'UTC';
+    response.destination.arrival = primary.arrival;
+    response.destination.zone = destZone;
+    const arrivalDate = localHourKey(arrivalMs, destZone).slice(0, 10);
+    response.destination.days = (await getOpenMeteoDailyForecast(end.lat, end.lon, arrivalDate, numStayDays)) || [];
 
     res.json(response);
   } catch (err) {
     console.error('Route weather error:', err.message);
-    // 'No route found' is user-actionable (no drivable connection) — keep it;
-    // everything else stays generic so internals don't leak.
+    // 'No route found' is user-actionable (no drivable connection), so it is
+    // kept; everything else stays generic so internals don't leak.
     if (err.message === 'No route found') {
       return res.status(400).json({ error: 'No driving route found between those locations.' });
     }

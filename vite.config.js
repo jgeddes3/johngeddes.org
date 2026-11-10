@@ -17,6 +17,12 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    // The Express API in api/ is a Vercel function and is not served by Vite.
+    // For local work run it on 3100 (any script that requires api/index.js and
+    // calls app.listen) and the page's /api calls land there instead of 404.
+    proxy: {
+      '/api': 'http://localhost:3100',
+    },
   },
   preview: {
     // `vite preview` inherits server.open unless told otherwise
