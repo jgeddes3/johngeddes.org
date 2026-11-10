@@ -223,7 +223,7 @@ const Strip = ({ route, compact }) => {
   });
   const every = Math.max(1, Math.ceil((samples.length - 1) / 6));
   const ticks = samples
-    .filter((s, i) => i % every === 0 && i < samples.length - 1 && (duration - s.elapsed) / duration > 0.15)
+    .filter((s, i) => i % every === 0 && i < samples.length - 1 && (duration - s.elapsed) / duration > 0.2)
     .map((s) => ({ left: (s.elapsed / duration) * 100, label: formatClock(s.eta, s.zone) }));
   const last = samples[samples.length - 1];
   return (

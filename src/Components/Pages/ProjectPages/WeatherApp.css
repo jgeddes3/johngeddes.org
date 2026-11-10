@@ -813,6 +813,11 @@
     margin-left: 0;
     width: 100%;
   }
+
+  /* Half the ticks fit a narrow screen; the rest are in the hour-by-hour list. */
+  .rw-strip-tick-odd {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
