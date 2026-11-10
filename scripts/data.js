@@ -145,7 +145,7 @@ const ROLES = {
 // line, and the page space buys a fuller description of the two that matter.
 const PROJECTS = [
   { name: 'Cipher Tracker', link: 'cipher-app.org',
-    text: 'React Native and Expo habit tracker for iOS and Android. Every entry is encrypted on the device with AES-256-CTR under a PBKDF2-derived key, so the server only ever holds ciphertext and there is deliberately no password reset. 548 passing unit tests.' },
+    text: 'React Native and Expo health and habit tracker for iOS and Android with fourteen trackers, on-device stats and a PDF report for a doctor. Every entry is encrypted on the device with AES-256-CTR under a PBKDF2-derived key, so the server only ever holds ciphertext and there is deliberately no password reset. 3,822 passing unit tests.' },
   { name: 'Rambler Registrar', link: 'github.com/jgeddes3/RamblerRegistrar',
     text: 'Course scheduler for Loyola students. A bounded depth-first search builds every conflict-free timetable from up to eight courses and scores each 0–100 against a published penalty model that knows the walk time between real campus buildings.' },
 ];

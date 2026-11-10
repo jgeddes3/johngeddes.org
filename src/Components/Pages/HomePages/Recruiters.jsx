@@ -58,7 +58,7 @@ const TRACKS = [
     download: 'Geddes_Web_Developer.pdf',
     body: [
       `Computer Science degree from Loyola, and I have been shipping software the whole time. I interned at Brag House on the front end of their iOS app in React Native and Figma, and at TLC MilliMeter Wave Products, where I moved the company off an on-site code repository onto Bitbucket and trained the staff on git so the migration actually held.`,
-      `The work I would rather be judged on is what I have built since. Cipher Tracker is a React Native habit tracker where every entry is encrypted on the device before it reaches the server, with no password reset by design and 548 passing tests. Rambler Registrar started as my senior practicum on Python and MongoDB and has since been rebuilt on React Native and Firestore around a real constraint solver that scores every conflict-free timetable it can build.`,
+      `The work I would rather be judged on is what I have built since. Cipher Tracker is a React Native habit tracker where every entry is encrypted on the device before it reaches the server, with no password reset by design and 3,822 passing tests. Rambler Registrar started as my senior practicum on Python and MongoDB and has since been rebuilt on React Native and Firestore around a real constraint solver that scores every conflict-free timetable it can build.`,
       `At TAG I built the internal device platform: a React and TypeScript front end, an Express gateway adding single sign-on and a pooled service-token layer, and a PostgreSQL service that reconciles eleven vendor APIs into one record per machine. This site is mine too, including the serverless API behind it.`,
     ],
   },

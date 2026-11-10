@@ -217,14 +217,14 @@ export const PAGES = {
     cardImage: '/src/Components/Pages/ProjectPages/ProjectPageImages/CipherTracker/cipher-site-hero.webp',
     title: 'Cipher Tracker',
     description:
-      'Cipher Tracker is a React Native habit tracker for iOS and Android that encrypts every entry on the device, and the Next.js site that markets it. By John Geddes.',
+      'Cipher Tracker is a React Native health and habit tracker for iOS and Android with fourteen trackers, on-device stats and a PDF report, every entry encrypted on the phone, plus the Next.js site that markets it. By John Geddes.',
     parent: PROJECTS,
     project: {
       name: 'Cipher Tracker',
       category: 'LifestyleApplication',
       os: 'iOS, Android',
       url: 'https://cipher-app.org',
-      summary: 'Twelve habit trackers, encrypted on your phone with AES-256.',
+      summary: 'Fourteen habit trackers, encrypted on your phone with AES-256.',
     },
     priority: 0.8,
     changefreq: 'monthly',

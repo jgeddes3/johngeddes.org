@@ -7,24 +7,29 @@ import { Link } from 'react-router-dom';
 import './ProjectTemplate.css';
 import Glyph from './icons/Glyph';
 import SiteHero from './ProjectPageImages/CipherTracker/cipher-site-hero.webp';
-import Home from './ProjectPageImages/CipherTracker/IMG_9425.webp';
-import Analytics from './ProjectPageImages/CipherTracker/IMG_9430.webp';
-import PinLock from './ProjectPageImages/CipherTracker/IMG_9424.webp';
-import Insights from './ProjectPageImages/CipherTracker/IMG_9431.webp';
-import Drinks from './ProjectPageImages/CipherTracker/IMG_9442.webp';
-import ScreenTime from './ProjectPageImages/CipherTracker/IMG_9443.webp';
-import Period from './ProjectPageImages/CipherTracker/IMG_9447.webp';
-import Calories from './ProjectPageImages/CipherTracker/IMG_9449.webp';
-import Pills from './ProjectPageImages/CipherTracker/IMG_9451.webp';
-import Sleep from './ProjectPageImages/CipherTracker/IMG_9452.webp';
+import Home from './ProjectPageImages/CipherTracker/cipher-home.webp';
+import PinLock from './ProjectPageImages/CipherTracker/cipher-pin.webp';
+import StatsOverview from './ProjectPageImages/CipherTracker/cipher-stats-overview.webp';
+import StatsCaffeine from './ProjectPageImages/CipherTracker/cipher-stats-caffeine.webp';
+import StatsCaffeineDetail from './ProjectPageImages/CipherTracker/cipher-stats-caffeine-detail.webp';
+import Calendar from './ProjectPageImages/CipherTracker/cipher-calendar.webp';
+import ClimbSetup from './ProjectPageImages/CipherTracker/cipher-climb-setup.webp';
+import ClimbSession from './ProjectPageImages/CipherTracker/cipher-climb-session.webp';
+import Hydration from './ProjectPageImages/CipherTracker/cipher-hydration.webp';
+import Drinks from './ProjectPageImages/CipherTracker/cipher-drinks.webp';
+import Calories from './ProjectPageImages/CipherTracker/cipher-calories.webp';
+import Period from './ProjectPageImages/CipherTracker/cipher-period.webp';
+import Habits from './ProjectPageImages/CipherTracker/cipher-habits.webp';
+import ExportPane from './ProjectPageImages/CipherTracker/cipher-export.webp';
+import Report from './ProjectPageImages/CipherTracker/cipher-report.webp';
 
 const TRACKER_SHOTS = [
-  { src: Drinks, alt: 'Logging a drink in the Drinks tracker' },
-  { src: ScreenTime, alt: 'Entering hours and minutes in the Screen Time tracker' },
-  { src: Period, alt: 'The Period tracker with flow levels and symptom tags' },
-  { src: Calories, alt: 'The Calories tracker with a food entry and daily total' },
-  { src: Pills, alt: 'The Pills tracker with a prescription schedule' },
-  { src: Sleep, alt: 'The Sleep tracker with bedtime and wake time' },
+  { src: Hydration, alt: 'The Hydration tracker: a bottle filled to 25 of 64 ounces, with quick-add buttons for a glass, a bottle and a saved custom size' },
+  { src: Drinks, alt: 'The Drinks tracker with wine selected and a half or full pour to choose' },
+  { src: Calories, alt: 'The Calories tracker: a ring of calories left and bars for protein, carbs, fat and sugar' },
+  { src: Period, alt: 'The Period tracker on day 9 of the follicular phase, with flow chips and a prediction confidence line' },
+  { src: Habits, alt: 'The Habits tracker reading All done, with one habit ticked for the day' },
+  { src: ExportPane, alt: 'The Export pane in Settings: a period, a set of trackers, a name for the report, and CSV or JSON for the data' },
 ];
 
 const FEATURES = [
@@ -35,31 +40,42 @@ const FEATURES = [
       user's password by 200,000 rounds of PBKDF2-HMAC-SHA256. Every write gets a fresh
       128-bit IV and an HMAC-SHA256 signature that covers the iteration count itself, so the
       derivation cost cannot be downgraded by rewriting a stored blob. The server only ever
-      receives the ciphertext.`,
+      receives the ciphertext. The derived key is kept on the phone wrapped under the PIN, so
+      a daily unlock does not pay the 200,000 rounds again, and concurrent callers share one
+      derivation instead of each running their own.`,
   },
   {
     glyph: 'cipherTarget',
-    title: 'Twelve trackers, one registry',
-    body: `Drinks, screen time, caffeine, cannabis, nicotine, period, calories, hydration,
-      exercise, sleep, pills and diary. Colour, unit, trend polarity, reminder shape and
-      quick-add behaviour all live in a single pure-data registry with no imports, which is
-      what lets the test runner execute it directly and pin the list to exactly twelve.`,
+    title: 'Fourteen trackers, one registry',
+    body: `Drinks, screen time, caffeine, cannabis, sleep, calories, period, diary, nicotine,
+      pills, hydration, exercise, vitals and habits. Colour, ink, unit, trend direction,
+      reminder shape and quick-add behaviour all live in a single pure-data registry with no
+      imports, which is what lets the test runner execute it directly and pin the list.
+      Tutorials run on the real screens, one for every tracker but Hydration.`,
   },
   {
     glyph: 'cipherChart',
-    title: 'Analytics computed on the device',
-    body: `Weekly and monthly views, per-tracker trends and cycle predictions, all derived
-      locally from decrypted data. Nothing is aggregated server-side, because the server has
-      no readable copy to aggregate.`,
+    title: 'Stats computed on the device, by rules',
+    body: `Seven, thirty and 365 day views, per-tracker trends and cycle predictions, all
+      derived locally from decrypted data. A daily average divides by the days that have a
+      log, never by the calendar. A previous window with nothing in it reads as no prior data
+      rather than a made-up percentage. The Impacts card pairs the user's own days (days with
+      caffeine after two in the afternoon against days without, say) and states both counts
+      in the user's units, and only once an evidence gate is met: five days in each arm,
+      fourteen paired, and a standardised difference above a floor. It never names a cause,
+      a percentage or a piece of advice, and a test scans every sentence for the words it is
+      not allowed to use.`,
   },
   {
     glyph: 'cipherDumbbell',
-    title: 'One exercise tracker, three sports',
-    body: `Strength, climbing and cardio share a tracker through a session-type field. Strength
-      gets rest timers, last-session targets and a personal-record engine that only fires on a
-      strict improvement. Climbing logs sends and attempts across four grade systems on one
-      comparable scale. Cardio uses sport-correct pace conventions, including the /100m swim
-      and /500m erg splits.`,
+    title: 'One exercise tracker, four session types',
+    body: `Strength, climbing, cardio and intervals share a tracker. The catalogue is 877
+      exercises with instructions, generated from a pinned public-domain dataset, and the
+      personal-record engine only fires on a strict improvement. Climbing logs flashes, sends
+      and attempts by venue, keeps a project list per gym and draws a grade pyramid, with
+      four grade systems on one comparable scale. Cardio uses sport-correct pace conventions, including the /100m swim
+      and /500m erg splits. Rest timers run on the lock screen as an iOS Live Activity and an
+      Android ongoing notification, and a weekly plan names the day's workout.`,
   },
   {
     glyph: 'cipherBarcode',
@@ -77,15 +93,34 @@ const FEATURES = [
       real per-day device screen time. It no-ops cleanly on iOS, where the equivalent API needs
       an entitlement from Apple.`,
   },
+  {
+    glyph: 'cipherNote',
+    title: 'A report you can hand to a doctor',
+    body: `The Export pane builds a PDF over 30, 90 or 365 days or all time for the trackers you
+      pick, with the same numbers as the Stats screen because it runs the same compute
+      modules. The name on the report is typed each time and never saved. Data goes out as
+      CSV or as the stored JSON untouched. Files are written to the app's private cache and
+      swept after sharing, and diary text goes into a data export, never into a report.`,
+  },
+  {
+    glyph: 'cipherCheck',
+    title: 'Product rules the tests enforce',
+    body: `On the five trackers where less is better (drinks, caffeine, nicotine, cannabis,
+      screen time) no celebration, success haptic or animation ever fires on a consumption
+      entry; rewards attach to clean days and reductions against the user's own baseline.
+      Calories treats under and over the goal identically. Period keeps no streak or score,
+      and a late period never reaches a notification. Every animation gates on the reduced
+      motion setting. Each of these is a test that fails the suite, not a note in a document.`,
+  },
 ];
 
 const LEDGER = [
-  { label: 'Trackers', value: '12' },
-  { label: 'Unit tests, all passing', value: '548' },
+  { label: 'Trackers', value: '14' },
+  { label: 'Unit tests, all passing', value: '3,822' },
   { label: 'PBKDF2 rounds per key', value: '200,000' },
-  { label: 'Exercises in the library', value: '52' },
-  { label: 'Icons drawn to replace emoji', value: '26' },
-  { label: 'Tests holding the site to the app', value: '75' },
+  { label: 'Exercises in the catalogue', value: '877' },
+  { label: 'Icons drawn to replace emoji', value: '36' },
+  { label: 'Tests on the marketing site', value: '163' },
 ];
 
 const TrackerCard = ({ src, alt, index, total, hoveredIndex, onHover }) => {
@@ -128,7 +163,7 @@ const TrackerCard = ({ src, alt, index, total, hoveredIndex, onHover }) => {
         decoding="async"
         src={src}
         alt={alt}
-        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '1.5rem' }}
+        style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', borderRadius: '1.5rem' }}
       />
     </motion.div>
   );
@@ -147,13 +182,14 @@ const CipherTracker = () => {
       <div className="proj-page main-content">
         <div className="proj-hero">
           <p className="proj-hero-tagline">
-            Twelve habits. Encrypted on your phone.
+            Fourteen habits. Encrypted on your phone.
           </p>
           <div className="proj-tech-pills">
             <span className="proj-pill">React Native</span>
             <span className="proj-pill">Expo</span>
             <span className="proj-pill">AES-256-CTR</span>
             <span className="proj-pill">Firebase</span>
+            <span className="proj-pill">Cloud Functions</span>
             <span className="proj-pill">RevenueCat</span>
             <span className="proj-pill">Next.js</span>
             <span className="proj-pill">TypeScript</span>
@@ -164,9 +200,8 @@ const CipherTracker = () => {
             </a>
           </div>
           <p className="proj-status">
-            iOS and Android builds, pre-launch. The site is live; the app is in submission
-            prep, the TestFlight beta is at capacity, and the App Store listing is not
-            public yet.
+            iOS and Android builds, pre-launch. The site is live and the app is at version
+            1.5.7 in store prep. The App Store listing is reserved but not public yet.
           </p>
         </div>
 
@@ -177,10 +212,10 @@ const CipherTracker = () => {
         <div className="proj-about">
           <p>
             Cipher is a health and habit tracker for iOS and Android, built in React Native
-            and Expo. It tracks twelve things (drinking, sleep, calories, cycles, screen
-            time, workouts and the rest), and the whole product is arranged around one
-            promise: the entries are encrypted on the phone before they reach the cloud, so
-            the server holds ciphertext and nothing else.
+            and Expo. It tracks fourteen things (drinking, sleep, calories, cycles, screen
+            time, workouts, blood pressure, a floss habit, and the rest), and the whole product
+            is arranged around one promise: the entries are encrypted on the phone before they
+            reach the cloud, so the server holds ciphertext and nothing else.
           </p>
           <p>
             That promise decides the architecture. There is no password reset, because the
@@ -189,9 +224,16 @@ const CipherTracker = () => {
             way back in, and the app makes you write it down before it finishes setting up.
             Accounts are username-only, so no email address is ever collected. Firestore
             stores month-sharded encrypted blobs behind owner-only security rules tested
-            against the emulator.
+            against the emulator, and a sync re-encrypts and sends only the months whose
+            content changed since the last push.
           </p>
         </div>
+
+        <div className="proj-screenshot-grid">
+          <img loading="lazy" decoding="async" src={Home} alt="Home on a Tuesday morning: ten enabled trackers, each with the day's status and an add button, and a three-day flame" />
+          <img loading="lazy" decoding="async" src={PinLock} alt="The six-digit PIN screen that unlocks a phone that is already signed in" />
+        </div>
+        <p className="proj-caption">Home with ten of the fourteen trackers switched on, and the PIN that stands in for the password on a signed-in phone.</p>
 
         <h2 className="proj-section-heading">What it does</h2>
         <div className="proj-features">
@@ -209,11 +251,20 @@ const CipherTracker = () => {
         </div>
 
         <div className="proj-screenshot-grid">
-          <img loading="lazy" decoding="async" src={Home} alt="Home dashboard showing each enabled tracker with the day's totals" />
-          <img loading="lazy" decoding="async" src={Analytics} alt="Analytics screen with weekly totals and change per tracker" />
-          <img loading="lazy" decoding="async" src={PinLock} alt="PIN entry screen that unlocks an already signed-in device" />
-          <img loading="lazy" decoding="async" src={Insights} alt="Analytics insight cards for medication adherence and caffeine timing" />
+          <img loading="lazy" decoding="async" src={StatsOverview} alt="Stats over seven days: today's summary across ten trackers, then period totals per tracker" />
+          <img loading="lazy" decoding="async" src={StatsCaffeine} alt="Caffeine stats: total and average per tracked day, highlights, a seven-day bar chart and insight rows" />
         </div>
+        <div className="proj-screenshot-grid">
+          <img loading="lazy" decoding="async" src={StatsCaffeineDetail} alt="Further down the caffeine page: when caffeine is consumed by time of day, caffeine-free progress, a sleep impact estimate, the FDA daily limit bar and a cups-of-coffee equivalent" />
+          <img loading="lazy" decoding="async" src={Calendar} alt="The Calendar for November 2026 with coloured orbs on logged days, a tracker filter row, and the selected day's entries below" />
+        </div>
+        <p className="proj-caption">Stats and Calendar are computed from decrypted data on the phone. The sleep impact line is the one place a down-good tracker is allowed to state a fact about itself.</p>
+
+        <div className="proj-screenshot-grid">
+          <img loading="lazy" decoding="async" src={ClimbSetup} alt="Starting a climb: the venue, saved gyms as chips, boulder, top-rope or lead, and V-Scale or Font grades, over the exercise home with its week plan" />
+          <img loading="lazy" decoding="async" src={ClimbSession} alt="A live climbing session at a gym: a V3 grade stepper with Flash, Send and Attempt, five climbs logged by grade, and a rest timer along the bottom" />
+        </div>
+        <p className="proj-caption">Climbing inside the exercise tracker: a venue with its own project list, a grade stepper, and the rest timer that also runs on the lock screen.</p>
 
         <div className="proj-card-fan">
           {TRACKER_SHOTS.map((shot, index) => (
@@ -238,6 +289,11 @@ const CipherTracker = () => {
           ))}
         </div>
 
+        <div className="proj-screenshot">
+          <img loading="lazy" decoding="async" src={Report} alt="The first page of a Cipher health report PDF opened in Files: a 30-day window, the trackers included, and an at-a-glance table of days logged per tracker" />
+          <p className="proj-caption">The PDF the Export pane produces, opened in Files on the phone. The paragraph at the top says how the averages were taken, so the person reading it does not have to guess.</p>
+        </div>
+
         <div className="proj-companion">
           <h2>The site that sells it</h2>
           <p>
@@ -249,8 +305,8 @@ const CipherTracker = () => {
             Its useful trick is that the marketing claims are testable. Rather than restate
             the app's data in prose, the site mirrors it as typed constants (the tracker
             registry, the design tokens, the literal shape of the stored ciphertext envelope),
-            and 75 unit tests assert the copy against them. If the app changes its blob format,
-            the website's test suite fails. A build script fails the build over a per-route
+            and its test suite asserts the copy against them. If the app changes its blob
+            format, the website's tests fail. A build script fails the build over a per-route
             gzip budget, which is what killed the previous hero: eighty decoded WebP frames
             that hijacked the scroll.
           </p>
@@ -258,13 +314,15 @@ const CipherTracker = () => {
 
         <div className="proj-about">
           <p>
-            The engineering discipline is the part worth pointing at. 548 unit tests run on
-            the Node test runner with no framework, including a gate that fails the build if
-            an emoji appears anywhere in the rendered UI, which is why the app ships a
-            26-glyph SVG icon set of its own, the set the icons on this page are drawn from.
-            Firebase connections are certificate-pinned across three Google domains with
-            backup pins so a rotation cannot lock anyone out, and decryption still walks four
-            historical envelope formats so no early user's data was ever stranded.
+            The engineering discipline is the part worth pointing at. 3,822 unit tests run on
+            the Node test runner with no framework and never render a screen; they read the
+            source instead and pin what it must and must not contain. One gate fails the build
+            if an emoji appears anywhere in the UI, which is why the app ships a 36-glyph SVG
+            icon set of its own, the set the icons on this page are drawn from. Another fails it
+            on an em dash in a shipping string. Firebase connections are certificate-pinned
+            across three Google domains with backup pins so a rotation cannot lock anyone out,
+            and decryption still walks four historical envelope formats so no early user's data
+            was ever stranded.
           </p>
           <p>
             Cipher is operated by Cipher Tracker LLC, an Illinois company, and ships with a

@@ -29,11 +29,15 @@
 export const GLYPH_PATHS = {
   // ---- Cipher (verbatim) ----
   cipherBarcode: { d: 'M3 7.5 L3 5 L5.5 5 M18.5 5 L21 5 L21 7.5 M21 16.5 L21 19 L18.5 19 M5.5 19 L3 19 L3 16.5 M7 8.5 L7 15.5 M10 8.5 L10 15.5 M13.5 8.5 L13.5 15.5 M17 8.5 L17 15.5' },
+  cipherCalendar:{ d: 'M4 6 L20 6 L20 20 L4 20 Z M4 10 L20 10 M8 3.5 L8 7 M16 3.5 L16 7' },
   cipherChart:   { d: 'M4 20 L4 12 L8 12 L8 20 M10 20 L10 6 L14 6 L14 20 M16 20 L16 9.5 L20 9.5 L20 20 M3 20 L21 20' },
+  cipherCheck:   { d: 'M4 13 L9.5 18.5 L20 6' },
   cipherDrop:    { d: 'M12 3 C12 3 5.5 11 5.5 15.2 A6.5 6.5 0 0 0 18.5 15.2 C18.5 11 12 3 12 3 Z' },
   cipherDumbbell:{ d: 'M2.5 12 L4.5 12 M4.5 8.5 L6.8 8.5 L6.8 15.5 L4.5 15.5 Z M6.8 12 L17.2 12 M17.2 8.5 L19.5 8.5 L19.5 15.5 L17.2 15.5 Z M19.5 12 L21.5 12' },
   cipherLock:    { d: 'M7 11 L7 8 A5 5 0 0 1 17 8 L17 11 M5 11 L19 11 L19 21 L5 21 Z M12 15 L12 18' },
+  cipherNote:    { d: 'M5 4 L19 4 L19 20 L5 20 Z M8 9 L16 9 M8 12.5 L16 12.5 M8 16 L13 16' },
   cipherPhone:   { d: 'M7 3 L17 3 L17 21 L7 21 Z M10.5 18.2 L13.5 18.2' },
+  cipherPulse:   { d: 'M2 12 L7 12 L9 8 L11.5 17 L14 10 L15.5 12 L22 12' },
   cipherTarget:  { d: 'M12 21 A9 9 0 1 1 12 3 A9 9 0 0 1 12 21 Z M12 17 A5 5 0 1 1 12 7 A5 5 0 0 1 12 17 Z M12 13.2 A1.2 1.2 0 1 1 12 10.8 A1.2 1.2 0 0 1 12 13.2 Z' },
 
   // ---- Chess Deck (drawn for this page) ----

@@ -7,7 +7,7 @@ const Project3 = () => {
     <div className="project-container3">
       <div className="text-container3">
         <h1>Cipher Tracker</h1>
-        <p>Twelve habit trackers, encrypted on your phone</p>
+        <p>Fourteen habit trackers, encrypted on your phone</p>
       </div>
       <div className="ProjectPhoto3">
         <div className="ProjPhotoRectangle3">
