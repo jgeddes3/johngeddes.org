@@ -117,7 +117,7 @@ export const JOBS = {
       ],
       asset: [
         'Tracked AV assets across five Chicago-area sites against the ServiceNow CMDB to keep inventory records accurate.',
-        'Created a Power Apps room-check solution for 160+ meeting rooms that fed a Power BI dashboard.',
+        'Created a Power Apps room-check solution that fed operational data to a Power BI dashboard.',
       ],
       lead: [
         'Configured and integrated Accruent EMS, working with stakeholders to fit event scheduling to how teams booked rooms.',
