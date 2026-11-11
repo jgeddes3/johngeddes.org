@@ -20,6 +20,17 @@ const heading = (text) => new Paragraph({
 const rightTab = { tabStops: [{ type: TabStopType.RIGHT, position: RIGHT }] };
 
 function jobParagraphs(j) {
+  if (!j.bullets.length) {
+    return [new Paragraph({
+      ...rightTab,
+      spacing: { before: 60 },
+      children: [
+        new TextRun({ text: j.title, bold: true }),
+        new TextRun({ text: ` · ${j.line}`, color: GREY }),
+        new TextRun({ children: [new Tab(), j.dates], color: GREY, size: 19 }),
+      ],
+    })];
+  }
   return [
     new Paragraph({ spacing: { before: 60 }, keepNext: true, children: [new TextRun({ text: j.title, bold: true, size: 21 })] }),
     new Paragraph({

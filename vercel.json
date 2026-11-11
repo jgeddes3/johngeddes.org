@@ -19,7 +19,12 @@
     { "source": "/ATourismApp", "destination": "/HikeAwayTours", "permanent": true },
     { "source": "/ReactNativeCreditCardApp", "destination": "/PaperTrail", "permanent": true },
     { "source": "/SnipeIT", "destination": "/Census", "permanent": true },
-    { "source": "/ExcelWorkBooks", "destination": "/projects", "permanent": true }
+    { "source": "/ExcelWorkBooks", "destination": "/projects", "permanent": true },
+    { "source": "/Geddes_Resume_26.pdf", "destination": "/resumes/John_Geddes_Resume.pdf", "permanent": false },
+    { "source": "/resumes/Geddes_AV_Engineer.pdf", "destination": "/resumes/John_Geddes_Resume_AV_Engineer.pdf", "permanent": false },
+    { "source": "/resumes/Geddes_Executive_Technician.pdf", "destination": "/resumes/John_Geddes_Resume.pdf", "permanent": false },
+    { "source": "/resumes/Geddes_Manager.pdf", "destination": "/resumes/John_Geddes_Resume_Technical_Lead.pdf", "permanent": false },
+    { "source": "/resumes/Geddes_Web_Developer.pdf", "destination": "/resumes/John_Geddes_Resume_Software_Engineer.pdf", "permanent": false }
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index.js" },
@@ -62,10 +67,9 @@
       ]
     },
     {
-      "source": "/Geddes_Resume_26.pdf",
+      "source": "/resumes/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" },
-        { "key": "Content-Type", "value": "application/pdf" }
+        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }
       ]
     },
     {

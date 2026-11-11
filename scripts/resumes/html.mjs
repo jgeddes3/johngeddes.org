@@ -7,20 +7,21 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 const CSS = `
   @page { size: Letter; }
   * { box-sizing: border-box; }
-  body { font-family: Georgia, 'Times New Roman', serif; font-size: 10pt; line-height: 1.3; color: #1a1a1a; margin: 0; background: #fff; }
+  body { font-family: Georgia, 'Times New Roman', serif; font-size: 10pt; line-height: 1.25; color: #1a1a1a; margin: 0; background: #fff; }
   h1 { font-size: 20pt; margin: 0; letter-spacing: .2pt; }
   .headline { font-size: 11.5pt; color: #333; margin: 1pt 0 2pt; }
   .contact { font-size: 9pt; color: #333; margin-bottom: 4pt; }
   h2 { font-size: 10.5pt; text-transform: uppercase; letter-spacing: .8pt; border-bottom: .75pt solid #888;
-       padding-bottom: 1.5pt; margin: 8pt 0 4pt; }
+       padding-bottom: 1.5pt; margin: 6pt 0 3pt; }
   p { margin: 0; }
   .skill { margin-bottom: 1.5pt; }
   .job, .project { margin-bottom: 5pt; break-inside: avoid; }
+  .job.short { margin-bottom: 2pt; }
   .title { font-weight: bold; font-size: 10.5pt; }
   .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10pt; color: #333; }
   .row .right { white-space: nowrap; font-size: 9.5pt; }
   ul { margin: 2pt 0 0; padding-left: 13pt; }
-  li { margin-bottom: 1.5pt; }
+  li { margin-bottom: 1pt; }
 `;
 
 function section(title, body) {
@@ -28,6 +29,9 @@ function section(title, body) {
 }
 
 function job(j) {
+  if (!j.bullets.length) {
+    return `<div class="job short"><div class="row"><span><b>${esc(j.title)}</b> · ${esc(j.line)}</span><span class="right">${esc(j.dates)}</span></div></div>`;
+  }
   const bullets = j.bullets.length ? `<ul>${j.bullets.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>` : '';
   return `<div class="job">
     <div class="title">${esc(j.title)}</div>

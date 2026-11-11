@@ -187,7 +187,7 @@ export const JOBS = {
       software: [
         "Developed front-end features for the company's iOS app and website in React Native, React, HTML and CSS.",
         "Designed and implemented the Brago game inside the iOS app, then redesigned the app's look in Figma.",
-        'Ran user-testing sessions whose feedback drove UI changes, and trained in Kotlin and Django to support the back-end developer.',
+        'Ran user-testing sessions whose feedback drove UI changes.',
       ],
     },
   },
@@ -204,7 +204,6 @@ export const JOBS = {
       ],
       software: [
         'Moved the company from an on-site code repository to Bitbucket and trained staff on git so the switch held.',
-        'Helped design a COVID-19 detection radar in CAD using millimeter waves.',
         'Flew drones for a US Air Force collaboration on a radar system for identifying hostile drones.',
       ],
     },
@@ -215,17 +214,17 @@ export const PROJECTS = {
   cipher: {
     name: 'Cipher Tracker',
     link: 'cipher-app.org',
-    text: 'React Native and Expo app for iOS and Android that encrypts every entry on the phone with AES-256 under a 200,000-round PBKDF2 key, so the server only holds ciphertext. 14 trackers, Swift and Kotlin modules for lock-screen timers, 3,822 passing tests. In App Store preparation.',
+    text: 'React Native app for iOS and Android that encrypts every entry on the phone with AES-256, so the server only holds ciphertext. Lock-screen timers in Swift and Kotlin, 3,822 passing tests. In App Store preparation.',
   },
   rambler: {
     name: 'Rambler Registrar',
     link: 'github.com/jgeddes3/RamblerRegistrar',
-    text: 'Course scheduler for Loyola students, built in Expo with an Express and Puppeteer backend. A bounded depth-first search builds every conflict-free timetable from up to eight courses and scores each 0 to 100, walk time between buildings included. Covers 2,082 courses.',
+    text: 'Course scheduler for Loyola students on Expo, Express and Puppeteer. Builds every conflict-free timetable from up to eight courses and scores each one, walk time between buildings included. Covers 2,082 courses.',
   },
   papertrail: {
     name: 'Paper Trail',
     link: 'papertrail.company',
-    text: 'Budgeting tool that runs only in the browser, in React 19 and Vite. Reads PDF, CSV and OFX card statements, encrypts them in IndexedDB with AES-GCM, and makes no network requests. 102 tests.',
+    text: 'Budgeting tool that runs only in the browser. Reads PDF, CSV and OFX statements, encrypts them in IndexedDB with AES-GCM, and makes no network requests. 102 tests.',
   },
 };
 
@@ -344,15 +343,14 @@ export const TRACKS = [
     summary: 'Full-stack and mobile engineer with a Computer Science degree. Built Census, an internal platform in daily use at The Aspen Group, and Cipher Tracker, an encrypted React Native app with 3,822 passing tests.',
     skills: [
       ['Languages', 'TypeScript, JavaScript, SQL, Python, Swift, Kotlin, HTML, CSS'],
-      ['Frontend', 'React, Next.js, Vite, Tailwind CSS'],
-      ['Mobile', 'React Native, Expo, EAS Build, Expo config plugins, iOS Live Activities'],
+      ['Frontend and mobile', 'React, Next.js, Vite, Tailwind CSS, React Native, Expo, EAS Build, iOS Live Activities'],
       ['Backend and cloud', 'Node.js, Express, Firebase, Cloud Functions, Google Cloud Run, Cloud SQL, Vercel'],
       ['Data', 'MySQL, Firestore, SQLite, IndexedDB'],
       ['Testing and tooling', 'Node test runner, Jest, Docker, GitLab CI, GitHub Actions, SonarQube, Git'],
     ],
     jobs: ['tag', 'brag', 'tlc'],
     shortJobs: ['discover', 'abbott', 'kirkland', 'loyola'],
-    projects: ['cipher', 'rambler', 'papertrail'],
+    projects: ['cipher', 'rambler'],
     eduNote: false,
     github: true,
     note: 'For full-stack, mobile and web developer roles.',
@@ -360,7 +358,7 @@ export const TRACKS = [
       ['3,822', 'tests behind Cipher Tracker'],
       ['228', 'API routes in Census'],
       ['14', 'outside systems integrated'],
-      ['102', 'tests behind Paper Trail'],
+      ['716', 'test files behind Census'],
     ],
   },
 ];
