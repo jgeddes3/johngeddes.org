@@ -15,9 +15,9 @@ export function companyLine(job) {
   return [job.company, job.place, job.type].filter(Boolean).join(' · ');
 }
 
-function jobEntry(key, trackKey) {
+function jobEntry(key, trackKey, ownerKey) {
   const job = JOBS[key];
-  if (!job) throw new Error(`Unknown job "${key}"`);
+  if (!job) throw new Error(`Unknown job "${key}" in track "${ownerKey}"`);
   const bullets = trackKey ? job.bullets[trackKey] : [];
   if (trackKey && !(bullets && bullets.length)) {
     throw new Error(`Job "${key}" has no bullets for track "${trackKey}"`);
@@ -28,7 +28,7 @@ function jobEntry(key, trackKey) {
     company: job.company,
     line: companyLine(job),
     dates: dateRange(job.start, job.end),
-    bullets,
+    bullets: [...bullets],
   };
 }
 
@@ -40,11 +40,11 @@ export function buildModel(track) {
     contact: contactLine(track),
     summary: track.summary,
     skills: track.skills.map(([group, items]) => ({ group, items })),
-    jobs: track.jobs.map((k) => jobEntry(k, track.key)),
-    shortJobs: (track.shortJobs || []).map((k) => jobEntry(k, null)),
+    jobs: track.jobs.map((k) => jobEntry(k, track.key, track.key)),
+    shortJobs: (track.shortJobs || []).map((k) => jobEntry(k, null, track.key)),
     projects: (track.projects || []).map((k) => {
-      if (!PROJECTS[k]) throw new Error(`Unknown project "${k}"`);
-      return PROJECTS[k];
+      if (!PROJECTS[k]) throw new Error(`Unknown project "${k}" in track "${track.key}"`);
+      return { ...PROJECTS[k] };
     }),
     education: { ...EDUCATION, note: track.eduNote ? EDUCATION.note : null },
   };

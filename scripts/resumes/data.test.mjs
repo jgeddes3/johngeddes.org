@@ -82,3 +82,16 @@ test('legacy role values map to current tracks', () => {
   assert.equal(LEGACY_ROLES.manager, 'lead');
   assert.equal(LEGACY_ROLES.executive, 'main');
 });
+
+test('software track prints the short entries after TLC and before the projects', () => {
+  const software = TRACKS.find((t) => t.key === 'software');
+  const m = buildModel(software);
+  const lines = expectedLines(m);
+  const tlc = m.jobs.find((j) => j.key === 'tlc');
+  const start = lines.lastIndexOf(tlc.bullets.at(-1)) + 1;
+  const expected = ['discover', 'abbott', 'kirkland', 'loyola']
+    .map((k) => m.shortJobs.find((j) => j.key === k))
+    .flatMap((j) => [j.title, j.line, j.dates]);
+  assert.deepEqual(lines.slice(start, start + expected.length), expected);
+  assert.equal(lines[start + expected.length], m.projects[0].name);
+});

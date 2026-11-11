@@ -18,3 +18,13 @@ test('shortYears gives the About timeline style', () => {
   assert.equal(shortYears('2021-01', '2023-05'), '21-23');
   assert.equal(shortYears('2025-09', null), '25~');
 });
+
+test('monthYear and shortYears reject malformed values', () => {
+  for (const bad of ['2025/09', '2025-13', '2025-00', '25-09', '2025-9', '', undefined, 202509]) {
+    assert.throws(() => monthYear(bad), /Bad date/, String(bad));
+    assert.throws(() => shortYears(bad, null), /Bad date/, String(bad));
+  }
+  assert.throws(() => shortYears('2024-03', '2024/06'), /Bad date/);
+  assert.throws(() => shortYears(null, null), /Bad date/);
+  assert.equal(monthYear(null), 'Present');
+});
