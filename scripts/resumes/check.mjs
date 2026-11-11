@@ -13,15 +13,20 @@ export function normalize(s) {
     .trim();
 }
 
-// Whitespace is dropped on both sides: PDF text extraction splits and joins
-// lines in its own way, and a missing space is not what this check is for.
+// By default whitespace is dropped on both sides: PDF text extraction splits
+// and joins lines in its own way (a line break after a hyphen turns "back-end"
+// into "back- end"), and a stray space is not what this check is for. Word text
+// is exact, so the Word check passes keepSpaces: true and compares normalized
+// text with single spaces kept.
 const squeeze = (s) => normalize(s).replace(/\s+/g, '');
 
-export function findInOrder(haystack, needles) {
-  const h = squeeze(haystack);
+export function findInOrder(haystack, needles, { keepSpaces = false } = {}) {
+  const prep = keepSpaces ? normalize : squeeze;
+  const h = prep(haystack);
   let pos = 0;
   for (const needle of needles) {
-    const n = squeeze(needle);
+    if (typeof needle !== 'string' || !needle.trim()) return { ok: false, missing: String(needle) };
+    const n = prep(needle);
     const at = h.indexOf(n, pos);
     if (at < 0) return { ok: false, missing: needle };
     pos = at + n.length;
@@ -31,20 +36,24 @@ export function findInOrder(haystack, needles) {
 
 export async function pdfText(buffer) {
   const doc = await getDocument({ data: new Uint8Array(buffer), isEvalSupported: false, useSystemFonts: false }).promise;
-  let text = '';
-  for (let i = 1; i <= doc.numPages; i += 1) {
-    const page = await doc.getPage(i);
-    const content = await page.getTextContent();
-    text += content.items.map((it) => it.str + (it.hasEOL ? ' ' : '')).join('') + ' ';
+  try {
+    let text = '';
+    for (let i = 1; i <= doc.numPages; i += 1) {
+      const page = await doc.getPage(i);
+      const content = await page.getTextContent();
+      text += content.items.map((it) => it.str + (it.hasEOL ? ' ' : '')).join('') + ' ';
+    }
+    return { pages: doc.numPages, text };
+  } finally {
+    await doc.destroy();
   }
-  const pages = doc.numPages;
-  await doc.destroy();
-  return { pages, text };
 }
 
 export async function docxText(buffer) {
   const zip = await JSZip.loadAsync(buffer);
-  const xml = await zip.file('word/document.xml').async('string');
+  const entry = zip.file('word/document.xml');
+  if (!entry) throw new Error('Not a Word document: word/document.xml is missing');
+  const xml = await entry.async('string');
   return xml
     .replace(/<w:tab\/>/g, ' ')
     .replace(/<\/w:p>/g, ' ')
@@ -60,7 +69,7 @@ export async function checkTrack(track, model, { pdf, docx }) {
   if (p.pages !== track.pages) problems.push(`${track.file}.pdf: ${p.pages} pages, expected ${track.pages}`);
   const inPdf = findInOrder(p.text, lines);
   if (!inPdf.ok) problems.push(`${track.file}.pdf: missing or out of order: "${inPdf.missing}"`);
-  const inDocx = findInOrder(await docxText(docx), lines);
+  const inDocx = findInOrder(await docxText(docx), lines, { keepSpaces: true });
   if (!inDocx.ok) problems.push(`${track.file}.docx: missing or out of order: "${inDocx.missing}"`);
   return problems;
 }
