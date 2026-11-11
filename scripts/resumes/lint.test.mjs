@@ -45,3 +45,72 @@ test('flags bullets that are all nearly the same length', () => {
   ];
   assert.ok(lintBullets(same, 'x').some((p) => p.includes('same length')));
 });
+
+const wordsOf = (n) => Array.from({ length: n }, (_, i) => `w${String.fromCharCode(97 + (i % 26))}`).join(' ');
+
+test('bullets of exactly 8 and 32 words pass the length check', () => {
+  assert.equal(lintBullets([wordsOf(8)], 'x').length, 0);
+  assert.equal(lintBullets([wordsOf(32)], 'x').length, 0);
+});
+
+test('two bullets sharing an opening verb pass', () => {
+  const b = [
+    'Built one thing for the team that needed it badly today.',
+    'Built another thing for the team that also needed it, and then wrote it up for the whole floor.',
+  ];
+  assert.equal(lintBullets(b, 'x').length, 0);
+});
+
+test('four bullets of clearly varied lengths pass', () => {
+  const b = ['alpha', 'bravo', 'charlie', 'delta'].map((v, i) => `${v} ${wordsOf([8, 13, 19, 26][i])}`);
+  assert.equal(lintBullets(b, 'x').length, 0);
+});
+
+test('ordinary hyphens and number phrases pass', () => {
+  for (const s of ['break/fix', 'first-line fixes', '360-degree cameras', 'Chicago-area sites', 'Q-SYS', 'Tier 2', 'Level 1 technicians', '2019 to 2023']) {
+    assert.deepEqual(lintText(s, 'x'), [], s);
+  }
+});
+
+test('number-led bullets are not grouped as one opening verb', () => {
+  const b = [
+    '88+ rooms configured and tested across the main campus over one summer.',
+    '160 displays mounted, labelled and documented for the support team to maintain.',
+    '24x7 monitoring set up for the conference spaces, with alerts that reached the on-call phone.',
+  ];
+  assert.ok(!lintBullets(b, 'x').some((p) => p.includes('opens')));
+});
+
+test('empty input is reported, not thrown', () => {
+  assert.deepEqual(lintText('', 'x'), ['x: empty']);
+  assert.deepEqual(lintText('   ', 'x'), ['x: empty']);
+  assert.deepEqual(lintText(undefined, 'x'), ['x: empty']);
+  assert.deepEqual(lintText(42, 'x'), ['x: empty']);
+  const problems = lintBullets(['', wordsOf(12)], 'x');
+  assert.ok(problems.some((p) => p.includes('empty')));
+});
+
+test('every banned phrase in a string is reported', () => {
+  const problems = lintText('We leverage robust tools', 'x');
+  assert.equal(problems.length, 2);
+  assert.ok(problems.some((p) => p.includes('leverage')));
+  assert.ok(problems.some((p) => p.includes('robust')));
+});
+
+test('wider arrow forms are flagged', () => {
+  assert.equal(lintText('API -> SQL', 'x').length, 1);
+  assert.equal(lintText('API => SQL', 'x').length, 1);
+  assert.equal(lintText('API \u2794 SQL', 'x').length, 1);
+});
+
+test('wider dash forms are flagged', () => {
+  assert.equal(lintText('Fast \u2212 and secure', 'x').length, 1);
+  assert.equal(lintText('Fast - and secure', 'x').length, 1);
+  assert.equal(lintText('Fast -- and secure', 'x').length, 1);
+});
+
+test('emoji are flagged', () => {
+  const problems = lintText('Shipped it \u{1F680}', 'x');
+  assert.equal(problems.length, 1);
+  assert.ok(problems[0].includes('emoji'));
+});
