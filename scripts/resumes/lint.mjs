@@ -12,17 +12,19 @@ const BANNED = [
   'foster\\w*', 'tapestry', 'meticulous\\w*', 'adept', 'thrive\\w*', 'spirit of',
 ];
 const BANNED_RE = new RegExp(`\\b(${BANNED.join('|')})\\b`, 'gi');
-const DASH_RE = /[\u2012-\u2015\u2212]|\s--?\s/;
-const ARROW_RE = /[\u2190-\u21FF\u2794-\u27BF\u27F0-\u27FF\u2900-\u297F\u2B00-\u2BFF]|->|=>/;
+const DASH_CHAR_RE = /[\u2012-\u2015\u2212\u2E3A\u2E3B\uFF0D]/;
+const SPACED_HYPHEN_RE = /\s--?\s/;
+const ARROW_RE = /[\u2190-\u21FF\u2794-\u27BF\u27F0-\u27FF\u2900-\u297F\u2B00-\u2BFF]|->|<-|=>/;
 const EMOJI_RE = /\p{Extended_Pictographic}/u;
 
 export function lintText(text, where) {
   const value = typeof text === 'string' ? text : '';
   if (!value.trim()) return [`${where}: empty`];
   const problems = [];
-  if (DASH_RE.test(value)) problems.push(`${where}: contains an em or en dash`);
+  if (DASH_CHAR_RE.test(value)) problems.push(`${where}: contains a dash character`);
+  if (SPACED_HYPHEN_RE.test(value)) problems.push(`${where}: uses a spaced hyphen as a dash`);
   if (ARROW_RE.test(value)) problems.push(`${where}: contains an arrow`);
-  if (EMOJI_RE.test(value)) problems.push(`${where}: contains an emoji`);
+  if (EMOJI_RE.test(value)) problems.push(`${where}: contains an emoji or decorative symbol`);
   for (const m of value.matchAll(BANNED_RE)) problems.push(`${where}: banned phrase "${m[0]}"`);
   return problems;
 }
@@ -52,20 +54,25 @@ export function lintBullets(bullets, where) {
 }
 
 // Every string a resume prints, checked as one document: headline, summary,
-// skills, projects, each job and short job (title and company line), the
-// education entries, the contact line, and all job bullets as one set.
+// skills, each project (name, link and text), each job and short job (title
+// and company line), the education entries (school, degree, dates, note), the
+// contact line, and all job bullets as one set.
 export function lintModel(m) {
   const where = m.key;
   const problems = [];
   problems.push(...lintText(m.headline, `${where} headline`));
   problems.push(...lintText(m.summary, `${where} summary`));
   m.skills.forEach((s) => problems.push(...lintText(`${s.group}: ${s.items}`, `${where} skills`)));
-  m.projects.forEach((p) => problems.push(...lintText(p.text, `${where} project ${p.name}`)));
+  m.projects.forEach((p) => {
+    problems.push(...lintText(p.text, `${where} project ${p.name}`));
+    problems.push(...lintText(`${p.name} ${p.link}`, `${where} project ${p.name} heading`));
+  });
   [...m.jobs, ...(m.shortJobs || [])].forEach((j) =>
     problems.push(...lintText(`${j.title} ${j.line}`, `${where} job ${j.title}`)));
   const e = m.education;
   problems.push(...lintText(e.school, `${where} education school`));
   problems.push(...lintText(e.degree, `${where} education degree`));
+  problems.push(...lintText(e.dates, `${where} education dates`));
   if (e.note) problems.push(...lintText(e.note, `${where} education note`));
   problems.push(...lintText(m.contact, `${where} contact`));
   problems.push(...lintBullets(m.jobs.flatMap((j) => j.bullets), where));

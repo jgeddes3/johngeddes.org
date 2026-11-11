@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { lintText, lintBullets } from './lint.mjs';
+import { lintText, lintBullets, lintModel } from './lint.mjs';
 
 test('flags em and en dashes', () => {
   assert.equal(lintText('Fast \u2014 and secure', 'x').length, 1);
@@ -113,4 +113,39 @@ test('emoji are flagged', () => {
   const problems = lintText('Shipped it \u{1F680}', 'x');
   assert.equal(problems.length, 1);
   assert.ok(problems[0].includes('emoji'));
+});
+
+test('dash characters and spaced hyphens get separate messages', () => {
+  for (const c of ['\u2012', '\u2013', '\u2014', '\u2015', '\u2212', '\u2E3A', '\u2E3B', '\uFF0D']) {
+    assert.deepEqual(lintText(`Fast ${c} secure`, 'x'), ['x: contains a dash character'], c);
+    assert.deepEqual(lintText(`2019${c}2023`, 'x'), ['x: contains a dash character'], c);
+  }
+  assert.deepEqual(lintText('Fast - secure', 'x'), ['x: uses a spaced hyphen as a dash']);
+  assert.deepEqual(lintText('Fast -- secure', 'x'), ['x: uses a spaced hyphen as a dash']);
+});
+
+test('the left arrow form is flagged', () => {
+  assert.deepEqual(lintText('SQL <- API', 'x'), ['x: contains an arrow']);
+});
+
+test('pictographic symbols use the emoji or decorative symbol message', () => {
+  assert.deepEqual(lintText('Shipped it \u{1F680}', 'x'), ['x: contains an emoji or decorative symbol']);
+});
+
+test('lintModel covers education dates and project name and link', () => {
+  const base = () => ({
+    key: 'k', headline: 'h', summary: 's', skills: [], contact: 'c', jobs: [], shortJobs: [],
+    projects: [{ name: 'Proj', link: 'example.org/proj', text: 'Text here.' }],
+    education: { school: 'S', degree: 'D', dates: '2019 to 2023', note: null },
+  });
+  assert.deepEqual(lintModel(base()), []);
+  const a = base();
+  a.education.dates = '2019 \u2013 2023';
+  assert.ok(lintModel(a).some((p) => p.includes('education dates')));
+  const b = base();
+  b.projects[0].link = 'example.org -> proj';
+  assert.ok(lintModel(b).some((p) => p.includes('arrow')));
+  const c = base();
+  c.projects[0].name = 'Leverage';
+  assert.ok(lintModel(c).some((p) => p.includes('leverage') || p.includes('Leverage')));
 });

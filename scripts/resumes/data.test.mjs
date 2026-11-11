@@ -6,7 +6,9 @@ import { lintModel, lintText } from './lint.mjs';
 
 // The only numbers the copy may contain. Each traces to John (2026-11-11) or
 // to a case-study page. A new number means a new fact: add it here only after
-// checking its source.
+// checking its source. A small number such as 1, 2 or 19 is allowed because
+// it appears in "Level 1", "Tier 2", "React 19" and "COVID-19", so this test
+// cannot catch a fabricated small number; human review covers that.
 const ALLOWED_NUMBERS = new Set([
   '0', '1', '2', '5', '6', '14', '19', '19.5', '1.3', '20', '36', '41', '43', '88', '100',
   '102', '120', '144', '160', '228', '256', '314', '360', '568', '716', '910', '2,082',
@@ -54,7 +56,13 @@ test('copy passes the lint for every track', () => {
   assert.deepEqual(problems, []);
 });
 
-test('no number appears that is not on the allowed list', () => {
+// Spelled-out numbers get the same treatment as digits. The same note applies:
+// "one" or "two" can be ordinary words (or "Level one"), so this test cannot
+// catch a fabricated small number; human review covers that.
+const ALLOWED_NUMBER_WORDS = new Set(['zero', 'one', 'two', 'four', 'five', 'six', 'seven', 'eight']);
+const NUMBER_WORD_RE = /\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|hundred|thousand|dozen)\b/gi;
+
+function copyStrings() {
   const strings = [];
   TRACKS.forEach((t) => {
     strings.push(t.summary, t.note, t.headline);
@@ -66,8 +74,22 @@ test('no number appears that is not on the allowed list', () => {
     Object.values(j.bullets).forEach((list) => strings.push(...list));
   });
   Object.values(PROJECTS).forEach((p) => strings.push(p.text));
-  const found = strings.join(' ').match(/\d[\d,]*(?:\.\d+)?/g) || [];
+  return strings;
+}
+
+test('no number appears that is not on the allowed list', () => {
+  const found = copyStrings().join(' ').match(/\d[\d,]*(?:\.\d+)?/g) || [];
   const unknown = [...new Set(found.map((n) => n.replace(/,$/, '')))].filter((n) => !ALLOWED_NUMBERS.has(n));
+  assert.deepEqual(unknown, []);
+});
+
+test('no spelled-out number appears that is not on the allowed list', () => {
+  const unknown = [];
+  copyStrings().forEach((str) => {
+    for (const m of str.matchAll(NUMBER_WORD_RE)) {
+      if (!ALLOWED_NUMBER_WORDS.has(m[0].toLowerCase())) unknown.push(`${m[0]} in "${str}"`);
+    }
+  });
   assert.deepEqual(unknown, []);
 });
 
