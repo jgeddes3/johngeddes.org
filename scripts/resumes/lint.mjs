@@ -56,7 +56,7 @@ export function lintBullets(bullets, where) {
 // Every string a resume prints, checked as one document: headline, summary,
 // skills, each project (name, link and text), each job and short job (title
 // and company line), the education entries (school, degree, dates, note), the
-// contact line, and all job bullets as one set.
+// contact lines, and all job bullets as one set.
 export function lintModel(m) {
   const where = m.key;
   const problems = [];
@@ -74,7 +74,9 @@ export function lintModel(m) {
   problems.push(...lintText(e.degree, `${where} education degree`));
   problems.push(...lintText(e.dates, `${where} education dates`));
   if (e.note) problems.push(...lintText(e.note, `${where} education note`));
-  problems.push(...lintText(m.contact, `${where} contact`));
+  const contact = Array.isArray(m.contact) ? m.contact : [];
+  if (!contact.length) problems.push(`${where} contact: empty`);
+  contact.forEach((line, i) => problems.push(...lintText(line, `${where} contact line ${i + 1}`)));
   problems.push(...lintBullets(m.jobs.flatMap((j) => j.bullets), where));
   return problems;
 }

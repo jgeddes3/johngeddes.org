@@ -4,10 +4,13 @@
 import { CONTACT, EDUCATION, JOBS, PROJECTS } from './data.js';
 import { dateRange } from './format.js';
 
+// The contact block as printed lines: one line, or two when the track adds
+// GitHub, since six items on one line wrap at an arbitrary point.
 export function contactLine(track) {
-  const parts = [CONTACT.location, CONTACT.phone, CONTACT.email, CONTACT.site, CONTACT.linkedin];
-  if (track.github) parts.push(CONTACT.github);
-  return parts.join(' · ');
+  const reach = [CONTACT.location, CONTACT.phone, CONTACT.email];
+  const links = [CONTACT.site, CONTACT.linkedin];
+  if (!track.github) return [[...reach, ...links].join(' · ')];
+  return [reach.join(' · '), [...links, CONTACT.github].join(' · ')];
 }
 
 // "Company · City, ST · Part-time", skipping empty parts.
@@ -52,7 +55,7 @@ export function buildModel(track) {
 
 // What a reader, or a resume parser, should find in a rendered file, in order.
 export function expectedLines(m) {
-  const out = [m.name, m.headline, m.contact, m.summary];
+  const out = [m.name, m.headline, ...m.contact, m.summary];
   m.skills.forEach((s) => out.push(`${s.group}: ${s.items}`));
   [...m.jobs, ...m.shortJobs].forEach((j) => out.push(j.title, j.line, j.dates, ...j.bullets));
   m.projects.forEach((p) => out.push(p.name, p.link, p.text));

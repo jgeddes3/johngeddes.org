@@ -37,7 +37,7 @@ const ResumeSheet = ({ track }) => {
       <header>
         <h2 className="rs-name">{m.name}</h2>
         <p className="rs-headline">{m.headline}</p>
-        <p className="rs-contact">{m.contact}</p>
+        {m.contact.map((line, i) => <p className="rs-contact" key={i}>{line}</p>)}
       </header>
       <section>
         <h3 className="rs-h">Summary</h3>

@@ -1,7 +1,30 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { TRACKS } from '../../src/resumes/data.js';
-import { buildModel } from '../../src/resumes/model.js';
+import { TRACKS, CONTACT } from '../../src/resumes/data.js';
+import { buildModel, expectedLines } from '../../src/resumes/model.js';
+
+const C = CONTACT;
+
+test('contact is one line, or two when the track shows GitHub', () => {
+  TRACKS.filter((t) => !t.github).forEach((t) => {
+    assert.deepEqual(buildModel(t).contact, [[C.location, C.phone, C.email, C.site, C.linkedin].join(' · ')], t.key);
+  });
+  const software = TRACKS.find((t) => t.key === 'software');
+  assert.equal(software.github, true);
+  assert.deepEqual(buildModel(software).contact, [
+    [C.location, C.phone, C.email].join(' · '),
+    [C.site, C.linkedin, C.github].join(' · '),
+  ]);
+});
+
+test('expectedLines lists each contact line after the headline', () => {
+  TRACKS.forEach((t) => {
+    const m = buildModel(t);
+    const lines = expectedLines(m);
+    assert.deepEqual(lines.slice(2, 2 + m.contact.length), m.contact, t.key);
+    assert.equal(lines[2 + m.contact.length], m.summary, t.key);
+  });
+});
 
 test('mutating a built model does not change the data or later models', () => {
   const t = TRACKS[0];

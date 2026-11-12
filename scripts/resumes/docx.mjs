@@ -11,8 +11,15 @@ const MARGIN_Y = 792; // 0.55in
 const RIGHT = PAGE_W - 2 * MARGIN_X;
 const GREY = '333333';
 
+// A no-break space before each " · " so a separator never ends a line. The
+// model keeps plain spaces; this is only how the file prints them.
+const SEP = ' · ';
+const NBSP_SEP = '\u00A0· ';
+const nb = (s) => String(s).split(SEP).join(NBSP_SEP);
+
 const heading = (text) => new Paragraph({
   spacing: { before: 160, after: 80 },
+  keepNext: true,
   border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: '888888', space: 1 } },
   children: [new TextRun({ text, bold: true, allCaps: true, size: 21 })],
 });
@@ -25,38 +32,41 @@ function jobParagraphs(j) {
       ...rightTab,
       spacing: { before: 60 },
       children: [
-        new TextRun({ text: j.title, bold: true }),
-        new TextRun({ text: ` · ${j.line}`, color: GREY }),
-        new TextRun({ children: [new Tab(), j.dates], color: GREY, size: 19 }),
+        new TextRun({ text: nb(j.title), bold: true }),
+        new TextRun({ text: `${NBSP_SEP}${nb(j.line)}`, color: GREY }),
+        new TextRun({ children: [new Tab(), nb(j.dates)], color: GREY, size: 19 }),
       ],
     })];
   }
   return [
-    new Paragraph({ spacing: { before: 60 }, keepNext: true, children: [new TextRun({ text: j.title, bold: true, size: 21 })] }),
+    new Paragraph({ spacing: { before: 60 }, keepNext: true, children: [new TextRun({ text: nb(j.title), bold: true, size: 21 })] }),
     new Paragraph({
       ...rightTab,
-      keepNext: j.bullets.length > 0,
-      children: [new TextRun({ text: j.line, color: GREY }), new TextRun({ children: [new Tab(), j.dates], color: GREY, size: 19 })],
+      keepNext: true,
+      children: [new TextRun({ text: nb(j.line), color: GREY }), new TextRun({ children: [new Tab(), nb(j.dates)], color: GREY, size: 19 })],
     }),
     ...j.bullets.map((b) => new Paragraph({
       numbering: { reference: 'bullets', level: 0 },
       spacing: { after: 20 },
-      children: [new TextRun(b)],
+      children: [new TextRun(nb(b))],
     })),
   ];
 }
 
 export function resumeDocx(m) {
   const children = [
-    new Paragraph({ children: [new TextRun({ text: m.name, bold: true, size: 40 })] }),
-    new Paragraph({ children: [new TextRun({ text: m.headline, size: 23, color: GREY })] }),
-    new Paragraph({ spacing: { after: 60 }, children: [new TextRun({ text: m.contact, size: 18, color: GREY })] }),
+    new Paragraph({ children: [new TextRun({ text: nb(m.name), bold: true, size: 40 })] }),
+    new Paragraph({ children: [new TextRun({ text: nb(m.headline), size: 23, color: GREY })] }),
+    ...m.contact.map((line, i) => new Paragraph({
+      spacing: { after: i === m.contact.length - 1 ? 60 : 0 },
+      children: [new TextRun({ text: nb(line), size: 18, color: GREY })],
+    })),
     heading('Summary'),
-    new Paragraph({ children: [new TextRun(m.summary)] }),
+    new Paragraph({ children: [new TextRun(nb(m.summary))] }),
     heading('Skills'),
     ...m.skills.map((s) => new Paragraph({
       spacing: { after: 20 },
-      children: [new TextRun({ text: `${s.group}: `, bold: true }), new TextRun(s.items)],
+      children: [new TextRun({ text: `${nb(s.group)}: `, bold: true }), new TextRun(nb(s.items))],
     })),
     heading('Work Experience'),
     ...[...m.jobs, ...m.shortJobs].flatMap(jobParagraphs),
@@ -69,9 +79,9 @@ export function resumeDocx(m) {
           ...rightTab,
           spacing: { before: 60 },
           keepNext: true,
-          children: [new TextRun({ text: p.name, bold: true, size: 21 }), new TextRun({ children: [new Tab(), p.link], color: GREY, size: 19 })],
+          children: [new TextRun({ text: nb(p.name), bold: true, size: 21 }), new TextRun({ children: [new Tab(), nb(p.link)], color: GREY, size: 19 })],
         }),
-        new Paragraph({ children: [new TextRun(p.text)] }),
+        new Paragraph({ children: [new TextRun(nb(p.text))] }),
       );
     });
   }
@@ -80,14 +90,16 @@ export function resumeDocx(m) {
     heading('Education'),
     new Paragraph({
       ...rightTab,
-      children: [new TextRun({ text: e.school, bold: true, size: 21 }), new TextRun({ children: [new Tab(), e.dates], color: GREY, size: 19 })],
+      keepNext: true,
+      children: [new TextRun({ text: nb(e.school), bold: true, size: 21 }), new TextRun({ children: [new Tab(), nb(e.dates)], color: GREY, size: 19 })],
     }),
-    new Paragraph({ children: [new TextRun(e.degree)] }),
+    new Paragraph({ ...(e.note ? { keepNext: true } : {}), children: [new TextRun(nb(e.degree))] }),
   );
-  if (e.note) children.push(new Paragraph({ children: [new TextRun(e.note)] }));
+  if (e.note) children.push(new Paragraph({ children: [new TextRun(nb(e.note))] }));
 
   return new Document({
     creator: m.name,
+    lastModifiedBy: m.name,
     title: `${m.name} Resume · ${m.headline}`,
     styles: { default: { document: { run: { font: 'Georgia', size: 20 } } } },
     numbering: {

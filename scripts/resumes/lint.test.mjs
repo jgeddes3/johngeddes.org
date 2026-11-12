@@ -134,7 +134,7 @@ test('pictographic symbols use the emoji or decorative symbol message', () => {
 
 test('lintModel covers education dates and project name and link', () => {
   const base = () => ({
-    key: 'k', headline: 'h', summary: 's', skills: [], contact: 'c', jobs: [], shortJobs: [],
+    key: 'k', headline: 'h', summary: 's', skills: [], contact: ['c'], jobs: [], shortJobs: [],
     projects: [{ name: 'Proj', link: 'example.org/proj', text: 'Text here.' }],
     education: { school: 'S', degree: 'D', dates: '2019 to 2023', note: null },
   });
@@ -148,4 +148,15 @@ test('lintModel covers education dates and project name and link', () => {
   const c = base();
   c.projects[0].name = 'Leverage';
   assert.ok(lintModel(c).some((p) => p.includes('leverage') || p.includes('Leverage')));
+});
+
+test('lintModel lints every contact line', () => {
+  const m = {
+    key: 'k', headline: 'h', summary: 's', skills: [], jobs: [], shortJobs: [], projects: [],
+    education: { school: 'S', degree: 'D', dates: '2019 to 2023', note: null },
+    contact: ['City · example.org', 'example.org \u2192 more'],
+  };
+  assert.deepEqual(lintModel(m), ['k contact line 2: contains an arrow']);
+  m.contact = [];
+  assert.deepEqual(lintModel(m), ['k contact: empty']);
 });

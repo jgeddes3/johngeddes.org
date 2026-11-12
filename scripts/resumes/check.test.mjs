@@ -10,6 +10,11 @@ test('normalize folds ligatures, curly quotes and spacing', () => {
   assert.equal(normalize('of\uFB01ce  \u2019s\n'), "office 's");
 });
 
+test('normalize folds the no-break space the renderers put before a dot', () => {
+  assert.equal(normalize('Alpha\u00A0· Beta'), 'Alpha · Beta');
+  assert.deepEqual(findInOrder('Alpha\u00A0· Beta', ['Alpha · Beta'], { keepSpaces: true }), { ok: true });
+});
+
 test('findInOrder finds needles in sequence and ignores whitespace', () => {
   assert.deepEqual(findInOrder('Alpha  Beta\nGamma', ['Alpha', 'Gamma']), { ok: true });
   assert.deepEqual(findInOrder('Alpha Beta Gamma', ['Gamma', 'Alpha']), { ok: false, missing: 'Alpha' });
