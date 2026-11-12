@@ -136,39 +136,46 @@
     width: 1444px;
   }
 
+/* Each box is at least its original width and grows to fit the full job
+   title. The right padding keeps the year's column (36px inset, 88px wide)
+   plus a 24px gap clear of the text. The right-hand boxes are placed from
+   the right edge of the 1160px column so the longest titles stay on screen. */
 .ResumeRect1, .ResumeRect2, .ResumeRect3, .ResumeRect4, .ResumeRect6 {
     border-radius: 61px;
     background-color: var(--color-accent-dark);
     height: 93px;
     position:absolute;
+    box-sizing: border-box;
+    width: max-content;
+    padding: 12px 148px 0 39px;
 }
 
 .ResumeRect1{
-    width: 340px;
+    min-width: 340px;
     top: 151px;
-    left: 901px;
+    right: 40px;
 }
 
 .ResumeRect2{
-    width: 550px;
+    min-width: 550px;
     top: 252px;
     left: 1px;
 }
 
 .ResumeRect3{
-    width: 360px;
+    min-width: 360px;
     top: 353px;
-    left: 745px;
+    right: 135px;
 }
 
 .ResumeRect4{
-    width: 380px;
+    min-width: 380px;
     top: 453px;
-    left: 1100px;
+    right: 0;
 }
 
 .ResumeRect6{
-  width: 360px;
+  min-width: 360px;
   top: 51px;
   left: 450px;
 }
@@ -213,17 +220,14 @@
     height: 113px;
 }
 
-.ResumPara1{
-    position: absolute;
-    top: 12px;
-    height: 37px;
-    left: 39px;
+/* In flow so they set the box width. The box's 12px top padding and the
+   31px first line keep the company at 12px and the title at 43px. */
+.ResumPara1, .ResumPara2{
+    white-space: nowrap;
+    text-align: left;
 }
-.ResumPara2{
-    position: absolute;
-    top: 43px;
-    height: 37px;
-    left: 39px;
+.ResumPara1{
+    height: 31px;
 }
 .ResumNum{
     position: absolute;
@@ -342,6 +346,10 @@
   #AboutMePara {
     padding: 0 20px;
   }
+
+  /* The column runs edge to edge here, so the end boxes keep a gutter. */
+  .ResumeRect2 { left: 20px; }
+  .ResumeRect4 { right: 20px; }
 }
 
 @media (max-width: 1080px) {
@@ -425,12 +433,14 @@
   .ResumeRect1, .ResumeRect2, .ResumeRect3, .ResumeRect4, .ResumeRect6 {
     position: relative;
     left: auto;
+    right: auto;
     top: auto;
     transform: none;
     border-radius: 40px;
     background-color: var(--color-accent-dark);
     height: 60px;
     width: 100%;
+    min-width: 0;
     max-width: 500px;
     display: flex;
     flex-direction: column;
@@ -445,6 +455,7 @@
     top: auto;
     left: auto;
     height: auto;
+    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
