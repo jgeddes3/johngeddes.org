@@ -26,6 +26,9 @@ const COMPANY = {
   abbott: 'Abbott Laboratories',
 };
 
+// A bare "Remote" was read as the title of a new job, so the line names the
+// city John worked from.
+const REMOTE = 'Chicago, IL (Remote)';
 const BULLET = '• ';
 const line = (text, opts = {}) => new Paragraph({ children: [new TextRun({ text, ...opts })] });
 const heading = (text) => new Paragraph({
@@ -56,7 +59,7 @@ export function workdayLines(m) {
       { kind: 'line', text: COMPANY[j.key] || job.company },
       // A job with no place was remote. It still gets the line: without it the
       // parser lost the company as well.
-      { kind: 'line', text: job.place || 'Remote' },
+      { kind: 'line', text: job.place || REMOTE },
       { kind: 'line', text: j.dates },
       ...j.bullets.map((text) => ({ kind: 'bullet', text })),
     );
