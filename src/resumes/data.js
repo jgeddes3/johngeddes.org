@@ -25,7 +25,7 @@ export const EDUCATION = {
 
 export const JOBS = {
   tag: {
-    title: 'Senior Desktop Support Engineer',
+    title: 'Senior Audio Visual Engineer',
     company: 'The Aspen Group (TAG)',
     place: 'Chicago, IL',
     start: '2025-09',

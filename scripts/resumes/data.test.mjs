@@ -43,7 +43,7 @@ test('the Discover team line is kept word for word wherever Discover leads', () 
 });
 
 test('TAG title and dates are fixed', () => {
-  assert.equal(JOBS.tag.title, 'Senior Desktop Support Engineer');
+  assert.equal(JOBS.tag.title, 'Senior Audio Visual Engineer');
   assert.equal(JOBS.tag.company, 'The Aspen Group (TAG)');
   assert.equal(JOBS.tag.start, '2025-09');
   assert.equal(JOBS.tag.end, null);
