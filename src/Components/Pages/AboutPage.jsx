@@ -7,7 +7,9 @@ import PageFooter from '../ForEveryPage/PageFooter';
 import SEO from '../ForEveryPage/SEO';
 import img_5354 from './AboutPages/img_5354.webp'; 
 import ImageRectangles from './AboutPages/ImageRectangles';
-import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed'; 
+import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed';
+import { JOBS } from '../../resumes/data';
+import { shortYears } from '../../resumes/format';
 
 const AboutPage = () => {
   return (
@@ -26,38 +28,28 @@ const AboutPage = () => {
             <LastFmRecentlyPlayed />
           </div>
           <div className="AboutMeTextLarge AboutPara1 main-content">
-            I'm a Senior Executive Audio Visual Engineer, and aspiring Web Designer, Data Analyst, and App Developer working from Chicago IL.
+            I'm an AV and software engineer working from Chicago, IL.
           </div>
           <div className="AboutMeTextSmall AboutPara2 main-content">
             In the most recent months, I have been working at The Aspen Group (TAG). On the side, I've been working on projects to ensure my sanity, and they are becoming more fun for me. I am always willing to try new things and work with anyone and everyone.
           </div>
         </div>
+        {/* Titles and years come from the resume data, so this timeline
+            always matches the resumes. Each job keeps the box it had. */}
         <div id= "AboutMeResume">
-          <div className="ResumeRect6 main-content">
-            <div className="ResumPara1 AboutMeWhiteLarge">Kirkland & Ellis</div>
-            <div className="ResumPara2 AboutMeGreyLarge">A.V. Tech Specialist</div>
-            <div className="ResumNum AboutMeWhiteNum">23-24</div>
-          </div>
-          <div className="ResumeRect1 main-content">
-            <div className="ResumPara1 AboutMeWhiteLarge">Discover Financial</div>
-            <div className="ResumPara2 AboutMeGreyLarge">A.V. Technician II</div>
-            <div className="ResumNum AboutMeWhiteNum">25-25</div>
-          </div>
-          <div className="ResumeRect2 main-content">
-            <div className="ResumPara1 AboutMeWhiteLarge">Loyola University of Chicago</div>
-            <div className="ResumPara2 AboutMeGreyLarge">Audio Visual (A.V.) Technician</div>
-            <div className="ResumNum AboutMeWhiteNum">21-23</div>
-          </div>
-          <div className="ResumeRect3 main-content">
-            <div className="ResumPara1 AboutMeWhiteLarge">Abbott Laboratories</div>
-            <div className="ResumPara2 AboutMeGreyLarge">A.V. Technician II</div>
-            <div className="ResumNum AboutMeWhiteNum">24-25</div>
-          </div>
-          <div className="ResumeRect4 main-content">
-            <div className="ResumPara1 AboutMeWhiteLarge">The Aspen Group (TAG)</div>
-            <div className="ResumPara2 AboutMeGreyLarge">Senior AV Engineer</div>
-            <div className="ResumNum AboutMeWhiteNum">25~</div>
-          </div>
+          {[
+            ['ResumeRect6', 'kirkland'],
+            ['ResumeRect1', 'discover'],
+            ['ResumeRect2', 'loyola'],
+            ['ResumeRect3', 'abbott'],
+            ['ResumeRect4', 'tag'],
+          ].map(([box, key]) => (
+            <div className={`${box} main-content`} key={key}>
+              <div className="ResumPara1 AboutMeWhiteLarge">{JOBS[key].company}</div>
+              <div className="ResumPara2 AboutMeGreyLarge">{JOBS[key].title}</div>
+              <div className="ResumNum AboutMeWhiteNum">{shortYears(JOBS[key].start, JOBS[key].end)}</div>
+            </div>
+          ))}
         </div>
         <div id = "AboutMeColab">
           <div className="AboutPara3">I'm willing to collaborate! Let me know if you need help with designing or implementing mockups</div>

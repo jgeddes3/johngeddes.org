@@ -123,7 +123,7 @@ export const PAGES = {
   '/recruiters': {
     title: 'Recruiters',
     description:
-      "John Geddes' role-specific resumes for AV Engineer, Executive Technician, Manager, and Web Developer positions.",
+      "John Geddes' resumes: a two-page AV and Software Engineer resume, plus AV Engineer, IT Asset Manager, Technical Lead and Software Engineer versions, each in PDF and Word.",
     priority: 0.6,
     changefreq: 'monthly',
   },

@@ -205,7 +205,7 @@ export function llmsText() {
     line('/misc', 'book reviews, restaurant reviews, and recipes, rated out of ten.'),
     line('/philosophy', 'essays in five shelves: general, neuroethics, technology, political, world.'),
     line('/contracts', 'contract services and rates for AV and software work.'),
-    line('/recruiters', 'role-specific resumes.'),
+    line('/recruiters', 'resumes for AV, IT asset, technical lead and software roles, readable on the page and as PDF or Word.'),
     line('/social', 'live signals (now playing, chess rating, latest commit, Chicago weather) and profile links.'),
     line('/friends', 'interests and the people behind them.'),
     '',

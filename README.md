@@ -38,8 +38,9 @@ All keys are server-side only, read by `api/index.js`. Never add
 
 ## Notes
 
-- The resume PDF is served from `public/` at the stable URL
-  `/Geddes_Resume_26.pdf`.
+- Resumes are built by `npm run resumes` from `src/resumes/data.js` into
+  `public/resumes/` (PDF and Word). The footer links the main resume at
+  `/resumes/John_Geddes_Resume.pdf`; old resume URLs redirect in `vercel.json`.
 - Reviews, recipes, and philosophy essays are data files (`src/reviews/entries/`,
   `src/philosophy/entries/`). `npm run new:review` and `npm run new:essay`
   scaffold one; see `templates/README.md`.
