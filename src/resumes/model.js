@@ -13,6 +13,22 @@ export function contactLines(track) {
   return [reach.join(' · '), [...links, CONTACT.github].join(' · ')];
 }
 
+// Where each printed contact item links on the Recruiters page. Built from
+// CONTACT rather than guessed from the text, so a changed phone number or
+// address cannot produce a wrong link. A Map, so "toString" or "__proto__"
+// finds nothing inherited. The location and any unknown text return null.
+const CONTACT_HREFS = new Map([
+  [CONTACT.email, `mailto:${CONTACT.email}`],
+  [CONTACT.phone, `tel:+1${CONTACT.phone.replace(/\D/g, '')}`],
+  [CONTACT.site, `https://${CONTACT.site}`],
+  [CONTACT.linkedin, `https://${CONTACT.linkedin}`],
+  [CONTACT.github, `https://${CONTACT.github}`],
+]);
+
+export function contactHref(part) {
+  return CONTACT_HREFS.get(part) ?? null;
+}
+
 // "Company · City, ST · Part-time", skipping empty parts.
 export function companyLine(job) {
   return [job.company, job.place, job.type].filter(Boolean).join(' · ');

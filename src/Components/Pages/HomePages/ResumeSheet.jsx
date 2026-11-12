@@ -1,20 +1,14 @@
 import React from 'react';
-import { buildModel } from '../../../resumes/model';
+import { buildModel, contactHref } from '../../../resumes/model';
 
-// The link a piece of contact or project text points to, or null when it is
-// plain text (the location). The visible text never changes, so the page
-// still reads exactly like the PDF.
-const hrefFor = (text) => {
-  if (text.includes('@')) return `mailto:${text}`;
-  const digits = text.replace(/\D/g, '');
-  if (/^[\d\s().+-]+$/.test(text) && digits.length === 10) return `tel:+1${digits}`;
-  if (/^[a-z0-9-]+(\.[a-z0-9-]+)+(\/\S*)?$/i.test(text)) return `https://${text}`;
-  return null;
-};
-
-const Linked = ({ text }) => {
-  const href = hrefFor(text);
-  return href ? <a href={href}>{text}</a> : text;
+// Contact or project text as a link, or as plain text when href is null (the
+// location). The visible text never changes, so the page still reads exactly
+// like the PDF. https links open in a new tab like the site's other outbound
+// links; mailto: and tel: hand off to the mail or phone app instead.
+const Linked = ({ href, text }) => {
+  if (!href) return text;
+  const newTab = href.startsWith('https://') ? { target: '_blank', rel: 'noopener noreferrer' } : {};
+  return <a href={href} {...newTab}>{text}</a>;
 };
 
 const ContactLine = ({ line }) => (
@@ -22,7 +16,7 @@ const ContactLine = ({ line }) => (
     {line.split(' · ').map((part, i) => (
       <React.Fragment key={part}>
         {i > 0 && ' · '}
-        <Linked text={part} />
+        <Linked href={contactHref(part)} text={part} />
       </React.Fragment>
     ))}
   </p>
@@ -89,7 +83,7 @@ const ResumeSheet = ({ track }) => {
             <div className="rs-job" key={p.name}>
               <p className="rs-line">
                 <span className="rs-title">{p.name}</span>
-                <span><Linked text={p.link} /></span>
+                <span><Linked href={`https://${p.link}`} text={p.link} /></span>
               </p>
               <p>{p.text}</p>
             </div>

@@ -1,9 +1,32 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { TRACKS, CONTACT } from '../../src/resumes/data.js';
-import { buildModel, expectedLines } from '../../src/resumes/model.js';
+import { buildModel, expectedLines, contactHref } from '../../src/resumes/model.js';
 
 const C = CONTACT;
+
+test('contactHref links the email, phone, site, LinkedIn and GitHub', () => {
+  assert.equal(contactHref(C.email), `mailto:${C.email}`);
+  assert.equal(contactHref(C.phone), 'tel:+16127903691');
+  assert.equal(contactHref(C.site), `https://${C.site}`);
+  assert.equal(contactHref(C.linkedin), `https://${C.linkedin}`);
+  assert.equal(contactHref(C.github), `https://${C.github}`);
+});
+
+test('contactHref returns null for the location and unknown text', () => {
+  assert.equal(contactHref(C.location), null);
+  ['example.com', 'someone@example.com', '(555) 555-0100', '', 'toString', '__proto__', undefined]
+    .forEach((s) => assert.equal(contactHref(s), null, String(s)));
+});
+
+test('every printed contact item except the location gets a link', () => {
+  TRACKS.forEach((t) => {
+    buildModel(t).contact.flatMap((line) => line.split(' · ')).forEach((part) => {
+      if (part === C.location) assert.equal(contactHref(part), null, t.key);
+      else assert.ok(contactHref(part), `${t.key}: ${part}`);
+    });
+  });
+});
 
 test('contact is one line, or two when the track shows GitHub', () => {
   TRACKS.filter((t) => !t.github).forEach((t) => {
