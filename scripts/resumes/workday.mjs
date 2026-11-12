@@ -42,7 +42,7 @@ const bullet = (text) => new Paragraph({ indent: { left: 220, hanging: 220 }, ch
 export function workdayLines(m) {
   const out = [
     { kind: 'name', text: m.name },
-    ...[CONTACT.location, CONTACT.phone, CONTACT.email, CONTACT.linkedin, CONTACT.site].map((text) => ({ kind: 'line', text })),
+    ...[CONTACT.location, CONTACT.phone, CONTACT.email].map((text) => ({ kind: 'line', text })),
     { kind: 'heading', text: 'Summary' },
     { kind: 'line', text: m.summary },
     { kind: 'heading', text: 'Skills' },
@@ -54,8 +54,8 @@ export function workdayLines(m) {
     out.push(
       { kind: 'title', text: job.type ? `${job.title} (${job.type})` : job.title },
       { kind: 'line', text: COMPANY[j.key] || job.company },
-      // A job with no place still gets the line: without it the parser lost the
-      // company as well.
+      // A job with no place was remote. It still gets the line: without it the
+      // parser lost the company as well.
       { kind: 'line', text: job.place || 'Remote' },
       { kind: 'line', text: j.dates },
       ...j.bullets.map((text) => ({ kind: 'bullet', text })),
@@ -73,6 +73,12 @@ export function workdayLines(m) {
     { kind: 'line', text: e.dates },
   );
   if (e.note) out.push({ kind: 'line', text: e.note });
+  // Full addresses in their own section at the end, where Workday's form keeps
+  // its Websites list.
+  out.push(
+    { kind: 'heading', text: 'Websites' },
+    ...[CONTACT.site, `www.${CONTACT.linkedin}`, CONTACT.github].map((u) => ({ kind: 'line', text: `https://${u}` })),
+  );
   return out.filter((l) => l.text);
 }
 
