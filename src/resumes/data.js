@@ -32,11 +32,13 @@ export const JOBS = {
     end: null,
     bullets: {
       main: [
+        'Built Census, the platform TAG tracks all 48,243 of its IT assets in; it reconciles 14 outside systems into one record per asset, and 36 people use it each week.',
+        'Designed the onboarding, shipping, returns and chargeback processes Census runs, and automated enough of them to give the team back about 314 hours a month.',
+        'Wrote Census in React 19 and TypeScript with an Express gateway, MySQL on Cloud SQL and nightly jobs on Google Cloud Run: 228 API routes, 716 test files.',
+        'Started Census in January 2026 and moved the team onto it fully that October, when 11,942 changes went through it.',
         'Upgraded four 20+ person meeting rooms to Neat and rebuilt the boardroom from Crestron and Q-SYS to Neat and Q-SYS with 360-degree cameras.',
         'Repaired and upgraded six divisible Q-SYS and Crestron training rooms that hold 120+ people.',
         'Support 88+ Logitech meeting rooms across the TAG network and handle AV and endpoint problems for the C-Suite directly.',
-        'Built Census, a React and TypeScript asset platform on Snipe-IT that reconciles 14 outside systems into one record for each of 48,243 assets; 36 people use it each week.',
-        'Designed the onboarding, shipping, returns and chargeback processes Census runs, and automated enough of them to give the team back about 314 hours a month.',
         "Train TAG's five-person IT team in AV and administer Microsoft Intune, Jamf, ServiceNow and Entra ID.",
       ],
       av: [
@@ -47,7 +49,7 @@ export const JOBS = {
         'Train and technically lead the whole five-person IT team in AV.',
       ],
       asset: [
-        "Designed TAG's asset processes for onboarding, shipping, returns and monthly chargebacks, then built Census on Snipe-IT to run them.",
+        "Designed TAG's asset processes for onboarding, shipping, returns and monthly chargebacks, then built Census to run them.",
         'Brought 14 outside systems, including Intune, Jamf, CrowdStrike and ServiceNow, into one record per device and cataloged all 48,243 assets.',
         'Automated FedEx labels from each checkout, chargebacks and other routine work, worth about 314 hours a month at per-task times the team agreed on.',
         'Connected SHI orders to an onboarding queue that took in 910 assets in its first two weeks.',
@@ -61,10 +63,10 @@ export const JOBS = {
         "Support TAG's C-Suite and other executives directly on AV, endpoints and connectivity.",
       ],
       software: [
-        'Built Census, a React 19 and TypeScript platform on Snipe-IT with an Express gateway, MySQL on Cloud SQL and scheduled jobs on Google Cloud Run.',
+        'Built Census, a React 19 and TypeScript platform with an Express gateway, MySQL on Cloud SQL and scheduled jobs on Google Cloud Run.',
         'Integrated 14 outside systems, including Intune, Jamf, ServiceNow and FedEx, into one record per device across 48,243 assets.',
-        'Added Microsoft Entra ID sign-in so every change in Snipe-IT is written as the person who made it.',
-        'Moved 41 read surfaces off the Snipe-IT API onto SQL; one report fell from 19.5 minutes to 1.3 seconds.',
+        'Added Microsoft Entra ID sign-in so every change is recorded under the name of the person who made it.',
+        'Moved 41 read surfaces from REST API calls to direct SQL; one report fell from 19.5 minutes to 1.3 seconds.',
         'Cleared all 43 SonarQube blocker and critical findings; the GitLab pipeline runs the 716 test files on every push.',
       ],
     },
@@ -218,7 +220,7 @@ export const PROJECTS = {
   },
   rambler: {
     name: 'Rambler Registrar',
-    link: 'github.com/jgeddes3/RamblerRegistrar',
+    link: 'www.ramblerregistrar.com',
     text: 'Course scheduler for Loyola students on Expo, Express and Puppeteer. Builds every conflict-free timetable from up to eight courses and scores each one, walk time between buildings included. Covers 2,082 courses.',
   },
   papertrail: {
@@ -235,10 +237,10 @@ export const TRACKS = [
     headline: 'AV and Software Engineer',
     file: 'John_Geddes_Resume',
     pages: 2,
-    summary: 'AV and software engineer with a Computer Science degree, working in AV since 2021. Supports 88+ Logitech rooms at The Aspen Group and built Census, the asset platform 36 people there use each week.',
+    summary: 'AV and software engineer with a Computer Science degree. Designed and built Census, the platform that tracks all 48,243 IT assets at The Aspen Group and saves its team about 314 hours a month. In AV since 2021, now supporting 88+ Logitech rooms.',
     skills: [
       ['AV', 'Q-SYS, Crestron, Neat, Logitech, Biamp Tesira, Shure, Cisco, Microsoft Teams, Zoom, Webex'],
-      ['IT and endpoints', 'Microsoft Intune, Jamf, Microsoft Entra ID (Azure Active Directory), ServiceNow, Snipe-IT'],
+      ['IT and endpoints', 'Microsoft Intune, Jamf, Microsoft Entra ID (Azure Active Directory), ServiceNow'],
       ['Software', 'TypeScript, JavaScript, React, React Native, Expo, Node.js, Express, SQL'],
       ['Cloud and data', 'Google Cloud Run, Cloud SQL (MySQL), Firebase, Firestore, Docker, GitLab CI'],
     ],
@@ -249,10 +251,10 @@ export const TRACKS = [
     github: false,
     note: 'Two pages covering the AV work and the software, for jobs that need both.',
     figures: [
-      ['88+', 'Logitech rooms supported at TAG'],
       ['48,243', 'assets cataloged in Census'],
+      ['314', 'hours a month saved, by team estimate'],
+      ['88+', 'Logitech rooms supported at TAG'],
       ['568+', 'rooms covered at Discover'],
-      ['3,822', 'tests behind Cipher Tracker'],
     ],
   },
   {
@@ -290,7 +292,7 @@ export const TRACKS = [
     pages: 1,
     summary: "IT asset manager who built The Aspen Group's asset processes and Census, the tool that runs them, then cataloged all 48,243 assets in it. Census automations save the team about 314 hours a month.",
     skills: [
-      ['IT asset management', 'Snipe-IT, ServiceNow CMDB (configuration management database), asset lifecycle, onboarding, returns, chargebacks'],
+      ['IT asset management', 'ServiceNow CMDB (configuration management database), asset lifecycle, onboarding, shipping, returns, chargebacks'],
       ['Endpoint management', 'Microsoft Intune, Jamf, Microsoft Entra ID, CrowdStrike, Apple Business Manager'],
       ['Logistics and procurement', 'FedEx shipping, SHI orders, Dell and Lenovo warranty lookups'],
       ['Reporting and automation', 'SQL, Power BI, Power Apps, Power Automate, scheduled jobs'],
