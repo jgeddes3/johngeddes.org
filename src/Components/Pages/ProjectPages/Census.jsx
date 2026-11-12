@@ -23,7 +23,7 @@ import SnowNote from './ProjectPageImages/Census/census-snow-note.webp';
 import BeforeExcel from './ProjectPageImages/Census/census-before-excel.webp';
 import RoomCheck from './ProjectPageImages/Census/census-room-check.webp';
 
-// Every number on this page is read from the Snipe-IT database Census runs on
+// Every number on this page is read from the database Census runs on
 // (2026-11-05), from git, or from the app's own research files; none is rounded
 // beyond what the source already did.
 
@@ -72,13 +72,13 @@ const FEATURES = [
     glyph: 'censusUser',
     title: 'Signed in as yourself, all the way down',
     body: `Sign-in is Microsoft Entra ID. The gateway exchanges the person's token for their own
-      Snipe-IT access, so every write lands in Snipe-IT's history under their name, not a
-      service account's. Roles come from directory groups; thirteen smaller groups gate the
+      access to the asset record, so every write lands in its history under their name, not
+      a service account's. Roles come from directory groups; thirteen smaller groups gate the
       workspaces (VIP, Security, Call Center, Chargebacks, audits, catalog edits).`,
   },
 ];
 
-// Changes recorded in Snipe-IT's history as made through Census, per month of 2026.
+// Changes recorded in the asset history as made through Census, per month of 2026.
 const CHANGES = [
   ['Jan', 0], ['Feb', 0], ['Mar', 2], ['Apr', 23], ['May', 916],
   ['Jun', 3340], ['Jul', 2537], ['Aug', 3716], ['Sep', 3270], ['Oct', 11942],
@@ -109,8 +109,8 @@ const LEDGER = [
 ];
 
 const SYSTEMS = [
-  ['Snipe-IT', 'The record. Read by SQL from its own database; written through its REST API as the signed-in person.'],
-  ['Microsoft Entra ID', 'Sign-in with MSAL, roles from groups, on-behalf-of exchange for each person\'s Snipe-IT access; new hires read nightly.'],
+  ['Asset database', 'The record. Read by SQL; written through its REST API as the signed-in person.'],
+  ['Microsoft Entra ID', 'Sign-in with MSAL, roles from groups, on-behalf-of exchange for each person\'s own access to the record; new hires read nightly.'],
   ['Microsoft Intune', 'Windows devices through Graph: last check-in, user, OS, MAC, IP; missing and falling-off flags.'],
   ['Jamf Pro', 'Macs and iPads: last seen, user, IP; the iPad network check.'],
   ['CrowdStrike Falcon', 'Computers running the sensor and their IPs; the location check and the Not on CrowdStrike tab.'],
@@ -226,7 +226,6 @@ const Census = () => {
             <span className="proj-pill">Tailwind 3</span>
             <span className="proj-pill">Express 4</span>
             <span className="proj-pill">MySQL 8.4 on Cloud SQL</span>
-            <span className="proj-pill">Snipe-IT 8.8 API</span>
             <span className="proj-pill">Microsoft Entra ID</span>
             <span className="proj-pill">Google Cloud Run</span>
             <span className="proj-pill">Docker</span>
@@ -248,18 +247,18 @@ const Census = () => {
           <p>
             A year ago the asset team ran shipping out of one shared workbook: 1,711 lines typed
             by hand in nine months, 118 department codes written 328 different ways, no price or
-            total anywhere, and nearly three in ten lines with no ticket number. Snipe-IT held
+            total anywhere, and nearly three in ten lines with no ticket number. The asset database held
             about 13,000 records, mostly imports from field support's own spreadsheets, while the
             device-management and security tools could see roughly 40,000 devices that had no
             asset record at all.
           </p>
           <p>
-            Census started in January 2026 as 22 screens in front of Snipe-IT's API, where you
+            Census started in January 2026 as 22 screens in front of the asset database's API, where you
             signed in by pasting your own key. It is now the console the team works in all day:
             onboarding, shipping, offboarding, chargebacks, audits, repairs, disposals, reports,
             and a set of jobs that run every morning, evening and week, and every five minutes for
-            tickets. Snipe-IT stays the system of record, self-hosted on Google Cloud since
-            October. Census reads it by SQL and writes to it through the API as the person who
+            tickets. The system of record is a MySQL database, self-hosted on Google Cloud since
+            October. Census reads it by SQL and writes to it through an API as the person who
             clicked.
           </p>
         </div>
@@ -306,7 +305,7 @@ const Census = () => {
         <div className="proj-charts">
           <div className="proj-chart proj-chart-wide">
             <h3>Changes made through Census, per month</h3>
-            <p className="proj-chart-sub">Rows in Snipe-IT's own history that came through the app. The team moved onto it fully on 22 October.</p>
+            <p className="proj-chart-sub">Rows in the asset history that came through the app. The team moved onto it fully on 22 October.</p>
             <LineChart data={CHANGES} />
           </div>
           <div className="proj-chart">
@@ -348,7 +347,7 @@ const Census = () => {
           ))}
         </div>
         <p className="proj-ledger-caption" style={{ margin: '0 0 40px' }}>
-          Every vendor connector is read-only toward its vendor. Census writes to Snipe-IT, to ServiceNow (notes, comments, incidents) and to FedEx (labels), and nowhere else.
+          Every vendor connector is read-only toward its vendor. Census writes to its own asset database, to ServiceNow (notes, comments, incidents) and to FedEx (labels), and nowhere else.
         </p>
 
         <div className="proj-companion">
@@ -358,14 +357,14 @@ const Census = () => {
             package that holds the connectors and the jobs. The gateway serves the compiled app as
             static files from one Cloud Run service; a Cloud Run job runs the Morning (06:00),
             End-of-day (19:00) and Weekly (Sunday) runs and the five-minute ServiceNow poll.
-            Snipe-IT 8.8 runs on a Compute Engine VM with its MySQL 8.4 database on Cloud SQL,
+            The asset record runs on a Compute Engine VM with its MySQL 8.4 database on Cloud SQL,
             private only, and Census's own 40 tables live in that same database under a
             <code> tag_</code> prefix, built by 50 migrations.
           </p>
           <p>
             People write by API, the jobs by SQL. A job never creates an asset or checks anything
             in or out: it queues a candidate, a person confirms, and the app writes through the
-            API as that person, so Snipe-IT's history names who did what. Reads went the other
+            API as that person, so the history names who did what. Reads went the other
             way: 41 read surfaces moved from the API to SQL between 16 and 21 October, each
             checked against the API's answer before it was switched on. The VIP report went from
             about two minutes to about a second; a year of history from 19.5 minutes to 1.3
@@ -384,7 +383,7 @@ const Census = () => {
 
         <div className="proj-screenshot">
           <img loading="lazy" decoding="async" src={Transactions} alt="Weekly transactions report: 11,324 rows for the week with date, action, item, model, owner, who performed it and the ticket" />
-          <p className="proj-caption">The weekly report: every transaction in Snipe-IT for the week, with the columns you pick, exported to Excel in one press.</p>
+          <p className="proj-caption">The weekly report: every transaction for the week, with the columns you pick, exported to Excel in one press.</p>
         </div>
 
         <div className="proj-about">
@@ -417,9 +416,7 @@ const Census = () => {
             in the repository are the record of the decisions.
           </p>
           <p style={{ fontSize: '15px' }}>
-            Snipe-IT is a trademark of Grokability, Inc. Census integrates with it through its
-            public REST API and its database and is not affiliated with or endorsed by
-            Grokability. Icons on this page: Solar by 480 Design (CC BY 4.0), the set the app uses.
+            Icons on this page: Solar by 480 Design (CC BY 4.0), the set the app uses.
           </p>
         </div>
       </div>
