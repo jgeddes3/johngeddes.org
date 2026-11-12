@@ -10,7 +10,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { AlignmentType, Document, LevelFormat, Packer, Paragraph, TextRun } from 'docx';
+import { Document, Packer, Paragraph, TextRun } from 'docx';
 import { CONTACT, JOBS, TRACKS } from '../../src/resumes/data.js';
 import { buildModel } from '../../src/resumes/model.js';
 import { docxText, findInOrder } from './check.mjs';
@@ -26,13 +26,16 @@ const COMPANY = {
   abbott: 'Abbott Laboratories',
 };
 
+const BULLET = '• ';
 const line = (text, opts = {}) => new Paragraph({ children: [new TextRun({ text, ...opts })] });
 const heading = (text) => new Paragraph({
   spacing: { before: 200, after: 80 },
   keepNext: true,
   children: [new TextRun({ text, bold: true, size: 24 })],
 });
-const bullet = (text) => new Paragraph({ numbering: { reference: 'bullets', level: 0 }, children: [new TextRun(text)] });
+// The bullet is typed text, not a Word list. Workday and some viewers show a
+// Word list as "1." on every line.
+const bullet = (text) => new Paragraph({ indent: { left: 220, hanging: 220 }, children: [new TextRun(BULLET + text)] });
 
 // Everything the file prints, in order, as { kind, text }. One list feeds both
 // the document and the read-back check.
@@ -85,12 +88,6 @@ export function workdayDocx(m) {
     lastModifiedBy: m.name,
     title: `${m.name} Resume`,
     styles: { default: { document: { run: { font: 'Arial', size: 21 } } } },
-    numbering: {
-      config: [{
-        reference: 'bullets',
-        levels: [{ level: 0, format: LevelFormat.BULLET, text: '•', alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 360, hanging: 220 } } } }],
-      }],
-    },
     sections: [{
       properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1080, bottom: 1080, left: 1080, right: 1080 } } },
       children: workdayLines(m).map(({ kind, text }) => PARAGRAPH[kind](text)),
@@ -104,7 +101,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     const model = buildModel(track);
     const docx = await pinDocx(await Packer.toBuffer(workdayDocx(model)));
     const text = await docxText(docx);
-    const found = findInOrder(text, workdayLines(model).map((l) => l.text), { keepSpaces: true });
+    const found = findInOrder(text, workdayLines(model).map((l) => (l.kind === 'bullet' ? BULLET + l.text : l.text)), { keepSpaces: true });
     if (!found.ok) {
       console.error(`${track.file}_Workday.docx: missing or out of order: "${found.missing}"`);
       process.exit(1);
