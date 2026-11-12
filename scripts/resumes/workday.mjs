@@ -54,7 +54,9 @@ export function workdayLines(m) {
     out.push(
       { kind: 'title', text: job.type ? `${job.title} (${job.type})` : job.title },
       { kind: 'line', text: COMPANY[j.key] || job.company },
-      { kind: 'line', text: job.place },
+      // A job with no place still gets the line: without it the parser lost the
+      // company as well.
+      { kind: 'line', text: job.place || 'Remote' },
       { kind: 'line', text: j.dates },
       ...j.bullets.map((text) => ({ kind: 'bullet', text })),
     );
