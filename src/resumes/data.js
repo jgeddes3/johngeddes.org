@@ -306,7 +306,7 @@ export const TRACKS = [
       ['48,243', 'assets cataloged'],
       ['14', 'outside systems connected'],
       ['910', 'assets onboarded in two weeks'],
-      ['314', 'hours a month given back'],
+      ['314', 'hours a month saved, by team estimate'],
     ],
   },
   {
