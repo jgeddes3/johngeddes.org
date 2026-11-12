@@ -5,6 +5,9 @@
 // Every figure traces to John or to a case-study page on this site, and
 // scripts/resumes/data.test.mjs fails if a number shows up that is not on its
 // allowed list. Bullets are keyed by track: main, av, asset, lead, software.
+// **Double asterisks** inside a bullet mark the improvement the work made. The
+// PDF, the Word file and the Recruiters page print that part bold; the Workday
+// files and every check read the bullet without the marks.
 
 export const CONTACT = {
   name: 'John Geddes',
@@ -32,42 +35,42 @@ export const JOBS = {
     end: null,
     bullets: {
       main: [
-        'Built Census, the asset management platform where TAG tracks all 48,243 of its IT assets. It reconciles 14 outside systems into one record per asset, and 36 people use it each week.',
-        'Designed the onboarding, shipping, returns and chargeback processes Census runs, and automated enough of them to give the team back about 314 hours a month.',
+        'Built Census, the asset management platform where TAG tracks all 48,243 of its IT assets. It reconciles 14 outside systems into **one record per asset**, and 36 people use it each week.',
+        'Designed the onboarding, shipping, returns and chargeback processes Census runs, and automated enough of them to **give the team back about 314 hours a month**.',
         'Wrote Census in React 19 and TypeScript with an Express gateway, MySQL on Cloud SQL and nightly jobs on Google Cloud Run: 228 API routes, 716 test files.',
         'Started Census in January 2026 and moved the team onto it fully that October, when 11,942 changes went through it.',
-        'Upgraded four 20+ person meeting rooms to Neat and rebuilt the boardroom from Crestron and Q-SYS to Neat and Q-SYS with 360-degree cameras.',
-        'Repaired and upgraded six divisible Q-SYS and Crestron training rooms that hold 120+ people.',
+        '**Upgraded four 20+ person meeting rooms to Neat** and **rebuilt the boardroom** from Crestron and Q-SYS to Neat and Q-SYS with 360-degree cameras.',
+        '**Repaired and upgraded six divisible Q-SYS and Crestron training rooms** that hold 120+ people.',
         'Support 88+ Logitech meeting rooms and Shure microphone systems across the TAG network and handle AV and endpoint problems for the C-Suite directly.',
         "Train TAG's five-person IT team in AV and administer Microsoft Intune, Jamf, ServiceNow and Entra ID.",
       ],
       av: [
-        'Upgraded four 20+ person meeting rooms to Neat and moved the boardroom from Crestron and Q-SYS to a full Neat and Q-SYS system with 360-degree cameras.',
-        'Repaired and upgraded six divisible Q-SYS and Crestron training rooms that hold 120+ people.',
+        '**Upgraded four 20+ person meeting rooms to Neat** and moved the boardroom from Crestron and Q-SYS to **a full Neat and Q-SYS system** with 360-degree cameras.',
+        '**Repaired and upgraded six divisible Q-SYS and Crestron training rooms** that hold 120+ people.',
         'Support 88+ Logitech meeting rooms and Shure microphone systems across the TAG network as one half of a two-person AV team.',
         'Handle AV, endpoint and connectivity problems for the C-Suite directly, often while the meeting waits.',
         'Train and technically lead the whole five-person IT team in AV.',
       ],
       asset: [
         "Designed TAG's asset processes for onboarding, shipping, returns and monthly chargebacks, then built Census to run them.",
-        'Brought 14 outside systems, including Intune, Jamf, CrowdStrike and ServiceNow, into one record per device and cataloged all 48,243 assets.',
-        'Automated FedEx labels from each checkout, chargebacks and other routine work, worth about 314 hours a month at per-task times the team agreed on.',
-        'Connected SHI orders to an onboarding queue that took in 910 assets in its first two weeks.',
+        'Brought 14 outside systems, including Intune, Jamf, CrowdStrike and ServiceNow, into **one record per device** and cataloged all 48,243 assets.',
+        'Automated FedEx labels from each checkout, chargebacks and other routine work, **worth about 314 hours a month** at per-task times the team agreed on.',
+        'Connected SHI orders to an onboarding queue that **took in 910 assets in its first two weeks**.',
         'Built nightly checks that raise, route and auto-close flags wherever two systems disagree about a device.',
         'Rolled Census out to the 36 people who use it each week. In October 2026, 11,942 changes went through it.',
       ],
       lead: [
         "Train and technically lead TAG's five-person IT team in AV, including escalation paths and system standards.",
-        'Ran the room upgrades: four Neat meeting rooms, a Neat and Q-SYS boardroom, and six divisible training rooms for 120+ people.',
-        'Designed the IT asset processes, then built and rolled out Census: 36 people use it each week, and it gives back about 314 hours a month.',
+        'Ran the room upgrades: **four Neat meeting rooms, a Neat and Q-SYS boardroom, and six divisible training rooms** for 120+ people.',
+        'Designed the IT asset processes, then built and rolled out Census: 36 people use it each week, and it **gives back about 314 hours a month**.',
         "Support TAG's C-Suite and other executives directly on AV, endpoints and connectivity.",
       ],
       software: [
         'Built Census, an asset management platform in React 19 and TypeScript with an Express gateway, MySQL on Cloud SQL and scheduled jobs on Google Cloud Run.',
-        'Integrated 14 outside systems, including Intune, Jamf, ServiceNow and FedEx, into one record per device across 48,243 assets.',
+        'Integrated 14 outside systems, including Intune, Jamf, ServiceNow and FedEx, into **one record per device** across 48,243 assets.',
         'Added Microsoft Entra ID sign-in so every change is recorded under the name of the person who made it.',
-        'Moved 41 read surfaces from REST API calls to direct SQL; one report fell from 19.5 minutes to 1.3 seconds.',
-        'Cleared all 43 SonarQube blocker and critical findings; the GitLab pipeline runs the 716 test files on every push.',
+        'Moved 41 read surfaces from REST API calls to direct SQL; **one report fell from 19.5 minutes to 1.3 seconds**.',
+        '**Cleared all 43** SonarQube blocker and critical findings; the GitLab pipeline runs the 716 test files on every push.',
       ],
     },
   },
@@ -82,7 +85,7 @@ export const JOBS = {
         'Ran break/fix for 568+ meeting rooms at six sites in the US and abroad: Cisco, Logitech and Lenovo ThinkSmart systems on Microsoft Teams, with Shure microphones.',
         'Led and mentored a team of five Level 1 technicians.',
         'Installed and programmed Crestron, Q-SYS and Biamp systems and the networking behind them.',
-        'Built a room-check app that replaced the manual round, plus an inventory tool, in Power Apps, Power Automate and Power BI.',
+        'Built a room-check app that **replaced the manual round**, plus an inventory tool, in Power Apps, Power Automate and Power BI.',
       ],
       av: [
         'Ran break/fix for 568+ meeting rooms at six sites in the US and abroad: Cisco, Logitech and Lenovo ThinkSmart systems on Microsoft Teams, with Shure microphones.',
@@ -90,7 +93,7 @@ export const JOBS = {
         'Monitored equipment health in Crestron Toolbox, Q-SYS Designer and Biamp Tesira.',
       ],
       asset: [
-        'Built a room-check app that replaced the manual round, plus an inventory tool, in Power Apps, Power Automate and Power BI.',
+        'Built a room-check app that **replaced the manual round**, plus an inventory tool, in Power Apps, Power Automate and Power BI.',
         'Supported 568+ meeting rooms across six locations in the US and abroad.',
         'Led and mentored a team of five Level 1 technicians.',
       ],
@@ -110,19 +113,19 @@ export const JOBS = {
     bullets: {
       main: [
         'Serviced Cisco rooms at five Chicago-area sites, 160+ in all, fitted with Biamp, QSC, Shure and ClickShare.',
-        'Monitored room health in Crestron XiO, Q-SYS Designer, Vyopta and ThousandEyes to catch faults before users reported them.',
+        'Monitored room health in Crestron XiO, Q-SYS Designer, Vyopta and ThousandEyes to **catch faults before users reported them**.',
         'Tracked AV assets against the ServiceNow CMDB to keep inventory records accurate.',
       ],
       av: [
         'Serviced Cisco rooms at five Chicago-area sites, 160+ in all, fitted with Biamp, QSC, Shure, Sennheiser and ClearOne.',
-        'Used Crestron XiO, Vyopta, ThousandEyes and Webex Control Hub to spot faults before users reported them.',
+        'Used Crestron XiO, Vyopta, ThousandEyes and Webex Control Hub to **spot faults before users reported them**.',
       ],
       asset: [
         'Tracked AV assets across five Chicago-area sites against the ServiceNow CMDB to keep inventory records accurate.',
         'Set up room checks in Power Apps that reported to a Power BI dashboard.',
       ],
       lead: [
-        'Worked with facilities, executive assistants and event staff to configure and integrate Accruent EMS so event scheduling matched how teams booked rooms.',
+        'Worked with facilities, executive assistants and event staff to configure and integrate Accruent EMS so **event scheduling matched how teams booked rooms**.',
         'Serviced 160+ meeting rooms across five Chicago-area sites and kept AV assets current in the ServiceNow CMDB.',
       ],
     },
@@ -136,17 +139,17 @@ export const JOBS = {
     bullets: {
       main: [
         'Configured Cisco, Logitech and Crestron systems with Shure microphones for about 144 meeting rooms in one building.',
-        'Wrote Excel VBA macros for data transfers and room testing, which removed a manual step that caused errors.',
+        'Wrote Excel VBA macros for data transfers and room testing, which **removed a manual step that caused errors**.',
       ],
       av: [
         'Configured Cisco, Logitech and Crestron systems with Shure microphones for about 144 meeting rooms in one building.',
         'Set up rooms for client meetings on Zoom, Microsoft Teams and Webex at a firm that bills by the hour.',
       ],
       asset: [
-        'Wrote Excel VBA macros for data transfers and room testing, which removed a manual step that caused errors.',
+        'Wrote Excel VBA macros for data transfers and room testing, which **removed a manual step that caused errors**.',
       ],
       lead: [
-        'Led staff demonstrations of new Excel and Office features, which raised adoption.',
+        'Led staff demonstrations of new Excel and Office features, which **raised adoption**.',
       ],
     },
   },
@@ -201,9 +204,11 @@ export const JOBS = {
     end: '2020-08',
     bullets: {
       main: [
-        'Moved the company from an on-site code repository to Bitbucket and trained staff on Git so the switch held.',
+        '**Moved the company from an on-site code repository to Bitbucket** and trained staff on Git so the switch held.',
         'Flew drones for a US Air Force collaboration on a radar system for identifying hostile drones.',
       ],
+      // No bold on this track: it wraps the bullet onto a second line, and the
+      // Software Engineer resume has no line to spare on its one page.
       software: [
         'Moved the company from an on-site code repository to Bitbucket and trained staff on Git so the switch held.',
         'Flew drones for a US Air Force collaboration on a radar system for identifying hostile drones.',

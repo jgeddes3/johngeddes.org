@@ -33,6 +33,9 @@ const CSS = `
   li { margin-bottom: 1pt; text-wrap: pretty; }
 `;
 
+// A bullet from its pieces, the marked improvement in bold.
+const rich = (pieces) => pieces.map((s) => (s.bold ? `<b>${text(s.text)}</b>` : text(s.text))).join('');
+
 function section(title, body) {
   return `<section><h2>${text(title)}</h2>${body}</section>`;
 }
@@ -44,7 +47,7 @@ function job(j) {
   return `<div class="job">
     <div class="title">${text(j.title)}</div>
     <div class="row"><span>${text(j.line)}</span><span class="right">${text(j.dates)}</span></div>
-    <ul>${j.bullets.map((b) => `<li>${text(b)}</li>`).join('')}</ul>
+    <ul>${j.rich.map((pieces) => `<li>${rich(pieces)}</li>`).join('')}</ul>
   </div>`;
 }
 
@@ -55,9 +58,10 @@ function project(p) {
   </div>`;
 }
 
+// No years here: the site files leave them out.
 function education(e) {
   return `<div class="job">
-    <div class="row"><span class="title">${text(e.school)}</span><span class="right">${text(e.dates)}</span></div>
+    <div class="title">${text(e.school)}</div>
     <p>${text(e.degree)}</p>
     ${e.note ? `<p>${text(e.note)}</p>` : ''}
   </div>`;
