@@ -35,8 +35,8 @@ export const JOBS = {
         'Upgraded four 20+ person meeting rooms to Neat and rebuilt the boardroom from Crestron and Q-SYS to Neat and Q-SYS with 360-degree cameras.',
         'Repaired and upgraded six divisible Q-SYS and Crestron training rooms that hold 120+ people.',
         'Support 88+ Logitech meeting rooms across the TAG network and handle AV and endpoint problems for the C-Suite directly.',
-        'Built Census, a React and TypeScript asset platform on Snipe-IT. It reconciles 14 outside systems into one record for each of 48,243 assets, and 36 people use it each week.',
-        'Designed the onboarding, shipping, returns and chargeback processes Census runs. Its automations give the team back about 314 hours a month.',
+        'Built Census, a React and TypeScript asset platform on Snipe-IT that reconciles 14 outside systems into one record for each of 48,243 assets; 36 people use it each week.',
+        'Designed the onboarding, shipping, returns and chargeback processes Census runs, and automated enough of them to give the team back about 314 hours a month.',
         "Train TAG's five-person IT team in AV and administer Microsoft Intune, Jamf, ServiceNow and Entra ID.",
       ],
       av: [
@@ -48,16 +48,16 @@ export const JOBS = {
       ],
       asset: [
         "Designed TAG's asset processes for onboarding, shipping, returns and monthly chargebacks, then built Census on Snipe-IT to run them.",
-        'Cataloged all 48,243 assets into one record per device, drawing on 14 outside systems including Intune, Jamf, CrowdStrike and ServiceNow.',
+        'Brought 14 outside systems, including Intune, Jamf, CrowdStrike and ServiceNow, into one record per device and cataloged all 48,243 assets.',
         'Automated FedEx labels from each checkout, chargebacks and other routine work, worth about 314 hours a month at per-task times the team agreed on.',
-        'Onboarded 910 assets from SHI orders in the first two weeks.',
+        'Connected SHI orders to an onboarding queue that took in 910 assets in its first two weeks.',
         'Built nightly checks that raise, route and auto-close flags wherever two systems disagree about a device.',
         'Rolled Census out to the 36 people who use it each week; 11,942 changes went through it in October 2026.',
       ],
       lead: [
         "Train and technically lead TAG's five-person IT team in AV, including escalation paths and system standards.",
         'Ran the room upgrades: four Neat meeting rooms, a Neat and Q-SYS boardroom, and six divisible training rooms for 120+ people.',
-        'Designed the IT asset processes and built Census to run them. It has 36 users a week and gives back about 314 hours a month.',
+        'Designed the IT asset processes, then built and rolled out Census: 36 people use it each week, and it gives back about 314 hours a month.',
         "Support TAG's C-Suite and other executives directly on AV, endpoints and connectivity.",
       ],
       software: [
@@ -65,7 +65,7 @@ export const JOBS = {
         'Integrated 14 outside systems, including Intune, Jamf, ServiceNow and FedEx, into one record per device across 48,243 assets.',
         'Added Microsoft Entra ID sign-in so every change in Snipe-IT is written as the person who made it.',
         'Moved 41 read surfaces off the Snipe-IT API onto SQL; one report fell from 19.5 minutes to 1.3 seconds.',
-        'Cleared all 43 SonarQube blocker and critical findings. The 716 test files run on every GitLab push.',
+        'Cleared all 43 SonarQube blocker and critical findings; the GitLab pipeline runs the 716 test files on every push.',
       ],
     },
   },
@@ -77,25 +77,25 @@ export const JOBS = {
     end: '2025-09',
     bullets: {
       main: [
-        'Supported 568+ meeting rooms across six locations in the US and abroad on an enterprise Microsoft Teams estate.',
+        'Ran break/fix for a Microsoft Teams estate of 568+ meeting rooms at six sites in the US and abroad.',
         'Led and mentored a team of five Level 1 technicians.',
         'Installed and programmed Crestron, Q-SYS and Biamp systems and the networking behind them.',
-        'Built a room-check app and an inventory tool in Power Apps, Power Automate and Power BI. The app replaced a manual round.',
+        'Built a room-check app that replaced the manual round, plus an inventory tool, in Power Apps, Power Automate and Power BI.',
       ],
       av: [
-        'Supported 568+ meeting rooms across six locations in the US and abroad on an enterprise Microsoft Teams estate.',
+        'Ran break/fix for a Microsoft Teams estate of 568+ meeting rooms at six sites in the US and abroad.',
         'Installed and programmed Crestron, Q-SYS and Biamp systems and the networking behind them.',
-        'Monitored equipment health in Crestron Toolbox, Q-SYS Designer and Biamp Tesira instead of waiting for tickets.',
+        'Monitored equipment health in Crestron Toolbox, Q-SYS Designer and Biamp Tesira.',
       ],
       asset: [
-        'Built a room-check app and an inventory tool in Power Apps, Power Automate and Power BI, replacing a manual round with a dashboard.',
+        'Built a room-check app that replaced the manual round, plus an inventory tool, in Power Apps, Power Automate and Power BI.',
         'Supported 568+ meeting rooms across six locations in the US and abroad.',
         'Led and mentored a team of five Level 1 technicians.',
       ],
       lead: [
         'Led and mentored a team of five Level 1 technicians.',
         'Balanced break/fix across 568+ meeting rooms at six locations against installation and programming projects.',
-        'Built a room-check app and an inventory tool in Power Apps and Power BI for the team to work from.',
+        'Built the team a room-check app and an inventory tool in Power Apps and Power BI.',
       ],
     },
   },
@@ -107,12 +107,12 @@ export const JOBS = {
     end: '2025-02',
     bullets: {
       main: [
-        'Serviced 160+ Cisco meeting rooms with Biamp, QSC, Shure and ClickShare across five Chicago-area sites.',
+        'Serviced Cisco rooms at five Chicago-area sites, 160+ in all, fitted with Biamp, QSC, Shure and ClickShare.',
         'Monitored room health in Crestron XiO, Q-SYS Designer, Vyopta and ThousandEyes to catch faults before users reported them.',
         'Tracked AV assets against the ServiceNow CMDB to keep inventory records accurate.',
       ],
       av: [
-        'Serviced 160+ meeting rooms across five Chicago-area sites on Cisco room systems with Biamp, QSC, Shure, Sennheiser and ClearOne.',
+        'Serviced Cisco rooms at five Chicago-area sites, 160+ in all, fitted with Biamp, QSC, Shure, Sennheiser and ClearOne.',
         'Used Crestron XiO, Vyopta, ThousandEyes and Webex Control Hub to spot faults before users reported them.',
       ],
       asset: [
@@ -120,7 +120,7 @@ export const JOBS = {
         'Set up room checks in Power Apps that reported to a Power BI dashboard.',
       ],
       lead: [
-        'Configured and integrated Accruent EMS with stakeholders so event scheduling matched how teams booked rooms.',
+        'Worked with stakeholders to configure and integrate Accruent EMS so event scheduling matched how teams booked rooms.',
         'Serviced 160+ meeting rooms across five Chicago-area sites and kept AV assets current in the ServiceNow CMDB.',
       ],
     },
@@ -134,17 +134,17 @@ export const JOBS = {
     bullets: {
       main: [
         'Configured Cisco and Crestron systems with Shure microphones for about 144 meeting rooms in one building.',
-        'Wrote VBA macros in Excel for data transfers and room testing. They removed a manual step that caused errors.',
+        'Removed a manual step that caused errors by writing Excel VBA macros for data transfers and room testing.',
       ],
       av: [
         'Configured Cisco and Crestron systems with Shure microphones for about 144 meeting rooms in one building.',
         'Set up rooms for client meetings on Zoom, Microsoft Teams and Webex at a firm that bills by the hour.',
       ],
       asset: [
-        'Wrote VBA macros in Excel for data transfers and room testing. They removed a manual step that caused errors.',
+        'Removed a manual step that caused errors by writing Excel VBA macros for data transfers and room testing.',
       ],
       lead: [
-        'Led demonstrations of new Office and Excel features for staff, which raised adoption.',
+        'Led staff demonstrations of new Excel and Office features that raised adoption.',
       ],
     },
   },
@@ -157,18 +157,18 @@ export const JOBS = {
     end: '2023-05',
     bullets: {
       main: [
-        'Ran AV for about six to seven campus events a week on analog mixers, Crestron systems and projectors.',
+        'Ran AV for six or seven campus events a week on analog mixers, Crestron systems and projectors.',
         'Configured and troubleshot Microsoft Teams and Zoom for video conferencing across campus.',
       ],
       av: [
-        'Ran AV for about six to seven campus events a week on analog mixers, Crestron systems and projectors.',
+        'Ran AV for six or seven campus events a week on analog mixers, Crestron systems and projectors.',
         'Worked with IT Services on maintenance and upgrades, and supported Teams and Zoom across campus.',
       ],
       asset: [
-        'Maintained campus AV equipment with IT Services while running about six to seven events a week.',
+        'Maintained campus AV equipment with IT Services while running six or seven events a week.',
       ],
       lead: [
-        'Ran AV for about six to seven campus events a week, coordinating with IT Services on maintenance and upgrades.',
+        'Ran AV for six or seven campus events a week, coordinating with IT Services on maintenance and upgrades.',
       ],
     },
   },
@@ -214,7 +214,7 @@ export const PROJECTS = {
   cipher: {
     name: 'Cipher Tracker',
     link: 'cipher-app.org',
-    text: 'React Native app for iOS and Android that encrypts every entry on the phone with AES-256, so the server only holds ciphertext. Lock-screen timers in Swift and Kotlin, 3,822 passing tests. In App Store preparation.',
+    text: 'React Native health tracker for iOS and Android that encrypts every entry on the phone with AES-256, so the server only holds ciphertext. Lock-screen timers in Swift and Kotlin, 3,822 passing tests. In App Store preparation.',
   },
   rambler: {
     name: 'Rambler Registrar',
@@ -261,7 +261,7 @@ export const TRACKS = [
     headline: 'AV Engineer',
     file: 'John_Geddes_Resume_AV_Engineer',
     pages: 1,
-    summary: 'AV engineer working since 2021 in corporate, legal, healthcare and university settings, from 20+ person meeting rooms to training rooms that seat 120+. Supports 88+ Logitech rooms at The Aspen Group.',
+    summary: 'AV engineer working since 2021 in corporate, legal, healthcare and university settings. Supports 88+ Logitech rooms at The Aspen Group and has upgraded training rooms there that seat 120+.',
     skills: [
       ['DSP and control', 'Q-SYS, Q-SYS Designer, Crestron, Crestron Toolbox, Crestron XiO, Biamp Tesira'],
       ['Video conferencing', 'Neat, Logitech, Cisco, Microsoft Teams, Zoom, Webex, ClickShare'],
@@ -288,7 +288,7 @@ export const TRACKS = [
     headline: 'IT Asset Manager',
     file: 'John_Geddes_Resume_Asset_Manager',
     pages: 1,
-    summary: "IT asset manager who built The Aspen Group's asset processes and Census, the tool that runs them, then cataloged all 48,243 assets in it. Its automations save the team about 314 hours a month.",
+    summary: "IT asset manager who built The Aspen Group's asset processes and Census, the tool that runs them, then cataloged all 48,243 assets in it. Census automations save the team about 314 hours a month.",
     skills: [
       ['IT asset management', 'Snipe-IT, ServiceNow CMDB (configuration management database), asset lifecycle, onboarding, returns, chargebacks'],
       ['Endpoint management', 'Microsoft Intune, Jamf, Microsoft Entra ID, CrowdStrike, Apple Business Manager'],
@@ -317,8 +317,8 @@ export const TRACKS = [
     pages: 1,
     summary: "Technical lead who mentored five Level 1 technicians at Discover and now trains The Aspen Group's five-person IT team in AV. Built the asset platform 36 people there use each week.",
     skills: [
-      ['Leadership', 'technical training, mentoring, project coordination, stakeholder work'],
-      ['Delivery', 'room upgrades, process design, rollouts, ServiceNow'],
+      ['Leadership', 'AV training for a five-person IT team, mentoring Level 1 technicians, escalation paths, system standards'],
+      ['Delivery', 'Neat and Q-SYS room upgrades, asset process design, Census rollout, Accruent EMS, ServiceNow'],
       ['Technical', 'Q-SYS, Crestron, Neat, Microsoft Intune, Jamf, TypeScript, React'],
     ],
     jobs: ['tag', 'discover', 'abbott', 'kirkland', 'loyola'],
