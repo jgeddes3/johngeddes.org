@@ -227,6 +227,18 @@
   text-underline-offset: 4px;
 }
 
+/* Light rose text for this page's own small text in dark mode. The site
+   accent #DE4D5B on the page background #30343F is 3.15:1, below the 4.5:1
+   that normal-size text needs. #F28B94 on #30343F is 5.27:1 (relative
+   luminance 0.395 and 0.034, so (0.395+0.05)/(0.034+0.05)).
+   The large intro and figure numbers pass 3:1 already and keep the accent.
+   The selected tab and PDF button keep their fills. Light mode is unchanged. */
+[data-theme="dark"] .resume-tab:not([aria-selected='true']),
+[data-theme="dark"] .resume-note,
+[data-theme="dark"] .resume-download.word {
+  color: #F28B94;
+}
+
 /* The paper sheet keeps its own fixed light palette in both themes. */
 .resume-sheet {
   grid-column: 1;
