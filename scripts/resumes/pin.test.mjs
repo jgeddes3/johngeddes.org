@@ -32,11 +32,18 @@ test('pinPdf gives identical bytes for PDFs printed at different times', () => {
 });
 
 test('pinPdf leaves the PDF text unchanged', async () => {
-  const before = readFileSync(pdfPath);
-  const a = await pdfText(before);
-  const b = await pdfText(pinPdf(before));
+  const restamped = restamp(readFileSync(pdfPath), '20301231235959');
+  const pinned = pinPdf(restamped);
+  assert.notDeepEqual(pinned, restamped);
+  const a = await pdfText(restamped);
+  const b = await pdfText(pinned);
   assert.equal(b.pages, a.pages);
   assert.equal(b.text, a.text);
+});
+
+test('pinPdf throws when the date fields are missing', () => {
+  assert.throws(() => pinPdf(Buffer.from('%PDF-1.4 no dates here', 'latin1')), /found 0/);
+  assert.throws(() => pinPdf(Buffer.from('/CreationDate (D:20301231235959', 'latin1')), /found 1/);
 });
 
 test('pinDocx gives identical bytes for Word files built at different times', async () => {

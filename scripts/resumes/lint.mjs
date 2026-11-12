@@ -75,7 +75,8 @@ export function lintModel(m) {
   problems.push(...lintText(e.dates, `${where} education dates`));
   if (e.note) problems.push(...lintText(e.note, `${where} education note`));
   const contact = Array.isArray(m.contact) ? m.contact : [];
-  if (!contact.length) problems.push(`${where} contact: empty`);
+  if (!Array.isArray(m.contact)) problems.push(`${where} contact: not a list of lines`);
+  else if (!contact.length) problems.push(`${where} contact: empty`);
   contact.forEach((line, i) => problems.push(...lintText(line, `${where} contact line ${i + 1}`)));
   problems.push(...lintBullets(m.jobs.flatMap((j) => j.bullets), where));
   return problems;

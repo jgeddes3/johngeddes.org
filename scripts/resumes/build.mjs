@@ -49,6 +49,7 @@ async function renderPdf(browser, model) {
 
 const rendered = [];
 const problems = [];
+const stacks = [];
 const { browser } = await launchBrowser();
 try {
   for (const [track, model] of models) {
@@ -62,6 +63,7 @@ try {
       console.log(`${found.length ? 'FAIL' : 'ok  '}  ${track.file}  (${track.pages} page${track.pages > 1 ? 's' : ''} expected)`);
     } catch (err) {
       problems.push(`${track.file}: ${err.message}`);
+      stacks.push(`${track.file}: ${err.stack || String(err)}`);
       console.log(`FAIL  ${track.file}  (${err.message})`);
     }
   }
@@ -69,17 +71,27 @@ try {
   await browser.close();
 }
 
-const dir = problems.length ? FAILED : OUT;
-if (problems.length) rmSync(FAILED, { recursive: true, force: true });
-mkdirSync(dir, { recursive: true });
-for (const { track, pdf, docx } of rendered) {
-  writeFileSync(path.join(dir, `${track.file}.pdf`), pdf);
-  writeFileSync(path.join(dir, `${track.file}.docx`), docx);
-}
-
 if (problems.length) {
   console.error('\nResume checks failed:\n  ' + problems.join('\n  '));
-  console.error(`\nNothing in public/resumes/ was changed. The files that rendered are in ${FAILED}`);
+  if (stacks.length) console.error('\nStacks:\n' + stacks.join('\n'));
+  console.error('\nNothing in public/resumes/ was changed.');
+  if (rendered.length) {
+    rmSync(FAILED, { recursive: true, force: true });
+    mkdirSync(FAILED, { recursive: true });
+    for (const { track, pdf, docx } of rendered) {
+      writeFileSync(path.join(FAILED, `${track.file}.pdf`), pdf);
+      writeFileSync(path.join(FAILED, `${track.file}.docx`), docx);
+    }
+    console.error(`The files that rendered are in ${FAILED}`);
+  } else {
+    console.error('No resume rendered, so there are no files to look at.');
+  }
   process.exit(1);
+}
+
+mkdirSync(OUT, { recursive: true });
+for (const { track, pdf, docx } of rendered) {
+  writeFileSync(path.join(OUT, `${track.file}.pdf`), pdf);
+  writeFileSync(path.join(OUT, `${track.file}.docx`), docx);
 }
 console.log(`\n${rendered.length * 2} files written to public/resumes/`);

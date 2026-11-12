@@ -6,7 +6,7 @@ import { dateRange } from './format.js';
 
 // The contact block as printed lines: one line, or two when the track adds
 // GitHub, since six items on one line wrap at an arbitrary point.
-export function contactLine(track) {
+export function contactLines(track) {
   const reach = [CONTACT.location, CONTACT.phone, CONTACT.email];
   const links = [CONTACT.site, CONTACT.linkedin];
   if (!track.github) return [[...reach, ...links].join(' · ')];
@@ -40,7 +40,7 @@ export function buildModel(track) {
     key: track.key,
     name: CONTACT.name,
     headline: track.headline,
-    contact: contactLine(track),
+    contact: contactLines(track),
     summary: track.summary,
     skills: track.skills.map(([group, items]) => ({ group, items })),
     jobs: track.jobs.map((k) => jobEntry(k, track.key, track.key)),

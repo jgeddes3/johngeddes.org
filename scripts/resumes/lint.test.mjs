@@ -164,4 +164,8 @@ test('lintModel lints every contact line', () => {
   assert.deepEqual(lintModel(m), ['k contact line 2: contains an arrow']);
   m.contact = [];
   assert.deepEqual(lintModel(m), ['k contact: empty']);
+  m.contact = 'City · example.org';
+  assert.deepEqual(lintModel(m), ['k contact: not a list of lines']);
+  m.contact = undefined;
+  assert.deepEqual(lintModel(m), ['k contact: not a list of lines']);
 });

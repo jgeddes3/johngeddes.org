@@ -81,8 +81,8 @@ test('short jobs render without bullets, in HTML and in Word', async () => {
   software.shortJobs.forEach((j) => {
     const start = html.indexOf(`<b>${j.title}</b>`);
     assert.ok(start >= 0, j.title);
-    const next = html.indexOf('<div class="job', start);
-    const block = html.slice(start, next > 0 ? next : html.indexOf('</section>', start));
+    const ends = [html.indexOf('<div class="job', start), html.indexOf('</section>', start)].filter((i) => i > 0);
+    const block = html.slice(start, Math.min(...ends));
     assert.doesNotMatch(block, /<li>|<ul>/, j.title);
   });
 

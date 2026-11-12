@@ -11,9 +11,19 @@ const PINNED_PDF = 'D:20260101000000';
 
 // A same-length replace, so the byte offsets in the PDF's cross-reference
 // table stay correct. latin1 maps every byte to one character and back.
+// The Creator and Producer strings carry the Chrome version, so a Chrome update
+// changes the PDFs even when the text does not.
 export function pinPdf(buffer) {
   const raw = Buffer.from(buffer).toString('latin1');
-  return Buffer.from(raw.replace(/\/(CreationDate|ModDate) \(D:\d{14}/g, `/$1 (${PINNED_PDF}`), 'latin1');
+  let found = 0;
+  const pinned = raw.replace(/\/(CreationDate|ModDate) \(D:\d{14}/g, (_, key) => {
+    found += 1;
+    return `/${key} (${PINNED_PDF}`;
+  });
+  if (found < 2) {
+    throw new Error(`pinPdf: expected the PDF CreationDate and ModDate fields, found ${found}. Chrome may have changed its date format.`);
+  }
+  return Buffer.from(pinned, 'latin1');
 }
 
 export async function pinDocx(buffer) {
