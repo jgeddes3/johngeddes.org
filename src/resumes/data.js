@@ -38,13 +38,13 @@ export const JOBS = {
         'Started Census in January 2026 and moved the team onto it fully that October, when 11,942 changes went through it.',
         'Upgraded four 20+ person meeting rooms to Neat and rebuilt the boardroom from Crestron and Q-SYS to Neat and Q-SYS with 360-degree cameras.',
         'Repaired and upgraded six divisible Q-SYS and Crestron training rooms that hold 120+ people.',
-        'Support 88+ Logitech meeting rooms across the TAG network and handle AV and endpoint problems for the C-Suite directly.',
+        'Support 88+ Logitech meeting rooms and Shure microphone systems across the TAG network and handle AV and endpoint problems for the C-Suite directly.',
         "Train TAG's five-person IT team in AV and administer Microsoft Intune, Jamf, ServiceNow and Entra ID.",
       ],
       av: [
         'Upgraded four 20+ person meeting rooms to Neat and moved the boardroom from Crestron and Q-SYS to a full Neat and Q-SYS system with 360-degree cameras.',
         'Repaired and upgraded six divisible Q-SYS and Crestron training rooms that hold 120+ people.',
-        'Support 88+ Logitech meeting rooms across the TAG network as one half of a two-person AV team.',
+        'Support 88+ Logitech meeting rooms and Shure microphone systems across the TAG network as one half of a two-person AV team.',
         'Handle AV, endpoint and connectivity problems for the C-Suite directly, often while the meeting waits.',
         'Train and technically lead the whole five-person IT team in AV.',
       ],
@@ -79,13 +79,13 @@ export const JOBS = {
     end: '2025-09',
     bullets: {
       main: [
-        'Ran break/fix for 568+ meeting rooms at six sites in the US and abroad: Cisco, Logitech and Lenovo systems on Microsoft Teams, with Shure microphones.',
+        'Ran break/fix for 568+ meeting rooms at six sites in the US and abroad: Cisco, Logitech and Lenovo ThinkSmart systems on Microsoft Teams, with Shure microphones.',
         'Led and mentored a team of five Level 1 technicians.',
         'Installed and programmed Crestron, Q-SYS and Biamp systems and the networking behind them.',
         'Built a room-check app that replaced the manual round, plus an inventory tool, in Power Apps, Power Automate and Power BI.',
       ],
       av: [
-        'Ran break/fix for 568+ meeting rooms at six sites in the US and abroad: Cisco, Logitech and Lenovo systems on Microsoft Teams, with Shure microphones.',
+        'Ran break/fix for 568+ meeting rooms at six sites in the US and abroad: Cisco, Logitech and Lenovo ThinkSmart systems on Microsoft Teams, with Shure microphones.',
         'Installed and programmed Crestron, Q-SYS and Biamp systems and the networking behind them.',
         'Monitored equipment health in Crestron Toolbox, Q-SYS Designer and Biamp Tesira.',
       ],
@@ -122,7 +122,7 @@ export const JOBS = {
         'Set up room checks in Power Apps that reported to a Power BI dashboard.',
       ],
       lead: [
-        'Worked with stakeholders to configure and integrate Accruent EMS so event scheduling matched how teams booked rooms.',
+        'Worked with facilities, executive assistants and event staff to configure and integrate Accruent EMS so event scheduling matched how teams booked rooms.',
         'Serviced 160+ meeting rooms across five Chicago-area sites and kept AV assets current in the ServiceNow CMDB.',
       ],
     },
@@ -239,7 +239,7 @@ export const TRACKS = [
     pages: 2,
     summary: 'AV and software engineer with a Computer Science degree. Designed and built Census, the asset management platform that tracks all 48,243 IT assets at The Aspen Group and saves its team about 314 hours a month. In AV since 2021, now supporting 88+ Logitech rooms.',
     skills: [
-      ['AV', 'Q-SYS, Crestron, Neat, Logitech, Biamp Tesira, Shure, Cisco, Microsoft Teams, Zoom, Webex'],
+      ['AV', 'Q-SYS, Crestron, Neat, Logitech, Lenovo ThinkSmart, Biamp Tesira, Shure, Cisco, Microsoft Teams, Zoom, Webex'],
       ['IT and endpoints', 'Microsoft Intune, Jamf, Microsoft Entra ID (Azure Active Directory), ServiceNow'],
       ['Software', 'TypeScript, JavaScript, React, React Native, Expo, Node.js, Express, SQL'],
       ['Cloud and data', 'Google Cloud Run, Cloud SQL (MySQL), Firebase, Firestore, Docker, GitLab CI'],
@@ -266,7 +266,7 @@ export const TRACKS = [
     summary: 'AV engineer working since 2021 in corporate, legal, healthcare and university settings. Supports 88+ Logitech rooms at The Aspen Group and has upgraded training rooms there that seat 120+.',
     skills: [
       ['DSP and control', 'Q-SYS, Q-SYS Designer, Crestron, Crestron Toolbox, Crestron XiO, Biamp Tesira'],
-      ['Video conferencing', 'Neat, Logitech, Cisco, Microsoft Teams, Zoom, Webex, ClickShare'],
+      ['Video conferencing', 'Neat, Logitech, Lenovo ThinkSmart, Cisco, Microsoft Teams, Zoom, Webex, ClickShare'],
       ['Audio', 'Shure, Sennheiser, QSC, ClearOne, analog mixers'],
       ['Monitoring', 'Vyopta, ThousandEyes, Webex Control Hub'],
       ['IT', 'Microsoft Intune, Jamf, ServiceNow CMDB, Microsoft Entra ID'],
