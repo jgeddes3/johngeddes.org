@@ -123,7 +123,7 @@ export const PAGES = {
   '/recruiters': {
     title: 'Recruiters',
     description:
-      "John Geddes' role-specific resumes for AV Engineer, Executive Technician, Manager, and Web Developer positions.",
+      "John Geddes' resumes: a two-page AV and Software Engineer resume, plus AV Engineer, IT Asset Manager, Technical Lead and Software Engineer versions, each in PDF and Word.",
     priority: 0.6,
     changefreq: 'monthly',
   },
@@ -268,13 +268,13 @@ export const PAGES = {
     title: 'Census',
     cardImage: '/src/Components/Pages/ProjectPages/ProjectPageImages/Census/census-card.webp',
     description:
-      'Aspen Census by John Geddes: the console the IT asset team works in, on top of Snipe-IT. React 19 and TypeScript, an Express gateway with Entra ID sign-in, SQL reads against the Snipe-IT database, and nightly jobs that reconcile 14 outside systems: Intune, Jamf, CrowdStrike, ServiceNow, FedEx, SHI and more.',
+      'Aspen Census by John Geddes: the asset management platform the IT asset team works in. React 19 and TypeScript, an Express gateway with Entra ID sign-in, SQL reads against the asset database, and nightly jobs that reconcile 14 outside systems: Intune, Jamf, CrowdStrike, ServiceNow, FedEx, SHI and more.',
     parent: PROJECTS,
     project: {
       name: 'Aspen Census',
       category: 'BusinessApplication',
       os: 'Web browser',
-      summary: 'The asset team console: onboarding, shipping, chargebacks and nightly checks against 14 outside systems, on top of Snipe-IT.',
+      summary: 'The asset management platform the IT asset team works in: onboarding, shipping, chargebacks and nightly checks against 14 outside systems.',
     },
     priority: 0.7,
     changefreq: 'monthly',

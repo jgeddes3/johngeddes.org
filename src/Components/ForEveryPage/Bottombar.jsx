@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './Bottombar.css';
 import LastFmRecentlyPlayed from '../../LastFmRecentlyPlayed';
 
-const Resume1 = '/Geddes_Resume_26.pdf';
+const Resume1 = '/resumes/John_Geddes_Resume.pdf';
 
 const Bottombar = () => {
     const [showOverlay, setShowOverlay] = useState(false);
@@ -90,7 +90,7 @@ const Bottombar = () => {
                 <div className="columns">
                     <div className="column">
                         <div className="column-title">More</div>
-                        <a href={Resume1} download="Audio_Visual_Engineer_Resume.pdf" className="bottom-button resume-button bottomtext1">
+                        <a href={Resume1} download="John_Geddes_Resume.pdf" className="bottom-button resume-button bottomtext1">
                                             Resume Download
                                         </a>
                         <a href="https://www.linkedin.com/in/therealjohngeddes" target="_blank" rel="noopener noreferrer" className="bottom-button linkedin-button bottomtext1">

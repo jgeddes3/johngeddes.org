@@ -24,7 +24,10 @@
     "seo:dates": "node scripts/seo-dates.mjs",
     "seo:images": "node scripts/og-images.mjs",
     "new:review": "node scripts/new-review.mjs",
-    "new:essay": "node scripts/new-essay.mjs"
+    "new:essay": "node scripts/new-essay.mjs",
+    "resumes": "node scripts/resumes/build.mjs",
+    "resumes:workday": "node scripts/resumes/workday.mjs",
+    "test:resumes": "node --test \"scripts/resumes/*.test.mjs\""
   },
   "engines": {
     "node": "22.x"
@@ -32,6 +35,9 @@
   "devDependencies": {
     "@sparticuz/chromium": "^141.0.0",
     "@vitejs/plugin-react": "^4.7.0",
+    "docx": "9.14.0",
+    "jszip": "^3.10.2",
+    "pdfjs-dist": "^4.10.38",
     "puppeteer-core": "^24.43.1",
     "vite": "^6.4.1"
   }

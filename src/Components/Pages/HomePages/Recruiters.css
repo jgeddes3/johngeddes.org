@@ -1,470 +1,430 @@
+/* Recruiters page: a heading, a short intro, five resume tabs, and the
+   selected resume set as text beside its figures and downloads. The resume
+   sheet stays a light paper page in both themes, like the printed file. */
+
 #centerpiece2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 744px;
-    height: auto;
-    min-height: 297px;
-    flex-shrink: 0;
-    margin: 160px auto 0;
-    padding: 20px;
-    box-sizing: border-box;
-    text-align: center;
-  }
-  
- .projects-description-container {
-    width: 90%;
-    max-width: 1000px;
-    font-size: 24px;
-    margin: 20px auto; /* Creates space between the header and paragraph */
-    padding: 20px;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 744px;
+  height: auto;
+  min-height: 297px;
+  flex-shrink: 0;
+  margin: 160px auto 0;
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.projects-description-container {
+  width: 90%;
+  max-width: 1000px;
+  font-size: 24px;
+  margin: 20px auto;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .projects-description {
-    font-family: 'EB Garamond', serif;
-    font-size: 25px;
-    color: var(--color-accent);
-    line-height: 1.5; /* Improve readability */
-    text-align: center; /* Optional */
+  font-family: 'EB Garamond', serif;
+  font-size: 25px;
+  color: var(--color-accent);
+  line-height: 1.5;
+  text-align: center;
 }
 
-  .main-content {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-  }
-  /* Styling the button container */
-.button-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px; /* Space between buttons */
-  margin-top: 40px;
+.main-content {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
 }
 
-/* Collapsible button styling */
-.collapsible-button {
-  width: 100%;
+.recruiters-body {
+  width: 90%;
   max-width: 1200px;
-  height: 100px;
-  background-color:var(--color-red-brand);
-  color: white;
-  font-family: 'EB Garamond', serif;
-  cursor: pointer;
-  font-size: 24px;
-  /* Only background-color transitions. Height cannot animate to or from `auto`
-     anyway, and animating it forces layout on every frame. */
-  transition: background-color 0.5s ease;
-  border-radius: 10px;
-  position: relative;
-  overflow: hidden;
-  border: none;
+  margin: 10px auto 60px;
+  display: grid;
+  gap: 28px;
 }
 
-/* Expanded state with color transition. Height is content-driven — the old
-   fixed 800px both clipped the copy and left dead space under short panels. */
-.collapsible-button.expanded {
-  height: auto;
-  padding-bottom: 30px;
-  background-color: var(--color-accent); /* New color when expanded */
-}
-
-/* The heading is a semantic wrapper only — the button inside it is absolutely
-   positioned, so this element contributes no box of its own. */
-.resume-heading {
-  margin: 0;
-  font: inherit;
-  color: inherit;
-}
-
-/* Button cover content remains at the top */
-.button-cover {
+.resume-tabs {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 100px; /* Keeps this section fixed at 100px */
-  padding: 0 20px;
-  position: absolute; /* Fix it to the top */
-  top: 0;
-  left: 0;
-  z-index: 1; /* Keep it on top */
-  /* Button reset — the cover is a real <button> for keyboard access,
-     but must look identical to the old div */
-  background: none;
-  border: none;
-  box-sizing: content-box; /* Match the old div geometry (buttons default to border-box) */
-  font: inherit;
-  color: inherit;
-  text-align: inherit;
-  cursor: pointer;
-}
-/* Left-aligned text */
-.resume-text {
-  font-size: 35px;
-  margin-left: 20px;
-  font-family: 'EB Garamond', serif;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }
 
-/* Right-aligned ellipsis with image */
-.ellipsis {
-  margin-right: 40px;
+/* scroll-margin-top (here and on the panel, the downloads and the resume's
+   links) keeps a focused element clear of the floating site nav (about 70px
+   tall, 20px from the top) when the browser scrolls it into view. */
+.resume-tab {
+  font-family: 'EB Garamond', serif;
+  font-size: 20px;
+  min-height: 44px;
+  padding: 8px 22px;
+  border-radius: 999px;
+  border: 2px solid var(--color-red-brand);
+  background: transparent;
+  color: var(--color-accent);
+  cursor: pointer;
+  scroll-margin-top: 110px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.resume-tab:hover {
+  background: var(--bg-hover);
+}
+
+.resume-tab[aria-selected='true'] {
+  background: var(--color-red-brand);
+  color: #fff;
+}
+
+.resume-tab[aria-selected='true']:hover {
+  background: var(--color-red-brand-hover);
+}
+
+.resume-tab:focus-visible,
+.resume-download:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* The aside comes first in the markup so it is read before the resume; on
+   wide screens the grid puts the sheet on the left and the aside on the
+   right. */
+.resume-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 32px;
+  align-items: start;
+  border-radius: 6px;
+  scroll-margin-top: 110px;
+}
+
+/* The panel takes focus itself, since its first content is not focusable. */
+.resume-panel:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 6px;
+}
+
+/* display:grid would otherwise override the hidden attribute. */
+.resume-panel[hidden] {
+  display: none;
+}
+
+/* top clears the floating site nav (about 70px tall, 20px from the top). */
+.resume-aside {
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  gap: 20px;
+  position: sticky;
+  top: 110px;
+}
+
+.resume-note {
+  font-family: 'EB Garamond', serif;
+  font-size: 20px;
+  line-height: 1.4;
+  color: var(--color-accent);
+  margin: 0;
+}
+
+.resume-figures {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 14px;
+}
+
+.resume-figures li {
+  border-top: 2px solid var(--color-red-brand);
+  padding-top: 6px;
+  min-width: 0;
+}
+
+.resume-figures strong {
+  display: block;
+  font-family: 'Galgine', serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.1;
+  color: var(--color-accent);
+}
+
+.resume-figures span {
+  display: block;
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  line-height: 1.3;
+  color: var(--color-text-dark);
+}
+
+.resume-downloads {
+  display: grid;
+  gap: 10px;
+}
+
+.resume-download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 2px solid var(--color-red-brand);
+  font-family: 'EB Garamond', serif;
+  font-size: 18px;
+  text-decoration: none;
+  scroll-margin-top: 110px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.resume-download.pdf {
+  background: var(--color-red-brand);
+  color: #fff;
+}
+
+.resume-download.pdf:hover {
+  background: var(--color-red-brand-hover);
+}
+
+.resume-download.word {
+  background: transparent;
+  color: var(--color-accent);
+}
+
+.resume-download.word:hover {
+  background: var(--bg-hover);
+}
+
+/* Dark mode contrast, checked with the WCAG formula:
+   white on --color-red-brand #D45558 is 4.01:1, below AA, so the filled
+   controls use --color-red-brand-hover #B5484A (5.26:1) and darken to
+   --resume-fill-hover #9E3F41 (6.48:1) on hover. Their borders take the
+   same colour as the fill, so no lighter red ring shows around them.
+   --color-accent #DE4D5B on --bg-hover #4A4F63 is 2.05:1, so the outlined
+   controls get a heavier ring and an underline on hover instead of a fill.
+   Light mode keeps the rules above. */
+[data-theme="dark"] .recruiters-body {
+  --resume-fill-hover: #9E3F41;
+}
+
+[data-theme="dark"] .resume-tab[aria-selected='true'],
+[data-theme="dark"] .resume-download.pdf {
+  background: var(--color-red-brand-hover);
+  border-color: var(--color-red-brand-hover);
+}
+
+[data-theme="dark"] .resume-tab[aria-selected='true']:hover,
+[data-theme="dark"] .resume-download.pdf:hover {
+  background: var(--resume-fill-hover);
+  border-color: var(--resume-fill-hover);
+}
+
+[data-theme="dark"] .resume-tab:not([aria-selected='true']):hover,
+[data-theme="dark"] .resume-download.word:hover {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--color-red-brand);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Light rose text for this page's own small text in dark mode. The site
+   accent #DE4D5B on the page background #30343F is 3.15:1, below the 4.5:1
+   that normal-size text needs. #F28B94 on #30343F is 5.27:1 (relative
+   luminance 0.395 and 0.034, so (0.395+0.05)/(0.034+0.05)).
+   The large intro and figure numbers pass 3:1 already and keep the accent.
+   The selected tab and PDF button keep their fills. Light mode is unchanged. */
+[data-theme="dark"] .resume-tab:not([aria-selected='true']),
+[data-theme="dark"] .resume-note,
+[data-theme="dark"] .resume-download.word {
+  color: #F28B94;
+}
+
+/* The paper sheet keeps its own fixed light palette in both themes. */
+.resume-sheet {
+  grid-column: 1;
+  grid-row: 1;
+  background: #fffdf9;
+  color: #1a1a1a;
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  padding: clamp(20px, 4vw, 48px);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 15px;
+  line-height: 1.5;
+  min-width: 0;
+  text-align: left;
+}
+
+.resume-sheet p {
+  margin: 0;
+}
+
+/* Contact and project links stay quiet on the paper: the text colour of the
+   line, an underline only on hover or focus. */
+.resume-sheet a {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 2px;
+  scroll-margin-top: 110px;
+}
+
+.resume-sheet a:hover,
+.resume-sheet a:focus-visible {
+  text-decoration: underline;
+}
+
+.resume-sheet a:focus-visible {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.rs-name {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.resume-sheet .rs-headline {
+  font-size: 18px;
+  color: #444;
+  margin: 2px 0 4px;
+}
+
+.rs-contact {
+  font-size: 13.5px;
+  color: #444;
+  overflow-wrap: anywhere;
+}
+
+.rs-h {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1a1a1a;
+  border-bottom: 1px solid #999;
+  padding-bottom: 3px;
+  margin: 22px 0 8px;
+}
+
+.rs-skills {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.rs-job {
+  margin-bottom: 14px;
+}
+
+.rs-short {
+  margin-bottom: 6px;
+}
+
+.rs-title {
+  font-weight: 700;
+}
+
+.rs-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px 12px;
+  font-size: 14px;
+  color: #444;
+}
+
+/* Long links and company lines break instead of overflowing at 320px. */
+.rs-line span {
+  overflow-wrap: anywhere;
+}
+
+.rs-job ul {
+  margin: 6px 0 0;
+  padding-left: 20px;
+}
+
+.rs-job li {
+  margin-bottom: 4px;
+}
+
+.contract-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: -10px;
+  margin-bottom: 50px;
+}
+
+.contract-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 75px;
-  height: 75px;
-  background-color: white;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.recruiter-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Collapsible content with text and PDF 100px below the button cover */
-.text-pdf-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  padding-top: 100px; /* Ensures the content appears below the button */
-  /* Compositor-only entrance, replacing the old height transition. The global
-     prefers-reduced-motion rule in index.css collapses this to nothing. */
-  animation: resume-panel-in 240ms ease-out both;
-}
-
-@keyframes resume-panel-in {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.unique-text {
-  flex: 1;
-  min-width: 0;
-  margin: 20px 30px 30px;
-  color: white;
-  font-size: 20px;
-  font-family: 'EB Garamond', serif;
-  text-align: left;
-  line-height: 1.5;
-}
-
-/* No max-height: the copy used to be clipped mid-sentence inside a scroll
-   region with no visible affordance, which just read as broken text. */
-.unique-text p {
-  margin: 0 0 14px;
-}
-
-.unique-text p:last-child {
-  margin-bottom: 0;
-}
-
-.pdf-viewer-container {
-  flex: 1;
-  position: relative;
-}
-
-.resume-viewer {
-  width: 600px;
-  height: 650px;
-  border: none;
-  margin-right: 20px;
-  margin-top: 20px;
-}
-
-/* Download button - visible on mobile, positioned on desktop */
-.download-btn {
-  display: none;
-  margin: 20px auto;
-  padding: 12px 24px;
-  background-color: var(--color-red-brand);
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-family: 'EB Garamond', serif;
-  font-size: 18px;
+  font-family: 'Galgine', serif;
+  width: 900px;
+  height: 130px;
+  font-size: 30px;
+  padding: 10px;
+  background-color: transparent;
+  color: var(--color-red-brand);
   text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  text-decoration: none;
+  border: 2px solid var(--color-red-brand);
+  border-radius: 40px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-.download-btn:hover {
-  background-color: var(--color-accent);
-}
-
-/* Show download button on mobile, hide PDF viewer */
-@media (max-width: 900px) {
-  .download-btn {
-    display: block;
-    width: 80%;
-    max-width: 250px;
-  }
-
-  .pdf-viewer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  .resume-viewer {
-    display: none;
-  }
-
-  .text-pdf-container {
-    align-items: center;
-  }
-}
-/* New Contact button styles */
-.contract-button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: -10px;
-    margin-bottom: 50px; /* Add margin to push it above the bottom bar */
-  }
-  
-  .contract-button {
-    display: flex; /* Use flexbox */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    font-family: 'Galgine', serif;
-    width: 900px; /* Make the button wider */
-    height: 130px; /* Keep height taller */
-    font-size: 30px; /* Larger text size */
-    padding: 10px;
-    background-color: transparent; /* Transparent background */
-    color: var(--color-red-brand); /* Text color */
-    text-align: center;
-    text-decoration: none;
-    border: 2px solid var(--color-red-brand); /* Add a border */
-    border-radius: 40px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
 
 .contract-button:hover {
-    background-color: var(--color-green-brand-hover); /* Change background on hover */
-    color: white; /* Text color change on hover */
-    border:var(--color-green-brand-hover);
+  background-color: var(--color-green-brand-hover);
+  color: white;
+  border-color: var(--color-green-brand-hover);
 }
 
-/* Tablet responsiveness */
 @media (max-width: 1200px) {
-  #centerpiece2 {
-    margin: 120px auto 0;
-  }
-
-  #centerpiece2 h1 {
-    font-size: 72px;
-  }
-
-  .button-container {
-    padding: 0 20px;
-  }
-
-  .contract-button {
-    width: 90%;
-    max-width: 700px;
-  }
+  #centerpiece2 { margin: 120px auto 0; }
+  #centerpiece2 h1 { font-size: 72px; }
+  .contract-button { width: 90%; max-width: 700px; }
 }
 
-/* Tablet and mobile landscape */
+/* One column: the aside sits above the sheet in markup order. */
 @media (max-width: 900px) {
-  #centerpiece2 h1 {
-    font-size: 56px;
-  }
-
-  .projects-description {
-    font-size: 20px;
-  }
-
-  .collapsible-button {
-    height: 90px;
-  }
-
-  .collapsible-button.expanded {
-    height: auto;
-    padding-bottom: 24px;
-  }
-
-  .resume-text {
-    font-size: 28px;
-    margin-left: 15px;
-  }
-
-  .ellipsis {
-    width: 60px;
-    height: 60px;
-    margin-right: 20px;
-  }
-
-  .text-pdf-container {
-    flex-direction: column;
-  }
-
-  .unique-text {
-    font-size: 18px;
-    margin: 20px;
-  }
-
-  .resume-viewer {
-    width: 100%;
-    max-width: 500px;
-    height: 550px;
-    margin: 0 auto;
-  }
-
-  .contract-button {
-    height: 100px;
-    font-size: 24px;
-  }
+  #centerpiece2 h1 { font-size: 56px; }
+  .projects-description { font-size: 20px; }
+  .resume-panel { grid-template-columns: 1fr; }
+  .resume-aside { position: static; grid-column: auto; grid-row: auto; }
+  .resume-sheet { grid-column: auto; grid-row: auto; }
+  .contract-button { height: 100px; font-size: 24px; }
 }
 
-/* Mobile portrait */
 @media (max-width: 768px) {
-  #centerpiece2 {
-    margin: 100px auto 0;
-    padding: 15px;
-  }
-
-  #centerpiece2 h1 {
-    font-size: 48px;
-  }
-
-  .projects-description {
-    font-size: 18px;
-  }
-
-  .button-container {
-    padding: 0 15px;
-    gap: 15px;
-  }
-
-  .collapsible-button {
-    height: 80px;
-  }
-
-  .button-cover {
-    height: 80px;
-    padding: 0 15px;
-  }
-
-  .resume-text {
-    font-size: 22px;
-    margin-left: 10px;
-  }
-
-  .ellipsis {
-    width: 50px;
-    height: 50px;
-    margin-right: 15px;
-  }
-
-  .collapsible-button.expanded {
-    height: auto;
-    padding-bottom: 24px;
-  }
-
-  .text-pdf-container {
-    padding-top: 80px;
-  }
-
-  .unique-text {
-    font-size: 16px;
-    margin: 15px;
-  }
-
-  .resume-viewer {
-    width: 95%;
-    height: 450px;
-  }
-
-  .contract-button {
-    width: 90%;
-    height: 90px;
-    font-size: 22px;
-  }
+  #centerpiece2 { margin: 100px auto 0; padding: 15px; }
+  #centerpiece2 h1 { font-size: 48px; }
+  .projects-description { font-size: 18px; }
+  .contract-button { width: 90%; height: 90px; font-size: 22px; }
 }
 
-/* Small mobile devices */
 @media (max-width: 480px) {
-  #centerpiece2 {
-    margin: 80px auto 0;
-    padding: 10px;
-  }
-
-  #centerpiece2 h1 {
-    font-size: 36px;
-  }
-
-  .projects-description {
-    font-size: 16px;
-  }
-
-  .button-container {
-    padding: 0 10px;
-    gap: 12px;
-  }
-
-  .collapsible-button {
-    height: 70px;
-  }
-
-  .button-cover {
-    height: 70px;
-    padding: 0 10px;
-  }
-
-  .resume-text {
-    font-size: 16px;
-    margin-left: 8px;
-  }
-
-  .ellipsis {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-  }
-
-  .collapsible-button.expanded {
-    height: auto;
-    padding-bottom: 24px;
-  }
-
-  .text-pdf-container {
-    padding-top: 70px;
-  }
-
-  .unique-text {
-    font-size: 14px;
-    margin: 10px;
-  }
-
-  .resume-viewer {
-    width: 100%;
-    height: 400px;
-  }
-
-  .contract-button {
-    width: 95%;
-    height: 70px;
-    font-size: 18px;
-  }
-
-  .contract-button-container {
-    margin-bottom: 30px;
-  }
+  #centerpiece2 { margin: 80px auto 0; padding: 10px; }
+  #centerpiece2 h1 { font-size: 36px; }
+  .projects-description { font-size: 16px; }
+  .recruiters-body { width: 100%; padding: 0 16px; box-sizing: border-box; }
+  .resume-tab { font-size: 17px; padding: 6px 14px; }
+  .resume-figures strong { font-size: 26px; }
+  .resume-sheet { font-size: 14px; }
+  .rs-name { font-size: 26px; }
+  .contract-button { width: 95%; height: 70px; font-size: 18px; }
+  .contract-button-container { margin-bottom: 30px; }
 }
