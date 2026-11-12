@@ -32,7 +32,7 @@ export const JOBS = {
     end: null,
     bullets: {
       main: [
-        'Built Census, the platform TAG tracks all 48,243 of its IT assets in; it reconciles 14 outside systems into one record per asset, and 36 people use it each week.',
+        'Built Census, the asset management platform TAG tracks all 48,243 of its IT assets in; it reconciles 14 outside systems into one record per asset, and 36 people use it each week.',
         'Designed the onboarding, shipping, returns and chargeback processes Census runs, and automated enough of them to give the team back about 314 hours a month.',
         'Wrote Census in React 19 and TypeScript with an Express gateway, MySQL on Cloud SQL and nightly jobs on Google Cloud Run: 228 API routes, 716 test files.',
         'Started Census in January 2026 and moved the team onto it fully that October, when 11,942 changes went through it.',
@@ -63,7 +63,7 @@ export const JOBS = {
         "Support TAG's C-Suite and other executives directly on AV, endpoints and connectivity.",
       ],
       software: [
-        'Built Census, a React 19 and TypeScript platform with an Express gateway, MySQL on Cloud SQL and scheduled jobs on Google Cloud Run.',
+        'Built Census, an asset management platform in React 19 and TypeScript with an Express gateway, MySQL on Cloud SQL and scheduled jobs on Google Cloud Run.',
         'Integrated 14 outside systems, including Intune, Jamf, ServiceNow and FedEx, into one record per device across 48,243 assets.',
         'Added Microsoft Entra ID sign-in so every change is recorded under the name of the person who made it.',
         'Moved 41 read surfaces from REST API calls to direct SQL; one report fell from 19.5 minutes to 1.3 seconds.',
@@ -237,7 +237,7 @@ export const TRACKS = [
     headline: 'AV and Software Engineer',
     file: 'John_Geddes_Resume',
     pages: 2,
-    summary: 'AV and software engineer with a Computer Science degree. Designed and built Census, the platform that tracks all 48,243 IT assets at The Aspen Group and saves its team about 314 hours a month. In AV since 2021, now supporting 88+ Logitech rooms.',
+    summary: 'AV and software engineer with a Computer Science degree. Designed and built Census, the asset management platform that tracks all 48,243 IT assets at The Aspen Group and saves its team about 314 hours a month. In AV since 2021, now supporting 88+ Logitech rooms.',
     skills: [
       ['AV', 'Q-SYS, Crestron, Neat, Logitech, Biamp Tesira, Shure, Cisco, Microsoft Teams, Zoom, Webex'],
       ['IT and endpoints', 'Microsoft Intune, Jamf, Microsoft Entra ID (Azure Active Directory), ServiceNow'],
@@ -290,7 +290,7 @@ export const TRACKS = [
     headline: 'IT Asset Manager',
     file: 'John_Geddes_Resume_Asset_Manager',
     pages: 1,
-    summary: "IT asset manager who built The Aspen Group's asset processes and Census, the tool that runs them, then cataloged all 48,243 assets in it. Census automations save the team about 314 hours a month.",
+    summary: "IT asset manager who built The Aspen Group's asset processes and Census, the asset management platform that runs them, then cataloged all 48,243 assets in it. Census automations save the team about 314 hours a month.",
     skills: [
       ['IT asset management', 'ServiceNow CMDB (configuration management database), asset lifecycle, onboarding, shipping, returns, chargebacks'],
       ['Endpoint management', 'Microsoft Intune, Jamf, Microsoft Entra ID, CrowdStrike, Apple Business Manager'],
@@ -317,7 +317,7 @@ export const TRACKS = [
     headline: 'Technical Lead / IT Manager',
     file: 'John_Geddes_Resume_Technical_Lead',
     pages: 1,
-    summary: "Technical lead who mentored five Level 1 technicians at Discover and now trains The Aspen Group's five-person IT team in AV. Built the asset platform 36 people there use each week.",
+    summary: "Technical lead who mentored five Level 1 technicians at Discover and now trains The Aspen Group's five-person IT team in AV. Built Census, the asset management platform 36 people there use each week.",
     skills: [
       ['Leadership', 'AV training for a five-person IT team, mentoring Level 1 technicians, escalation paths, system standards'],
       ['Delivery', 'Neat and Q-SYS room upgrades, asset process design, Census rollout, Accruent EMS, ServiceNow'],
@@ -342,7 +342,7 @@ export const TRACKS = [
     headline: 'Software Engineer',
     file: 'John_Geddes_Resume_Software_Engineer',
     pages: 1,
-    summary: 'Full-stack and mobile engineer with a Computer Science degree. Built Census, the asset platform in daily use at The Aspen Group, and Cipher Tracker, an encrypted React Native app with 3,822 passing tests.',
+    summary: 'Full-stack and mobile engineer with a Computer Science degree. Built Census, the asset management platform in daily use at The Aspen Group, and Cipher Tracker, an encrypted React Native app with 3,822 passing tests.',
     skills: [
       ['Languages', 'TypeScript, JavaScript, SQL, Python, Swift, Kotlin, HTML, CSS'],
       ['Frontend and mobile', 'React, Next.js, Vite, Tailwind CSS, React Native, Expo, EAS Build, iOS Live Activities'],
