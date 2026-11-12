@@ -30,3 +30,6 @@ yarn-error.log*
 
 # Windows reserved device name
 nul
+
+# Workday upload copies of the resumes (npm run resumes:workday)
+/resumes-workday/

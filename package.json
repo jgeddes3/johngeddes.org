@@ -26,6 +26,7 @@
     "new:review": "node scripts/new-review.mjs",
     "new:essay": "node scripts/new-essay.mjs",
     "resumes": "node scripts/resumes/build.mjs",
+    "resumes:workday": "node scripts/resumes/workday.mjs",
     "test:resumes": "node --test \"scripts/resumes/*.test.mjs\""
   },
   "engines": {
