@@ -92,27 +92,68 @@ const ALL_IMAGES = [
   { src: img43, name: 'Wrigley Field, Chicago' },
 ];
 
+const ROTATE_MS = 20 * 1000;
+const FADE_MS = 400;
+
+// Two different photos, neither of them one of the pair being replaced.
+const pickPair = (exclude = []) => {
+  const pool = ALL_IMAGES.filter((img) => !exclude.includes(img));
+  const first = Math.floor(Math.random() * pool.length);
+  let second = Math.floor(Math.random() * (pool.length - 1));
+  if (second >= first) second += 1;
+  return [pool[first], pool[second]];
+};
+
+// Resolves once the photo is decoded, so a swap never shows a half-loaded image.
+const preload = ({ src }) => {
+  const img = new Image();
+  img.src = src;
+  return img.decode().catch(() => {});
+};
+
 const ImageRectangles = () => {
   const [randomImages, setRandomImages] = useState([]);
+  const [swapping, setSwapping] = useState(false);
 
   useEffect(() => {
     // The static snapshot keeps the empty rectangles so hydration matches;
     // the random pair arrives after mount, as it always has.
     if (isPrerendering()) return;
-    const getRandomImages = () => {
-      let randomIndexes = [];
-      while (randomIndexes.length < 2) {
-        const rand = Math.floor(Math.random() * ALL_IMAGES.length);
-        if (randomIndexes.indexOf(rand) === -1) randomIndexes.push(rand);
-      }
-      return [ALL_IMAGES[randomIndexes[0]], ALL_IMAGES[randomIndexes[1]]];
+    let current = pickPair();
+    setRandomImages(current);
+
+    // Like the project carousel, don't auto-advance for reduced motion.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let cancelled = false;
+    let busy = false;
+    let fadeTimer;
+    const interval = setInterval(() => {
+      if (document.hidden || busy) return;
+      busy = true;
+      const next = pickPair(current);
+      Promise.all(next.map(preload)).then(() => {
+        if (cancelled) return;
+        setSwapping(true);
+        fadeTimer = setTimeout(() => {
+          current = next;
+          setRandomImages(next);
+          setSwapping(false);
+          busy = false;
+        }, FADE_MS);
+      });
+    }, ROTATE_MS);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+      clearTimeout(fadeTimer);
     };
-    setRandomImages(getRandomImages());
   }, []);
+
+  const swapClass = swapping ? ' is-swapping' : '';
 
   return (
     <>
-      <div className="Aboutimgrects">
+      <div className={`Aboutimgrects${swapClass}`}>
         <div className="Aboutimgrect">
           {randomImages[0] && (
             <>
@@ -122,7 +163,7 @@ const ImageRectangles = () => {
           )}
         </div>
       </div>
-      <div className="Aboutimgrects2">
+      <div className={`Aboutimgrects2${swapClass}`}>
         <div className="Aboutimgrect2">
           {randomImages[1] && (
             <>
