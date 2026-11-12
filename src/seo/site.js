@@ -92,7 +92,7 @@ export const PAGES = {
   '/contracts': {
     title: 'Contracts',
     description:
-      "John Geddes' contract services, skills, rates, and previous projects as an AV and software engineer in Chicago.",
+      'Contract work from John Geddes in Chicago: websites, AV for live events and small venues, and software. See past projects and how to get a quote.',
     priority: 0.7,
     changefreq: 'monthly',
   },

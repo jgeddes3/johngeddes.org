@@ -1,68 +1,100 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
 import SEO from '../../ForEveryPage/SEO';
+import headshot from './ContractsImages/headshot.webp';
+import signature from './ContractsImages/signature.webp';
 import './Contracts.css';
-import ContractSlide1 from './ContractsSlides/ContractSlide1';
-import ContractSlide2 from './ContractsSlides/ContractSlide2';
-import ContentSlide3 from './ContractsSlides/ContractSlide3';
 
-const SLIDES = [
-  { Component: ContractSlide1, color: '#3a7243', label: 'Skills' },
-  { Component: ContractSlide2, color: '#618e68', label: 'Rates and contact' },
-  { Component: ContentSlide3,  color: '#88aa8e', label: 'More of my work' },
+const EMAIL = 'johngeddes@pm.me';
+const MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent('Contract work')}`;
+
+const SERVICES = [
+  {
+    name: 'Websites',
+    text: 'I design the site, build it and put it live, with the search engine setup done as part of the job.',
+  },
+  {
+    name: 'AV',
+    text: 'I run sound boards and cameras for live events, set up and run live streams, and design AV systems for small venues. I also work on the installed systems listed below. This is AV work only, not computer repair.',
+  },
+  {
+    name: 'Software',
+    text: 'Internal tools, asset tracking, automations and mobile apps, close to the projects shown further down this page.',
+  },
+];
+
+const SYSTEMS = [
+  'Q-SYS', 'Crestron', 'Extron', 'Biamp', 'Shure', 'Sennheiser', 'Yealink',
+  'Logitech', 'Neat', 'Cisco', 'Lenovo ThinkSmart', 'Planar', 'Samsung',
+];
+
+// Internal links carry `to`, outside ones `href`.
+const WORK = [
+  {
+    kind: 'Software',
+    name: 'Census',
+    text: "The asset management platform The Aspen Group's IT asset team works in. It tracks 48,243 assets, and 36 people use it each week.",
+    links: [{ label: 'Project page', to: '/Census' }],
+  },
+  {
+    kind: 'Mobile app and website',
+    name: 'Cipher Tracker',
+    text: 'A health and habit tracker for iOS and Android. Every entry is encrypted on the phone. I also built the site that markets it.',
+    links: [
+      { label: 'Project page', to: '/CipherTracker' },
+      { label: 'cipher-app.org', href: 'https://cipher-app.org' },
+    ],
+  },
+  {
+    kind: 'Mobile app and website',
+    name: 'Rambler Registrar',
+    text: 'A course scheduling app for Loyola University Chicago students that builds schedules from live catalog data, with its own website.',
+    links: [
+      { label: 'Project page', to: '/RamblerRegistrar' },
+      { label: 'ramblerregistrar.com', href: 'https://www.ramblerregistrar.com/' },
+    ],
+  },
+  {
+    kind: 'Product design',
+    name: 'GateKeep',
+    text: "A planned marketplace for one city's live music: musician and venue profiles, gig booking and ticketing. It has not launched, so the page shows the plan and the screen designs.",
+    links: [{ label: 'Project page', to: '/GateKeep' }],
+  },
+  {
+    kind: 'Website',
+    name: 'This site',
+    text: 'I designed and built johngeddes.org. Each page is generated ahead of time, so search engines and slow phones get the whole page in the first response.',
+    links: [{ label: 'All projects', to: '/projects' }],
+  },
+  {
+    kind: 'AV',
+    name: 'Enterprise AV',
+    text: 'At The Aspen Group I support 88+ Logitech meeting rooms and rebuilt the boardroom on Neat and Q-SYS. Before that I ran AV for six or seven campus events a week at Loyola University Chicago.',
+    links: [{ label: 'AV resume', to: '/recruiters?role=av' }],
+  },
+];
+
+const STEPS = [
+  'Email me what you need.',
+  'We talk it through. For AV work I come and see the room.',
+  'I send you a written quote.',
+  'I do the work and hand it over.',
 ];
 
 const ContractsPage = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [showButtons, setShowButtons] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
-  }, []);
-
-  const previousSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
-  }, []);
-
-  const firstSlide = useCallback(() => setCurrentSlide(0), []);
-  const lastSlide  = useCallback(() => setCurrentSlide(SLIDES.length - 1), []);
-
-  useEffect(() => {
-    // Delay showing nav buttons by 0.5s after slide change
-    const timer = setTimeout(() => setShowButtons(true), 500);
-    return () => {
-      clearTimeout(timer);
-      setShowButtons(false);
-    };
-  }, [currentSlide]);
-
-  // Keyboard navigation — arrow keys, Home, End
-  useEffect(() => {
-    const handleKey = (e) => {
-      // Don't hijack keys when the user is typing in an input
-      const target = e.target;
-      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
-        return;
-      }
-      if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        nextSlide();
-      } else if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        previousSlide();
-      } else if (e.key === 'Home') {
-        e.preventDefault();
-        firstSlide();
-      } else if (e.key === 'End') {
-        e.preventDefault();
-        lastSlide();
-      }
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [nextSlide, previousSlide, firstSlide, lastSlide]);
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(EMAIL);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    } catch {
+      /* clipboard API unavailable: the address is on the button beside this one */
+    }
+  };
 
   return (
     <>
@@ -73,90 +105,103 @@ const ContractsPage = () => {
       </div>
       <div className="projects-description-container">
         <p className="projects-description main-content">
-          Like what you see? Go through the slides to see all the skills I bring to the table, my rates, and how to contact me, as well as previous projects I've worked on.
+          I take contract work in websites, AV and software. I am based in Chicago, and web
+          and software work is remote.
         </p>
       </div>
 
-      <div
-        className="slideshow-container main-content"
-        role="region"
-        aria-roledescription="carousel"
-        aria-label="Contract services"
-      >
-        {SLIDES.map(({ Component, color, label }, index) => {
-          const isActive = index === currentSlide;
-          return (
-            <div
-              key={index}
-              className={`slide ${isActive ? 'active' : 'collapsed'}`}
-              style={{ backgroundColor: color }}
-              role="group"
-              aria-roledescription="slide"
-              aria-label={`${label} (${index + 1} of ${SLIDES.length})`}
-              aria-hidden={!isActive}
-            >
-              <Component active={isActive} />
+      <div className="contracts-body">
+        <section className="contracts-panel contracts-opener main-content" aria-labelledby="contracts-services">
+          <div className="contracts-portrait">
+            <div className="contracts-headshot-wrap">
+              <img
+                src={headshot}
+                alt="John Geddes"
+                className="contracts-headshot"
+                width="800"
+                height="566"
+                decoding="async"
+              />
+              <img
+                src={signature}
+                alt=""
+                aria-hidden="true"
+                className="contracts-signature"
+                width="400"
+                height="400"
+                decoding="async"
+              />
             </div>
-          );
-        })}
+            <p className="contracts-name">John Geddes</p>
+          </div>
+          <div className="contracts-services">
+            <h2 id="contracts-services">What I take on</h2>
+            <ul>
+              {SERVICES.map((s) => (
+                <li key={s.name}>
+                  <h3>{s.name}</h3>
+                  <p>{s.text}</p>
+                </li>
+              ))}
+            </ul>
+            <a className="contracts-jump" href="#contact">Get in touch</a>
+          </div>
+        </section>
 
-        {/* Left Navigation (Previous and First buttons) */}
-        <div className={`navigation-buttons-left ${showButtons ? 'visible' : ''}`}>
-          {currentSlide > 0 && (
-            <>
-              <button
-                type="button"
-                className="previous-button"
-                onClick={previousSlide}
-                aria-label="Previous slide"
-              ></button>
-              {currentSlide === SLIDES.length - 1 && (
-                <button
-                  type="button"
-                  className="previous-button first"
-                  onClick={firstSlide}
-                  aria-label="First slide"
-                ></button>
-              )}
-            </>
-          )}
-        </div>
+        <section className="contracts-section main-content" aria-labelledby="contracts-systems">
+          <h2 id="contracts-systems">Systems I have worked on</h2>
+          <ul className="contracts-systems">
+            {SYSTEMS.map((name) => <li key={name}>{name}</li>)}
+          </ul>
+        </section>
 
-        <div className={`navigation-buttons-right ${showButtons ? 'visible' : ''}`}>
-          {currentSlide < SLIDES.length - 1 && (
-            <>
-              <button
-                type="button"
-                className="next-button"
-                onClick={nextSlide}
-                aria-label="Next slide"
-              ></button>
-              {currentSlide === 0 && (
-                <button
-                  type="button"
-                  className="next-button last"
-                  onClick={lastSlide}
-                  aria-label="Last slide"
-                ></button>
-              )}
-            </>
-          )}
-        </div>
-      </div>
+        <section className="contracts-section main-content" aria-labelledby="contracts-work">
+          <h2 id="contracts-work">What I have built</h2>
+          <ul className="contracts-work">
+            {WORK.map((w) => (
+              <li key={w.name} className="contracts-card">
+                <p className="contracts-kind">{w.kind}</p>
+                <h3>{w.name}</h3>
+                <p className="contracts-card-text">{w.text}</p>
+                <p className="contracts-card-links">
+                  {w.links.map((l) => (l.to
+                    ? <Link key={l.label} to={l.to}>{l.label}</Link>
+                    : <a key={l.label} href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>))}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
 
-      {/* Dot indicators */}
-      <div className="slideshow-dots" role="tablist" aria-label="Slide indicators">
-        {SLIDES.map((slide, index) => (
-          <button
-            key={index}
-            type="button"
-            className={`slideshow-dot ${index === currentSlide ? 'active' : ''}`}
-            onClick={() => setCurrentSlide(index)}
-            role="tab"
-            aria-selected={index === currentSlide}
-            aria-label={`Go to slide ${index + 1}: ${slide.label}`}
-          />
-        ))}
+        <section className="contracts-section main-content" aria-labelledby="contracts-steps">
+          <h2 id="contracts-steps">How it works</h2>
+          <ol className="contracts-steps">
+            {STEPS.map((step, i) => (
+              <li key={step}>
+                <span className="contracts-step-number" aria-hidden="true">{i + 1}</span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="contracts-rates">
+            Rates are competitive and quoted per job once we have talked through the scope.
+          </p>
+        </section>
+
+        <section id="contact" className="contracts-panel contracts-contact main-content" aria-labelledby="contracts-contact">
+          <h2 id="contracts-contact">Get in touch</h2>
+          <p>
+            Send a few lines on what the job is, where it is if it is AV work, and when you
+            need it done.
+          </p>
+          <div className="contracts-contact-buttons">
+            <a className="contracts-email" href={MAILTO}>Email {EMAIL}</a>
+            <button type="button" className="contracts-copy" onClick={copyEmail}>
+              {copied ? 'Copied' : 'Copy address'}
+            </button>
+          </div>
+          <span className="contracts-status" role="status">{copied ? 'Email address copied' : ''}</span>
+        </section>
       </div>
 
       <div className="bottom-buttons-container">
