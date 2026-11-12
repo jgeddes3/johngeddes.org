@@ -1,6 +1,33 @@
 import React from 'react';
 import { buildModel } from '../../../resumes/model';
 
+// The link a piece of contact or project text points to, or null when it is
+// plain text (the location). The visible text never changes, so the page
+// still reads exactly like the PDF.
+const hrefFor = (text) => {
+  if (text.includes('@')) return `mailto:${text}`;
+  const digits = text.replace(/\D/g, '');
+  if (/^[\d\s().+-]+$/.test(text) && digits.length === 10) return `tel:+1${digits}`;
+  if (/^[a-z0-9-]+(\.[a-z0-9-]+)+(\/\S*)?$/i.test(text)) return `https://${text}`;
+  return null;
+};
+
+const Linked = ({ text }) => {
+  const href = hrefFor(text);
+  return href ? <a href={href}>{text}</a> : text;
+};
+
+const ContactLine = ({ line }) => (
+  <p className="rs-contact">
+    {line.split(' · ').map((part, i) => (
+      <React.Fragment key={part}>
+        {i > 0 && ' · '}
+        <Linked text={part} />
+      </React.Fragment>
+    ))}
+  </p>
+);
+
 // The resume as real text on the page, from the same model as the PDF and
 // Word files, so what a recruiter reads here is what they download.
 // A job with no bullets (the short entries on the Software Engineer resume)
@@ -37,7 +64,7 @@ const ResumeSheet = ({ track }) => {
       <header>
         <h2 className="rs-name">{m.name}</h2>
         <p className="rs-headline">{m.headline}</p>
-        {m.contact.map((line, i) => <p className="rs-contact" key={i}>{line}</p>)}
+        {m.contact.map((line, i) => <ContactLine line={line} key={i} />)}
       </header>
       <section>
         <h3 className="rs-h">Summary</h3>
@@ -62,7 +89,7 @@ const ResumeSheet = ({ track }) => {
             <div className="rs-job" key={p.name}>
               <p className="rs-line">
                 <span className="rs-title">{p.name}</span>
-                <span>{p.link}</span>
+                <span><Linked text={p.link} /></span>
               </p>
               <p>{p.text}</p>
             </div>

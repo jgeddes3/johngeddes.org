@@ -10,6 +10,9 @@ test('legacy keys map to current tracks', () => {
   assert.equal(resolveRole('web'), 'software');
   assert.equal(resolveRole('manager'), 'lead');
   assert.equal(resolveRole('executive'), 'main');
+  assert.equal(resolveRole('dev'), 'software');
+  assert.equal(resolveRole('mgmt'), 'lead');
+  assert.equal(resolveRole('exec'), 'main');
 });
 
 test('missing or unknown falls back to main', () => {

@@ -231,7 +231,7 @@ export const PROJECTS = {
 export const TRACKS = [
   {
     key: 'main',
-    label: 'Main resume',
+    label: 'Main Resume',
     headline: 'AV and Software Engineer',
     file: 'John_Geddes_Resume',
     pages: 2,

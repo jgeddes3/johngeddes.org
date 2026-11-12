@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import Background from '../../ForEveryPage/Background';
 import PageFooter from '../../ForEveryPage/PageFooter';
@@ -11,9 +11,11 @@ import './Recruiters.css';
 const RecruitersPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   // The build prerenders /recruiters with no ?role=, so the first render must
-  // match it (main) or hydration breaks. After mount, the URL decides.
+  // match it (main) or hydration breaks. After mount, the URL decides. A layout
+  // effect re-renders before the browser paints, so arriving at ?role= from
+  // inside the app never flashes the main resume first.
   const [hydrated, setHydrated] = useState(false);
-  useEffect(() => { setHydrated(true); }, []);
+  useLayoutEffect(() => { setHydrated(true); }, []);
   const active = hydrated ? resolveRole(searchParams.get('role')) : 'main';
   const tabRefs = useRef({});
 
@@ -47,9 +49,9 @@ const RecruitersPage = () => {
       </div>
       <div className="projects-description-container">
         <p className="projects-description main-content">
-          I work in enterprise AV and I build software, currently at The Aspen Group in
-          Chicago. Start with the main resume, or pick the version written for the role you
-          are hiring for. Each one downloads as a PDF or a Word file.
+          I work in enterprise AV and build software, currently at The Aspen Group in
+          Chicago. Start with the main resume or pick the one written for your role, then
+          download it as a PDF or a Word file.
         </p>
       </div>
       <div className="recruiters-body main-content">
@@ -73,7 +75,10 @@ const RecruitersPage = () => {
           ))}
         </div>
         {/* Every panel stays in the DOM so the prerendered page carries all
-            five resumes; only the active one is shown. */}
+            five resumes; only the active one is shown. The panel takes focus
+            itself (tabIndex 0) because its first content is not focusable.
+            The aside comes first so the note and downloads are read before
+            the resume; on wide screens the grid places it in the right column. */}
         {TRACKS.map((t) => (
           <section
             key={t.key}
@@ -81,9 +86,9 @@ const RecruitersPage = () => {
             id={`resume-panel-${t.key}`}
             aria-labelledby={`resume-tab-${t.key}`}
             hidden={active !== t.key}
+            tabIndex={0}
             className="resume-panel"
           >
-            <ResumeSheet track={t} />
             <aside className="resume-aside">
               <p className="resume-note">{t.note}</p>
               <ul className="resume-figures">
@@ -100,6 +105,7 @@ const RecruitersPage = () => {
                 </a>
               </div>
             </aside>
+            <ResumeSheet track={t} />
           </section>
         ))}
       </div>

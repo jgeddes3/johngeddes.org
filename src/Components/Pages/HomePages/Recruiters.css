@@ -56,6 +56,9 @@
   gap: 10px;
 }
 
+/* scroll-margin-top keeps a focused tab or download clear of the floating
+   site nav (about 70px tall, 20px from the top) when the browser scrolls it
+   into view. */
 .resume-tab {
   font-family: 'EB Garamond', serif;
   font-size: 20px;
@@ -66,6 +69,7 @@
   background: transparent;
   color: var(--color-accent);
   cursor: pointer;
+  scroll-margin-top: 110px;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -88,11 +92,21 @@
   outline-offset: 3px;
 }
 
+/* The aside comes first in the markup so it is read before the resume; on
+   wide screens the grid puts the sheet on the left and the aside on the
+   right. */
 .resume-panel {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 280px;
   gap: 32px;
   align-items: start;
+  border-radius: 6px;
+}
+
+/* The panel takes focus itself, since its first content is not focusable. */
+.resume-panel:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 6px;
 }
 
 /* display:grid would otherwise override the hidden attribute. */
@@ -100,11 +114,14 @@
   display: none;
 }
 
+/* top clears the floating site nav (about 70px tall, 20px from the top). */
 .resume-aside {
+  grid-column: 2;
+  grid-row: 1;
   display: grid;
   gap: 20px;
   position: sticky;
-  top: 24px;
+  top: 110px;
 }
 
 .resume-note {
@@ -163,6 +180,7 @@
   font-family: 'EB Garamond', serif;
   font-size: 18px;
   text-decoration: none;
+  scroll-margin-top: 110px;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -184,8 +202,35 @@
   background: var(--bg-hover);
 }
 
+/* Dark mode contrast, checked with the WCAG formula:
+   white on --color-red-brand #D45558 is 4.01:1, below AA, so the filled
+   controls use --color-red-brand-hover #B5484A (5.26:1) and darken to
+   #9E3F41 (6.48:1) on hover.
+   --color-accent #DE4D5B on --bg-hover #4A4F63 is 2.05:1, so the outlined
+   controls get a heavier ring and an underline on hover instead of a fill.
+   Light mode keeps the rules above. */
+[data-theme="dark"] .resume-tab[aria-selected='true'],
+[data-theme="dark"] .resume-download.pdf {
+  background: var(--color-red-brand-hover);
+}
+
+[data-theme="dark"] .resume-tab[aria-selected='true']:hover,
+[data-theme="dark"] .resume-download.pdf:hover {
+  background: #9E3F41;
+}
+
+[data-theme="dark"] .resume-tab:not([aria-selected='true']):hover,
+[data-theme="dark"] .resume-download.word:hover {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--color-red-brand);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 /* The paper sheet keeps its own fixed light palette in both themes. */
 .resume-sheet {
+  grid-column: 1;
+  grid-row: 1;
   background: #fffdf9;
   color: #1a1a1a;
   border-radius: 6px;
@@ -202,6 +247,25 @@
   margin: 0;
 }
 
+/* Contact and project links stay quiet on the paper: the text colour of the
+   line, an underline only on hover or focus. */
+.resume-sheet a {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+.resume-sheet a:hover,
+.resume-sheet a:focus-visible {
+  text-decoration: underline;
+}
+
+.resume-sheet a:focus-visible {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 .rs-name {
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 30px;
@@ -210,10 +274,10 @@
   margin: 0;
 }
 
-.rs-headline {
+.resume-sheet .rs-headline {
   font-size: 18px;
   color: #444;
-  margin: 2px 0 4px !important;
+  margin: 2px 0 4px;
 }
 
 .rs-contact {
@@ -263,6 +327,11 @@
   color: #444;
 }
 
+/* Long links and company lines break instead of overflowing at 320px. */
+.rs-line span {
+  overflow-wrap: anywhere;
+}
+
 .rs-job ul {
   margin: 6px 0 0;
   padding-left: 20px;
@@ -300,7 +369,7 @@
 .contract-button:hover {
   background-color: var(--color-green-brand-hover);
   color: white;
-  border: var(--color-green-brand-hover);
+  border-color: var(--color-green-brand-hover);
 }
 
 @media (max-width: 1200px) {
@@ -309,11 +378,13 @@
   .contract-button { width: 90%; max-width: 700px; }
 }
 
+/* One column: the aside sits above the sheet in markup order. */
 @media (max-width: 900px) {
   #centerpiece2 h1 { font-size: 56px; }
   .projects-description { font-size: 20px; }
   .resume-panel { grid-template-columns: 1fr; }
-  .resume-aside { position: static; order: -1; }
+  .resume-aside { position: static; grid-column: auto; grid-row: auto; }
+  .resume-sheet { grid-column: auto; grid-row: auto; }
   .contract-button { height: 100px; font-size: 24px; }
 }
 

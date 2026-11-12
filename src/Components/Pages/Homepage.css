@@ -187,3 +187,33 @@
   }
 }
 
+/* The values the homepage rendered with before the Recruiters rebuild: the
+   old Recruiters.css set these global .button-container rules and loaded
+   after this file. Copied here as they were so the homepage keeps its look. */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; /* Space between buttons */
+  margin-top: 40px;
+}
+
+@media (max-width: 1200px) {
+  .button-container {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .button-container {
+    padding: 0 15px;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .button-container {
+    padding: 0 10px;
+    gap: 12px;
+  }
+}
