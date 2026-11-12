@@ -35,8 +35,8 @@ export const JOBS = {
         'Upgraded four 20+ person meeting rooms to Neat and rebuilt the boardroom from Crestron and Q-SYS to Neat and Q-SYS with 360-degree cameras.',
         'Repaired and upgraded six divisible Q-SYS and Crestron training rooms that hold 120+ people.',
         'Support 88+ Logitech meeting rooms across the TAG network and handle AV and endpoint problems for the C-Suite directly.',
-        'Built Census, a React and TypeScript asset platform on Snipe-IT that reconciles 14 outside systems across 48,243 assets and is used by 36 people each week.',
-        'Designed the onboarding, shipping, returns and chargeback processes Census runs, giving the team back about 314 hours a month.',
+        'Built Census, a React and TypeScript asset platform on Snipe-IT. It reconciles 14 outside systems into one record for each of 48,243 assets, and 36 people use it each week.',
+        'Designed the onboarding, shipping, returns and chargeback processes Census runs. Its automations give the team back about 314 hours a month.',
         "Train TAG's five-person IT team in AV and administer Microsoft Intune, Jamf, ServiceNow and Entra ID.",
       ],
       av: [
@@ -44,28 +44,28 @@ export const JOBS = {
         'Repaired and upgraded six divisible Q-SYS and Crestron training rooms that hold 120+ people.',
         'Support 88+ Logitech meeting rooms across the TAG network as one half of a two-person AV team.',
         'Handle AV, endpoint and connectivity problems for the C-Suite directly, often while the meeting waits.',
-        'Train the five-person IT team in AV systems, room standards and escalation paths.',
+        'Train and technically lead the whole five-person IT team in AV.',
       ],
       asset: [
         "Designed TAG's asset processes for onboarding, shipping, returns and monthly chargebacks, then built Census on Snipe-IT to run them.",
-        'Cataloged all 48,243 assets into one record per device, reconciled each night against 14 systems including Intune, Jamf, CrowdStrike and ServiceNow.',
-        'Automated routine asset work that gives the team back about 314 hours a month, using per-task times the team agreed on.',
-        'Onboarded 910 assets in the first two weeks straight from SHI orders, with FedEx labels created from each checkout.',
+        'Cataloged all 48,243 assets into one record per device, drawing on 14 outside systems including Intune, Jamf, CrowdStrike and ServiceNow.',
+        'Automated FedEx labels from each checkout, chargebacks and other routine work, worth about 314 hours a month at per-task times the team agreed on.',
+        'Onboarded 910 assets from SHI orders in the first two weeks.',
         'Built nightly checks that raise, route and auto-close flags wherever two systems disagree about a device.',
-        'Rolled Census out to the 36 people who use it each week; 11,942 asset changes went through it in October 2026.',
+        'Rolled Census out to the 36 people who use it each week; 11,942 changes went through it in October 2026.',
       ],
       lead: [
-        "Train and technically lead TAG's five-person IT team in AV, covering room standards, escalation and first-line fixes.",
+        "Train and technically lead TAG's five-person IT team in AV, including escalation paths and system standards.",
         'Ran the room upgrades: four Neat meeting rooms, a Neat and Q-SYS boardroom, and six divisible training rooms for 120+ people.',
-        'Designed the IT asset processes and built Census, now used by 36 people each week and giving back about 314 hours a month.',
-        'Support the C-Suite and executive leadership directly on AV, endpoints and connectivity.',
+        'Designed the IT asset processes and built Census to run them. It has 36 users a week and gives back about 314 hours a month.',
+        "Support TAG's C-Suite and other executives directly on AV, endpoints and connectivity.",
       ],
       software: [
         'Built Census, a React 19 and TypeScript platform on Snipe-IT with an Express gateway, MySQL on Cloud SQL and scheduled jobs on Google Cloud Run.',
         'Integrated 14 outside systems, including Intune, Jamf, ServiceNow and FedEx, into one record per device across 48,243 assets.',
         'Added Microsoft Entra ID sign-in so every change in Snipe-IT is written as the person who made it.',
-        'Moved 41 read surfaces from the Snipe-IT API to SQL, taking a year of history from 19.5 minutes to 1.3 seconds.',
-        'Took SonarQube blocker and critical findings from 43 to zero, with 716 test files run on every GitLab push.',
+        'Moved 41 read surfaces off the Snipe-IT API onto SQL; one report fell from 19.5 minutes to 1.3 seconds.',
+        'Cleared all 43 SonarQube blocker and critical findings. The 716 test files run on every GitLab push.',
       ],
     },
   },
@@ -78,9 +78,9 @@ export const JOBS = {
     bullets: {
       main: [
         'Supported 568+ meeting rooms across six locations in the US and abroad on an enterprise Microsoft Teams estate.',
-        'Led and mentored a team of five Level 1 technicians, setting troubleshooting practice for the group.',
+        'Led and mentored a team of five Level 1 technicians.',
         'Installed and programmed Crestron, Q-SYS and Biamp systems and the networking behind them.',
-        'Built a room-check app and an inventory tool in Power Apps, Power Automate and Power BI, replacing a manual round.',
+        'Built a room-check app and an inventory tool in Power Apps, Power Automate and Power BI. The app replaced a manual round.',
       ],
       av: [
         'Supported 568+ meeting rooms across six locations in the US and abroad on an enterprise Microsoft Teams estate.',
@@ -90,10 +90,10 @@ export const JOBS = {
       asset: [
         'Built a room-check app and an inventory tool in Power Apps, Power Automate and Power BI, replacing a manual round with a dashboard.',
         'Supported 568+ meeting rooms across six locations in the US and abroad.',
-        'Led and mentored a team of five Level 1 technicians, setting troubleshooting practice for the group.',
+        'Led and mentored a team of five Level 1 technicians.',
       ],
       lead: [
-        'Led and mentored a team of five Level 1 technicians, setting troubleshooting practice for the group.',
+        'Led and mentored a team of five Level 1 technicians.',
         'Balanced break/fix across 568+ meeting rooms at six locations against installation and programming projects.',
         'Built a room-check app and an inventory tool in Power Apps and Power BI for the team to work from.',
       ],
@@ -107,20 +107,20 @@ export const JOBS = {
     end: '2025-02',
     bullets: {
       main: [
-        'Serviced 160+ meeting rooms across five Chicago-area sites in a Cisco ecosystem with Biamp, QSC, Shure and ClickShare.',
+        'Serviced 160+ Cisco meeting rooms with Biamp, QSC, Shure and ClickShare across five Chicago-area sites.',
         'Monitored room health in Crestron XiO, Q-SYS Designer, Vyopta and ThousandEyes to catch faults before users reported them.',
-        'Tracked AV assets against the ServiceNow CMDB to keep enterprise inventory records accurate.',
+        'Tracked AV assets against the ServiceNow CMDB to keep inventory records accurate.',
       ],
       av: [
-        'Serviced 160+ meeting rooms across five Chicago-area sites in a Cisco ecosystem with Biamp, QSC, Shure, Sennheiser and ClearOne.',
-        'Monitored room health in Crestron XiO, Vyopta, ThousandEyes and Webex Control Hub to catch faults before users reported them.',
+        'Serviced 160+ meeting rooms across five Chicago-area sites on Cisco room systems with Biamp, QSC, Shure, Sennheiser and ClearOne.',
+        'Used Crestron XiO, Vyopta, ThousandEyes and Webex Control Hub to spot faults before users reported them.',
       ],
       asset: [
         'Tracked AV assets across five Chicago-area sites against the ServiceNow CMDB to keep inventory records accurate.',
-        'Created a Power Apps room-check solution that fed operational data to a Power BI dashboard.',
+        'Set up room checks in Power Apps that reported to a Power BI dashboard.',
       ],
       lead: [
-        'Configured and integrated Accruent EMS, working with stakeholders to fit event scheduling to how teams booked rooms.',
+        'Configured and integrated Accruent EMS with stakeholders so event scheduling matched how teams booked rooms.',
         'Serviced 160+ meeting rooms across five Chicago-area sites and kept AV assets current in the ServiceNow CMDB.',
       ],
     },
@@ -133,18 +133,18 @@ export const JOBS = {
     end: '2024-06',
     bullets: {
       main: [
-        'Configured Cisco and Crestron systems with Shure microphones across about 144 meeting rooms in a single building.',
-        'Wrote VBA macros in Excel to automate data transfers and room testing, removing a manual step that caused errors.',
+        'Configured Cisco and Crestron systems with Shure microphones for about 144 meeting rooms in one building.',
+        'Wrote VBA macros in Excel for data transfers and room testing. They removed a manual step that caused errors.',
       ],
       av: [
-        'Configured Cisco and Crestron systems with Shure microphones across about 144 meeting rooms in a single building.',
+        'Configured Cisco and Crestron systems with Shure microphones for about 144 meeting rooms in one building.',
         'Set up rooms for client meetings on Zoom, Microsoft Teams and Webex at a firm that bills by the hour.',
       ],
       asset: [
-        'Wrote VBA macros in Excel to automate data transfers and room testing, removing a manual step that caused errors.',
+        'Wrote VBA macros in Excel for data transfers and room testing. They removed a manual step that caused errors.',
       ],
       lead: [
-        'Led demonstrations of new Office and Excel features for staff, which raised adoption of the new tools.',
+        'Led demonstrations of new Office and Excel features for staff, which raised adoption.',
       ],
     },
   },
@@ -158,11 +158,11 @@ export const JOBS = {
     bullets: {
       main: [
         'Ran AV for about six to seven campus events a week on analog mixers, Crestron systems and projectors.',
-        'Configured and supported Microsoft Teams and Zoom for campus video conferencing with IT Services.',
+        'Configured and troubleshot Microsoft Teams and Zoom for video conferencing across campus.',
       ],
       av: [
         'Ran AV for about six to seven campus events a week on analog mixers, Crestron systems and projectors.',
-        'Worked with IT Services on equipment maintenance and upgrades, and supported Teams and Zoom across campus.',
+        'Worked with IT Services on maintenance and upgrades, and supported Teams and Zoom across campus.',
       ],
       asset: [
         'Maintained campus AV equipment with IT Services while running about six to seven events a week.',
@@ -187,7 +187,7 @@ export const JOBS = {
       software: [
         "Developed front-end features for the company's iOS app and website in React Native, React, HTML and CSS.",
         "Designed and implemented the Brago game inside the iOS app, then redesigned the app's look in Figma.",
-        'Ran user-testing sessions whose feedback drove UI changes.',
+        'Ran user-testing sessions; their feedback led to UI changes.',
       ],
     },
   },
@@ -235,7 +235,7 @@ export const TRACKS = [
     headline: 'AV and Software Engineer',
     file: 'John_Geddes_Resume',
     pages: 2,
-    summary: 'AV and software engineer with five years of AV work and a Computer Science degree. Supports 88+ Logitech rooms at The Aspen Group and built Census, the asset platform its IT team uses every day.',
+    summary: 'AV and software engineer with a Computer Science degree, working in AV since 2021. Supports 88+ Logitech rooms at The Aspen Group and built Census, the asset platform 36 people there use each week.',
     skills: [
       ['AV', 'Q-SYS, Crestron, Neat, Logitech, Biamp Tesira, Shure, Cisco, Microsoft Teams, Zoom, Webex'],
       ['IT and endpoints', 'Microsoft Intune, Jamf, Microsoft Entra ID (Azure Active Directory), ServiceNow, Snipe-IT'],
@@ -247,7 +247,7 @@ export const TRACKS = [
     projects: ['cipher', 'rambler', 'papertrail'],
     eduNote: true,
     github: false,
-    note: 'The full picture on two pages, for roles that want AV and software together.',
+    note: 'Two pages covering the AV work and the software, for jobs that need both.',
     figures: [
       ['88+', 'Logitech rooms supported at TAG'],
       ['48,243', 'assets cataloged in Census'],
@@ -261,7 +261,7 @@ export const TRACKS = [
     headline: 'AV Engineer',
     file: 'John_Geddes_Resume_AV_Engineer',
     pages: 1,
-    summary: 'AV engineer with five years in corporate, legal, healthcare and university environments, from 20-person meeting rooms to training rooms that seat 120+. Supports 88+ Logitech rooms at The Aspen Group.',
+    summary: 'AV engineer working since 2021 in corporate, legal, healthcare and university settings, from 20+ person meeting rooms to training rooms that seat 120+. Supports 88+ Logitech rooms at The Aspen Group.',
     skills: [
       ['DSP and control', 'Q-SYS, Q-SYS Designer, Crestron, Crestron Toolbox, Crestron XiO, Biamp Tesira'],
       ['Video conferencing', 'Neat, Logitech, Cisco, Microsoft Teams, Zoom, Webex, ClickShare'],
@@ -288,11 +288,11 @@ export const TRACKS = [
     headline: 'IT Asset Manager',
     file: 'John_Geddes_Resume_Asset_Manager',
     pages: 1,
-    summary: "IT asset manager who built TAG's asset processes and the platform that runs them, then cataloged all 48,243 assets in it. The automations give the team back about 314 hours a month.",
+    summary: "IT asset manager who built The Aspen Group's asset processes and Census, the tool that runs them, then cataloged all 48,243 assets in it. Its automations save the team about 314 hours a month.",
     skills: [
       ['IT asset management', 'Snipe-IT, ServiceNow CMDB (configuration management database), asset lifecycle, onboarding, returns, chargebacks'],
       ['Endpoint management', 'Microsoft Intune, Jamf, Microsoft Entra ID, CrowdStrike, Apple Business Manager'],
-      ['Logistics and procurement', 'FedEx shipping, SHI orders, Dell, Lenovo'],
+      ['Logistics and procurement', 'FedEx shipping, SHI orders, Dell and Lenovo warranty lookups'],
       ['Reporting and automation', 'SQL, Power BI, Power Apps, Power Automate, scheduled jobs'],
       ['Development', 'TypeScript, React, Express, MySQL, Google Cloud Run'],
     ],
@@ -301,10 +301,10 @@ export const TRACKS = [
     projects: [],
     eduNote: true,
     github: false,
-    note: 'For IT asset management, ITAM and CMDB roles.',
+    note: 'For IT asset management (ITAM) and CMDB roles.',
     figures: [
       ['48,243', 'assets cataloged'],
-      ['14', 'systems reconciled nightly'],
+      ['14', 'outside systems connected'],
       ['910', 'assets onboarded in two weeks'],
       ['314', 'hours a month given back'],
     ],
@@ -315,9 +315,9 @@ export const TRACKS = [
     headline: 'Technical Lead / IT Manager',
     file: 'John_Geddes_Resume_Technical_Lead',
     pages: 1,
-    summary: "Technical lead who still does the hands-on work. Trains TAG's five-person IT team in AV and built the asset platform 36 people use each week.",
+    summary: "Technical lead who mentored five Level 1 technicians at Discover and now trains The Aspen Group's five-person IT team in AV. Built the asset platform 36 people there use each week.",
     skills: [
-      ['Leadership', 'technical training, mentoring, escalation standards, project coordination, stakeholder work'],
+      ['Leadership', 'technical training, mentoring, project coordination, stakeholder work'],
       ['Delivery', 'room upgrades, process design, rollouts, ServiceNow'],
       ['Technical', 'Q-SYS, Crestron, Neat, Microsoft Intune, Jamf, TypeScript, React'],
     ],
@@ -340,7 +340,7 @@ export const TRACKS = [
     headline: 'Software Engineer',
     file: 'John_Geddes_Resume_Software_Engineer',
     pages: 1,
-    summary: 'Full-stack and mobile engineer with a Computer Science degree. Built Census, an internal platform in daily use at The Aspen Group, and Cipher Tracker, an encrypted React Native app with 3,822 passing tests.',
+    summary: 'Full-stack and mobile engineer with a Computer Science degree. Built Census, the asset platform in daily use at The Aspen Group, and Cipher Tracker, an encrypted React Native app with 3,822 passing tests.',
     skills: [
       ['Languages', 'TypeScript, JavaScript, SQL, Python, Swift, Kotlin, HTML, CSS'],
       ['Frontend and mobile', 'React, Next.js, Vite, Tailwind CSS, React Native, Expo, EAS Build, iOS Live Activities'],
