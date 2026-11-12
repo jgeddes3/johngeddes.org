@@ -32,7 +32,7 @@ export const JOBS = {
     end: null,
     bullets: {
       main: [
-        'Built Census, the asset management platform TAG tracks all 48,243 of its IT assets in; it reconciles 14 outside systems into one record per asset, and 36 people use it each week.',
+        'Built Census, the asset management platform where TAG tracks all 48,243 of its IT assets. It reconciles 14 outside systems into one record per asset, and 36 people use it each week.',
         'Designed the onboarding, shipping, returns and chargeback processes Census runs, and automated enough of them to give the team back about 314 hours a month.',
         'Wrote Census in React 19 and TypeScript with an Express gateway, MySQL on Cloud SQL and nightly jobs on Google Cloud Run: 228 API routes, 716 test files.',
         'Started Census in January 2026 and moved the team onto it fully that October, when 11,942 changes went through it.',
@@ -54,7 +54,7 @@ export const JOBS = {
         'Automated FedEx labels from each checkout, chargebacks and other routine work, worth about 314 hours a month at per-task times the team agreed on.',
         'Connected SHI orders to an onboarding queue that took in 910 assets in its first two weeks.',
         'Built nightly checks that raise, route and auto-close flags wherever two systems disagree about a device.',
-        'Rolled Census out to the 36 people who use it each week; 11,942 changes went through it in October 2026.',
+        'Rolled Census out to the 36 people who use it each week. In October 2026, 11,942 changes went through it.',
       ],
       lead: [
         "Train and technically lead TAG's five-person IT team in AV, including escalation paths and system standards.",
@@ -79,13 +79,13 @@ export const JOBS = {
     end: '2025-09',
     bullets: {
       main: [
-        'Ran break/fix for a Microsoft Teams estate of 568+ meeting rooms at six sites in the US and abroad.',
+        'Ran break/fix for 568+ meeting rooms at six sites in the US and abroad: Cisco, Logitech and Lenovo systems on Microsoft Teams, with Shure microphones.',
         'Led and mentored a team of five Level 1 technicians.',
         'Installed and programmed Crestron, Q-SYS and Biamp systems and the networking behind them.',
         'Built a room-check app that replaced the manual round, plus an inventory tool, in Power Apps, Power Automate and Power BI.',
       ],
       av: [
-        'Ran break/fix for a Microsoft Teams estate of 568+ meeting rooms at six sites in the US and abroad.',
+        'Ran break/fix for 568+ meeting rooms at six sites in the US and abroad: Cisco, Logitech and Lenovo systems on Microsoft Teams, with Shure microphones.',
         'Installed and programmed Crestron, Q-SYS and Biamp systems and the networking behind them.',
         'Monitored equipment health in Crestron Toolbox, Q-SYS Designer and Biamp Tesira.',
       ],
@@ -135,18 +135,18 @@ export const JOBS = {
     end: '2024-06',
     bullets: {
       main: [
-        'Configured Cisco and Crestron systems with Shure microphones for about 144 meeting rooms in one building.',
-        'Removed a manual step that caused errors by writing Excel VBA macros for data transfers and room testing.',
+        'Configured Cisco, Logitech and Crestron systems with Shure microphones for about 144 meeting rooms in one building.',
+        'Wrote Excel VBA macros for data transfers and room testing, which removed a manual step that caused errors.',
       ],
       av: [
-        'Configured Cisco and Crestron systems with Shure microphones for about 144 meeting rooms in one building.',
+        'Configured Cisco, Logitech and Crestron systems with Shure microphones for about 144 meeting rooms in one building.',
         'Set up rooms for client meetings on Zoom, Microsoft Teams and Webex at a firm that bills by the hour.',
       ],
       asset: [
-        'Removed a manual step that caused errors by writing Excel VBA macros for data transfers and room testing.',
+        'Wrote Excel VBA macros for data transfers and room testing, which removed a manual step that caused errors.',
       ],
       lead: [
-        'Led staff demonstrations of new Excel and Office features that raised adoption.',
+        'Led staff demonstrations of new Excel and Office features, which raised adoption.',
       ],
     },
   },
@@ -189,7 +189,7 @@ export const JOBS = {
       software: [
         "Developed front-end features for the company's iOS app and website in React Native, React, HTML and CSS.",
         "Designed and implemented the Brago game inside the iOS app, then redesigned the app's look in Figma.",
-        'Ran user-testing sessions; their feedback led to UI changes.',
+        'Ran user-testing sessions, and the feedback led to UI changes.',
       ],
     },
   },
@@ -201,11 +201,11 @@ export const JOBS = {
     end: '2020-08',
     bullets: {
       main: [
-        'Moved the company from an on-site code repository to Bitbucket and trained staff on git so the switch held.',
+        'Moved the company from an on-site code repository to Bitbucket and trained staff on Git so the switch held.',
         'Flew drones for a US Air Force collaboration on a radar system for identifying hostile drones.',
       ],
       software: [
-        'Moved the company from an on-site code repository to Bitbucket and trained staff on git so the switch held.',
+        'Moved the company from an on-site code repository to Bitbucket and trained staff on Git so the switch held.',
         'Flew drones for a US Air Force collaboration on a radar system for identifying hostile drones.',
       ],
     },
@@ -216,12 +216,12 @@ export const PROJECTS = {
   cipher: {
     name: 'Cipher Tracker',
     link: 'cipher-app.org',
-    text: 'React Native health tracker for iOS and Android that encrypts every entry on the phone with AES-256, so the server only holds ciphertext. Lock-screen timers in Swift and Kotlin, 3,822 passing tests. In App Store preparation.',
+    text: 'React Native health tracker for iOS and Android that encrypts every entry on the phone with AES-256, so the server holds only ciphertext. Lock-screen timers in Swift and Kotlin, 3,822 passing tests. Being prepared for the App Store.',
   },
   rambler: {
     name: 'Rambler Registrar',
     link: 'www.ramblerregistrar.com',
-    text: 'Course scheduler for Loyola students on Expo, Express and Puppeteer. Builds every conflict-free timetable from up to eight courses and scores each one, walk time between buildings included. Covers 2,082 courses.',
+    text: 'Course scheduler for Loyola students, built on Expo, Express and Puppeteer. Builds every conflict-free timetable from up to eight courses and scores each one, walking time between buildings included. Covers 2,082 courses.',
   },
   papertrail: {
     name: 'Paper Trail',
