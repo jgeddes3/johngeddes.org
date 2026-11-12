@@ -13,7 +13,7 @@ const BANNED = [
 ];
 const BANNED_RE = new RegExp(`\\b(${BANNED.join('|')})\\b`, 'gi');
 const DASH_CHAR_RE = /[\u2012-\u2015\u2212\u2E3A\u2E3B\uFF0D]/;
-const SPACED_HYPHEN_RE = /\s--?\s/;
+const SPACED_HYPHEN_RE = /\s-+\s/;
 const ARROW_RE = /[\u2190-\u21FF\u2794-\u27BF\u27F0-\u27FF\u2900-\u297F\u2B00-\u2BFF]|->|<-|=>/;
 const EMOJI_RE = /\p{Extended_Pictographic}/u;
 

@@ -25,14 +25,6 @@ test('HTML escapes ampersands in company names', () => {
   assert.match(resumeHtml(main), /Kirkland &amp; Ellis/);
 });
 
-test('short jobs render without bullets', () => {
-  const html = resumeHtml(software);
-  const discover = html.slice(html.indexOf('Audio Visual Specialist II'));
-  const nextJob = discover.indexOf('class="job"', 10);
-  const block = nextJob > 0 ? discover.slice(0, nextJob) : discover;
-  assert.doesNotMatch(block, /<li>/);
-});
-
 const bodyOf = (html) => html.slice(html.indexOf('<body>'), html.indexOf('</body>'));
 const textOf = (markup) => markup.replace(/<[^>]+>/g, ' ');
 const NOWRAP = /<span style="white-space:nowrap">([^<]*)<\/span>/g;
@@ -82,6 +74,28 @@ const docxParts = async (m) => {
   }));
   return { xml, core, paras };
 };
+
+test('short jobs render without bullets, in HTML and in Word', async () => {
+  assert.ok(software.shortJobs.length > 0);
+  const html = resumeHtml(software);
+  software.shortJobs.forEach((j) => {
+    const start = html.indexOf(`<b>${j.title}</b>`);
+    assert.ok(start >= 0, j.title);
+    const next = html.indexOf('<div class="job', start);
+    const block = html.slice(start, next > 0 ? next : html.indexOf('</section>', start));
+    assert.doesNotMatch(block, /<li>|<ul>/, j.title);
+  });
+
+  const { paras } = await docxParts(software);
+  const first = paras.findIndex((p) => p.text.startsWith(software.shortJobs[0].title));
+  assert.ok(first >= 0);
+  software.shortJobs.forEach((j, i) => {
+    const p = paras[first + i];
+    assert.equal(p.text.replace(/\s+/g, ' '), `${j.title} · ${j.line} ${j.dates}`, j.title);
+    assert.doesNotMatch(p.xml, /<w:numPr>/, j.title);
+  });
+  assert.equal(paras[first + software.shortJobs.length].text, 'Projects');
+});
 
 test('Word keeps each section heading, the school, and a degree with a note on the next line', async () => {
   for (const m of [main, software]) {

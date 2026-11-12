@@ -21,10 +21,12 @@ test('findInOrder finds needles in sequence and ignores whitespace', () => {
   assert.deepEqual(findInOrder('Alpha Beta', ['Delta']), { ok: false, missing: 'Delta' });
 });
 
-test('every expected line of the main resume is in its Word text, in order', async () => {
-  const m = buildModel(TRACKS[0]);
-  const text = await docxText(await resumeDocxBuffer(m));
-  assert.deepEqual(findInOrder(text, expectedLines(m)), { ok: true });
+test('every expected line of every resume is in its Word text, in order, spaces kept', async () => {
+  for (const t of TRACKS) {
+    const m = buildModel(t);
+    const text = await docxText(await resumeDocxBuffer(m));
+    assert.deepEqual(findInOrder(text, expectedLines(m), { keepSpaces: true }), { ok: true }, t.key);
+  }
 });
 
 test('findInOrder fails at once on a needle that is not a non-empty string', () => {

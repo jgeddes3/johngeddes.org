@@ -6,6 +6,8 @@ const KEYS = new Set(TRACKS.map((t) => t.key));
 
 export function resolveRole(param) {
   if (param && KEYS.has(param)) return param;
-  if (param && LEGACY_ROLES[param]) return LEGACY_ROLES[param];
+  // Own keys only, so ?role=toString or ?role=__proto__ does not resolve to
+  // something inherited from Object.prototype.
+  if (param && Object.hasOwn(LEGACY_ROLES, param)) return LEGACY_ROLES[param];
   return 'main';
 }

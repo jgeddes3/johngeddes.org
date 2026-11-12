@@ -124,6 +124,11 @@ test('dash characters and spaced hyphens get separate messages', () => {
   assert.deepEqual(lintText('Fast -- secure', 'x'), ['x: uses a spaced hyphen as a dash']);
 });
 
+test('any run of hyphens between spaces is a spaced hyphen', () => {
+  assert.deepEqual(lintText('Fast --- secure', 'x'), ['x: uses a spaced hyphen as a dash']);
+  assert.deepEqual(lintText('Fast ---- secure', 'x'), ['x: uses a spaced hyphen as a dash']);
+});
+
 test('the left arrow form is flagged', () => {
   assert.deepEqual(lintText('SQL <- API', 'x'), ['x: contains an arrow']);
 });
@@ -147,7 +152,7 @@ test('lintModel covers education dates and project name and link', () => {
   assert.ok(lintModel(b).some((p) => p.includes('arrow')));
   const c = base();
   c.projects[0].name = 'Leverage';
-  assert.ok(lintModel(c).some((p) => p.includes('leverage') || p.includes('Leverage')));
+  assert.deepEqual(lintModel(c), ['k project Leverage heading: banned phrase "Leverage"']);
 });
 
 test('lintModel lints every contact line', () => {

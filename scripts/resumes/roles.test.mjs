@@ -17,3 +17,7 @@ test('missing or unknown falls back to main', () => {
   assert.equal(resolveRole(''), 'main');
   assert.equal(resolveRole('astronaut'), 'main');
 });
+
+test('built-in object names fall back to main', () => {
+  ['toString', 'constructor', '__proto__', 'hasOwnProperty', 'valueOf'].forEach((k) => assert.equal(resolveRole(k), 'main', k));
+});

@@ -60,7 +60,17 @@ test('copy passes the lint for every track', () => {
 // "one" or "two" can be ordinary words (or "Level one"), so this test cannot
 // catch a fabricated small number; human review covers that.
 const ALLOWED_NUMBER_WORDS = new Set(['zero', 'one', 'two', 'four', 'five', 'six', 'seven', 'eight']);
-const NUMBER_WORD_RE = /\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|hundred|thousand|dozen)\b/gi;
+const NUMBER_WORD_RE = /\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundreds?|thousands?|dozens?|millions?|billions?)\b/gi;
+
+test('the number-word pattern catches plurals and larger words', () => {
+  const hits = (s) => [...s.matchAll(NUMBER_WORD_RE)].map((m) => m[0].toLowerCase());
+  assert.deepEqual(
+    hits('hundreds of rooms, thousands of assets, dozens of sites, sixty seventy eighty ninety, millions and billions'),
+    ['hundreds', 'thousands', 'dozens', 'sixty', 'seventy', 'eighty', 'ninety', 'millions', 'billions'],
+  );
+  assert.deepEqual(hits('a hundred, a thousand, a dozen, a million, a billion'), ['hundred', 'thousand', 'dozen', 'million', 'billion']);
+  assert.deepEqual(hits('someone, often, tenant, nineteenth'), []);
+});
 
 function copyStrings() {
   const strings = [];
