@@ -46,6 +46,18 @@
   transform: scale(1.1);
 }
 
+/* Every 20 seconds both photos and their labels fade out, swap, and fade back. */
+.Aboutimgrects img,
+.Aboutimgrects2 img,
+.image-name-label {
+  transition: opacity 400ms ease;
+}
+
+.is-swapping img,
+.is-swapping .image-name-label {
+  opacity: 0;
+}
+
 .image-name-label {
   position: absolute;
   bottom: 40px;
