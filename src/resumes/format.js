@@ -23,6 +23,28 @@ export function dateRange(start, end) {
   return `${monthYear(start)} to ${monthYear(end)}`;
 }
 
+// Bullets in data.js put **double asterisks** around the improvement a piece
+// of work made. plain() gives the bullet without the marks; spans() gives it
+// in pieces, so a renderer can print the marked part bold.
+const BOLD_RE = /\*\*(.+?)\*\*/g;
+
+export function plain(s) {
+  return String(s).replace(BOLD_RE, '$1');
+}
+
+export function spans(s) {
+  const str = String(s);
+  const out = [];
+  let last = 0;
+  for (const m of str.matchAll(BOLD_RE)) {
+    if (m.index > last) out.push({ text: str.slice(last, m.index), bold: false });
+    out.push({ text: m[1], bold: true });
+    last = m.index + m[0].length;
+  }
+  if (last < str.length) out.push({ text: str.slice(last), bold: false });
+  return out;
+}
+
 // "24", "21-23", or "25~" for a current job, as the About page boxes show them.
 export function shortYears(start, end) {
   checkYm(start);

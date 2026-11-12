@@ -45,10 +45,11 @@ function jobParagraphs(j) {
       keepNext: true,
       children: [new TextRun({ text: nb(j.line), color: GREY }), new TextRun({ children: [new Tab(), nb(j.dates)], color: GREY, size: 19 })],
     }),
-    ...j.bullets.map((b) => new Paragraph({
+    // One run per piece, the marked improvement in bold.
+    ...j.rich.map((pieces) => new Paragraph({
       numbering: { reference: 'bullets', level: 0 },
       spacing: { after: 20 },
-      children: [new TextRun(nb(b))],
+      children: pieces.map((s) => new TextRun(s.bold ? { text: nb(s.text), bold: true } : nb(s.text))),
     })),
   ];
 }
@@ -88,11 +89,8 @@ export function resumeDocx(m) {
   const e = m.education;
   children.push(
     heading('Education'),
-    new Paragraph({
-      ...rightTab,
-      keepNext: true,
-      children: [new TextRun({ text: nb(e.school), bold: true, size: 21 }), new TextRun({ children: [new Tab(), nb(e.dates)], color: GREY, size: 19 })],
-    }),
+    // No years here: the site files leave them out.
+    new Paragraph({ keepNext: true, children: [new TextRun({ text: nb(e.school), bold: true, size: 21 })] }),
     new Paragraph({ ...(e.note ? { keepNext: true } : {}), children: [new TextRun(nb(e.degree))] }),
   );
   if (e.note) children.push(new Paragraph({ children: [new TextRun(nb(e.note))] }));

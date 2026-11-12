@@ -25,7 +25,8 @@ const ContactLine = ({ line }) => (
 // The resume as real text on the page, from the same model as the PDF and
 // Word files, so what a recruiter reads here is what they download.
 // A job with no bullets (the short entries on the Software Engineer resume)
-// sits on one line, the same way the PDF and Word files print it.
+// sits on one line, the same way the PDF and Word files print it. A bullet
+// prints its marked improvement in bold, as those files do.
 const Job = ({ job }) => {
   if (job.bullets.length === 0) {
     return (
@@ -45,7 +46,11 @@ const Job = ({ job }) => {
         <span>{job.dates}</span>
       </p>
       <ul>
-        {job.bullets.map((b) => <li key={b}>{b}</li>)}
+        {job.rich.map((pieces, i) => (
+          <li key={job.bullets[i]}>
+            {pieces.map((s, k) => (s.bold ? <b key={k}>{s.text}</b> : s.text))}
+          </li>
+        ))}
       </ul>
     </div>
   );
@@ -93,10 +98,7 @@ const ResumeSheet = ({ track }) => {
       <section>
         <h3 className="rs-h">Education</h3>
         <div className="rs-job">
-          <p className="rs-line">
-            <span className="rs-title">{m.education.school}</span>
-            <span>{m.education.dates}</span>
-          </p>
+          <p className="rs-title">{m.education.school}</p>
           <p>{m.education.degree}</p>
           {m.education.note && <p>{m.education.note}</p>}
         </div>

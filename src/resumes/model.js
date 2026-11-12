@@ -2,7 +2,7 @@
 // order. The PDF, the Word file, the Recruiters page and the build checks all
 // use this one model, so they cannot disagree.
 import { CONTACT, EDUCATION, JOBS, PROJECTS } from './data.js';
-import { dateRange } from './format.js';
+import { dateRange, plain, spans } from './format.js';
 
 // The contact block as printed lines: one line, or two when the track adds
 // GitHub, since six items on one line wrap at an arbitrary point.
@@ -47,7 +47,11 @@ function jobEntry(key, trackKey, ownerKey) {
     company: job.company,
     line: companyLine(job),
     dates: dateRange(job.start, job.end),
-    bullets: [...bullets],
+    // bullets is the text alone, which the Workday files, the lint and the
+    // read-back checks use. rich is the same bullets split into plain and
+    // bold pieces, for the files and the page that print the bold.
+    bullets: bullets.map(plain),
+    rich: bullets.map(spans),
   };
 }
 
@@ -70,12 +74,14 @@ export function buildModel(track) {
 }
 
 // What a reader, or a resume parser, should find in a rendered file, in order.
+// The site files leave the education years out; only the Workday files, which
+// have their own list, print them.
 export function expectedLines(m) {
   const out = [m.name, m.headline, ...m.contact, m.summary];
   m.skills.forEach((s) => out.push(`${s.group}: ${s.items}`));
   [...m.jobs, ...m.shortJobs].forEach((j) => out.push(j.title, j.line, j.dates, ...j.bullets));
   m.projects.forEach((p) => out.push(p.name, p.link, p.text));
-  out.push(m.education.school, m.education.dates, m.education.degree);
+  out.push(m.education.school, m.education.degree);
   if (m.education.note) out.push(m.education.note);
   return out;
 }
