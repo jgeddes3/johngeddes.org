@@ -1,10 +1,13 @@
 // Draws a 1200x630 share image for every page into public/og/<key>.png and
-// records the keys in src/seo/og-keys.json, which src/seo/meta.js reads to
-// decide between a page's own card and the default og-image.png.
+// records each key with a short hash of its picture in src/seo/og-keys.json.
+// src/seo/meta.js reads that to decide between a page's own card and the
+// default og-image.png, and puts the hash in the image URL: LinkedIn and other
+// sites cache a share image by its URL, so a redrawn card needs a new one.
 //
 // Needs a local Chrome, so it runs on this machine (`npm run seo`) and the
 // images are committed; the build on Vercel does not draw them. Re-run after
 // adding or renaming pages, reviews, or essays, or changing a title.
+import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { ROOT, loadSeo, launchBrowser, escapeHtml } from './seo/common.mjs';
@@ -62,17 +65,18 @@ const { browser, source } = await launchBrowser();
 console.log(`og-images: drawing ${cards.size} cards with ${source}`);
 const page = await browser.newPage();
 await page.setViewport({ width: 1200, height: 630, deviceScaleFactor: 1 });
-const keys = [];
+const hashes = {};
 for (const key of cards.keys()) {
   await page.goto(`${origin}/__og?key=${encodeURIComponent(key)}`, { waitUntil: 'networkidle0' });
   await page.evaluate(() => document.fonts.ready);
-  await page.screenshot({ path: join(OUT_DIR, `${key}.png`), type: 'png', clip: { x: 0, y: 0, width: 1200, height: 630 } });
-  keys.push(key);
+  const png = await page.screenshot({ path: join(OUT_DIR, `${key}.png`), type: 'png', clip: { x: 0, y: 0, width: 1200, height: 630 } });
+  hashes[key] = createHash('sha256').update(png).digest('hex').slice(0, 8);
 }
 await browser.close();
 await vite.close();
 
-keys.sort();
-writeFileSync(join(ROOT, 'src/seo/og-keys.json'), `${JSON.stringify(keys, null, 2)}\n`);
+const keys = Object.keys(hashes).sort();
+const sorted = Object.fromEntries(keys.map((key) => [key, hashes[key]]));
+writeFileSync(join(ROOT, 'src/seo/og-keys.json'), `${JSON.stringify(sorted, null, 2)}\n`);
 console.log(`og-images: ${keys.length} cards in public/og, ${((Date.now() - started) / 1000).toFixed(1)}s`);
 process.exit(0);
