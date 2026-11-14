@@ -9,12 +9,17 @@ const Bottombar = () => {
     const timeoutRef = useRef(null);
     const overlayRef = useRef(null);
 
-    const handleMouseEnter = () => {
+    // Hover-to-open is for a real mouse only. A tap on a phone also fires a
+    // compatibility mouseenter just before its click, so with mouse events the
+    // first tap opened the overlay and the click toggled it straight back shut.
+    const handlePointerEnter = (e) => {
+        if (e.pointerType !== 'mouse') return;
         clearTimeout(timeoutRef.current);
         setShowOverlay(true);
     };
 
-    const handleMouseLeave = () => {
+    const handlePointerLeave = (e) => {
+        if (e.pointerType !== 'mouse') return;
         timeoutRef.current = setTimeout(() => {
             setShowOverlay(false);
         }, 1000);
@@ -56,8 +61,8 @@ const Bottombar = () => {
                     <div
                         className="colophon-wrap"
                         ref={overlayRef}
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
+                        onPointerEnter={handlePointerEnter}
+                        onPointerLeave={handlePointerLeave}
                     >
                         <button
                             type="button"
