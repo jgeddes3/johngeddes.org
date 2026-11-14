@@ -17,9 +17,12 @@ export const ogKeyFor = (path) => (path === '/' ? 'home' : path.replace(/^\//, '
 
 const shareImage = (path, alt) => {
   const key = ogKeyFor(path);
-  const generated = ogKeys.includes(key);
+  /* og-keys.json maps each drawn card to a hash of its picture. The hash rides
+     in the URL so a redrawn card is not served from a share-preview cache. */
+  const hash = ogKeys[key];
+  const generated = hash !== undefined;
   return {
-    url: absoluteUrl(generated ? `/og/${key}.png` : '/og-image.png'),
+    url: absoluteUrl(generated ? `/og/${key}.png?v=${hash}` : '/og-image.png'),
     width: 1200,
     height: 630,
     alt: generated ? alt : SITE.defaultImageAlt,
