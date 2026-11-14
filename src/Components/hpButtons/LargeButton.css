@@ -234,12 +234,15 @@
       left: 12.5px; /* Adjust left position */
     }
   
+    /* Centred across the 77.5px pill. The old 60px box at left 9px was too
+       narrow for "Contractors" (~70px), which spilled past the pill's edge. */
     .TextBottomL1, .TextBottomL3 {
-      width: 60px; /* Keep the same width */
+      width: 71.5px;
       height: 12px; /* Keep the same height */
       font-size: 12px; /* Shrink font size */
       top: 12px; /* Adjust top position */
-      left: 9px; /* Adjust left position */
+      left: 3px;
+      white-space: nowrap;
     }
 
     .TextBottomL6 {

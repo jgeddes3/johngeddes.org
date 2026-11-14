@@ -230,9 +230,23 @@ a.bottomtext1:not(.bottom-button) {
   }
 }
 @media (max-width: 768px) {
+  /* The desktop 50px side padding (plus 20px more on each group) left the
+     More/Contact columns 180-235px wide on a phone, so "Resume Download"
+     wrapped and the email ran to the screen edge. */
+  .bottom-bar {
+    padding: 20px 16px;
+  }
+
   .group-left,
   .group-right {
   gap: 10px;
+  padding: 20px 0;
+}
+
+/* Below ~340px the two columns can't sit side by side; Contact drops under More. */
+.columns {
+  flex-wrap: wrap;
+  gap: 8px 24px;
 }
 .lastfmrect1 {
   width: 234px;
@@ -252,9 +266,11 @@ a.bottomtext1:not(.bottom-button) {
   font-weight: 400;
 }
 
+/* A fixed 60x14 box broke "John Geddes" onto two lines */
 .name1 {
-  width: 60px;
-  height: 14px;
+  width: auto;
+  height: auto;
+  white-space: nowrap;
 }
 
 .ellipse5 {
@@ -268,8 +284,13 @@ a.bottomtext1:not(.bottom-button) {
   width: 48px;
   height: 14px;
 }
+/* Centred over the footer on a phone, so it is solid (the translucent desktop
+   panel let the footer text show through) and its padding sits inside the
+   width (content-box made it 4px wider than the screen). */
 .overlay {
   width: calc(100vw - 20px);
+  box-sizing: border-box;
+  background: var(--bg-secondary);
   height: auto;
   border-radius: 14px;
   position: fixed;
